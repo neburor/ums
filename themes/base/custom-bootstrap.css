@@ -1,0 +1,150 @@
+/*NAVBAR*/
+.navbar-static-top {
+	margin-bottom: 0;
+}
+.navbar-brand{
+	padding: 15px 0;
+}
+.navbar-brand img {
+	height: auto;
+	width: auto;
+	max-width: 200px;
+	max-height: 30px;
+}
+.navbar-nav .img-rounded {
+	border: 1px #000 solid;
+    height: 30px;
+    width: auto;
+}
+.navbar-toggle{
+	margin: 5px;
+}
+.panel-heading.navheading {
+	padding: 0;
+	border-bottom: 0;
+}
+.panel-heading.navheading>.nav-tabs {
+	margin: 0;
+}
+.cover-bg {
+  height: 100px;
+  overflow: hidden;
+}
+.cover-bg img {
+    width: 100%; 
+}
+.cover-cont {
+  margin-top: -44px;
+}
+.cover-title {
+  color: #fff;
+}
+.cover-title .img-circle {
+  height: 80px;
+  width: 80px;
+}
+.cover-title .media-heading {
+  height: 34px;
+}
+.cover-nav-mobil {
+  border-bottom: 1px solid #ddd !important;
+}
+.cover-nav-mobil li{
+  display: table-cell;
+  width: 1%;
+}
+.cover-nav-mobil li>a {
+  padding: 10px 5px;
+  font-size: 12px;
+  text-align: center;
+  border-bottom-color: transparent !important;
+  margin-bottom: -1px !important;
+}
+.cover-nav-mobil li>a>i{
+  float: left;
+  width: 100%;
+  font-size: 18px;
+  text-align: center;
+}
+.message.media {
+  border: 1px rgba(24,24,24,.1) solid;
+  box-shadow: -1px 1px 2px rgba(24,24,24,.4);
+  padding: 10px;
+  border-radius: 8px;
+}
+.message.media.reply {
+  box-shadow: 1px 1px 2px rgba(24,24,24,.4);
+}
+@media (min-width: 768px) {
+.navbar-brand{
+	padding: 10px;
+}
+.navbar-collapse>.collapse {
+    display: block!important;
+    height: auto!important;
+    padding-bottom: 0;
+    overflow: visible!important;
+}
+.cover-bg {
+  height: 200px;
+}
+.cover-cont {
+  margin-top: -74px;
+}
+.cover-title .img-circle {
+  height: 110px;
+  width: 110px;
+}
+.cover-title .media-heading {
+  height: 64px;
+}
+}
+
+
+@media (max-width: 479px) {
+h1 {
+	font-size: 22px;
+}
+h2 {
+	font-size: 20px;
+}
+h3 {
+	font-size: 18px;
+}
+.col-xxs {
+	padding: 0;
+}
+.hidden-xxs {
+	display: none;
+}
+.col-xxs-12 {
+	width: 100%;
+}
+.col-xxs-9 {
+	width: 75%;
+}
+.col-xxs-8 {
+	width: 66.66666667%;
+}
+.col-xxs-6 {
+  width: 50%;
+}
+.col-xxs-4 {
+	width: 33.33333333%;
+}
+.col-xxs-3 {
+	width: 25%;
+}
+.visible-xxs {
+  	display: block!important;
+}
+.xxs-nopadding {
+	padding: 0;
+}
+.col-xxs-push-0 {
+  left: auto;
+}
+.col-xxs-pull-0 {
+	right: auto;
+}
+}

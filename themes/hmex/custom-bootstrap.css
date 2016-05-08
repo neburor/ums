@@ -1,0 +1,88 @@
+/*NAVBAR*/
+.navbar-brand.profile{
+	padding: 10px;
+}
+.navbar-brand.profile img {
+	height: auto;
+	width: auto;
+	max-width: 200px;
+	max-height: 30px;
+}
+.navbar-nav .profile.link {
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+.navbar-nav .profile.link img {
+	border: 1px #000 solid;
+    height: 30px;
+    width: auto;
+}
+@media (min-width: 768px) {
+.navbar-collapse>.collapse {
+    display: block!important;
+    height: auto!important;
+    padding-bottom: 0;
+    overflow: visible!important;
+}
+}
+/*NAV*/
+.nav-login {
+	margin: 10px 0;
+}
+.panel-heading.profile,
+.panel-heading.navheading {
+	padding: 0;
+	border-bottom: 0;
+}
+.panel-heading.profile>.nav-tabs,
+.panel-heading.navheading>.nav-tabs {
+	margin: 0;
+}
+
+@media (max-width: 479px) {
+h1 {
+	font-size: 22px;
+}
+h2 {
+	font-size: 20px;
+}
+h3 {
+	font-size: 18px;
+}
+.col-xxs {
+	padding: 0;
+}
+.hidden-xxs {
+	display: none;
+}
+.col-xxs-12 {
+	width: 100%;
+}
+.col-xxs-9 {
+	width: 75%;
+}
+.col-xxs-8 {
+	width: 66.66666667%;
+}
+.col-xxs-6 {
+  width: 50%;
+}
+.col-xxs-4 {
+	width: 33.33333333%;
+}
+.col-xxs-3 {
+	width: 25%;
+}
+.visible-xxs {
+  	display: block!important;
+}
+.xxs-nopadding {
+	padding: 0;
+}
+.col-xxs-push-0 {
+  left: auto;
+}
+.col-xxs-pull-0 {
+	right: auto;
+}
+}
