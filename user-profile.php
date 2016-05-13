@@ -1,41 +1,89 @@
 <nav class="navbar navbar-inverse navbar-static-top">
-      <div class="container-fluid">
-        <div class="navbar-header pull-left">
-          <a class="navbar-brand" href="http://ums.hostingmex.com.mx/"><img src="http://www.hostingmex.com.mx/imagenes/hostingmex-logo.png" alt="Administracion de usuarios Web"></a>
-        </div>
-        <ul class="nav navbar-nav pull-right">
-          <li><a href="account/login.php?logout" class=""><i class="fa fa-power-off"></i> <span class="">Salir</span></a></li>
-        </ul>
-      </div><!-- /.container-fluid -->
-    </nav>
-  <div class="row">
-    <div class="cover-bg"><img src="img/bg.jpg"></div>
+  <div class="container-fluid">
+    <div class="navbar-header pull-left">
+      <a class="navbar-brand" href="http://ums.hostingmex.com.mx/"><img src="http://www.hostingmex.com.mx/imagenes/hostingmex-logo.png" alt="Administracion de usuarios Web"></a>
+    </div>
+    <ul class="nav navbar-nav pull-right">
+      <li><a href="?logout" class=""><i class="fa fa-power-off"></i> <span class="">Salir</span></a></li>
+    </ul>
+  </div><!-- /.container-fluid -->
+</nav>
+
+    <div class="cover-bg">
+      <?php
+      if($_SESSION['profile']['cover']=='facebook')
+      {
+        echo '<img src="'.$_SESSION['profile']['fb_cover'].'">';
+      }
+      if($_SESSION['profile']['cover']=='twitter')
+      {
+        echo '<img src="'.$_SESSION['profile']['tt_cover'].'/1500x500">';
+      }
+      ?>
+    </div>
+  
     <div class="container cover-cont">
     <div class="panel panel-default">
       <div class="panel-heading navheading">
         <div class="media cover-title">
-          <div class="media-left"><img src="img/pic_lx.jpg" class="img-circle"></div>
-          <div class="media-body"><h1 class="media-heading">Nebur Oirad</h1>
+          <div class="media-left">
+            <?php
+            if($_SESSION['profile']['pic']=='facebook')
+            {
+              echo '<img src="//graph.facebook.com/'.$_SESSION['profile']['facebook_id'].'/picture?width=110&height=110" class="img-circle">';
+            }
+            if($_SESSION['profile']['pic']=='twitter')
+            {
+              echo '<img src="'.str_replace('normal', 'bigger',$_SESSION['profile']['tt_pic']).'" class="img-circle">';
+            }
+            ?>
+            
+          </div>
+          <div class="media-body"><h1 class="media-heading"><?php echo $_SESSION['profile']['name']?></h1>
+          <?php
+          $panel_tabs=array(
+              '' => '', 
+              'mensajes' => '', 
+              'comentarios' => '', 
+              'preferencias' => ''
+              );
+          
+          if(isset($_GET['tab']))
+          {
+
+            foreach ($panel_tabs as $key => $value) {
+            if($key==$_GET['tab'])
+              {
+                $panel_tabs[$key]='active';
+              }
+            }
+          }
+          else 
+          {
+            $panel_tabs['']='active';
+          }
+
+          ?>
           <ul class="nav nav-tabs cover-nav hidden-xs">
-          <li role="presentation" class="active"><a href="#" data-target="#profile-home" role="tab" data-toggle="tab" aria-controls="profile-home" aria-expanded="false"> <i class="fa fa-bookmark"></i> <span>Inicio</span></a></li>
-          <li role="presentation"><a href="http://ums.hostingmex.com.mx/ums/?messages" data-target="#profile-messages" role="tab" data-toggle="tab" aria-controls="profile-messages" aria-expanded="false"> <i class="fa fa-envelope"></i> <span>Mensajes</span></a></li>
-          <li role="presentation"><a href="http://ums.hostingmex.com.mx/ums/?comments" data-target="#profile-comments" role="tab" data-toggle="tab" aria-controls="profile-comments" aria-expanded="false"> <i class="fa fa-commenting"></i> <span>Comentarios</span></a></li>
-           <li role="presentation"><a href="http://ums.hostingmex.com.mx/ums/?config" data-target="#profile-config" role="tab" data-toggle="tab" aria-controls="profile-config" aria-expanded="false"> <i class="fa fa-cog"></i> <span>Configuración</span></a></li>
+          <li role="presentation" class="<?php echo $panel_tabs[''] ?>"><a href="/" data-target="#profile-home" role="tab" data-toggle="tab" aria-controls="profile-home" aria-expanded="false"> <i class="fa fa-bookmark"></i> <span>Inicio</span></a></li>
+          <li role="presentation" class="<?php echo $panel_tabs['mensajes'] ?>"><a href="?tab=mensajes" data-target="#profile-messages" role="tab" data-toggle="tab" aria-controls="profile-messages" aria-expanded="false"> <i class="fa fa-envelope"></i> <span>Mensajes</span></a></li>
+          <li role="presentation" class="<?php echo $panel_tabs['comentarios'] ?>"><a href="?tab=comentarios" data-target="#profile-comments" role="tab" data-toggle="tab" aria-controls="profile-comments" aria-expanded="false"> <i class="fa fa-commenting"></i> <span>Comentarios</span></a></li>
+           <li role="presentation" class="<?php echo $panel_tabs['preferencias'] ?>"><a href="?tab=preferencias" data-target="#profile-config" role="tab" data-toggle="tab" aria-controls="profile-config" aria-expanded="false"> <i class="fa fa-cog"></i> <span>Preferencias</span></a></li>
         </ul>
           </div>
         </div>
         <ul class="nav nav-tabs cover-nav-mobil nav-justified visible-xs">
-          <li role="presentation" class="active"><a href="#" data-target="#profile-home" role="tab" data-toggle="tab" aria-controls="profile-home" aria-expanded="false"> <i class="fa fa-bookmark"></i> <span>Inicio</span></a></li>
-          <li role="presentation"><a href="http://ums.hostingmex.com.mx/ums/?messages" data-target="#profile-messages" role="tab" data-toggle="tab" aria-controls="profile-messages" aria-expanded="false"> <i class="fa fa-envelope"></i> <span>Mensajes</span></a></li>
-          <li role="presentation"><a href="http://ums.hostingmex.com.mx/ums/?comments" data-target="#profile-comments" role="tab" data-toggle="tab" aria-controls="profile-comments" aria-expanded="false"> <i class="fa fa-commenting"></i> <span>Comentarios</span></a></li>
-           <li role="presentation"><a href="http://ums.hostingmex.com.mx/ums/?config" data-target="#profile-config" role="tab" data-toggle="tab" aria-controls="profile-config" aria-expanded="false"> <i class="fa fa-cog"></i> <span>Configuración</span></a></li>
+          <li role="presentation" class="<?php echo $panel_tabs[''] ?>"><a href="/" data-target="#profile-home" role="tab" data-toggle="tab" aria-controls="profile-home" aria-expanded="false"> <i class="fa fa-bookmark"></i> <span>Inicio</span></a></li>
+          <li role="presentation" class="<?php echo $panel_tabs['mensajes'] ?>"><a href="?tab=mensajes" data-target="#profile-messages" role="tab" data-toggle="tab" aria-controls="profile-messages" aria-expanded="false"> <i class="fa fa-envelope"></i> <span>Mensajes</span></a></li>
+          <li role="presentation" class="<?php echo $panel_tabs['comentarios'] ?>"><a href="?tab=comentarios" data-target="#profile-comments" role="tab" data-toggle="tab" aria-controls="profile-comments" aria-expanded="false"> <i class="fa fa-commenting"></i> <span>Comentarios</span></a></li>
+           <li role="presentation" class="<?php echo $panel_tabs['preferencias'] ?>"><a href="?tab=preferencias" data-target="#profile-config" role="tab" data-toggle="tab" aria-controls="profile-config" aria-expanded="false"> <i class="fa fa-cog"></i> <span>Preferencias</span></a></li>
         </ul>
       </div>
       <div class="panel-body">
         <div class="tab-content">
-          <div role="tabpanel" class="tab-pane" id="profile-home">
+          <div role="tabpanel" class="tab-pane <?php echo $panel_tabs[''] ?>" id="profile-home">
           </div>
-          <div role="tabpanel" class="tab-pane" id="profile-comments">
+          <div role="tabpanel" class="tab-pane <?php echo $panel_tabs['comentarios'] ?>" id="profile-comments">
             <div class="col-sm-push-1 col-sm-10 col-xs-12 xxs-nopadding">
               <div class="col-xs-12 xxs-nopadding">
       <div class="media">
@@ -162,104 +210,12 @@
 
             </div>
           </div>
-          <div role="tabpanel" class="tab-pane" id="profile-config">
-            <div class="col-sm-push-1 col-sm-10 col-xs-12 xxs-nopadding">
-              <h2>Mi perfil</h2>
-              <p>Controla tu información de perfil, tanto lo que ven los demás, opciones de tu cuenta, etc. Los perfiles de usuario se muestran a todo el publico. Para entender lo que es aceptable para mostrar en los perfiles, consulte estas normas.</p>
-              <div class="col-xs-12 xxs-noppading">
-                <form class="form" role="form"> 
-                  <div class="form-group">
-            <label for="nombre" class="control-label">Nombre de perfil:</label>
-            <div class="input-group">
-              <span class="input-group-addon"><i class="fa fa-user"></i></span>
-              <input type="text" class="form-control" name="nombre" placeholder="Nombre de perfil">
-            </div>
-            <small>Dejar en blanco para mostrar nombre de usuario o correo electrónico.</small>
+          <div role="tabpanel" class="tab-pane <?php echo $panel_tabs['preferencias'] ?>" id="profile-config">
+<?php
+include 'user-settings.php';
+?>
           </div>
-                  <div class="form-group">
-            <label for="imagen" class="control-label">Imagen de perfil :</label>
-            <div class="input-group">
-              <span class="input-group-addon"><i class="fa fa-image"></i></span>
-              <input type="file" class="form-control" name="imagen">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="imagen" class="control-label">Imagen de portada :</label>
-            <div class="input-group">
-              <span class="input-group-addon"><i class="fa fa-image"></i></span>
-              <input type="file" class="form-control" name="imagen">
-            </div>
-          </div>
-          <div class="form-group">
-              <button type="submit" class="btn btn-default">Guardar cambios <i class="fa fa-save"></i></button>
-            </div>
-                </form>
-                <hr>
-              </div>
-              <div class="col-xs-12 xxs-noppading">
-                <h3>Inicio de sesión</h3>
-                <form class="form" role="form">
-                  <div class="form-group">
-            <label for="nombre" class="control-label">Nombre de usuario:</label>
-            <div class="input-group">
-              <span class="input-group-addon"><i class="fa fa-user"></i></span>
-              <input type="text" class="form-control" name="nombre" placeholder="Nombre para iniciar sesión">
-            </div>
-            <small>Dejar en blanco para iniciar sesion con su cuenta de correo electronico.</small>
-          </div>
-          <div class="form-group">
-            <label for="nombre" class="control-label">Contraseña:</label>
-            <div class="input-group">
-              <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-              <input type="text" class="form-control" name="nombre" placeholder="Contraseña de inicio de sesión">
-            </div>
-          </div>
-          <div class="form-group">
-              <button type="submit" class="btn btn-default">Guardar cambios <i class="fa fa-save"></i></button>
-            </div>
-                </form>
-                <b>Conectar cuentas de redes sociales, para iniciar sesión con un solo clic.</b>
-                <a class="btn btn-block btn-social btn-facebook" href="#"> <i class="fa fa-facebook"></i> Conectar con <b>Facebook</b></a>
-                <a class="btn btn-block btn-social btn-twitter" href="#"> <i class="fa fa-twitter"></i> Conectar con <b>Twitter</b></a>
-                <hr>
-              </div>
-              <div class="col-xs-12 xxs-noppading">
-                <h3>Notificaciones</h3>
-                <form class="form" role="form">
-                  <div class="form-group">
-            <input type="checkbox" name="email_notifications" checked="">
-            <label>Recibir notificaciones por correo</label>
-            <div class="input-group">
-              <span class="input-group-addon"><i class="fa fa-at"></i></span>
-              <input type="text" class="form-control" name="correo" placeholder="Correo electrónico">
-            </div>
-          </div>
-  
-           <div class="form-group">
-            <input type="checkbox" name="twitter_notifications">
-<label>Recibir notificaciones por twitter</label>
-            <div class="input-group">
-              <span class="input-group-addon"><i class="fa fa-twitter"></i></span>
-              <input type="text" class="form-control" name="twitter" placeholder="twitter">
-            </div>
-          </div>
-           <div class="form-group">
-            <input type="checkbox" name="whatsapp_notifications">
-<label>Recibir notificaciones por whatsapp</label>
-            <div class="input-group">
-              <span class="input-group-addon"><i class="fa fa-whatsapp"></i></span>
-              <input type="text" class="form-control" name="whatsapp" placeholder="whatsapp">
-            </div>
-          </div>
-      
-          <div class="form-group">
-              <button type="submit" class="btn btn-default">Guardar cambios <i class="fa fa-save"></i></button>
-            </div>
-                </form>
-              </div>
-            </div>
-          </div>
-          <div role="tabpanel" class="tab-pane" id="profile-messages">
+          <div role="tabpanel" class="tab-pane <?php echo $panel_tabs['mensajes'] ?>" id="profile-messages">
             <div class="col-sm-push-1 col-sm-10 col-xs-12 xxs-nopadding">
       <div class="col-xs-12 xxs-nopadding">
       <div class="media">
@@ -342,4 +298,4 @@
       </div>
     </div>
     </div>
-  </div>
+    

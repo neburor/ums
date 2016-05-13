@@ -11,20 +11,24 @@ if(isset($_SESSION['profile']) || isset($_SESSION['connect'])) //Detectar si hay
     if($profile!=null)
     { 
       $_SESSION['profile']= $profile;
+      $_SESSION['profile']['fb_cover']=$_SESSION['connect']['facebook']['cover'];
     }
     else
     {
-      $profile = profiles(array(
+      $profile = profile_new(array(
                 'domain'      => UMSDOMAIN,
                 'funnel'      => 'connect',
                 'name'        => $_SESSION['connect']['facebook']['name'],
                 'email'       => $_SESSION['connect']['facebook']['email'],
+                'pic'         => 'facebook',
+                'cover'       => 'facebook',
                 'facebook_id' => $_SESSION['connect']['facebook']['id']
                 ));
       if($profile!=null)
       { 
+        #$profile['notif']=notif_search($profile['id']);
         $_SESSION['profile']=$profile;
-
+        $_SESSION['profile']['fb_cover']=$_SESSION['connect']['facebook']['cover'];
       }
     }
 
@@ -38,26 +42,34 @@ if(isset($_SESSION['profile']) || isset($_SESSION['connect'])) //Detectar si hay
 
     if($profile!=null)
     { 
+      #$profile['notif']=notif_search($profile['id']);
       $_SESSION['profile']= $profile;
+      $_SESSION['profile']['tt_pic']=$_SESSION['connect']['twitter']['pic'];
+      $_SESSION['profile']['tt_cover']=$_SESSION['connect']['twitter']['cover'];
     }
     else
     {
       $profile = profile_new(array(
                 'domain'      => UMSDOMAIN,
                 'funnel'      => 'connect',
-                'name'        => $_SESSION['connect']['twitter']['screen_name'],
-                'twitter_id'  => $_SESSION['connect']['twitter']['user_id']
+                'name'        => $_SESSION['connect']['twitter']['name'],
+                'twitter_id'  => $_SESSION['connect']['twitter']['user_id'],
+                'pic'         => 'twitter',
+                'cover'       => 'twitter',
+                'twitter'     => $_SESSION['connect']['twitter']['screen_name']
+                
                 ));
       if($profile!=null)
       { 
         $_SESSION['profile']=$profile;
-      
+        $_SESSION['profile']['tt_pic']=$_SESSION['connect']['twitter']['pic'];
+        $_SESSION['profile']['tt_cover']=$_SESSION['connect']['twitter']['cover'];
       }
     }
   }
   if(isset($_SESSION['profile']))
   {
-     unset($_SESSION['connect']);
+    unset($_SESSION['connect']);
   }
 }
 elseif(isset($_COOKIE['token'])) //Detectar si hay token de sesion

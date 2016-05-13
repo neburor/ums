@@ -3,6 +3,7 @@
 include 'databases.php';
 include 'mysql_db.php';
 include 'profiles.php';
+include 'sendconfirmation.php';
 MysqlConnect();
 
 function Logout()
@@ -138,6 +139,87 @@ function Signup($post = array())
    
    return $response;
 }
+function Settings($post = array())
+{
+    if(!isset($_SESSION['profile']))
+    {
+        $response['alert'] = array('danger'=>'Usuario no registrado. Crea tu cuenta <b>GRATIS!</b>');
+    }
+    else
+    {
+        #$response['alert'] = array('info'=>'<pre>'.json_encode($post).'</pre>');
+        unset($post['formid']);
+        unset($post['formtype']);
+
+        if($post['userpass'])
+        {
+            if($post['userpass']!=$_SESSION['profile']['password'])
+            {
+                $response['alert']=array('warning' => 'Escriba su contraseña actual.');
+                $response['feedback']['userpass']   = 'invalid';
+            }
+            elseif ($post['pass']!=$post['repass']) 
+            {
+                $response['alert']=array('warning' => 'La confirmacion de la contraseña no es igual.');
+                $response['feedback']['pass']   = 'valid';
+                $response['feedback']['repass'] = 'invalid';
+            }
+            else
+            {
+                $update =profile_update(array('password'=>$post['pass']),$_SESSION['profile']['id']);
+                if($update)
+                {
+                $response['alert']=array('success' => 'Su contraseña a sido modificada.');
+                }
+            }
+
+        }
+        elseif ($post['email']) 
+        {
+            if($post['email']!=$_SESSION['profile']['email'])
+            {
+                $update =profile_update(array('email'=>$post['email']),$_SESSION['profile']['id']);
+                if($update)
+                {
+                $response['alert']=array('success' => 'Su correo a sido modificado, necesita confirmarlo.');
+                }
+            }
+            elseif($_SESSION['profile']['email_valid']==0)
+            {
+                $update = Send_confirmation();
+                $response['alert']=array('info' => 'Le enviamos un correo para confirmarlo, hay que dar clic en el enlace de confirmación.');
+            }
+            else
+            {
+                $update = true;
+                $response['alert']=array('info' => 'Su correo esta confirmado.');
+            }
+        }
+        else
+        {
+            $update =profile_update($post,$_SESSION['profile']['id']); 
+            $response['alert'] = array('success'=>'Los cambios han sido guardados.');
+        }
+
+    if($update)
+    {
+        foreach ($post as $key => $value) 
+        {
+            $_SESSION['profile'][$key]=$value;
+            $response['feedback'][$key]= 'valid';
+        }
+        
+    }
+    else
+    {
+        $response['alert']['warning'].= ' No se han podido guardar los cambios.';
+    }
+
+    }
+
+    return $response;
+}
+
 
 function Insert($post = array())
 {   

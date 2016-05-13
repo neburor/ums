@@ -44,6 +44,8 @@
   width: 80px;
 }
 .cover-title .media-heading {
+  font-weight: bold;
+  text-shadow: 0 0 3px rgba(0,0,0,.8);
   height: 34px;
 }
 .cover-nav-mobil {

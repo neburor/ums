@@ -1,10 +1,8 @@
 <?php
-session_start();
-	#Login
-include '../global/config.php';
-include '../global/validatefields.php';
-include 'sessions.php';
+#Requests
+include 'validatefields.php';
 
+##############################
 if(isset($_POST)) // Si se reciben datos por post, se procesan
 {
 	if(isset($_POST['formid']))
@@ -40,6 +38,10 @@ if(isset($_POST)) // Si se reciben datos por post, se procesan
         {
           $formstatus=Signup($_POST);
         }
+        if($formtype=='settings')
+        {
+          $formstatus=Settings($_POST);
+        }
 
     		$_SESSION['feedback'][$formid]['alert']=$formstatus['alert'];
 
@@ -60,13 +62,11 @@ if(isset($_POST)) // Si se reciben datos por post, se procesan
   				}
   			}
   		}
-      header("Location: ".$_SERVER['HTTP_REFERER'].$_GET['callback']);
 	}
 }
-
-if(isset($_GET)) // Si se reciben datos por get, se procesan
+if(isset($_GET))
 {
-	if(isset($_GET['logout'])) 
+	if(isset($_GET['logout']))
 	{
 		$formstatus=Logout();
 
@@ -75,12 +75,12 @@ if(isset($_GET)) // Si se reciben datos por get, se procesan
 			header("Location: ".$_SERVER['HTTP_REFERER'].$_GET['callback']);
 		}
 	}
-
   if(isset($_GET['login']))
   {
-    if($_GET['login']=='facebook')// Iniciar sesion con la API de Facebook
+    if($_GET['login']=='facebook')// Iniciar secion con la API de Facebook
     {
-      require_once ('Facebook/autoload.php');
+      #require_once __DIR__ . 'account/Facebook/autoload.php';
+      include_once('account/Facebook/autoload.php');
       $fb = new Facebook\Facebook([
         'app_id' => FBAPPID,
         'app_secret' => FBAPPSECRET,
@@ -108,7 +108,7 @@ if(isset($_GET)) // Si se reciben datos por get, se procesan
 
     if($_GET['login']=='twitter') // Iniciar sesion con la API de Twitter
     {
-      include_once("twitter/twitteroauth.php");
+      include_once("account/twitter/twitteroauth.php");
       $connection = new TwitterOAuth(TWCONSUMERKEY, TWCONSUMERSECRET);
       $request_token = $connection->getRequestToken(URLSYSTEM.'account/tw-callback.php');
 
@@ -135,4 +135,3 @@ if(isset($_GET)) // Si se reciben datos por get, se procesan
     }
   }
 }
-?>

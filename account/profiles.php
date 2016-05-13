@@ -64,10 +64,29 @@ function profiles ($params = array())
                     'funnel'        => $params['funnel']
                     ));
     }
+    #$profile['notif']=notif_search($profile['id']);
     return $profile;
+}
+function notif_search($profile_id)
+{
+     $sql=mysql_query("
+        SELECT * FROM `profiles_notif` 
+        WHERE `profile_id` = '".$profile_id."'");
+    $row = array();
+        
+    while($i = mysql_fetch_assoc($sql)) 
+    {
+        $row[] = $i;
+    }
+
+    return $row;
 }
 function profile_search ($search,$params = array())
 {
+    if($search=='id')
+    {
+        $search_param="`id` = '".$params['id']."' LIMIT 1";
+    }
     if($search=='twitter')
     {
         $search_param="`twitter_id` = '".$params['id']."' LIMIT 1";
@@ -159,12 +178,14 @@ function profile_new ($params = array())
     $token = strtoupper(substr(md5($_SERVER['REQUEST_TIME']), 0,12));
     $insert="
         INSERT INTO `profiles` 
-        (`id`, `creation_date`, `domain`, `token_hash`, `funnel`, `name`, `email`, `password`, `facebook_id`, `twitter_id`) 
-        VALUES (NULL, '".date("Y-m-d H:i:s")."', '".$params['domain']."', '".$token."','".$params['funnel']."', '".$params['name']."', '".$params['email']."', '".$params['pass']."', '".$params['facebook_id']."', '".$params['twitter_id']."')";
+        (`id`, `creation_date`, `domain`, `token_hash`, `funnel`, `name`, `email`, `password`, `facebook_id`, `twitter_id`, `pic`, `cover`, `twitter`) 
+        VALUES (NULL, '".date("Y-m-d H:i:s")."', '".$params['domain']."', '".$token."','".$params['funnel']."', '".$params['name']."', '".$params['email']."', '".$params['pass']."', '".$params['facebook_id']."', '".$params['twitter_id']."', '".$params['pic']."', '".$params['cover']."', '".$params['twitter']."')";
+
 
     if(mysql_query($insert))
     {
         $params['id']=mysql_insert_id();
+        notif($params['id'],$params);// Agregar notificaciones
         device($params['id'],$params);// Registro actividad en device
         funnel_activity($params);
 
@@ -186,6 +207,25 @@ function profile_new ($params = array())
     }
 
     return $profile;
+}
+function notif ($profile_id,$params=array())
+{
+    if($params['email'])
+    {
+            $insert="
+        INSERT INTO `profiles_notif` 
+        (`id`, `profile_id`, `notif`, `status`, `type`, `to`) 
+        VALUES (NULL, '".$profile_id."', 'all','validating', 'email', '".$params['email']."')";
+        mysql_query($insert);
+    }
+    if($params['twitter'])
+    {
+         $insert="
+        INSERT INTO `profiles_notif` 
+        (`id`, `profile_id`, `notif`, `status`, `type`, `to`) 
+        VALUES (NULL, '".$profile_id."', 'all','validating', 'twitter', '".$params['twitter']."')";
+        mysql_query($insert);
+    }
 }
 function device ($profile_id,$params=array())
 {

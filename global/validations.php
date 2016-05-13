@@ -1,8 +1,14 @@
 <?php
 #VALIDATIONS
 
-$VALIDATIONS['username'] = $VALIDATIONS['name'] = array(
+$VALIDATIONS['name'] 	  = array(
 							'pregmatch' => '^[a-zA-Z áéíóúüñÁÉÍÓÚÜÑ]*$',
+							'minlength'	=> 4,
+							'maxlength'	=> 64,
+							'required'	=> true
+							);
+$VALIDATIONS['username']  = $VALIDATIONS['twitter'] = array(
+							'pregmatch' => '^[a-zA-Z0-9 áéíóúüñÁÉÍÓÚÜÑ]*$',
 							'minlength'	=> 4,
 							'maxlength'	=> 64,
 							'required'	=> true
