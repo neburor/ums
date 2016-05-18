@@ -37,8 +37,12 @@ include 'load_ums.php';
   </head>
 
 <body> 
-  
 <?php
+if($_SESSION['feedback']['top'])
+{
+  echo alerts($_SESSION['feedback']['top']['alert']);
+}
+
 if(isset($_SESSION['profile']))
 {
  include 'user-profile.php';

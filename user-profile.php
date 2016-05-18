@@ -11,30 +11,27 @@
 
     <div class="cover-bg">
       <?php
-      if($_SESSION['profile']['cover']=='facebook')
+      if($_SESSION['profile']['cover']=='facebook' || $_SESSION['profile']['cover']=='twitter')
       {
-        echo '<img src="'.$_SESSION['profile']['fb_cover'].'">';
-      }
-      if($_SESSION['profile']['cover']=='twitter')
-      {
-        echo '<img src="'.$_SESSION['profile']['tt_cover'].'/1500x500">';
+        echo '<img src="'.$_SESSION['profile']['networks'][$_SESSION['profile']['cover']]['cover'].'">';
       }
       ?>
     </div>
   
     <div class="container cover-cont">
+      <div class="row">
     <div class="panel panel-default">
       <div class="panel-heading navheading">
         <div class="media cover-title">
           <div class="media-left">
             <?php
-            if($_SESSION['profile']['pic']=='facebook')
+            if($_SESSION['profile']['pic']=='facebook' || $_SESSION['profile']['pic']=='twitter')
             {
-              echo '<img src="//graph.facebook.com/'.$_SESSION['profile']['facebook_id'].'/picture?width=110&height=110" class="img-circle">';
-            }
-            if($_SESSION['profile']['pic']=='twitter')
-            {
-              echo '<img src="'.str_replace('normal', 'bigger',$_SESSION['profile']['tt_pic']).'" class="img-circle">';
+              if($_SESSION['profile']['pic']=='twitter')
+              {
+                $_SESSION['profile']['networks'][$_SESSION['profile']['pic']]['pic']=str_replace('_normal', '_bigger', $_SESSION['profile']['networks'][$_SESSION['profile']['pic']]['pic']);
+              }
+              echo '<img src="'.$_SESSION['profile']['networks'][$_SESSION['profile']['pic']]['pic'].'" class="img-circle">';
             }
             ?>
             
@@ -298,4 +295,4 @@ include 'user-settings.php';
       </div>
     </div>
     </div>
-    
+</div>

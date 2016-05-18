@@ -15,11 +15,10 @@ if(isset($_GET['token'])) // Si se reciben datos por get
 
 		if($profile && $profile['token_hash']==$_GET['token'])
 		{
-			$update=profile_update(array('email_valid'=>1),$profile['id']);
+			$update=notifs_update(array('status'=>'valid'),$profile['id']);
 			if($update)
 			{
-				$_SESSION['profile'] = $profile;
-				header("Location: ".URLSYSTEM);
+				header("Location: ".URLSYSTEM."?confirmation");
 			}
 			else 
 			{
@@ -32,6 +31,10 @@ if(isset($_GET['token'])) // Si se reciben datos por get
 			header("Location: ".URLSYSTEM);
 		}
 
+	}
+	else
+	{
+		header("Location: ".URLSYSTEM);
 	}
 			
 }

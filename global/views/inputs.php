@@ -128,3 +128,17 @@ $INPUTS['reply']=array(
 										),
 					'validations'	=> $VALIDATIONS['reply']
 					);
+$INPUTS['pic']=array(
+					'attr'			=>	array(
+										'type'			=> 'file',
+										'class'			=> 'form-control upload',
+										'name'			=> 'pic'
+										)
+					);
+$INPUTS['cover']=array(
+					'attr'			=>	array(
+										'type'			=> 'file',
+										'class'			=> 'form-control upload',
+										'name'			=> 'cover'
+										)
+					);

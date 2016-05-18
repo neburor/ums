@@ -71,7 +71,7 @@ $FORMS['signup']=array(
 											'button'	=> $BUTTONS['signup']
 											)
 						);
-$FORMS['user_settings']=array(
+$FORMS['user_settings_name']=array(
 						'type'		=> 'settings',
 						'attr'		=> array(
 											'class'	=> 'form',
@@ -85,7 +85,24 @@ $FORMS['user_settings']=array(
 											'button'	=> $BUTTONS['save']
 											)
 						);
-$FORMS['user_settings_pass']=array(
+$FORMS['user_settings_login1']=array(
+						'type'		=> 'settings',
+						'attr'		=> array(
+											'class'	=> 'form',
+											'role'	=> 'form',
+											'action'=> URLSYSTEM.'?tab=preferencias',
+											'method'=> 'POST'
+											),
+						'groups'	=> array(
+											'alert' 	=> false,
+											'username'	=> $GROUPS['profileusername'],
+											'userpass'	=> $GROUPS['activepass'],
+											'pass'		=> $GROUPS['newpass'],
+											'repass'	=> $GROUPS['newrepass'],
+											'button'	=> $BUTTONS['save']
+											)
+						);
+$FORMS['user_settings_pass1']=array(
 						'type'		=> 'settings',
 						'attr'		=> array(
 											'class'	=> 'form',
@@ -99,6 +116,49 @@ $FORMS['user_settings_pass']=array(
 											'pass'		=> $GROUPS['newpass'],
 											'repass'	=> $GROUPS['newrepass'],
 											'button'	=> $BUTTONS['save']
+											)
+						);
+$FORMS['user_settings_pass2']=array(
+						'type'		=> 'settings',
+						'attr'		=> array(
+											'class'	=> 'form',
+											'role'	=> 'form',
+											'action'=> URLSYSTEM.'?tab=preferencias',
+											'method'=> 'POST'
+											),
+						'groups'	=> array(
+											'alert' 	=> false,
+											'pass'		=> $GROUPS['newpass'],
+											'repass'	=> $GROUPS['newrepass'],
+											'button'	=> $BUTTONS['save']
+											)
+						);
+$FORMS['user_settings_pic']=array(
+						'type'		=> 'settings',
+						'attr'		=> array(
+											'class'	=> 'form',
+											'role'	=> 'form',
+											'action'=> URLSYSTEM.'?tab=preferencias',
+											'method'=> 'POST',
+											'enctype'=>'multipart/form-data'
+											),
+						'groups'	=> array(
+											'alert' 	=> false,
+											'pic'		=> $GROUPS['pic']
+											)
+						);
+$FORMS['user_settings_cover']=array(
+						'type'		=> 'settings',
+						'attr'		=> array(
+											'class'	=> 'form',
+											'role'	=> 'form',
+											'action'=> URLSYSTEM.'?tab=preferencias',
+											'method'=> 'POST',
+											'enctype'=>'multipart/form-data'
+											),
+						'groups'	=> array(
+											'alert' 	=> false,
+											'cover'		=> $GROUPS['cover']
 											)
 						);
 $FORMS['user_settings_email']=array(

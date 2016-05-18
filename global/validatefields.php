@@ -2,7 +2,7 @@
 #Validate fields
 include 'validations.php';
 
-function Validate($field,$value)
+function Validate_files ($field,$file)
 {
 	global $VALIDATIONS;
 
@@ -10,8 +10,35 @@ function Validate($field,$value)
 
 	if($validations['required'])
 	{
-		if($value!='')
+		if($file['size'] < $validations['filesize'])
 		{
+	  		if(preg_match('#'.$validations['pregmatch'].'#',$file['name']))
+	  		{
+	  			$feedback='valid';
+	  		}
+	  		else
+	  		{
+	  			$feedback='nopregmatch';
+	  		}
+	  	}
+	  	else {
+	  		$feedback='nosize';
+	  	}
+	}
+	else
+	{
+		$feedback='norequired';
+	}
+	return $feedback;
+}
+function Validate($field,$value)
+{
+	global $VALIDATIONS;
+
+	$validations=$VALIDATIONS[$field];
+
+	if($validations['required'] && $value!='')
+	{
 			if(strlen($value)<$validations['minlength'] || strlen($value)>$validations['maxlength'])
 			{
 				$feedback='nostrlen';
@@ -33,16 +60,15 @@ function Validate($field,$value)
 				{
 					$feedback='valid';
 				}
-			}
-		}
-		else
-		{
-			$feedback='nodata';
-		}
+			}	
 	}
-	else
+	elseif(!$validations['required'])
 	{
 		$feedback='norequired';
+	}
+	elseif($value=='')
+	{
+		$feedback='nodata';
 	}
 	return $feedback;
 }

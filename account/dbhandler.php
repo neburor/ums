@@ -174,6 +174,24 @@ function Settings($post = array())
             }
 
         }
+        elseif($post['pass'])
+        {
+            if($post['pass']!=$post['repass'])
+            {
+                $response['alert']=array('warning' => 'La confirmacion de la contraseña no es igual.');
+                $response['feedback']['pass']   = 'valid';
+                $response['feedback']['repass'] = 'invalid';
+            }
+            else
+            {
+                $update =profile_update(array('password'=>$post['pass']),$_SESSION['profile']['id']);
+                if($update)
+                {
+                $response['alert']=array('success' => 'Su contraseña a sido asignada.');
+                }
+            }
+
+        }
         elseif ($post['email']) 
         {
             if($post['email']!=$_SESSION['profile']['email'])
@@ -184,7 +202,7 @@ function Settings($post = array())
                 $response['alert']=array('success' => 'Su correo a sido modificado, necesita confirmarlo.');
                 }
             }
-            elseif($_SESSION['profile']['email_valid']==0)
+            elseif($_SESSION['profile']['notifs']['email']['status']!='valid')
             {
                 $update = Send_confirmation();
                 $response['alert']=array('info' => 'Le enviamos un correo para confirmarlo, hay que dar clic en el enlace de confirmación.');

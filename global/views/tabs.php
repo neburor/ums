@@ -8,9 +8,19 @@ $TABS['contact']=array(
 								'class'	=> 'ums'
 								),
 					'nav'	=> array(
-								'message'	=> array('i'=>'fa fa-edit','text'=>'Contactar'),
-								'login'  	=> array('i'=>'fa fa-sign-in','text'=>'<span class="hidden-xxs">Iniciar sesion</span>'),
-								'signup'	=> array('i'=>'fa fa-user-plus','text'=>'<span class="hidden-xxs">Registrarse</span>')
+								'message'	=> array('i'=>'fa fa-edit',
+													 'text'=>'Contactar'
+													 ),
+								'login'  	=> array('i'=>'fa fa-sign-in',
+													 'text'=> array('class' => 'hidden-xxs',
+																	'content'	=> 'Iniciar sesion'
+																	)
+													),
+								'signup'	=> array('i'=>'fa fa-user-plus',
+													 'text'=> array('class' => 'hidden-xxs',
+																	'content'	=> 'Registrarse'
+																	)
+													 )
 								),
 					'tab'	=> array(
 								'message' => '',
@@ -23,8 +33,16 @@ $TABS['profile']=array(
 								'class'	=> 'ums'
 								),
 					'nav'	=> array(
-								'login'  	=> array('i'=>'fa fa-sign-in','text'=>'Iniciar sesión'),
-								'signup'	=> array('i'=>'fa fa-user-plus','text'=>'Registrarse')
+								'login'  	=> array('i'=>'fa fa-sign-in',
+													 'text'=> array('class' => false,
+																	'content'	=> 'Iniciar sesión'
+																	)
+													 ),
+								'signup'	=> array('i'=>'fa fa-user-plus',
+													 'text'=> array('class' => false,
+																	'content'	=> 'Registrarse'
+																	)
+													 )
 								),
 					'tab'	=> array(
 								'login'   => array(

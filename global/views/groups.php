@@ -32,6 +32,21 @@ $GROUPS['username']=array(
 					'input'		=> $INPUTS['username'],
 					'button'	=> false
 					);
+$GROUPS['profileusername']=array(
+					'attr'		=> array(
+										'class'			=> 'form-group'
+										),
+					'params'	=> array(
+										'display'		=> 'Nombre',
+										'label'			=> 'Cambiar nombre de usuario',
+										'text'			=> array(
+																'content' => 'Dejar en blanco para iniciar con su correo electrónico.'
+														)
+										),
+					'addon' 	=> $ADDONS['name'],
+					'input'		=> $INPUTS['username'],
+					'button'	=> false
+					);
 $GROUPS['profilename']=array(
 					'attr'		=> array(
 										'class'			=> 'form-group'
@@ -81,7 +96,7 @@ $GROUPS['notifemail']=array(
 										),
 					'addon' 	=> $ADDONS['email'],
 					'input'		=> $INPUTS['notifemail'],
-					'button'	=> $BUTTONS['resend']
+					'button'	=> $BUTTONS['save']
 					);
 
 $GROUPS['userpass']=array(
@@ -216,4 +231,26 @@ $GROUPS['reply']=array(
 					'addon'		=> $ADDONS['message'],
 					'input'		=> $INPUTS['reply'],
 					'button'	=> $BUTTONS['reply']
+					);
+$GROUPS['pic']=array(
+					'attr'		=> array(
+										'class'			=> 'col-xs-12'
+										),
+					'params'	=> array(
+										'display'		=> 'Imagen de perfil',
+										'label'			=> false
+										),
+					'input'		=> $INPUTS['pic'],
+					'button'	=> $BUTTONS['upload']
+					);
+$GROUPS['cover']=array(
+					'attr'		=> array(
+										'class'			=> 'col-xs-12'
+										),
+					'params'	=> array(
+										'display'		=> 'Imagen de portada',
+										'label'			=> false
+										),
+					'input'		=> $INPUTS['cover'],
+					'button'	=> $BUTTONS['upload']
 					);

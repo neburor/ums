@@ -2,6 +2,7 @@
 #Links
 
 $LINKS['login_facebook']=array(
+					'action'	=> 'login',
 					'attr'		=>	array(
 									'class'	=> 'btn btn-social-icon btn-facebook'
 									),
@@ -10,6 +11,7 @@ $LINKS['login_facebook']=array(
 									)
 					);
 $LINKS['login_twitter']=array(
+					'action'	=> 'login',
 					'attr'		=>	array(
 									'class'	=> 'btn btn-social-icon btn-twitter'
 									),
@@ -18,20 +20,48 @@ $LINKS['login_twitter']=array(
 									)
 					);
 $LINKS['signup_facebook']=array(
+					'action'	=> 'login',
 					'attr'		=>	array(
 									'class'	=> 'btn btn-block btn-social btn-facebook'
 									),
 					'content'	=>	array(
 									'i'=>'fa fa-facebook',
-									'text'=>'Registrarse con Facebook'
+									'text'=> array(	'class' => false,
+													'content'	=> 'Registrarse con Facebook'
+													)
 									)
 					);
 $LINKS['signup_twitter']=array(
+					'action'	=> 'login',
 					'attr'		=>	array(
 									'class'	=> 'btn btn-block btn-social btn-twitter'
 									),
 					'content'	=>	array(
 									'i'=>'fa fa-twitter',
-									'text'=>'Registrarse con Twitter'
+									'text'=> array(	'class' => false,
+													'content'	=> 'Registrarse con Twitter'
+													)
+									)
+					);
+$LINKS['connect_facebook']=array(
+					'action'	=> 'connect',
+					'attr'		=>	array(
+									'class'	=> 'btn btn-default'
+									),
+					'content'	=>	array(
+									'text'=> array(	'class' => false,
+													'content'	=> 'Conectar'
+													)
+									)
+					);
+$LINKS['connect_twitter']=array(
+					'action'	=> 'connect',
+					'attr'		=>	array(
+									'class'	=> 'btn btn-default'
+									),
+					'content'	=>	array(
+									'text'=> array(	'class' => false,
+													'content'	=> 'Conectar'
+													)
 									)
 					);

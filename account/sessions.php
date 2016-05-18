@@ -5,67 +5,103 @@ if(isset($_SESSION['profile']) || isset($_SESSION['connect'])) //Detectar si hay
 {
   if(isset($_SESSION['connect']['facebook']['id']))
   {
-    $_SESSION['connect']['facebook']['domain']=UMSDOMAIN;
-    $profile = profile_search('facebook',$_SESSION['connect']['facebook']);
-    
-    if($profile!=null)
-    { 
-      $_SESSION['profile']= $profile;
-      $_SESSION['profile']['fb_cover']=$_SESSION['connect']['facebook']['cover'];
+    if($_SESSION['connect']['action']=='login')
+    {
+      $_SESSION['connect']['facebook']['domain']=UMSDOMAIN;
+      $profile = profile_search('facebook',$_SESSION['connect']['facebook']);
+      
+      if($profile!=null)
+      { 
+        $_SESSION['profile']= $profile;
+      }
+      else
+      {
+        $profile = profile_new(array(
+                  'domain'      => UMSDOMAIN,
+                  'funnel'      => 'connect',
+                  'name'        => $_SESSION['connect']['facebook']['name'],
+                  'email'       => $_SESSION['connect']['facebook']['email'],
+                  'network'     => array(
+                                        'network'     => 'facebook',
+                                        'network_id'  => $_SESSION['connect']['facebook']['id'],
+                                        'name'        => $_SESSION['connect']['facebook']['name'],
+                                        'email'       => $_SESSION['connect']['facebook']['email'],
+                                        'pic'         => $_SESSION['connect']['facebook']['pic'],
+                                        'cover'       => $_SESSION['connect']['facebook']['cover']
+                                      ),
+                  'pic'         => 'facebook',
+                  'cover'       => 'facebook'
+                  ));
+        if($profile!=null)
+        { 
+          $_SESSION['profile']=$profile;
+        }
+      }
     }
     else
     {
-      $profile = profile_new(array(
-                'domain'      => UMSDOMAIN,
-                'funnel'      => 'connect',
-                'name'        => $_SESSION['connect']['facebook']['name'],
-                'email'       => $_SESSION['connect']['facebook']['email'],
-                'pic'         => 'facebook',
-                'cover'       => 'facebook',
-                'facebook_id' => $_SESSION['connect']['facebook']['id']
-                ));
-      if($profile!=null)
-      { 
-        #$profile['notif']=notif_search($profile['id']);
-        $_SESSION['profile']=$profile;
-        $_SESSION['profile']['fb_cover']=$_SESSION['connect']['facebook']['cover'];
-      }
+       $_SESSION['profile']['networks']['facebook']=array(
+                                        'network'     => 'facebook',
+                                        'network_id'  => $_SESSION['connect']['facebook']['id'],
+                                        'name'        => $_SESSION['connect']['facebook']['name'],
+                                        'email'       => $_SESSION['connect']['facebook']['email'],
+                                        'pic'         => $_SESSION['connect']['facebook']['pic'],
+                                        'cover'       => $_SESSION['connect']['facebook']['cover']
+                                      );
+      Addnetwork($_SESSION['profile']['id'],$_SESSION['profile']['networks']['facebook']);
     }
 
   }
   if(isset($_SESSION['connect']['twitter']['user_id']))
   {
-    $_SESSION['connect']['twitter']['domain']=UMSDOMAIN;
-    $_SESSION['connect']['twitter']['id']=$_SESSION['connect']['twitter']['user_id'];
+    if($_SESSION['connect']['action']=='login')
+    {
+      $_SESSION['connect']['twitter']['domain']=UMSDOMAIN;
+      $_SESSION['connect']['twitter']['id']=$_SESSION['connect']['twitter']['user_id'];
 
-    $profile = profile_search('twitter',$_SESSION['connect']['twitter']);
+      $profile = profile_search('twitter',$_SESSION['connect']['twitter']);
 
-    if($profile!=null)
-    { 
-      #$profile['notif']=notif_search($profile['id']);
-      $_SESSION['profile']= $profile;
-      $_SESSION['profile']['tt_pic']=$_SESSION['connect']['twitter']['pic'];
-      $_SESSION['profile']['tt_cover']=$_SESSION['connect']['twitter']['cover'];
+      if($profile!=null)
+      { 
+        $_SESSION['profile']= $profile;
+      }
+      else
+      {
+        $profile = profile_new(array(
+                  'domain'      => UMSDOMAIN,
+                  'funnel'      => 'connect',
+                  'name'        => $_SESSION['connect']['twitter']['name'],
+                  'network'     => array(
+                                        'network'     => 'twitter',
+                                        'network_id'  => $_SESSION['connect']['twitter']['user_id'],
+                                        'name'        => $_SESSION['connect']['twitter']['name'],
+                                        'url'         => $_SESSION['connect']['twitter']['screen_name'],
+                                        'pic'         => $_SESSION['connect']['twitter']['pic'],
+                                        'cover'       => $_SESSION['connect']['twitter']['cover']
+                                      ),
+                  'pic'         => 'twitter',
+                  'cover'       => 'twitter'   
+                  ));
+        if($profile!=null)
+        { 
+          $_SESSION['profile']=$profile;
+        }
+      }
     }
     else
     {
-      $profile = profile_new(array(
-                'domain'      => UMSDOMAIN,
-                'funnel'      => 'connect',
-                'name'        => $_SESSION['connect']['twitter']['name'],
-                'twitter_id'  => $_SESSION['connect']['twitter']['user_id'],
-                'pic'         => 'twitter',
-                'cover'       => 'twitter',
-                'twitter'     => $_SESSION['connect']['twitter']['screen_name']
-                
-                ));
-      if($profile!=null)
-      { 
-        $_SESSION['profile']=$profile;
-        $_SESSION['profile']['tt_pic']=$_SESSION['connect']['twitter']['pic'];
-        $_SESSION['profile']['tt_cover']=$_SESSION['connect']['twitter']['cover'];
-      }
+      $_SESSION['profile']['networks']['twitter']=array(
+                                        'network'     => 'twitter',
+                                        'network_id'  => $_SESSION['connect']['twitter']['user_id'],
+                                        'name'        => $_SESSION['connect']['twitter']['name'],
+                                        'url'         => $_SESSION['connect']['twitter']['screen_name'],
+                                        'pic'         => $_SESSION['connect']['twitter']['pic'],
+                                        'cover'       => $_SESSION['connect']['twitter']['cover']
+                                      );
+      Addnetwork($_SESSION['profile']['id'],$_SESSION['profile']['networks']['twitter']);
+
     }
+    
   }
   if(isset($_SESSION['profile']))
   {

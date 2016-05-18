@@ -40,6 +40,10 @@ function HTML($id,$params)
 			{
 				$html.=htmlGROUPBUTTON($value['data']);//el group button
 			}
+			if($view=='div')
+			{
+				$html.=htmlDIV($value['data']);//el group button
+			}
 		}
 	}
 
@@ -205,7 +209,7 @@ function htmlDIV($div,$callback)
 		}
 		if($content=='links')
 		{
-			$htmlDIV.=htmllinks($value,$callback);
+			$htmlDIV.='<div class="form-group">'.htmllinks($value,$callback).'</div>';
 		}
 	}
 	 $htmlDIV.='</div>';
@@ -261,7 +265,7 @@ function htmlFORM($id,$form,$callback)
 	}
 	if($form['links'])
 	{	
-		$htmlFORM.=htmllinks($form['links'],$callback);
+		$htmlFORM.='<div class="form-group">'.htmllinks($form['links'],$callback).'</div>';
 	}
 
 
@@ -279,7 +283,7 @@ function htmlFORM($id,$form,$callback)
 		
 		if($group=='alert')
 		{
-			$htmlFORM.='<div class="result form-group col-xs-12">';
+			$htmlFORM.='<div class="result">';
 			if($_SESSION['feedback'][$id]['alert'])
 			{
 				$htmlFORM.=alerts($_SESSION['feedback'][$id]['alert']);
@@ -479,7 +483,7 @@ function htmlfieldset ($fieldset,$callback)
 
 	if($fieldset['links'])
 	{	
-		$htmlfieldset.=htmllinks($fieldset['links'],$callback);
+		$htmlfieldset.='<div class="form-group">'.htmllinks($fieldset['links'],$callback).'</div>';
 	}
 
 	$htmlfieldset.='</fieldset>';
@@ -488,7 +492,7 @@ function htmlfieldset ($fieldset,$callback)
 }
 function htmllinks($links,$callback)
 {
-	$htmllinks.='<div class="form-group">';
+		$htmllinks='';
 		if($links['label'])
 		{
 			$htmllinks.='<label>'.$links['label'].'</label>';
@@ -497,7 +501,7 @@ function htmllinks($links,$callback)
 		{
 			if($link!='label')
 			{
-				$value['attr']['href']=URLSYSTEM.'?login='.$link;
+				$value['attr']['href']=URLSYSTEM.'?'.$value['action'].'='.$link;
 				if($callback)
 				{
 					$value['attr']['href'].='&callback='.$callback;
@@ -511,7 +515,6 @@ function htmllinks($links,$callback)
 			}
 			
 		}
-		$htmllinks.='</div>';
 
 	return $htmllinks;
 }
@@ -955,9 +958,18 @@ function htmliconfont($icon)
 
 	return $htmliconfont;
 }
-function htmltext($text)
+function htmltext($text=array())
 {
-	$htmltext=$text;
+	if($text['class'])
+	{
+		$htmltext='<span class="'.$text['class'].'">';	
+	}
+	else
+	{
+		$htmltext='<span>';
+	}
+
+	$htmltext.=$text['content'].'</span>';
 
 	return $htmltext;
 }

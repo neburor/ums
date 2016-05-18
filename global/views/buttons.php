@@ -8,15 +8,21 @@ $BUTTONS['message']=array(
 									),
 					'content'	=>	array(
 									'i'=>'fa fa-envelope',
-									'text'=>'Enviar mensaje'
+									'text'=> array(	'class' => false,
+													'content'	=> 'Enviar mensaje'
+													)
 									),
 					'success'	=> array(
 									'i'=>'fa fa-check-circle',
-									'text'=>'Mensaje enviado'
+									'text'=> array(	'class' => false,
+													'content'	=> 'Mensaje enviado'
+													)
 									),
 					'error'		=> array(
 									'i'=>'fa fa-warning',
-									'text'=>'Reintentar'
+									'text'=> array(	'class' => false,
+													'content'	=> 'Reintentar'
+													)
 									)
 					);
 $BUTTONS['login']=array(
@@ -26,15 +32,21 @@ $BUTTONS['login']=array(
 									),
 					'content'	=>	array(
 									'i'=>'fa fa-sign-in',
-									'text'=>'Iniciar sesion'
+									'text'=> array(	'class' => false,
+													'content'	=> 'Iniciar sesion'
+													)
 									),
 					'success'	=> array(
 									'i'=>'fa fa-check-circle',
-									'text'=>'Sesion iniciada'
+									'text'=> array(	'class' => false,
+													'content'	=> 'Sesion iniciada'
+													)
 									),
 					'warning'		=> array(
 									'i'=>'fa fa-warning',
-									'text'=>'Reintentar'
+									'text'=> array(	'class' => false,
+													'content'	=> 'Reintentar'
+													)
 									)
 					);
 $BUTTONS['signup']=array(
@@ -44,15 +56,21 @@ $BUTTONS['signup']=array(
 									),
 					'content'	=>	array(
 									'i'=>'fa fa-user-plus',
-									'text'=>'Crear cuenta'
+									'text'=> array(	'class' => false,
+													'content'	=> 'Crear cuenta'
+													)
 									),
 					'success'	=> array(
 									'i'=>'fa fa-check-circle',
-									'text'=>'Cuenta creada'
+									'text'=> array(	'class' => false,
+													'content'	=> 'Cuenta creada'
+													)
 									),
 					'warning'		=> array(
 									'i'=>'fa fa-warning',
-									'text'=>'Reintentar'
+									'text'=> array(	'class' => false,
+													'content'	=> 'Reintentar'
+													)
 									)
 					);
 $BUTTONS['reply']=array(
@@ -71,15 +89,21 @@ $BUTTONS['save']=array(
 										),
 					'content'	=> array(
 									'i'=>'fa fa-save',
-									'text'=>'Guardar cambios'
+									'text'=> array(	'class' => false,
+													'content'	=> 'Guardar cambios'
+													)
 										),
 					'success'	=> array(
 									'i'=>'fa fa-check-circle',
-									'text'=>'Cambios guardados'
+									'text'=> array(	'class' => false,
+													'content'	=> 'Cambios guardados'
+													)
 									),
 					'warning'		=> array(
 									'i'=>'fa fa-warning',
-									'text'=>'Reintentar'
+									'text'=> array(	'class' => false,
+													'content'	=> 'Reintentar'
+													)
 									)
 					);
 $BUTTONS['resend']=array(
@@ -89,6 +113,30 @@ $BUTTONS['resend']=array(
 										),
 					'content'	=> array(
 									'i'=>'fa fa-send',
-									'text'=>'Reenviar'
+									'text'=> array(	'class' => 'hidden-xs',
+													'content'	=> 'Reenviar'
+													)
+										)
+					);
+$BUTTONS['active']=array(
+					'attr'		=> array(
+									'type' 	=> 'submit',
+									'class'	=> 'btn btn-default'
+										),
+					'content'	=> array(
+									'text'=> array('content'	=> 'Activar'
+													)
+										)
+					);
+$BUTTONS['upload']=array(
+					'attr'		=> array(
+									'type' 	=> 'submit',
+									'class'	=> 'btn btn-default'
+										),
+					'content'	=> array(
+									'i'=>'fa fa-upload',
+									'text'=> array( 'class' => 'hidden-xs',
+													'content'	=> 'Subir'
+													)
 										)
 					);

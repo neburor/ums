@@ -5,7 +5,11 @@ include 'tabs.php';
 $PANELS['contact']=array(
 					'attr'		=> array('class'	=> 'panel panel-default'),
 					'heading'	=> array('attr'		=> array('class'=> 'panel-heading'),
-										 'content'	=> array('i'=>'fa fa-envelope','text'=>'Contactanos')
+										 'content'	=> array('i'=>'fa fa-envelope',
+										 					 'text'=> array('class' => false,
+																			'content'	=> 'Contactanos'
+																			)
+										 					)
 										),
 					'body'		=> array('attr'		=> array('class'=> 'panel-body'),
 										 'content'	=> ''

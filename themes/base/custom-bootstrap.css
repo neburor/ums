@@ -27,14 +27,17 @@
 	margin: 0;
 }
 .cover-bg {
-  height: 100px;
+  height: 112px;
   overflow: hidden;
 }
 .cover-bg img {
-    width: 100%; 
+  width: 100%;
+  min-height: 100%; 
+  margin-right: auto;
+  margin-left: auto;
 }
 .cover-cont {
-  margin-top: -44px;
+  margin-top: -86px;
 }
 .cover-title {
   color: #fff;
@@ -77,6 +80,41 @@
 .message.media.reply {
   box-shadow: 1px 1px 2px rgba(24,24,24,.4);
 }
+.profile-pic {
+  width: 34px;
+  height: 34px;
+}
+.full-width {
+    display:block !important;
+}
+.text-warp {
+  white-space: normal;
+}
+div.upload
+{
+  border: 2px dashed #e6e6e6;
+  background-color: #f7f7f7;
+}
+input.upload::-webkit-file-upload-button
+{
+  visibility: hidden;
+}
+input.upload::before {
+  font-family: 'FontAwesome';
+  content: "\f0ee ...";
+  padding: 5px;
+}
+input.upload {
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 1;
+    filter: alpha(opacity=1);
+    cursor: pointer;
+}
 @media (min-width: 768px) {
 .navbar-brand{
 	padding: 10px;
@@ -112,6 +150,17 @@ h2 {
 }
 h3 {
 	font-size: 18px;
+}
+.cover-bg {
+  height: 80px;
+  overflow: hidden;
+}
+.cover-cont {
+  margin-top: -56px;
+}
+.cover-title .img-circle {
+  height: 50px;
+  width: 50px;
 }
 .col-xxs {
 	padding: 0;

@@ -64,7 +64,6 @@ function profiles ($params = array())
                     'funnel'        => $params['funnel']
                     ));
     }
-    #$profile['notif']=notif_search($profile['id']);
     return $profile;
 }
 function notif_search($profile_id)
@@ -76,10 +75,39 @@ function notif_search($profile_id)
         
     while($i = mysql_fetch_assoc($sql)) 
     {
-        $row[] = $i;
+        $row[$i['type']] = $i;
     }
 
-    return $row;
+    if(count($row)==0)
+    {
+        return false;
+    }
+    else
+    {
+        return $row;
+    }
+}
+function net_search($profile_id)
+{
+   
+     $sql=mysql_query("
+        SELECT * FROM `profiles_sn` 
+        WHERE `profile_id` = '".$profile_id."'");
+    $row = array();
+        
+    while($i = mysql_fetch_assoc($sql)) 
+    {
+        $row[$i['network']] = $i;
+    }
+
+    if(count($row)==0)
+    {
+        return false;
+    }
+    else
+    {
+        return $row;
+    }
 }
 function profile_search ($search,$params = array())
 {
@@ -87,13 +115,9 @@ function profile_search ($search,$params = array())
     {
         $search_param="`id` = '".$params['id']."' LIMIT 1";
     }
-    if($search=='twitter')
+    if($search=='twitter' || $search == 'facebook')
     {
-        $search_param="`twitter_id` = '".$params['id']."' LIMIT 1";
-    }
-    if($search=='facebook')
-    {
-        $search_param="`facebook_id` = '".$params['id']."' LIMIT 1";
+        $search_param=SearchNetwork($search,$params);
     }
     if($search=='token')
     {
@@ -101,21 +125,7 @@ function profile_search ($search,$params = array())
     }
     if($search=='device')
     {
-        $device_id=device(false,$params);
-        $sql=mysql_query("
-        SELECT * FROM `device_activity` 
-        WHERE `device_id` = '".$device_id."' 
-        ORDER BY `id` DESC LIMIT 1");
-
-        $row = array();
-        
-        while($i = mysql_fetch_assoc($sql)) 
-        {
-            $row[] = $i;
-        }
-
-        $search_param="`id` = '".$row[0]['profile_id']."'";
-        
+        $search_param=SearchDevice($search,$params);     
     }
     if($search=='email')
     {
@@ -140,7 +150,54 @@ function profile_search ($search,$params = array())
     {   
          $row[0]=profile_new($params);
     }
+
+    $networks=net_search($row[0]['id']);
+    $notifs=notif_search($row[0]['id']);
+    if($networks)
+    {
+        $row[0]['networks']=net_search($row[0]['id']);
+    }
+    if($notifs)
+    {
+        $row[0]['notifs']=notif_search($row[0]['id']);
+    }
+    
     return $row[0];
+}
+function SearchNetwork ($search,$params = array())
+{
+        $sql=mysql_query("
+        SELECT * FROM `profiles_sn` 
+        WHERE `network` = '".$search."'
+        AND  `network_id` = '".$params['id']."'
+        ORDER BY `id` DESC LIMIT 1");
+
+        $row = array();
+        
+        while($i = mysql_fetch_assoc($sql)) 
+        {
+            $row[] = $i;
+        }
+
+        return "`id` = '".$row[0]['profile_id']."'";
+}
+
+function SearchDevice ($search,$params = array())
+{
+    $device_id=device(false,$params);
+        $sql=mysql_query("
+        SELECT * FROM `device_activity` 
+        WHERE `device_id` = '".$device_id."' 
+        ORDER BY `id` DESC LIMIT 1");
+
+        $row = array();
+        
+        while($i = mysql_fetch_assoc($sql)) 
+        {
+            $row[] = $i;
+        }
+
+        return "`id` = '".$row[0]['profile_id']."'";
 }
 function profile_update ($updates=array(),$profile_id)
 {
@@ -173,19 +230,56 @@ function profile_update ($updates=array(),$profile_id)
         return false;
     }
 }
+function notifs_update ($updates=array(),$profile_id)
+{
+    $count=0;
+    $sets ='';
+
+    foreach ($updates as $column => $value) 
+    {
+        $count++;
+        if($count>1)
+        {
+            $sets.= ', ';
+        }
+
+        $sets.='`'.$column.'` = "'.$value.'"'; 
+    }
+
+    $update="
+        UPDATE `profiles_notif`
+        SET ".$sets." 
+        WHERE `profile_id` = '".$profile_id."'
+        LIMIT 1";
+
+    if(mysql_query($update))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
 function profile_new ($params = array())
 {
     $token = strtoupper(substr(md5($_SERVER['REQUEST_TIME']), 0,12));
     $insert="
         INSERT INTO `profiles` 
-        (`id`, `creation_date`, `domain`, `token_hash`, `funnel`, `name`, `email`, `password`, `facebook_id`, `twitter_id`, `pic`, `cover`, `twitter`) 
-        VALUES (NULL, '".date("Y-m-d H:i:s")."', '".$params['domain']."', '".$token."','".$params['funnel']."', '".$params['name']."', '".$params['email']."', '".$params['pass']."', '".$params['facebook_id']."', '".$params['twitter_id']."', '".$params['pic']."', '".$params['cover']."', '".$params['twitter']."')";
-
+        (`id`, `creation_date`, `domain`, `token_hash`, `funnel`, `name`, `email`, `password`, `pic`, `cover`) 
+        VALUES (NULL, '".date("Y-m-d H:i:s")."', '".$params['domain']."', '".$token."','".$params['funnel']."', '".$params['name']."', '".$params['email']."', '".$params['pass']."', '".$params['pic']."', '".$params['cover']."')";
 
     if(mysql_query($insert))
     {
         $params['id']=mysql_insert_id();
-        notif($params['id'],$params);// Agregar notificaciones
+        if($params['email'])
+        {
+           Addnotif($params['id'],$params);// Agregar notificaciones 
+        }
+        if($params['network'])
+        {
+            Addnetwork($params['id'],$params['network']); // Agregar social networks
+        }
         device($params['id'],$params);// Registro actividad en device
         funnel_activity($params);
 
@@ -208,24 +302,26 @@ function profile_new ($params = array())
 
     return $profile;
 }
-function notif ($profile_id,$params=array())
+function Addnotif ($profile_id,$params=array())
 {
-    if($params['email'])
-    {
-            $insert="
+
+    $insert="
         INSERT INTO `profiles_notif` 
         (`id`, `profile_id`, `notif`, `status`, `type`, `to`) 
         VALUES (NULL, '".$profile_id."', 'all','validating', 'email', '".$params['email']."')";
-        mysql_query($insert);
-    }
-    if($params['twitter'])
-    {
-         $insert="
-        INSERT INTO `profiles_notif` 
-        (`id`, `profile_id`, `notif`, `status`, `type`, `to`) 
-        VALUES (NULL, '".$profile_id."', 'all','validating', 'twitter', '".$params['twitter']."')";
-        mysql_query($insert);
-    }
+    mysql_query($insert);
+
+}
+function Addnetwork ($profile_id,$params=array())
+{
+
+    $insert="
+        INSERT INTO `profiles_sn` 
+        (`id`, `profile_id`, `network`, `network_id`, `name`, `email`, `url`, `pic`, `cover`) 
+        VALUES (NULL, '".$profile_id."', '".$params['network']."', '".$params['network_id']."', '".$params['name']."', '".$params['email']."', '".$params['url']."', '".$params['pic']."', '".$params['cover']."')";
+
+    mysql_query($insert);
+    
 }
 function device ($profile_id,$params=array())
 {

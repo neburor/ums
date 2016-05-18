@@ -3,6 +3,8 @@
 include 'validatefields.php';
 
 ##############################
+
+
 if(isset($_POST)) // Si se reciben datos por post, se procesan
 {
 	if(isset($_POST['formid']))
@@ -23,6 +25,17 @@ if(isset($_POST)) // Si se reciben datos por post, se procesan
   				}
 			}
 		}
+    if(!empty($_FILES))
+    { 
+      foreach ($_FILES as $field => $file) 
+      {
+        $feedback=$_SESSION['feedback'][$formid][$field]['status']=Validate_files($field,$file);
+        if($feedback!='valid' && $feedback!='norequired')
+          {
+            $warningFields++;
+          }
+      }
+    }
 
 		if($warningFields)
   		{
@@ -75,9 +88,9 @@ if(isset($_GET))
 			header("Location: ".$_SERVER['HTTP_REFERER'].$_GET['callback']);
 		}
 	}
-  if(isset($_GET['login']))
+  if(isset($_GET['login']) || isset($_GET['connect']))
   {
-    if($_GET['login']=='facebook')// Iniciar secion con la API de Facebook
+    if($_GET['login']=='facebook' || $_GET['connect']=='facebook')// Iniciar secion con la API de Facebook
     {
       #require_once __DIR__ . 'account/Facebook/autoload.php';
       include_once('account/Facebook/autoload.php');
@@ -90,6 +103,14 @@ if(isset($_GET))
       $permissions = ['email']; // optional
       $loginUrl = $helper->getLoginUrl(URLSYSTEM.'account/fb-callback.php', $permissions);
 
+      if($_GET['login'])
+      {
+        $_SESSION['connect']['action']='login';
+      }
+      else
+      {
+        $_SESSION['connect']['action']='connect';
+      }
       if($_GET['referer'])
       {
         $_SESSION['connect']['referer']=$_GET['referer'];
@@ -106,7 +127,7 @@ if(isset($_GET))
     header("Location: " . $loginUrl);
     }
 
-    if($_GET['login']=='twitter') // Iniciar sesion con la API de Twitter
+    if($_GET['login']=='twitter' || $_GET['connect']=='twitter') // Iniciar sesion con la API de Twitter
     {
       include_once("account/twitter/twitteroauth.php");
       $connection = new TwitterOAuth(TWCONSUMERKEY, TWCONSUMERSECRET);
@@ -117,6 +138,14 @@ if(isset($_GET))
 
       $twitter_url = $connection->getAuthorizeURL($request_token['oauth_token']);
       
+      if($_GET['login'])
+      {
+        $_SESSION['connect']['action']='login';
+      }
+      else
+      {
+        $_SESSION['connect']['action']='connect';
+      }
       if($_GET['referer'])
       {
         $_SESSION['connect']['referer']=$_GET['referer'];
@@ -133,5 +162,9 @@ if(isset($_GET))
 
       header('Location: ' . $twitter_url); 
     }
+  }
+  if(isset($_GET['confirmation']))
+  {
+    $_SESSION['feedback']['top']['alert']['success'] = 'Tu correo ha sido confirmado correctamente.';
   }
 }
