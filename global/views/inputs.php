@@ -135,10 +135,38 @@ $INPUTS['pic']=array(
 										'name'			=> 'pic'
 										)
 					);
+$INPUTS['pic_f']=array(
+					'attr'			=>	array(
+										'type'			=> 'hidden',
+										'name'			=> 'pic',
+										'value'			=> 'facebook.png'
+										)
+					);
+$INPUTS['pic_t']=array(
+					'attr'			=>	array(
+										'type'			=> 'hidden',
+										'name'			=> 'pic',
+										'value'			=> 'twitter.png'
+										)
+					);
 $INPUTS['cover']=array(
 					'attr'			=>	array(
 										'type'			=> 'file',
 										'class'			=> 'form-control upload',
 										'name'			=> 'cover'
+										)
+					);
+$INPUTS['cover_f']=array(
+					'attr'			=>	array(
+										'type'			=> 'hidden',
+										'name'			=> 'cover',
+										'value'			=> 'facebook.png'
+										)
+					);
+$INPUTS['cover_t']=array(
+					'attr'			=>	array(
+										'type'			=> 'hidden',
+										'name'			=> 'cover',
+										'value'			=> 'twitter.png'
 										)
 					);

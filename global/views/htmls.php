@@ -686,6 +686,74 @@ function htmlcontrol($type,$attr_val,$feedback)
 	{
 		$htmlcontrol=htmlcheckbox($attr_val,$feedback);
 	}
+	if($type=='select')
+	{
+		$htmlcontrol=htmlselect($attr_val,$feedback);
+	}
+	return $htmlcontrol;
+}
+function htmlselect($select,$feedback)
+{
+	if($select['attr'])
+	{
+		$htmlcontrol='<select ';
+		foreach ($select['attr'] as $attr => $value) 
+		{
+			$i++;
+			if($i>0)
+			{
+				$htmlcontrol.=' ';
+			}
+			$htmlcontrol.=$attr.'="'.$value.'"';
+		}
+	}
+	else
+	{
+		$htmlcontrol='<select class="form-control"';
+	}
+	if($select['validations'])
+	{	
+		$htmlcontrol.=' ';
+		foreach ($select['validations'] as $val => $value) 
+		{	
+			if($i>0)
+			{
+				$htmlcontrol.=' ';
+			}
+			if($value && $val!='pregmatch')
+			{
+				$i++;
+				if($val!='required' && $val!='readonly')
+				{
+					$htmlcontrol.=$val.'="'.$value.'"';
+				}
+				else
+				{
+					$htmlcontrol.=$val;
+				}
+			}
+		}
+	}
+	else
+	{
+		$htmlcontrol.='required';
+	}
+
+	$htmlcontrol.='>';
+
+	if($select['selects'])
+	{
+		foreach ($select['selects'] as $option => $value) {
+			$htmlcontrol.= '<option value="'.$option.'"';
+			if($select['selected']==$option)
+			{
+				$htmlcontrol.=' selected="selected"';
+			}
+			$htmlcontrol.='>'.$value.'</option>';
+		}
+	}
+	$htmlcontrol.='</select>';
+
 	return $htmlcontrol;
 }
 function htmlcheckbox($checkbox,$feedback)

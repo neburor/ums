@@ -1,129 +1,60 @@
 <div class="col-sm-push-1 col-sm-10 col-xs-12 xxs-nopadding">
-  <h2>Mi perfil</h2>
-  <p>Controla tu información de perfil, tanto lo que ven los demás, opciones de tu cuenta, etc. Los perfiles de usuario se muestran a todo el publico. Para entender lo que es aceptable para mostrar en los perfiles, consulte estas normas.</p>
+  <h2>Mis preferencias</h2>
+  <p>Controla tu información personal, tanto lo que ven los demás como opciones de tu cuenta. Los perfiles de usuario se muestran a todo el publico. Para entender lo que es aceptable para mostrar en los perfiles, consulte estas <a href="">normas</a>.</p>
   <div class="col-xs-12 xxs-noppading">
+     <hr>
+    <h3>Mi perfil</h3>
+    <p>Administra la configuración de visibilidad.</p>
+    <div class="row">
 <?php
   echo HTML('form_settings_name');
 ?>
-<div class="form-group">
-  <label for="imagen" class="control-label">Imagen de perfil :</label>
-  <ul class="list-group">
-    <li class="list-group-item">
-      <div class="media">
-        <div class="media-left">
-          <i class="fa fa-image fa-2x"></i>
-        </div>
-        <div class="media-body">
+    </div>
+  <div class="row well">
 <?php
+if($_SESSION['profile']['pic']!='')
+{
+  $LOCALVIEWS['form_settings_pic']['form']['data']['groups']['pic']['select']['selected']=$_SESSION['profile']['pic'];
+}
+if(isset($_SESSION['profile']['networks']['facebook']))
+{
+  $LOCALVIEWS['form_settings_pic']['form']['data']['groups']['pic']['select']['selects']['facebook.png']='Facebook';
+  $LOCALVIEWS['form_settings_cover']['form']['data']['groups']['cover']['select']['selects']['facebook.png']='Facebook';
+}
+if(isset($_SESSION['profile']['networks']['twitter']))
+{
+  $LOCALVIEWS['form_settings_pic']['form']['data']['groups']['pic']['select']['selects']['twitter.png']='Twitter';
+  $LOCALVIEWS['form_settings_cover']['form']['data']['groups']['cover']['select']['selects']['twitter.png']='Twitter';
+}
+if(file_exists('images/pic/pic_'.$_SESSION['profile']['id'].'.jpg'))
+{
+  $LOCALVIEWS['form_settings_pic']['form']['data']['groups']['pic']['select']['selects']['local.png']='Imagen subida';
+} 
   echo HTML('form_settings_pic');
+  echo HTML('form_settings_pic_upload');
 ?>
-        </div>
-        <div class="media-right">
-          <a href="" class="btn btn-default">Activar</a>
-        </div>
-        <small>Imagen recomendada de 110px de ancho y 110px de alto, de hasta 200kb.</small>
-      </div>  
-    </li>
+  </div>
+  <div class="row well">
 <?php
-if(isset($_SESSION['profile']['networks']['facebook']))
+if($_SESSION['profile']['cover']!='')
 {
-  echo '<li class="list-group-item">
-      <div class="media">
-        <div class="media-left">
-          <i class="fa fa-facebook fa-2x"></i>
-        </div>
-        <div class="media-body">
-          <img src="'.$_SESSION['profile']['networks']['facebook']['pic'].'" class="img-thumbnail">
-        </div>
-        <div class="media-right">
-          <a href="" class="btn btn-default">Activar</a>
-        </div>
-      </div>  
-    </li>';
+  $LOCALVIEWS['form_settings_cover']['form']['data']['groups']['cover']['select']['selected']=$_SESSION['profile']['cover'];
 }
-if(isset($_SESSION['profile']['networks']['twitter']))
+if(file_exists('images/cover/cover_'.$_SESSION['profile']['id'].'.jpg'))
 {
-  echo '<li class="list-group-item">
-      <div class="media">
-        <div class="media-left">
-          <i class="fa fa-twitter fa-2x"></i>
-        </div>
-        <div class="media-body">
-          <img src="'.$_SESSION['profile']['networks']['twitter']['pic'].'" class="img-thumbnail">
-        </div>
-        <div class="media-right">
-          <a href="" class="btn btn-default">Activar</a>
-        </div>
-      </div>  
-    </li>';
-}
+  $LOCALVIEWS['form_settings_cover']['form']['data']['groups']['cover']['select']['selects']['local.png']='Imagen subida';
+} 
+echo HTML('form_settings_cover');
+  echo HTML('form_settings_cover_upload');
 ?>
-  </ul>
-</div>
-
-      <div class="form-group">
-        <label for="imagen" class="control-label">Imagen de portada :</label>
-  <ul class="list-group">
-    <li class="list-group-item">
-      <div class="media">
-        <div class="media-left">
-          <i class="fa fa-image fa-2x"></i>
-        </div>
-        <div class="media-body">
-<?php
-  echo HTML('form_settings_cover');
-?>
-        
-        </div>
-        <div class="media-right">
-          <a href="" class="btn btn-default">Activar</a>
-        </div>
-        <small>Imagen recomendada de 1360px de ancho y 360px de alto, de hasta 1MB.</small>
-      </div>  
-    </li>
-<?php
-if(isset($_SESSION['profile']['networks']['facebook']))
-{
-  echo '<li class="list-group-item">
-      <div class="media">
-        <div class="media-left">
-          <i class="fa fa-facebook fa-2x"></i>
-        </div>
-        <div class="media-body">
-          <img src="'.$_SESSION['profile']['networks']['facebook']['cover'].'" class="img-thumbnail">
-        </div>
-        <div class="media-right">
-          <a href="" class="btn btn-default">Activar</a>
-        </div>
-      </div>  
-    </li>';
-}
-if(isset($_SESSION['profile']['networks']['twitter']))
-{
-  echo '<li class="list-group-item">
-      <div class="media">
-        <div class="media-left">
-          <i class="fa fa-twitter fa-2x"></i>
-        </div>
-        <div class="media-body">
-          <img src="'.$_SESSION['profile']['networks']['twitter']['cover'].'" class="img-thumbnail">
-        </div>
-        <div class="media-right">
-          <a href="" class="btn btn-default">Activar</a>
-        </div>
-      </div>  
-    </li>';
-}
-?>
-  </ul>
-      </div>
-
+  </div>
     
   </div>
 
   <div class="col-xs-12 xxs-noppading">
     <hr>
-    <h3>Inicio de sesión</h3>
+    <h3>Opciones de cuenta</h3>
+    <p>Controla la contraseña y la configuración de acceso a los datos de la cuenta.</p>
 <?php
 if($_SESSION['profile']['password']!='')
 {

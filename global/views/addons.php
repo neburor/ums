@@ -48,3 +48,11 @@ $ADDONS['twitter']=array(
 									'i'=>'fa fa-twitter'
 									)
 					);
+$ADDONS['image']=array(
+					'attr'		=>	array(
+									'class'	=>'input-group-addon'
+									),
+					'content'	=>	array(
+									'i'=>'fa fa-image'
+									)
+					);

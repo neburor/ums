@@ -118,7 +118,7 @@ $BUTTONS['resend']=array(
 													)
 										)
 					);
-$BUTTONS['active']=array(
+$BUTTONS['activate']=array(
 					'attr'		=> array(
 									'type' 	=> 'submit',
 									'class'	=> 'btn btn-default'

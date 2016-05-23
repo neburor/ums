@@ -15,6 +15,10 @@
       {
         echo '<img src="'.$_SESSION['profile']['networks'][$_SESSION['profile']['cover']]['cover'].'">';
       }
+      elseif($_SESSION['profile']['cover']=='local')
+      {
+        echo '<img src="images/cover/cover_'.$_SESSION['profile']['id'].'.jpg">';
+      }
       ?>
     </div>
   
@@ -32,6 +36,10 @@
                 $_SESSION['profile']['networks'][$_SESSION['profile']['pic']]['pic']=str_replace('_normal', '_bigger', $_SESSION['profile']['networks'][$_SESSION['profile']['pic']]['pic']);
               }
               echo '<img src="'.$_SESSION['profile']['networks'][$_SESSION['profile']['pic']]['pic'].'" class="img-circle">';
+            }
+            elseif($_SESSION['profile']['pic']=='local')
+            {
+              echo '<img src="images/pic/pic_'.$_SESSION['profile']['id'].'.jpg" class="img-circle">';
             }
             ?>
             

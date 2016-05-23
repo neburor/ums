@@ -3,7 +3,8 @@
 include 'databases.php';
 include 'mysql_db.php';
 include 'profiles.php';
-include 'sendconfirmation.php';
+include 'send_confirmation.php';
+include 'file_upload.php';
 MysqlConnect();
 
 function Logout()
@@ -213,6 +214,24 @@ function Settings($post = array())
                 $response['alert']=array('info' => 'Su correo esta confirmado.');
             }
         }
+        elseif($post['pic'] || $post['cover'])
+        {
+            if($post['pic'])
+            {
+                $text='Su imagen de perfil ha sido cambiado.';
+                $update =profile_update(array('pic'=>str_replace('.png', '', $post['pic'])),$_SESSION['profile']['id']);
+            }
+            else
+            {
+                $text='Su imagen de portada ha sido modificada.';
+                $update =profile_update(array('cover'=>str_replace('.png', '', $post['cover'])),$_SESSION['profile']['id']);
+            }
+            
+                if($update)
+                {
+                $response['alert']=array('success' => $text);
+                }
+        }
         else
         {
             $update =profile_update($post,$_SESSION['profile']['id']); 
@@ -223,7 +242,7 @@ function Settings($post = array())
     {
         foreach ($post as $key => $value) 
         {
-            $_SESSION['profile'][$key]=$value;
+            $_SESSION['profile'][$key]=str_replace('.png', '', $value);
             $response['feedback'][$key]= 'valid';
         }
         

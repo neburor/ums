@@ -53,7 +53,15 @@ if(isset($_POST)) // Si se reciben datos por post, se procesan
         }
         if($formtype=='settings')
         {
-          $formstatus=Settings($_POST);
+          if(!empty($_FILES))
+          {
+              $formstatus=File_Upload($_FILES);
+          }
+          else
+          {
+            $formstatus=Settings($_POST);
+          }
+          
         }
 
     		$_SESSION['feedback'][$formid]['alert']=$formstatus['alert'];

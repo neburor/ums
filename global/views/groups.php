@@ -4,6 +4,7 @@ include 'alerts.php';
 include 'checkboxs.php';
 include 'inputs.php';
 include 'textareas.php';
+include 'selects.php';
 include 'buttons.php';
 include 'addons.php';
 include 'links.php';
@@ -234,22 +235,52 @@ $GROUPS['reply']=array(
 					);
 $GROUPS['pic']=array(
 					'attr'		=> array(
+										'class'			=> 'form-group'
+										),
+					'params'	=> array(
+										'display'		=> 'Imagen de perfil',
+										'label'			=> 'Seleccionar imagen de perfil:',
+										'text'			=> array(
+																'content' => 'Sube una imagen o conecta una red social.'
+														)
+										),
+					'addon'		=> $ADDONS['image'],
+					'select'	=> $SELECTS['pic'],
+					'button'	=> false
+					);
+$GROUPS['pic_upload']=array(
+					'attr'		=> array(
 										'class'			=> 'col-xs-12'
 										),
 					'params'	=> array(
 										'display'		=> 'Imagen de perfil',
-										'label'			=> false
+										'label'			=> 'Subir o tomar foto para imagen de perfil:'
 										),
 					'input'		=> $INPUTS['pic'],
 					'button'	=> $BUTTONS['upload']
 					);
 $GROUPS['cover']=array(
 					'attr'		=> array(
+										'class'			=> 'form-group'
+										),
+					'params'	=> array(
+										'display'		=> 'Imagen de portada',
+										'label'			=> 'Seleccionar imagen de portada:',
+										'text'			=> array(
+																'content' => 'Sube una imagen o conecta una red social.'
+														)
+										),
+					'addon'		=> $ADDONS['image'],
+					'select'	=> $SELECTS['cover'],
+					'button'	=> false
+					);
+$GROUPS['cover_upload']=array(
+					'attr'		=> array(
 										'class'			=> 'col-xs-12'
 										),
 					'params'	=> array(
 										'display'		=> 'Imagen de portada',
-										'label'			=> false
+										'label'			=> 'Subir o tomar foto para imagen portada:'
 										),
 					'input'		=> $INPUTS['cover'],
 					'button'	=> $BUTTONS['upload']

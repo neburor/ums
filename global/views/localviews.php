@@ -34,12 +34,14 @@ $LOCALVIEWS['panel_profile']['panel']['data']['body']['content']['tabpanel']=$LO
 
 #FORMULARIOS DE PREFERENCIAS
 $LOCALVIEWS['form_settings_name']=array('form'=> array('id'=>'form_settings_name','data'=>$FORMS['user_settings_name']));
+$LOCALVIEWS['form_settings_pic']=array('form'=> array('id'=>'form_settings_pic','data'=>$FORMS['user_settings_pic']));
+$LOCALVIEWS['form_settings_pic_upload']=array('form'=> array('id'=>'form_settings_pic_upload','data'=>$FORMS['user_settings_pic_upload']));
+$LOCALVIEWS['form_settings_cover']=array('form'=> array('id'=>'form_settings_cover','data'=>$FORMS['user_settings_cover']));
+$LOCALVIEWS['form_settings_cover_upload']=array('form'=> array('id'=>'form_settings_cover_upload','data'=>$FORMS['user_settings_cover_upload']));
 $LOCALVIEWS['form_settings_pass1']=array('form'=> array('id'=>'form_settings_pass1','data'=>$FORMS['user_settings_pass1']));
 $LOCALVIEWS['form_settings_pass2']=array('form'=> array('id'=>'form_settings_pass2','data'=>$FORMS['user_settings_pass2']));
 $LOCALVIEWS['link_settings_facebook']= array('facebook'	=> $LINKS['connect_facebook']);
 $LOCALVIEWS['link_settings_twitter']= array('twitter'	=> $LINKS['connect_twitter']);
-$LOCALVIEWS['form_settings_pic']=array('form'=> array('id'=>'form_settings_pic','data'=>$FORMS['user_settings_pic']));
-$LOCALVIEWS['form_settings_cover']=array('form'=> array('id'=>'form_settings_cover','data'=>$FORMS['user_settings_cover']));
 $LOCALVIEWS['form_settings_notif']=array('form'=> array('id'=>'form_settings_notif','data'=>$FORMS['user_settings_email']));
 $LOCALVIEWS['form_settings_notif']['form']['data']['groups']['email']['button']['content']['text']['class']='hidden-xs';
 

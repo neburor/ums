@@ -139,15 +139,15 @@ $FORMS['user_settings_pic']=array(
 											'class'	=> 'form',
 											'role'	=> 'form',
 											'action'=> URLSYSTEM.'?tab=preferencias',
-											'method'=> 'POST',
-											'enctype'=>'multipart/form-data'
+											'method'=> 'POST'
 											),
 						'groups'	=> array(
 											'alert' 	=> false,
-											'pic'		=> $GROUPS['pic']
+											'pic'		=> $GROUPS['pic'],
+											'button'	=> $BUTTONS['save']
 											)
 						);
-$FORMS['user_settings_cover']=array(
+$FORMS['user_settings_pic_upload']=array(
 						'type'		=> 'settings',
 						'attr'		=> array(
 											'class'	=> 'form',
@@ -158,9 +158,38 @@ $FORMS['user_settings_cover']=array(
 											),
 						'groups'	=> array(
 											'alert' 	=> false,
-											'cover'		=> $GROUPS['cover']
+											'pic'		=> $GROUPS['pic_upload']
 											)
 						);
+$FORMS['user_settings_cover']=array(
+						'type'		=> 'settings',
+						'attr'		=> array(
+											'class'	=> 'form',
+											'role'	=> 'form',
+											'action'=> URLSYSTEM.'?tab=preferencias',
+											'method'=> 'POST'
+											),
+						'groups'	=> array(
+											'alert' 	=> false,
+											'cover'		=> $GROUPS['cover'],
+											'button'	=> $BUTTONS['save']
+											)
+						);
+$FORMS['user_settings_cover_upload']=array(
+						'type'		=> 'settings',
+						'attr'		=> array(
+											'class'	=> 'form',
+											'role'	=> 'form',
+											'action'=> URLSYSTEM.'?tab=preferencias',
+											'method'=> 'POST',
+											'enctype'=>'multipart/form-data'
+											),
+						'groups'	=> array(
+											'alert' 	=> false,
+											'cover'		=> $GROUPS['cover_upload']
+											)
+						);
+
 $FORMS['user_settings_email']=array(
 						'type'		=> 'settings',
 						'attr'		=> array(
