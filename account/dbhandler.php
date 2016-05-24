@@ -287,42 +287,47 @@ function Insert($post = array())
         'profile_id'    => $profile['id']
         ), $post);
 
+    $formtype=$post['formtype'];
+
     unset($post['token']);
     unset($post['device']);
+
+    unset($post['formid']);
+    unset($post['formtype']);
 
     unset($post['funnel']);
     unset($post['name']);
     unset($post['email']);
     unset($post['pass']);
 
+    
 
-    $db=DB($post);
+    $db=DB($post,$formtype);
 
     $insert = '
     INSERT INTO `'.$db["name"].'`
     (`id`, '.$db["columns"].')
     VALUES (NULL,'.$db["values"].')
     ';
+ 
     if(mysql_query($insert))
     {
-        $response['status'] = 'save';
-        $response['message']= $db['success'];
+        $response['alert']['success'] = $db['alert']['success'];
     }
     else
     {
-        $response['status'] = 'error';
-        $response['message'] = $db['error'];
+        $response['alert']['warning'] = $db['alert']['warning'];
     }
 
     return $response;
 }
 
-function DB($post=array())
+function DB($post=array(), $formtype)
 {
     global $DB;
-    $db['name']=$DB[$post['form']]['dbname'];
-    $db['success']=$DB[$post['form']]['success'];
-    $db['error']=$DB[$post['form']]['error'];
+    $db['name']=$DB[$formtype]['dbname'];
+    $db['alert']['success']=$DB[$formtype]['success'];
+    $db['alert']['warnning']=$DB[$formtype]['warning'];
     $count=0;
     $columns ='';
     $values ='';

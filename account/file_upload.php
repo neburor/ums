@@ -9,15 +9,15 @@ function File_Upload($Files)
 	{
 		if($name=='pic')
 		{
-			$img_width=100;
-			$img_height=100;
+			$img_width=110;
+			$img_height=110;
 			$dir_dest = ('images/pic/');
 			$pre='pic_';
 		}
 		if($name=='cover')
 		{
 			$img_width=750;
-			$img_height=200;
+			$img_height=112;
 			$dir_dest = ('images/cover/');
 			$pre='cover_';
 		}
@@ -34,6 +34,7 @@ function File_Upload($Files)
                 $handle->file_new_name_body = $_SESSION['profile']['id'];
                 $handle->image_resize            = true;
 				$handle->image_ratio			 = true;
+                $handle->image_ratio_crop        = true;
         		$handle->image_y          		 = $img_height;
         		$handle->image_x                 = $img_width;      
                 $handle->Process($dir_dest);

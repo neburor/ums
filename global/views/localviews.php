@@ -45,7 +45,10 @@ $LOCALVIEWS['link_settings_twitter']= array('twitter'	=> $LINKS['connect_twitter
 $LOCALVIEWS['form_settings_notif']=array('form'=> array('id'=>'form_settings_notif','data'=>$FORMS['user_settings_email']));
 $LOCALVIEWS['form_settings_notif']['form']['data']['groups']['email']['button']['content']['text']['class']='hidden-xs';
 
-
+#FORMULARIO DE MENSAJE
+$LOCALVIEWS['div_intro_newmessage']=array('div'=>array('id'=>'div_intro_newmessage', 'data'=> array('attr'=> array( 'class' => 'col-xs-12 xxs-nopadding'),'content'	=> array( 'intro'	=> $INTROS['messages']))));
+$LOCALVIEWS['form_user_newmessage']=array('form'=>array('id'=>'form_user_newmessage', 'data'=>$FORMS['user_newmessage']));
+$LOCALVIEWS['form_user_message']=array('form'=>array('id'=>'form_user_message', 'data'=>$FORMS['user_message']));
 
 #$LOCALVIEWS['contacto1']=$LOCALVIEWS['contacto2']=array('panel'=>$PANELS['contact']);
 #$LOCALVIEWS['contacto2']['panel']['heading']['content']['text']='Formulario de contacto';

@@ -1,5 +1,15 @@
 <?php
 #Intros
+$INTROS['messages'] = '<div class="media-body text-center">
+          <i class="fa fa-envelope fa-4x"></i>
+          <b class="media-heading">NINGUN MENSAJE</b>
+          <p>Escribenos un mensaje !</p>
+        </div>';
+$INTROS['comments'] = '<div class="media-body text-center">
+          <i class="fa fa-commenting fa-4x"></i>
+          <b class="media-heading">NINGUN COMENTARIO</b>
+          <p>Realiza un comentario !</p>
+        </div>';
 $INTROS['login'] = '<div class="media-body text-center">
           <i class="fa fa-sign-in fa-4x"></i>
           <b class="media-heading">INICIAR SESION</b>

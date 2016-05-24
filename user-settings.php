@@ -14,7 +14,7 @@
 <?php
 if($_SESSION['profile']['pic']!='')
 {
-  $LOCALVIEWS['form_settings_pic']['form']['data']['groups']['pic']['select']['selected']=$_SESSION['profile']['pic'];
+  $LOCALVIEWS['form_settings_pic']['form']['data']['groups']['pic']['select']['selected']=$_SESSION['profile']['pic'].'.png';
 }
 if(isset($_SESSION['profile']['networks']['facebook']))
 {
@@ -38,7 +38,7 @@ if(file_exists('images/pic/pic_'.$_SESSION['profile']['id'].'.jpg'))
 <?php
 if($_SESSION['profile']['cover']!='')
 {
-  $LOCALVIEWS['form_settings_cover']['form']['data']['groups']['cover']['select']['selected']=$_SESSION['profile']['cover'];
+  $LOCALVIEWS['form_settings_cover']['form']['data']['groups']['cover']['select']['selected']=$_SESSION['profile']['cover'].'.png';
 }
 if(file_exists('images/cover/cover_'.$_SESSION['profile']['id'].'.jpg'))
 {

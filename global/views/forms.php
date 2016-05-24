@@ -30,6 +30,33 @@ $FORMS['message']=array(
 											'button'	=> $BUTTONS['message']
 											)
 						);
+$FORMS['user_newmessage']=array(
+						'type'		=> 'message',
+						'attr'		=> array(
+											'class' => 'form col-xs-12',
+										 	'role'	=> 'form',
+										 	'action'=> URLSYSTEM.'?tab=mensajes',
+										 	'method'=> 'POST'	
+											),
+						'groups'	=> array(
+											'alert' 	=> false,
+											'message'	=> $GROUPS['message'],
+											'button'	=> $BUTTONS['message']
+											)
+						);
+$FORMS['user_message']=array(
+	'type'		=> 'message',
+						'attr'		=> array(
+											'class' => 'form',
+										 	'role'	=> 'form',
+										 	'action'=> URLSYSTEM.'?tab=mensajes',
+										 	'method'=> 'POST'	
+											),
+						'groups'	=> array(
+											'alert' 	=> false,
+											'message'	=> $GROUPS['lite_message']
+											)
+						);
 $FORMS['login']=array(
 						'type'		=> 'login',
 						'attr'		=> array(

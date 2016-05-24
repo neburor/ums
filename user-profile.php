@@ -221,83 +221,9 @@ include 'user-settings.php';
 ?>
           </div>
           <div role="tabpanel" class="tab-pane <?php echo $panel_tabs['mensajes'] ?>" id="profile-messages">
-            <div class="col-sm-push-1 col-sm-10 col-xs-12 xxs-nopadding">
-      <div class="col-xs-12 xxs-nopadding">
-      <div class="media">
-        <div class="media-body text-center">
-          <i class="fa fa-envelope fa-4x"></i>
-          <b class="media-heading">NINGUN MENSAJE</b>
-          <p>Escribenos un mensaje !</p>
-        </div> 
-      </div>
-         <form class="form" role="form">
-            <div class="result form-group">
-            </div>
-              <div class="form-group col-xs-12">
-                <div class="input-group">
-              <span class="input-group-addon addon-pyb"><i class="fa fa-edit"></i></span>
-              <textarea name="mensaje" placeholder="Escriba su mensaje a la administracion ..." class="form-control input-pyb"></textarea>
-            </div>
-              </div>
-              <div class="form-group text-right">
-                 <button type="submit" class="btn btn-default btn-pyb"><i class="fa fa-envelope"></i> Enviar mensaje</button>
-              </div>
-            </form><hr>
-      </div>
-      <div class="col-xs-12 xxs-nopadding">
-        <div class="media message reply">
-                <div class="media-left"><small><span class="label label-default">Hace 8 horas</span></small></div>
-                <div class="media-body text-right">
-                  <small href="" class="media-heading">Admin</small>
-                   <p>Hola, escribenos si necesitas ayuda</p>
-                </div>
-                
-                <div class="media-right">
-                  <a href="#">
-                    <img class="media-object" alt="" src="img/pic_admin.jpg">
-                  </a>
-                </div>
-              </div>
-         <div class="media message">
-                <div class="media-left">
-                  <a href="#">
-                    <img class="media-object" alt="" src="img/pic.jpg">
-                  </a>
-                </div>
-                <div class="media-body">
-                  <small href="" class="media-heading">Nebur Oirad <span class="label label-default pull-right">Hace 8 horas</span></small>
-                   <p>Deseó adoptar una perita pitbull. soy de Guadalajara jal. mex.</p>
-                </div>
-                
-              </div>
-               <div class="media message reply">
-                <div class="media-left"><small><span class="label label-default pull-right">Hace 8 horas</span></small></div>
-                
-                <div class="media-body text-right">
-                  <small href="" class="media-heading">Admin</small>
-                   <p>Hola, puedes <a href=""><i class="fa fa-search"></i> buscar</a> y completar el formulario de <a href=""><i class="fa fa-edit"></i> adoptantes</a> y en cuanto tengamos una coincidencia te lo notificaremos.</p>
-                </div>
-                <div class="media-right">
-                  <a href="#">
-                    <img class="media-object" alt="" src="img/pic_admin.jpg">
-                  </a>
-                </div>
-              </div>
-                <form class="form profile" role="form" tipo="contacto">
-         
-          <div class="form-group">
-            <div class="input-group">
-              <input name="mensaje" placeholder="Su mensaje a la administración ..." class="form-control input-pyb">
-              <div class="input-group-btn">
-              <button type="submit" class="btn btn-default btn-pyb"><i class="fa fa-share"></i></button>
-            </div>
-            </div>
-          </div>
-            <div class="result"></div>
-        </form>
-      </div>
-
-    </div>
+<?php
+include 'user-messages.php';
+?>
     </div>
         </div>
       </div>

@@ -128,6 +128,15 @@ $INPUTS['reply']=array(
 										),
 					'validations'	=> $VALIDATIONS['reply']
 					);
+$INPUTS['message']=array(
+					'attr'			=>	array(
+										'type'			=> 'text',
+										'class'			=> 'form-control',
+										'name'			=> 'message',
+										'placeholder'	=> 'Su mensaje ...'
+										),
+					'validations'	=> $VALIDATIONS['message']
+					);
 $INPUTS['pic']=array(
 					'attr'			=>	array(
 										'type'			=> 'file',

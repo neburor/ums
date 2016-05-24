@@ -217,9 +217,21 @@ $GROUPS['message']=array(
 										'display'		=> 'Mensaje',
 										'label'			=> false
 										),
-					'addon' 	=> $ADDONS['message'],
+					'addon' 	=> $ADDONS['edit'],
 					'textarea'	=> $TEXTAREAS['message'],
 					'button'	=> false
+					);
+$GROUPS['lite_message']=array(
+					'attr'		=> array(
+										'class'			=> 'form-group'
+										),
+					'params'	=> array(
+										'display'		=> 'Mensaje',
+										'label'			=> false
+										),
+					'addon' 	=> $ADDONS['edit'],
+					'textarea'	=> $INPUTS['message'],
+					'button'	=> $BUTTONS['reply']
 					);
 $GROUPS['reply']=array(
 					'attr'		=> array(
@@ -229,7 +241,7 @@ $GROUPS['reply']=array(
 										'display'		=> 'Respuesta',
 										'label'			=> false
 										),
-					'addon'		=> $ADDONS['message'],
+					'addon'		=> $ADDONS['edit'],
 					'input'		=> $INPUTS['reply'],
 					'button'	=> $BUTTONS['reply']
 					);

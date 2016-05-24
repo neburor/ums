@@ -63,6 +63,10 @@ if(isset($_POST)) // Si se reciben datos por post, se procesan
           }
           
         }
+        if($formtype=='message')
+        {
+          $formstatus=Insert($_POST);
+        }
 
     		$_SESSION['feedback'][$formid]['alert']=$formstatus['alert'];
 

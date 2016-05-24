@@ -32,7 +32,7 @@ $ADDONS['key']=array(
 									'i'=>'fa fa-key'
 									)
 					);
-$ADDONS['message']=array(
+$ADDONS['edit']=array(
 					'attr'		=>	array(
 									'class'	=>'input-group-addon'
 									),
