@@ -67,6 +67,14 @@ if(isset($_POST)) // Si se reciben datos por post, se procesan
         {
           $formstatus=Insert($_POST);
         }
+         if($formtype=='chat' || $formtype=='contact')
+        {
+          $formstatus=Insert_chat($_POST);
+        }
+        if($formtype=='comment')
+        {
+          $formstatus=Insert_comment($_POST);
+        }
 
     		$_SESSION['feedback'][$formid]['alert']=$formstatus['alert'];
 
@@ -178,5 +186,25 @@ if(isset($_GET))
   if(isset($_GET['confirmation']))
   {
     $_SESSION['feedback']['top']['alert']['success'] = 'Tu correo ha sido confirmado correctamente.';
+  }
+  if(isset($_SESSION['profile']) && (isset($_GET['like'])||isset($_GET['dislike'])))
+  {
+    if(isset($_GET['like']))
+    {
+      $_SESSION['feedback']['top']=Insert_likes(array(
+                                                'formtype'  => 'like',
+                                                'likeid'    => $_GET['element'],
+                                                'liketype'  => $_GET['like']
+                                                  ));
+    }
+    else
+    {
+      $_SESSION['feedback']['top']=Insert_likes(array(
+                                                'formtype'  => 'dislike',
+                                                'likeid'    => $_GET['element'],
+                                                'liketype'  => $_GET['dislike']
+                                                  ));
+    }
+    
   }
 }

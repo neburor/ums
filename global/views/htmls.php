@@ -149,12 +149,131 @@ function htmlPANEL($id,$panel,$params)
 
 	$htmlPANEL.='</div>';
 
+	if($panel['list-group'])
+			{
+				$htmlPANEL.=htmllistgroup($panel['list-group'],$params);
+			}
+
 	$htmlPANEL.='</div>';
 
 	return $htmlPANEL;
 }
+function htmllistgroup($list,$params)
+{
+	$htmllist='<ul class="list-group list-striped">';
+	foreach ($list as $li => $value) 
+	{
+		$htmllist.='<li class="list-group-item">';
+			foreach ($value as $key => $content) 
+			{
+				if($key=='media')
+				{
+					$htmllist.=htmlMedia($content,$params);
+				}
+				if($key=='tab')
+				{
+					$htmllist.=htmlTAB($content['id'],$content['data'],$params);
+				}
+				if($key=='text')
+				{
+					$htmllist.=htmltext($content);;
+				}
+			}
+			
+		$htmllist.='</li>';
+	}
+	
+	$htmllist.='</ul>';
+
+	return $htmllist;
+}
+function htmlMedia($media,$params)
+{
+	$htmlmedia='<div class="media" itemprop="comment" itemscope itemtype="http://schema.org/UserComments">';
+	if($media['left'])
+	{
+		$htmlmedia.='<div class="media-left">';
+		foreach ($media['left'] as $key => $value) 
+		{
+			if($key=='img')
+			{
+				$htmlmedia.=htmlIMG($value);
+			}
+		}
+		$htmlmedia.='</div>';	
+	}
+	if($media['body'])
+	{
+		$htmlmedia.='<div class="media-body">';
+		foreach ($media['body'] as $key => $value) 
+		{
+			if($key=='text')
+			{
+				$htmlmedia.=htmltext($value);
+			}
+			if($key=='heading')
+			{
+				$htmlmedia.=htmlMediaheading($value);
+			}
+			if($key=='tab')
+			{
+				$htmlmedia.=htmlTAB($value['id'],$value['data'],$params);
+			}
+			if($key=='form')
+			{
+				$htmlmedia.=htmlFORM($value['id'],$value['data']);
+			}
+		}
+		$htmlmedia.='</div>';
+	}
+	$htmlmedia.='</div>';
+
+	return $htmlmedia;
+}
+function htmlMediaheading($heading)
+{
+	$htmlheading='<span class="media-heading">';
+	
+	foreach ($heading as $key => $value) 
+	{
+		if($key=='text')
+		{
+			$htmlheading.='<span itemprop="creator" itemscope itemtype="http://schema.org/Person">'.htmltext($value).'</span>';
+		}
+		if($key=='time')
+		{
+			$htmlheading.='<small class="pull-right" itemprop="commentTime" datetime="'.$value.'">'.htmlAgo($value).'</small>';
+		}
+		
+	}
+	$htmlheading.='</span>';
+	
+	return $htmlheading;
+}
+function htmlAgo($time)
+{
+	$date=Interval($time);
+
+	$htmlago.='<span class="hidden-xxs">Hace </span>'.$date[0].' <span class="hidden-xxs">'.$date[1].'</span><span class="visible-xxs">'.$date[2].'</span>';
+
+	return $htmlago;
+}
+function htmlIMG($img)
+{
+	$htmlimg='<img';
+	foreach ($img as $attr => $value) {
+		$htmlimg.=' '.$attr.'="'.$value.'"';
+	}
+	$htmlimg.='>';
+	return $htmlimg;
+}
 function htmlTAB($id,$tabs,$params)
 {
+	if($tabs['params'])
+	{
+		$params = array_merge($tabs['params'], $params);
+	}
+
 	if($tabs['attr'])
 	{
 		$htmlTAB='<div ';
@@ -216,7 +335,7 @@ function htmlDIV($div,$callback)
 
 	return $htmlDIV;
 }
-function htmlFORM($id,$form,$callback)
+function htmlFORM($id,$form,$params)
 {
 	foreach ($form['groups'] as $group => $value) 
 	{
@@ -228,6 +347,22 @@ function htmlFORM($id,$form,$callback)
   				$warningFields++;
   				$alertfields[$value['params']['display']]=$feedback;
   			}
+		}
+
+		if($group=='fieldset' && $value)
+		{
+			foreach ($value['groups'] as $FSgroup => $FSvalue) 
+			{
+				if(isset($_SESSION['feedback'][$id][$FSgroup]['status']))
+				{
+					$feedback=$_SESSION['feedback'][$id][$FSgroup]['status'];
+					if($feedback!='valid' && $feedback!='norequired')
+  					{
+  						$warningFields++;
+  						$alertfields[$FSvalue['params']['display']]=$feedback;
+  					}
+				}
+			}
 		}
 	}
 
@@ -248,7 +383,7 @@ function htmlFORM($id,$form,$callback)
 	}
 	else
 	{
-		$htmlFORM='<form method="POST" action="'.URLSYSTEM.'">';
+		$htmlFORM='<form method="POST" action="">';
 	}
 
 	if($id)
@@ -259,31 +394,27 @@ function htmlFORM($id,$form,$callback)
 	{
 		$htmlFORM.='<input type="hidden" name="formtype" value="'.$form['type'].'">';
 	}
-	if($callback)
+	if($params['callback'])
 	{
-		$htmlFORM.='<input type="hidden" name="callback" value="'.$callback.'">';
+		$htmlFORM.='<input type="hidden" name="callback" value="'.$params['callback'].'">';
+	}
+	foreach ($form['hidden'] as $hidden => $value) {
+		$htmlFORM.='<input type="hidden" name="'.$hidden.'" value="'.$value.'">';	
 	}
 	if($form['links'])
 	{	
-		$htmlFORM.='<div class="form-group">'.htmllinks($form['links'],$callback).'</div>';
+		$htmlFORM.='<div class="form-group">'.htmllinks($form['links'],$params['callback']).'</div>';
 	}
-
+	if($form['signup'])
+	{
+		$htmlFORM.=htmlSignup($params['tab']);
+	}
 
 	foreach ($form['groups'] as $group => $value) 
 	{
-		if(isset($_SESSION['feedback'][$id][$group]['status']))
-		{
-			$feedback=$_SESSION['feedback'][$id][$group]['status'];
-			if($feedback!='valid' && $feedback!='norequired')
-  			{
-  				$warningFields++;
-  				$alertfields[$value['params']['display']]=$feedback;
-  			}
-		}
 		
 		if($group=='alert')
 		{
-			$htmlFORM.='<div class="result">';
 			if($_SESSION['feedback'][$id]['alert'])
 			{
 				$htmlFORM.=alerts($_SESSION['feedback'][$id]['alert']);
@@ -296,7 +427,6 @@ function htmlFORM($id,$form,$callback)
 			{
 				$htmlFORM.=alerts($value);
 			}
-			$htmlFORM.='</div>';
 		}
 		if($group=='button' && $value)
 		{
@@ -319,9 +449,13 @@ function htmlFORM($id,$form,$callback)
 		}
 		if($group=='fieldset' && $value)
 		{
-			$htmlFORM.=htmlfieldset($value,$callback);
+			$htmlFORM.=htmlfieldset($id,$value,$params);
 		}
-		if($group!='alert' && $group!='fieldset' && $group!='button' && $value)
+		if($group=='response')
+		{
+			$htmlFORM.=htmlResponse($value);
+		}
+		if($group!='alert' && $group!='fieldset' && $group!='button' && $group!='response' && $value)
 		{
 			$htmlFORM.=htmlgroup($value,$group,$id);
 		}
@@ -333,54 +467,105 @@ function htmlFORM($id,$form,$callback)
 
 	return $htmlFORM;
 }
+function htmlSignup($tab)
+{
+	$htmlSignup= '<div class="alert alert-info alert-dismissible fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button><i class="fa fa-info-circle"></i> Complete los siguientes campos o <a href="?tab='.$tab.'&nav=login#'.$tab.'" data-target="#'.$tab.'-login" action="tab">Inicie sesion</a> / <a href="?tab='.$tab.'&nav=signup#'.$tab.'" data-target="#'.$tab.'-signup" action="tab">Registarse</a></div>';
+	return $htmlSignup;
+}
+function htmlResponse($data)
+{
+	if($data==true)
+	{
+		$htmlResponse = '<div class="form-group response"></div>';
+	}
+	return $htmlResponse;
+}
 function htmltabnav($id,$navs,$params)
 {
-	$htmltabnav='<ul class="nav nav-tabs nav-login">';
+	$htmltabnav='<ul class="nav nav-tabs">';
 	foreach ($navs as $nav => $value) 
 	{
 		$i++;
 
 		$htmltabnav.='<li role="presentation"';
 
-		if($params['tab'])
+		if(($params['tab'] && $params['tab']==$id))
 		{
-			if($params['tab']==$nav)
+			$htmltabnav.=' class="';
+			if($params['nav']==$nav)
 			{
-				$htmltabnav.=' class="active"';	
+				$htmltabnav.='active';	
 			}
+			
+			if($value['class'])
+			{
+				$htmltabnav.=' '.$value['class'];
+			}
+			$htmltabnav.='"';
 		}
-		elseif($i==1)
+		elseif($i==1 && $nav!='like')
 		{
-			$htmltabnav.=' class="active"';
+			$htmltabnav.=' class="active';
+			if($value['class'])
+			{
+				$htmltabnav.=' '.$value['class'];
+			}
+			$htmltabnav.='"';
+		}
+		elseif($nav=='responses')
+		{
+			$htmltabnav.=' class="active';
+			if($value['class'])
+			{
+				$htmltabnav.=' '.$value['class'];
+			}
+			$htmltabnav.='"';
+		}
+		elseif($value['class'])
+		{
+			$htmltabnav.=' class="'.$value['class'].'"';
 		}
 
 		$htmltabnav.='><a href="';
 
-		if($nav=='signup')
+		if(($nav=='like' || $nav=='dislike') && $value['class']!='disabled')
 		{
-			$htmltabnav.=URLSYSTEM.'?signup#'.$nav;
+			$htmltabnav.='?tab='.$id.'&nav='.$nav.'&'.$nav.'='.$params['like']['type'].'&element='.$params['like']['element'].'#'.$id;
 		}
-		else 
+		elseif($nav=='logout')
 		{
-			$htmltabnav.=URLSYSTEM.'#'.$nav;
+			$htmltabnav.='?logout';
 		}
-		$htmltabnav.='" data-target="#'.$id.'-'.$nav.'" role="tab" data-toggle="tab" aria-controls="'.$id.'-'.$nav.'" aria-expanded="';
+		elseif($value['class']!='disabled')
+		{
+			$htmltabnav.='?tab='.$id.'&nav='.$nav.'#'.$id;
+		}
+		else
+		{
+			$htmltabnav.='#';
+		}
+
+		if($nav!='logout')
+		{
+			$htmltabnav.='" data-target="#'.$id.'-'.$nav.'" role="tab" data-toggle="tab" aria-controls="'.$id.'-'.$nav.'" aria-expanded="';
 		
-		if($params['tab'])
-		{
-			if($params['tab']==$nav)
+			if($params['tab'] && $params['tab']==$id)
 			{
-				$htmltabnav.='true';	
+				if($params['nav']==$nav)
+				{
+					$htmltabnav.='true';	
+				}
+			}
+			elseif($i==1)
+			{
+				$htmltabnav.='true';
+			}
+			else 
+			{
+				$htmltabnav.='false';
 			}
 		}
-		elseif($i==1)
-		{
-			$htmltabnav.='true';
-		}
-		else 
-		{
-			$htmltabnav.='false';
-		}
+		
 
 		$htmltabnav.='">';
 		foreach ($value as $key => $data) 
@@ -416,15 +601,19 @@ function htmltabpanel($id,$tabs,$params)
 		$htmltabpanel.='<div role="tabpanel" class="tab-pane fade';
 
 
-		if($params['tab'])
+		if($params['tab'] && $params['tab']==$id)
 		{
-			if($params['tab']==$tab)
+			if($params['nav']==$tab)
 			{
 				$htmltabpanel.=' active in';
 			}
 			
 		}
-		elseif($i==1)
+		elseif($i==1 && $tab!='like')
+		{
+			$htmltabpanel.=' active in';
+		}
+		elseif($tab=='responses')
 		{
 			$htmltabpanel.=' active in';
 		}
@@ -433,14 +622,26 @@ function htmltabpanel($id,$tabs,$params)
 
 		foreach ($value as $key => $data) 
 		{
-			if($key=='form')
+			if(($params['tab'] && $params['tab']==$id) || $i==1 || $tab=='responses')
 			{
-				$htmltabpanel.=htmlFORM($data['id'], $data['data'],'%23ums:'.$id.':tab:'.$id.'-'.$tab);
+				if($key=='form')
+				{
+					$htmltabpanel.=htmlFORM($data['id'], $data['data'],array('callback'=>'%23ums:'.$id.':tab:'.$id.'-'.$tab,'tab'=>$id));
+				}
+				if($key=='div')
+				{
+					$htmltabpanel.=htmlDIV($data, '%23ums:'.$id.':tab:'.$id.'-'.$tab);
+				}
+				if($key=='media')
+				{
+					$htmltabpanel.=htmlMedia($data,array('callback'=>'%23ums:'.$id.':tab:'.$id.'-'.$tab,'tab'=>$id));
+				}
+				if($key=='list-group')
+				{
+					$htmltabpanel.=htmllistgroup($data,array('callback'=>'%23ums:'.$id.':tab:'.$id.'-'.$tab,'tab'=>$id));
+				}
 			}
-			if($key=='div')
-			{
-				$htmltabpanel.=htmlDIV($data, '%23ums:'.$id.':tab:'.$id.'-'.$tab);
-			}
+			
 		}
 
 		$htmltabpanel.='</div>';
@@ -449,8 +650,9 @@ function htmltabpanel($id,$tabs,$params)
 
 	return $htmltabpanel;
 }
-function htmlfieldset ($fieldset,$callback)
+function htmlfieldset ($id,$fieldset,$params)
 {
+
 	if($fieldset['attr'])
 	{
 		$htmlfieldset.='<fieldset ';
@@ -470,21 +672,27 @@ function htmlfieldset ($fieldset,$callback)
 	}
 	$htmlfieldset.='>';
 
+	if($fieldset['links'])
+	{	
+		$htmlfieldset.='<div class="form-group">'.htmllinks($fieldset['links'],$params['callback']).'</div>';
+	}
+	if($fieldset['signup'])
+	{
+		$htmlfieldset.=htmlSignup($params['tab']);
+	}
+
 	foreach ($fieldset['groups'] as $group => $value) {
 		if($group=='alert' && $value)
 		{
-			$htmlfieldset.='<div class="result form-group">'.alerts($value).'</div>';
+			$htmlfieldset.=alerts($value);
 		}
 		if($group!='alert' && $value)
 		{
-			$htmlfieldset.=htmlgroup($value,$group);
+			$htmlfieldset.=htmlgroup($value,$group,$id);
 		}
 	}
 
-	if($fieldset['links'])
-	{	
-		$htmlfieldset.='<div class="form-group">'.htmllinks($fieldset['links'],$callback).'</div>';
-	}
+	
 
 	$htmlfieldset.='</fieldset>';
 
@@ -590,7 +798,12 @@ function htmlgroup($group,$field,$id)
 		$htmlGROUP.='<label for="'.$field.'">'.$group['params']['label'].'</label>';
 	}
 
-	$htmlGROUP.='<div class="input-group">';
+	if($group['addon'] || $group['button'])
+	{
+		$htmlGROUP.='<div class="input-group">';
+	}
+
+	
 	foreach ($group as $key => $value) 
 	{
 	 	if($key=='addon'&& $value)
@@ -610,8 +823,10 @@ function htmlgroup($group,$field,$id)
 	{
 		$htmlGROUP.= Feedback('icon',$feedback['status']);
 	}
-
-	$htmlGROUP.='</div>';
+	if($group['addon'] || $group['button'])
+	{
+		$htmlGROUP.='</div>';
+	}
 
 	if($group['params']['text'])
 	{
@@ -764,7 +979,7 @@ function htmlcheckbox($checkbox,$feedback)
 		$htmlcontrol.='<input ';
 		foreach ($checkbox['attr'] as $attr => $value) 
 		{
-			if($attr=='class' || $attr=='type' || $attr=='name')
+			if($attr=='class' || $attr=='type' || $attr=='name' || $attr=='value')
 			{
 				$i++;
 				if($i>0)
@@ -1028,16 +1243,24 @@ function htmliconfont($icon)
 }
 function htmltext($text=array())
 {
+	if(!$text['tag'])
+	{
+		$text['tag']='span';
+	}
+	$htmltext='<'.$text['tag'];
 	if($text['class'])
 	{
-		$htmltext='<span class="'.$text['class'].'">';	
+		 $htmltext.=' class="'.$text['class'].'"';	
 	}
-	else
+	if($text['itemprop'])
 	{
-		$htmltext='<span>';
+		$htmltext.=' itemprop="'.$text['itemprop'].'"';
 	}
+	$htmltext.='>';
+	
+	$htmltext.=$text['content'];
 
-	$htmltext.=$text['content'].'</span>';
+	$htmltext.='</'.$text['tag'].'>';
 
 	return $htmltext;
 }

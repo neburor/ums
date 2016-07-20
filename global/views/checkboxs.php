@@ -23,9 +23,19 @@ $CHECKBOXS['autopass']=array(
 $CHECKBOXS['signon']=array(
 					'attr'			=>	array(
 										'type'			=> 'checkbox',
-										'name'			=> 'signon',
+										'name'			=> 'funnel',
+										'value'			=> 'signon',
 										'checked'		=> true,
 										'placeholder'	=> ' Crear cuenta GRATIS !'
+										),
+					'validations'	=> $VALIDATIONS['action']
+					);
+$CHECKBOXS['guest']=array(
+					'attr'			=>	array(
+										'type'			=> 'checkbox',
+										'name'			=> 'guest',
+										'checked'		=> false,
+										'placeholder'	=> ' Publicar como anonimo'
 										),
 					'validations'	=> $VALIDATIONS['action']
 					);

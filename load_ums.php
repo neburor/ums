@@ -1,6 +1,7 @@
 <?php
 #UMS - Administracion de usuarios WEB
 include 'global/config.php';
+include 'global/functions.php';
 include 'global/validations.php';
 include 'global/views/localviews.php';
 

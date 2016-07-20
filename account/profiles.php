@@ -161,7 +161,6 @@ function profile_search ($search,$params = array())
     {
         $row[0]['notifs']=notif_search($row[0]['id']);
     }
-    
     return $row[0];
 }
 function SearchNetwork ($search,$params = array())
@@ -478,4 +477,21 @@ function funnel_activity($profile=array())
     }
 
     return $response;
+}
+function UserMin($params)
+{
+    $profile = profile_search('id',$params);
+
+    $user['name']=$profile['name'];
+
+    if($profile['pic']!='local')
+    {
+        $user['pic']=$profile['networks'][$profile['pic']]['pic'];
+    }
+    else
+    {
+        $user['pic']='images/pic/pic_'.$_SESSION['profile']['id'].'.jpg';
+    }
+
+    return $user;
 }

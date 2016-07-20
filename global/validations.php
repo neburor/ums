@@ -38,13 +38,13 @@ $VALIDATIONS['message']	= array(
 							'maxlength'	=> 512,
 							'required'	=> true
 							);
-$VALIDATIONS['reply']	= array(
+$VALIDATIONS['comment']	= array(
 							'pregmatch' => false,
 							'minlength'	=> 8,
-							'maxlength'	=> 512,
+							'maxlength'	=> 1024,
 							'required'	=> true
 							);
-$VALIDATIONS['comment']	= array(
+$VALIDATIONS['reply']	= array(
 							'pregmatch' => false,
 							'minlength'	=> 8,
 							'maxlength'	=> 512,

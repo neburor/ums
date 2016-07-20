@@ -3,20 +3,19 @@
 include 'groups.php';
 
 $FORMS['message']=array(
-						'type'		=> 'message',
+						'type'		=> 'contact',
 						'attr'		=> array(
 											'class' => 'form',
 										 	'role'	=> 'form',
-										 	'action'=> URLSYSTEM,
 										 	'method'=> 'POST'	
 											),
 						'groups'	=> array(
-											'alert' 	=> false,
+											'alert'		=> false,
 											'message'	=> $GROUPS['message'],
 											'fieldset'	=> array(
 												'attr'	=> array('class'=>'well well-sm'),
+												'signup'=> true,
 												'groups'=> array(
-													'alert'		=> $ALERTS['signon'],
 													'name'		=> $GROUPS['name'],
 													'email'		=> $GROUPS['email'],
 													'signon'	=> $GROUPS['signon']
@@ -27,33 +26,134 @@ $FORMS['message']=array(
 														'twitter'	=> $LINKS['login_twitter']
 														)
 												),
+											'response'  => true,
 											'button'	=> $BUTTONS['message']
 											)
 						);
+$FORMS['comment']=array(
+						'type'		=> 'comment',
+						'attr'		=> array(
+											'class' => 'form',
+										 	'role'	=> 'form',
+										 	'method'=> 'POST'	
+											),
+						'links'		=> array(
+											'label'		=> 'Conectarse con :',
+											'facebook'	=> $LINKS['login_facebook'],
+											'twitter'	=> $LINKS['login_twitter']
+											),
+						'signup'	=> true,
+						'groups'	=> array(
+											'alert' 	=> false,
+											'name'		=> $GROUPS['name'],
+											'email'		=> $GROUPS['email'],
+											'signon'	=> $GROUPS['signon'],
+											'comment'	=> $GROUPS['comment'],
+											'guest'		=> $GROUPS['guest'],
+											'response'  => true,
+											'button'	=> $BUTTONS['comment']
+											)
+						);
+$FORMS['like']=array(
+						'type'		=> 'like',
+						'attr'		=> array(
+											'class' => 'form',
+										 	'role'	=> 'form',
+										 	'method'=> 'POST'	
+											),
+						'links'		=> array(
+											'label'		=> 'Conectarse con :',
+											'facebook'	=> $LINKS['login_facebook'],
+											'twitter'	=> $LINKS['login_twitter']
+											),
+						'signup'	=> false,
+						'groups'	=> array(
+											'alert' 	=> false,
+											'name'		=> $GROUPS['name'],
+											'email'		=> $GROUPS['email'],
+											'signon'	=> $GROUPS['signon'],
+											'response'  => true,
+											'button'	=> $BUTTONS['like']
+											)
+						);
+$FORMS['dislike']=array(
+						'type'		=> 'dislike',
+						'attr'		=> array(
+											'class' => 'form',
+										 	'role'	=> 'form',
+										 	'method'=> 'POST'	
+											),
+						'links'		=> array(
+											'label'		=> 'Conectarse con :',
+											'facebook'	=> $LINKS['login_facebook'],
+											'twitter'	=> $LINKS['login_twitter']
+											),
+						'signup'	=> false,
+						'groups'	=> array(
+											'alert' 	=> false,
+											'name'		=> $GROUPS['name'],
+											'email'		=> $GROUPS['email'],
+											'signon'	=> $GROUPS['signon'],
+											'response'  => true,
+											'button'	=> $BUTTONS['dislike']
+											)
+						);
+$FORMS['user_comment']=array(
+						'type'		=> 'comment',
+						'attr'		=> array(
+											'class' => 'form',
+										 	'role'	=> 'form',
+										 	'method'=> 'POST'	
+											),
+						'groups'	=> array(
+											'alert' 	=> false,
+											'comment'	=> $GROUPS['comment_user'],
+											'guest'		=> $GROUPS['guest'],
+											'response'  => true,
+											'button'	=> $BUTTONS['comment']
+											)
+						);
 $FORMS['user_newmessage']=array(
-						'type'		=> 'message',
+						'type'		=> 'chat',
 						'attr'		=> array(
 											'class' => 'form col-xs-12',
 										 	'role'	=> 'form',
-										 	'action'=> URLSYSTEM.'?tab=mensajes',
+										 	'action'=> '?tab=mensajes',
 										 	'method'=> 'POST'	
 											),
 						'groups'	=> array(
 											'alert' 	=> false,
 											'message'	=> $GROUPS['message'],
+											'response'	=> true,
 											'button'	=> $BUTTONS['message']
 											)
 						);
-$FORMS['user_message']=array(
-	'type'		=> 'message',
+$FORMS['message_user']=array(
+						'type'		=> 'chat',
 						'attr'		=> array(
 											'class' => 'form',
 										 	'role'	=> 'form',
-										 	'action'=> URLSYSTEM.'?tab=mensajes',
+										 	'action'=> '',
 										 	'method'=> 'POST'	
 											),
 						'groups'	=> array(
 											'alert' 	=> false,
+											'message'	=> $GROUPS['message_user'],
+											'response'	=> true,
+											'button'	=> $BUTTONS['message']
+											)
+						);
+$FORMS['user_message']=array(
+						'type'		=> 'chat',
+						'attr'		=> array(
+											'class' => 'form',
+										 	'role'	=> 'form',
+										 	'action'=> '?tab=mensajes',
+										 	'method'=> 'POST'	
+											),
+						'groups'	=> array(
+											'alert' 	=> false,
+											'response'	=> true,
 											'message'	=> $GROUPS['lite_message']
 											)
 						);
@@ -62,19 +162,14 @@ $FORMS['login']=array(
 						'attr'		=> array(
 											'class' => 'form',
 										 	'role'	=> 'form',
-										 	'action'=> URLSYSTEM,
 										 	'method'=> 'POST'	
-											),
-						'links'		=> array(
-										'label'		=> 'Conectarse con :',
-										'facebook'	=> $LINKS['login_facebook'],
-										'twitter'	=> $LINKS['login_twitter']
 											),
 						'groups'	=> array(
 											'alert' 	=> false,
 											'useremail'	=> $GROUPS['useremail'],
 											'userpass'	=> $GROUPS['userpass'],
 											'autologin'	=> $GROUPS['autologin'],
+											'response'	=> true,
 											'button'	=> $BUTTONS['login']
 											)
 						);
@@ -84,10 +179,9 @@ $FORMS['signup']=array(
 						'attr'		=> array(
 											'class' => 'form',
 										 	'role'	=> 'form',
-										 	'action'=> URLSYSTEM.'?signup',
+										 	'action'=> '?signup',
 										 	'method'=> 'POST'	
 											),
-						'links'		=> array('facebook'=>$LINKS['signup_facebook'],'twitter'=>$LINKS['signup_twitter']),
 						'groups'	=> array(
 											'alert' 	=> false,
 											'username'	=> $GROUPS['username'],
@@ -95,6 +189,7 @@ $FORMS['signup']=array(
 											'pass'		=> $GROUPS['pass'],
 											'repass'	=> $GROUPS['repass'],
 											'autopass'	=> $GROUPS['autopass'],
+											'response'	=> true,
 											'button'	=> $BUTTONS['signup']
 											)
 						);
@@ -103,12 +198,13 @@ $FORMS['user_settings_name']=array(
 						'attr'		=> array(
 											'class'	=> 'form',
 											'role'	=> 'form',
-											'action'=> URLSYSTEM.'?tab=preferencias',
+											'action'=> '?tab=preferencias',
 											'method'=> 'POST'
 											),
 						'groups'	=> array(
 											'alert' 	=> false,
 											'name'	=> $GROUPS['profilename'],
+											'response'	=> true,
 											'button'	=> $BUTTONS['save']
 											)
 						);
@@ -117,7 +213,7 @@ $FORMS['user_settings_login1']=array(
 						'attr'		=> array(
 											'class'	=> 'form',
 											'role'	=> 'form',
-											'action'=> URLSYSTEM.'?tab=preferencias',
+											'action'=> '?tab=preferencias',
 											'method'=> 'POST'
 											),
 						'groups'	=> array(
@@ -126,6 +222,7 @@ $FORMS['user_settings_login1']=array(
 											'userpass'	=> $GROUPS['activepass'],
 											'pass'		=> $GROUPS['newpass'],
 											'repass'	=> $GROUPS['newrepass'],
+											'response'	=> true,
 											'button'	=> $BUTTONS['save']
 											)
 						);
@@ -134,7 +231,7 @@ $FORMS['user_settings_pass1']=array(
 						'attr'		=> array(
 											'class'	=> 'form',
 											'role'	=> 'form',
-											'action'=> URLSYSTEM.'?tab=preferencias',
+											'action'=> '?tab=preferencias',
 											'method'=> 'POST'
 											),
 						'groups'	=> array(
@@ -142,6 +239,7 @@ $FORMS['user_settings_pass1']=array(
 											'userpass'	=> $GROUPS['activepass'],
 											'pass'		=> $GROUPS['newpass'],
 											'repass'	=> $GROUPS['newrepass'],
+											'response'	=> true,
 											'button'	=> $BUTTONS['save']
 											)
 						);
@@ -150,13 +248,14 @@ $FORMS['user_settings_pass2']=array(
 						'attr'		=> array(
 											'class'	=> 'form',
 											'role'	=> 'form',
-											'action'=> URLSYSTEM.'?tab=preferencias',
+											'action'=> '?tab=preferencias',
 											'method'=> 'POST'
 											),
 						'groups'	=> array(
 											'alert' 	=> false,
 											'pass'		=> $GROUPS['newpass'],
 											'repass'	=> $GROUPS['newrepass'],
+											'response'	=> true,
 											'button'	=> $BUTTONS['save']
 											)
 						);
@@ -165,12 +264,13 @@ $FORMS['user_settings_pic']=array(
 						'attr'		=> array(
 											'class'	=> 'form',
 											'role'	=> 'form',
-											'action'=> URLSYSTEM.'?tab=preferencias',
+											'action'=> '?tab=preferencias',
 											'method'=> 'POST'
 											),
 						'groups'	=> array(
 											'alert' 	=> false,
 											'pic'		=> $GROUPS['pic'],
+											'response'	=> true,
 											'button'	=> $BUTTONS['save']
 											)
 						);
@@ -179,12 +279,13 @@ $FORMS['user_settings_pic_upload']=array(
 						'attr'		=> array(
 											'class'	=> 'form',
 											'role'	=> 'form',
-											'action'=> URLSYSTEM.'?tab=preferencias',
+											'action'=> '?tab=preferencias',
 											'method'=> 'POST',
 											'enctype'=>'multipart/form-data'
 											),
 						'groups'	=> array(
 											'alert' 	=> false,
+											'response'	=> true,
 											'pic'		=> $GROUPS['pic_upload']
 											)
 						);
@@ -193,12 +294,13 @@ $FORMS['user_settings_cover']=array(
 						'attr'		=> array(
 											'class'	=> 'form',
 											'role'	=> 'form',
-											'action'=> URLSYSTEM.'?tab=preferencias',
+											'action'=> '?tab=preferencias',
 											'method'=> 'POST'
 											),
 						'groups'	=> array(
 											'alert' 	=> false,
 											'cover'		=> $GROUPS['cover'],
+											'response'	=> true,
 											'button'	=> $BUTTONS['save']
 											)
 						);
@@ -207,12 +309,13 @@ $FORMS['user_settings_cover_upload']=array(
 						'attr'		=> array(
 											'class'	=> 'form',
 											'role'	=> 'form',
-											'action'=> URLSYSTEM.'?tab=preferencias',
+											'action'=> '?tab=preferencias',
 											'method'=> 'POST',
 											'enctype'=>'multipart/form-data'
 											),
 						'groups'	=> array(
 											'alert' 	=> false,
+											'response'	=> true,
 											'cover'		=> $GROUPS['cover_upload']
 											)
 						);
@@ -222,11 +325,12 @@ $FORMS['user_settings_email']=array(
 						'attr'		=> array(
 											'class'	=> 'form',
 											'role'	=> 'form',
-											'action'=> URLSYSTEM.'?tab=preferencias',
+											'action'=> '?tab=preferencias',
 											'method'=> 'POST'
 											),
 						'groups'	=> array(
 											'alert' 	=> false,
+											'response'	=> true,
 											'email'	=> $GROUPS['notifemail']
 											)
 						);

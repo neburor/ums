@@ -174,7 +174,7 @@ $GROUPS['newrepass']=array(
 					);
 $GROUPS['signon']=array(
 					'attr'		=> array(
-										'class'			=> 'form-group'
+										'class'			=> 'form-group col-xs-12'
 										),
 					'params'	=> array(
 										'display'		=> 'Crear cuenta',
@@ -182,6 +182,18 @@ $GROUPS['signon']=array(
 										),
 					'addon' 	=> false,
 					'checkbox'	=> $CHECKBOXS['signon'],
+					'button'	=> false
+					);
+$GROUPS['guest']=array(
+					'attr'		=> array(
+										'class'			=> 'form-group col-xs-12'
+										),
+					'params'	=> array(
+										'display'		=> 'Publicar como anonimo',
+										'label'			=> false
+										),
+					'addon' 	=> false,
+					'checkbox'	=> $CHECKBOXS['guest'],
 					'button'	=> false
 					);
 $GROUPS['autopass']=array(
@@ -208,7 +220,30 @@ $GROUPS['autologin']=array(
 					'checkbox'	=> $CHECKBOXS['autologin'],
 					'button'	=> false
 					);
-
+$GROUPS['comment']=array(
+					'attr'		=> array(
+										'class'			=> 'form-group col-xs-12'
+										),
+					'params'	=> array(
+										'display'		=> 'Comentario',
+										'label'			=> false
+										),
+					'addon' 	=> $ADDONS['edit'],
+					'textarea'	=> $TEXTAREAS['comment'],
+					'button'	=> false
+					);
+$GROUPS['comment_user']=array(
+					'attr'		=> array(
+										'class'			=> 'form-group'
+										),
+					'params'	=> array(
+										'display'		=> 'Comentario',
+										'label'			=> false
+										),
+					'addon' 	=> false,
+					'textarea'	=> $TEXTAREAS['comment'],
+					'button'	=> false
+					);
 $GROUPS['message']=array(
 					'attr'		=> array(
 										'class'			=> 'form-group'
@@ -221,6 +256,18 @@ $GROUPS['message']=array(
 					'textarea'	=> $TEXTAREAS['message'],
 					'button'	=> false
 					);
+$GROUPS['message_user']=array(
+					'attr'		=> array(
+										'class'			=> 'form-group'
+										),
+					'params'	=> array(
+										'display'		=> 'Mensaje',
+										'label'			=> false
+										),
+					'addon' 	=> false,
+					'textarea'	=> $TEXTAREAS['message'],
+					'button'	=> false
+					);
 $GROUPS['lite_message']=array(
 					'attr'		=> array(
 										'class'			=> 'form-group'
@@ -230,7 +277,7 @@ $GROUPS['lite_message']=array(
 										'label'			=> false
 										),
 					'addon' 	=> $ADDONS['edit'],
-					'textarea'	=> $INPUTS['message'],
+					'input'	=> $INPUTS['message'],
 					'button'	=> $BUTTONS['reply']
 					);
 $GROUPS['reply']=array(

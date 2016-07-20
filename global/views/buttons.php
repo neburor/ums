@@ -18,10 +18,82 @@ $BUTTONS['message']=array(
 													'content'	=> 'Mensaje enviado'
 													)
 									),
-					'error'		=> array(
+					'warning'		=> array(
 									'i'=>'fa fa-warning',
 									'text'=> array(	'class' => false,
 													'content'	=> 'Reintentar'
+													)
+									)
+					);
+$BUTTONS['comment']=array(
+					'attr'		=>	array(
+									'type'	=> 'submit',
+									'class'	=> 'btn btn-default btn-block'
+									),
+					'content'	=>	array(
+									'text'=> array(	'class' => false,
+													'content'	=> 'Agregar comentario'
+													),
+									'i'=>'fa fa-share'
+									),
+					'success'	=> array(
+									'i'=>'fa fa-check-circle',
+									'text'=> array(	'class' => false,
+													'content'	=> 'Comentario enviado'
+													)
+									),
+					'warning'		=> array(
+									'i'=>'fa fa-warning',
+									'text'=> array(	'class' => false,
+													'content'	=> 'Reintentar'
+													)
+									)
+					);
+$BUTTONS['like']=array(
+					'attr'		=>	array(
+									'type'	=> 'submit',
+									'class'	=> 'btn btn-default'
+									),
+					'content'	=>	array(
+									'i'		=> 'fa fa-thumbs-o-up',
+									'text'	=> array(	'class' => false,
+														'content'	=> 'Me gusta'
+													)
+									),
+					'success'	=> array(
+									'i'		=> 'fa fa-check-circle',
+									'text'	=> array(	'class' => false,
+														'content'	=> 'Correcto'
+													)
+									),
+					'warning'	=> array(
+									'i'		=> 'fa fa-warning',
+									'text'	=> array(	'class' => false,
+														'content'	=> 'Reintentar'
+													)
+									)
+					);
+$BUTTONS['dislike']=array(
+					'attr'		=>	array(
+									'type'	=> 'submit',
+									'class'	=> 'btn btn-default'
+									),
+					'content'	=>	array(
+									'i'		=> 'fa fa-thumbs-o-down',
+									'text'	=> array(	'class' => false,
+														'content'	=> 'No me gusta'
+													)
+									),
+					'success'	=> array(
+									'i'		=> 'fa fa-check-circle',
+									'text'	=> array(	'class' => false,
+														'content'	=> 'Correcto'
+													)
+									),
+					'warning'	=> array(
+									'i'		=> 'fa fa-warning',
+									'text'	=> array(	'class' => false,
+														'content'	=> 'Reintentar'
 													)
 									)
 					);

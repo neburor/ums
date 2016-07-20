@@ -7,9 +7,9 @@
 <div class="row">
   <div class="col-md-8 col-md-push-2 xxs-nopadding">';
 
-  if(isset($_GET['signup']))
+  if(isset($_GET['tab']))
   {
-    echo HTML('panel_profile',array('tab'=>'signup'));
+    echo HTML('panel_profile',array('tab'=>$_GET['tab'],'nav'=>$_GET['nav']));
   }
   else
   {

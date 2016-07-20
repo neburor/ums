@@ -16,7 +16,7 @@ include 'load_ums.php';
 <meta name="MobileOptimized" content="width" />
 <meta name="HandheldFriendly" content="true" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UMS</title>
+<title>Perfil</title>
 <meta name="description" content="Perfil de usuario" />
 <link rel="image_src" href="" />
 
@@ -42,35 +42,17 @@ include 'load_ums.php';
 if($_SESSION['feedback']['top'])
 {
   echo alerts($_SESSION['feedback']['top']['alert']);
-  unset($_SESSION['feedback']['top']['alert']);
 }
 
 if(isset($_SESSION['profile']))
 {
-  echo '<nav class="navbar navbar-inverse navbar-static-top">
-  <div class="container-fluid">
-    <div class="navbar-header pull-left">
-      <a class="navbar-brand" href="http://ums.hostingmex.com.mx/"><img src="http://www.hostingmex.com.mx/imagenes/hostingmex-logo.png" alt="Administracion de usuarios Web"></a>
-    </div>
-    <ul class="nav navbar-nav pull-right">
-      <li><a href="?logout" class=""><i class="fa fa-power-off"></i> <span class="">Salir</span></a></li>
-    </ul>
-  </div><!-- /.container-fluid -->
-</nav>';
- #include 'user-profile.php';
+
+ include 'user-profile.php';
 }
 else
 {
- #include 'login-signup.php'; 
+ include 'login-signup.php'; 
 }
-echo '<div class="container"><div class="row">
-  <div class="col-md-8 col-md-push-2">';
- include 'messages/messages.php';
-echo '</div></div></div>';
-echo '<div class="container"><div class="row">
-  <div class="col-md-8 col-md-push-2">';
- include 'comments/comments.php';
-echo '</div></div></div>';
 
 ?>
 

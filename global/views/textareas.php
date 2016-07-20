@@ -10,3 +10,11 @@ $TEXTAREAS['message']=array(
 										),
 					'validations'	=> $VALIDATIONS['message']
 					);
+$TEXTAREAS['comment']=array(
+					'attr'			=>	array(
+										'class'			=> 'form-control',
+										'name'			=> 'comment',
+										'placeholder'	=> 'Escriba su comentario ...'
+										),
+					'validations'	=> $VALIDATIONS['comment']
+					);

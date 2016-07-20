@@ -283,7 +283,7 @@ function Insert($post = array())
     $post = array_merge(array(
         'creation_date' => date("Y-m-d H:i:s"),
         'domain'        => UMSDOMAIN,
-        'url'           => 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'],
+        'url'           => 'http://'.$_SERVER['HTTP_HOST'].strtok($_SERVER["REQUEST_URI"],'?'),
         'profile_id'    => $profile['id']
         ), $post);
 
@@ -322,12 +322,279 @@ function Insert($post = array())
     return $response;
 }
 
-function DB($post=array(), $formtype)
+function Insert_chat($post = array())
+{   
+    if($post['funnel']=='signon')
+    {
+        $post['pass']=substr(md5(uniqid(rand())),0,4);
+    }
+    if (!isset($_SESSION['profile']))  //Si no hay perfil
+    {
+        $profile = profiles(array(  // Si no hay perfil identificado se busca o crea
+                    'domain'    => UMSDOMAIN,
+                    'device'    => $_COOKIE['device'],
+                    'funnel'    => $post['funnel'],
+                    'name'      => $post['name'],
+                    'email'     => $post['email'],
+                    'pass'      => $post['pass']
+                    ));
+    }
+    else
+    {
+        $profile['id']=$_SESSION['profile']['id'];
+    }
+    if($profile['status']=='new')
+    {
+        $_SESSION['profile']=$profile;
+    }
+
+    $post = array_merge(array(
+        'domain'        => UMSDOMAIN,
+        'url'           => 'http://'.$_SERVER['HTTP_HOST'].strtok($_SERVER["REQUEST_URI"],'?'),
+        'type'          => $post['formtype'],
+        'from'          => $profile['id'],
+        'to'            => 0,
+        'date'          => date("Y-m-d H:i:s")
+        ), $post);
+
+    $formtype=$post['formtype'];
+
+    unset($post['token']);
+    unset($post['device']);
+
+    unset($post['formid']);
+    unset($post['formtype']);
+    unset($post['callback']);
+
+    unset($post['funnel']);
+    unset($post['name']);
+    unset($post['email']);
+    unset($post['pass']);
+
+
+    $db=DB($post);
+
+    $insert = '
+    INSERT INTO `chat`
+    (`id`, '.$db["columns"].')
+    VALUES (NULL,'.$db["values"].')
+    ';
+ 
+    if(mysql_query($insert))
+    {
+        $response['alert']['success'] = 'Gracias por contactarnos, pronto te responderemos';
+    }
+    else
+    {
+        $response['alert']['warning'] = 'Disculpa no se guardo tu mensaje, por favor intenta más tarde.';
+    }
+
+    return $response;
+}
+function Insert_comment($post = array())
+{   
+    if($post['funnel']=='signon')
+    {
+        $post['pass']=substr(md5(uniqid(rand())),0,4);
+    }
+    if (!isset($_SESSION['profile']))  //Si no hay perfil
+    {
+        $profile = profiles(array(  // Si no hay perfil identificado se busca o crea
+                    'domain'    => UMSDOMAIN,
+                    'device'    => $_COOKIE['device'],
+                    'funnel'    => $post['funnel'],
+                    'name'      => $post['name'],
+                    'email'     => $post['email'],
+                    'pass'      => $post['pass']
+                    ));
+    }
+    else
+    {
+        $profile['id']=$_SESSION['profile']['id'];
+    }
+
+    $post = array_merge(array(
+        'domain'        => UMSDOMAIN,
+        'url'           => 'http://'.$_SERVER['HTTP_HOST'].strtok($_SERVER["REQUEST_URI"],'?'),
+        'from'          => $profile['id'],
+        'to'            => $post['replyto'],
+        'form'          => $post['formtype'],
+        'date'          => date("Y-m-d H:i:s")
+        ), $post);
+
+    $formtype=$post['formtype'];
+
+    unset($post['token']);
+    unset($post['device']);
+
+    unset($post['formid']);
+    unset($post['formtype']);
+    unset($post['callback']);
+
+    unset($post['funnel']);
+    unset($post['name']);
+    unset($post['email']);
+    unset($post['pass']);
+    unset($post['replyto']);
+
+
+    $db=DB($post);
+
+    $insert = '
+    INSERT INTO `comments`
+    (`id`, '.$db["columns"].')
+    VALUES (NULL,'.$db["values"].')
+    ';
+ 
+    if(mysql_query($insert))
+    {
+        $response['alert']['success'] = 'Gracias por tu comentario.';
+    }
+    else
+    {
+        $response['alert']['warning'] = 'Disculpa no se guardo tu comentario, por favor intenta más tarde.';
+    }
+
+    return $response;
+}
+function Insert_likes($post = array())
+{   
+    if($post['funnel']=='signon')
+    {
+        $post['pass']=substr(md5(uniqid(rand())),0,4);
+    }
+    if (!isset($_SESSION['profile']))  //Si no hay perfil
+    {
+        $profile = profiles(array(  // Si no hay perfil identificado se busca o crea
+                    'domain'    => UMSDOMAIN,
+                    'device'    => $_COOKIE['device'],
+                    'funnel'    => $post['funnel'],
+                    'name'      => $post['name'],
+                    'email'     => $post['email'],
+                    'pass'      => $post['pass']
+                    ));
+    }
+    else
+    {
+        $profile['id']=$_SESSION['profile']['id'];
+    }
+    if($profile['status']=='new')
+    {
+        $_SESSION['profile']=$profile;
+    }
+
+    $formtype=$post['formtype'];
+
+    if($formtype=='like')
+    {
+        $like='1';
+    }
+    else
+    {
+        $like='-1';
+    }
+
+    $post = array_merge(array(
+        'date'          => date("Y-m-d H:i:s"),
+        'profile_id'    => $profile['id'],
+        'type'          => $post['liketype'],
+        'element'       => $post['likeid'],
+        'like'          => $like
+        ), $post);
+
+    
+
+    unset($post['token']);
+    unset($post['device']);
+
+    unset($post['formid']);
+    unset($post['formtype']);
+    unset($post['callback']);
+
+    unset($post['funnel']);
+    unset($post['name']);
+    unset($post['email']);
+    unset($post['pass']);
+
+    unset($post['likeid']);
+    unset($post['liketype']);
+
+    $liked=Search_likes(array(  
+                            'profile' => $profile['id'],
+                            'type'    => $post['type'],
+                            'element' => $post['element']
+                            ));
+
+    if($liked)
+    {
+        if($formtype=='like')
+        {
+            $updateLike=Update_likes(array(  
+                            'id'    => $liked['id'],
+                            'like'  => '1'
+                            ));
+        }
+        else
+        {
+            $updateLike=Update_likes(array(  
+                            'id'    => $liked['id'],
+                            'like'  => '-1'
+                            ));
+        }
+
+    }
+    else
+    {
+        $db=DB($post);
+
+        $insert = '
+            INSERT INTO `likes`
+            (`id`, '.$db["columns"].')
+            VALUES (NULL,'.$db["values"].')
+            ';
+    }
+    
+ 
+    if(mysql_query($insert) || $updateLike)
+    {
+        $response['alert']['success'] = 'Gracias por participar.';
+    }
+    else
+    {
+        $response['alert']['warning'] = 'Disculpa no se guardo, por favor intenta más tarde.';
+    }
+
+    return $response;
+}
+function Update_likes($post=array())
 {
-    global $DB;
-    $db['name']=$DB[$formtype]['dbname'];
-    $db['alert']['success']=$DB[$formtype]['success'];
-    $db['alert']['warnning']=$DB[$formtype]['warning'];
+    $update="
+        UPDATE `likes`
+        SET `like` = '".$post['like']."' 
+        WHERE `id` = '".$post['id']."'
+        LIMIT 1";
+
+    return mysql_query($update);
+}
+function Search_likes($post=array())
+{
+    $sql=mysql_query("
+        SELECT `id`,`like` FROM `likes` 
+        WHERE `profile_id` = '".$post['profile']."'
+        AND `type`    = '".$post['type']."'
+        AND `element` = '".$post['element']."'
+        ");
+     $rows = array();
+        
+    while($i = mysql_fetch_assoc($sql)) 
+    {
+        $rows[] = $i;
+    }
+
+    return $rows[0];
+}
+function DB($post=array())
+{
     $count=0;
     $columns ='';
     $values ='';

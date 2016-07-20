@@ -47,7 +47,7 @@
           <div class="media-body"><h1 class="media-heading"><?php echo $_SESSION['profile']['name']?></h1>
           <?php
           $panel_tabs=array(
-              '' => '', 
+              'inicio' => '', 
               'mensajes' => '', 
               'comentarios' => '', 
               'preferencias' => ''
@@ -65,12 +65,12 @@
           }
           else 
           {
-            $panel_tabs['']='active';
+            $panel_tabs['inicio']='active';
           }
 
           ?>
           <ul class="nav nav-tabs cover-nav hidden-xs">
-          <li role="presentation" class="<?php echo $panel_tabs[''] ?>"><a href="/" data-target="#profile-home" role="tab" data-toggle="tab" aria-controls="profile-home" aria-expanded="false"> <i class="fa fa-bookmark"></i> <span>Inicio</span></a></li>
+          <li role="presentation" class="<?php echo $panel_tabs['inicio'] ?>"><a href="?tab=inicio" data-target="#profile-home" role="tab" data-toggle="tab" aria-controls="profile-home" aria-expanded="false"> <i class="fa fa-bookmark"></i> <span>Inicio</span></a></li>
           <li role="presentation" class="<?php echo $panel_tabs['mensajes'] ?>"><a href="?tab=mensajes" data-target="#profile-messages" role="tab" data-toggle="tab" aria-controls="profile-messages" aria-expanded="false"> <i class="fa fa-envelope"></i> <span>Mensajes</span></a></li>
           <li role="presentation" class="<?php echo $panel_tabs['comentarios'] ?>"><a href="?tab=comentarios" data-target="#profile-comments" role="tab" data-toggle="tab" aria-controls="profile-comments" aria-expanded="false"> <i class="fa fa-commenting"></i> <span>Comentarios</span></a></li>
            <li role="presentation" class="<?php echo $panel_tabs['preferencias'] ?>"><a href="?tab=preferencias" data-target="#profile-config" role="tab" data-toggle="tab" aria-controls="profile-config" aria-expanded="false"> <i class="fa fa-cog"></i> <span>Preferencias</span></a></li>
@@ -78,7 +78,7 @@
           </div>
         </div>
         <ul class="nav nav-tabs cover-nav-mobil nav-justified visible-xs">
-          <li role="presentation" class="<?php echo $panel_tabs[''] ?>"><a href="/" data-target="#profile-home" role="tab" data-toggle="tab" aria-controls="profile-home" aria-expanded="false"> <i class="fa fa-bookmark"></i> <span>Inicio</span></a></li>
+          <li role="presentation" class="<?php echo $panel_tabs['inicio'] ?>"><a href="?tab=inicio" data-target="#profile-home" role="tab" data-toggle="tab" aria-controls="profile-home" aria-expanded="false"> <i class="fa fa-bookmark"></i> <span>Inicio</span></a></li>
           <li role="presentation" class="<?php echo $panel_tabs['mensajes'] ?>"><a href="?tab=mensajes" data-target="#profile-messages" role="tab" data-toggle="tab" aria-controls="profile-messages" aria-expanded="false"> <i class="fa fa-envelope"></i> <span>Mensajes</span></a></li>
           <li role="presentation" class="<?php echo $panel_tabs['comentarios'] ?>"><a href="?tab=comentarios" data-target="#profile-comments" role="tab" data-toggle="tab" aria-controls="profile-comments" aria-expanded="false"> <i class="fa fa-commenting"></i> <span>Comentarios</span></a></li>
            <li role="presentation" class="<?php echo $panel_tabs['preferencias'] ?>"><a href="?tab=preferencias" data-target="#profile-config" role="tab" data-toggle="tab" aria-controls="profile-config" aria-expanded="false"> <i class="fa fa-cog"></i> <span>Preferencias</span></a></li>
@@ -222,7 +222,7 @@ include 'user-settings.php';
           </div>
           <div role="tabpanel" class="tab-pane <?php echo $panel_tabs['mensajes'] ?>" id="profile-messages">
 <?php
-include 'user-messages.php';
+include 'messages/user-messages.php';
 ?>
     </div>
         </div>
