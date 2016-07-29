@@ -33,12 +33,20 @@ function CommentsJSON($url)
 
     return json_encode($rows);
 }
-function TotalComments($url)
+function TotalComments($params)
 {
+    if($params['url'])
+    {
+        $SEARCHBY="`url` = '".$params['url']."'
+                    AND `status` = '1'";
+    }
+    if($params['profile'])
+    {
+        $SEARCHBY="`from` = '".$params['profile']."'";
+    }
     $sql=mysql_query("
         SELECT * FROM `comments` 
-        WHERE `url` = '".$url."'
-        AND `status` = '1'
+        WHERE ".$SEARCHBY."
         ORDER BY `id` ASC");
      $rows = array();
         
@@ -49,18 +57,27 @@ function TotalComments($url)
 
     return count($rows);
 }
-function COMMENTSLIST($url,$params)
+function COMMENTSLIST($params)
 {
     if(!$params['sortcomment'])
     {
         $params['sortcomment']='DESC';
     }
 
+    if($params['url'])
+    {
+        $SEARCHBY="`url` = '".$params['url']."'
+                    AND `to`    = '0'
+                    AND `status` = '1'";
+    }
+    if($params['profile'])
+    {
+        $SEARCHBY="`from` = '".$params['profile']."'
+                    AND `to`    = '0'";
+    }
     $sql=mysql_query("
         SELECT * FROM `comments` 
-        WHERE `url` = '".$url."'
-        AND `to`    = '0'
-        AND `status` = '1'
+        WHERE ".$SEARCHBY."
         ORDER BY `id` ".$params['sortcomment']);
      $rows = array();
         
@@ -71,7 +88,7 @@ function COMMENTSLIST($url,$params)
 
     $comments[0]=array('text' => array(
                                       'tag' => 'b',
-                                       'content'=> TotalComments($url).' Comentarios'
+                                       'content'=> TotalComments($params).' Comentarios'
                                       ));
 
     foreach ($rows as $column => $data) 
@@ -87,7 +104,7 @@ function COMMENTSLIST($url,$params)
             $profile=UserMin(array('id'=>$data['from'],'domain'=>$data['domain']));
         }
 
-        $responses=Responses($data['id'],$url);
+        $responses=Responses($column,$data['id'],$params);
         $likes=TotalLikes($data['id']);
 
         $comments[$column]=array(
@@ -106,19 +123,58 @@ function COMMENTSLIST($url,$params)
                                                                             'tag' => 'b',
                                                                             'content'=> $profile['name']
                                                                              ),
-                                                                'time' => $data['date']
+                                                                'time' => array(
+                                                                            'datetime' => $data['date'],
+                                                                            'iso8601'=> date("c", strtotime($data['date']))
+                                                                            )
                                                                     ),
                                                     'text' => array(
                                                                 'itemprop'=>'commentText',
                                                                 'tag' => 'p',
-                                                                'content' => $data['comment'].$likes
+                                                                'content' => $data['comment']
                                                                 )
                                                         ),
                                                 'right' => false
-                                        ),
-                            'tab'   => CommentTab($column,$data['id'],$responses)
+                                        )
                                 );
+        if($params['url'])
+        {
+            $comments[$column]['tab']=CommentTab($column,$data['id']);
+        }
+        if($params['profile'] && $_SESSION['profile'])
+        {
+            $comments[$column]['tab']=UserCommentTab($column,$data['id']);
+        }
+
+        if($likes!=0)
+        {
+        $comments[$column]['media']['body']['likes']=array(
+                                                                'tag' => 'span',
+                                                                'content' => $likes
+                                                                    );
+        }
+        if($responses)
+        {
+            $comments[$column]['media']['body']['responses']=array(
+                                                                'tag' => 'span',
+                                                                'content' => count($responses)
+                                                                    );
+            $comments[$column]['tab']['data']['nav']['responses']=array(
+                                                    'i' => 'fa fa-comments-o',
+                                                    'text'  => array(
+                                                                'class' => 'hidden-xs',
+                                                                'tag'   => 'span',
+                                                                'content' => 'Respuestas'
+                                                                    )
+                                                        );
+
+            $comments[$column]['tab']['data']['tab']['responses']['list-group']=$responses;
+        }
+
     }
+
+
+
 
     return $comments;
 }
@@ -139,13 +195,22 @@ function TotalLikes($id)
 
     return count($rows);
 }
-function Responses($comment,$url)
+function Responses($comment,$id,$params)
 {
+    if($params['url'])
+    {
+        $SEARCHBY="`url` = '".$params['url']."'
+        AND `to`    = '".$id."'
+        AND `status` = '1'";
+    }
+    if($params['profile'])
+    {
+        $SEARCHBY="`to`  = '".$id."'
+                    AND `status` = '1'";
+    }
      $sql=mysql_query("
         SELECT * FROM `comments` 
-        WHERE `url` = '".$url."'
-        AND `to`    = '".$comment."'
-        AND `status` = '1'
+        WHERE ".$SEARCHBY."
         ORDER BY `id` ASC");
      $rows = array();
         
@@ -156,6 +221,7 @@ function Responses($comment,$url)
 
     foreach ($rows as $column => $data) 
     {
+        $column++;
         if($data['guest']=='on')
         {
             $profile['pic']='images/pic/usr.png';
@@ -165,7 +231,8 @@ function Responses($comment,$url)
         {
             $profile=UserMin(array('id'=>$data['from'],'domain'=>$data['domain']));
         }
-        
+        $likes=TotalLikes($data['id']);
+
         $comments[$column]=array(
                             'media' => array(
                                         'left' => array(
@@ -182,7 +249,10 @@ function Responses($comment,$url)
                                                                             'tag' => 'b',
                                                                             'content'=> $profile['name']
                                                                              ),
-                                                                'time' => $data['date']
+                                                                'time' => array(
+                                                                            'datetime' => $data['date'],
+                                                                            'iso8601'=> date("c", strtotime($data['date']))
+                                                                            )
                                                                     ),
                                                     'text' => array(
                                                                 'itemprop'=>'commentText',
@@ -191,14 +261,22 @@ function Responses($comment,$url)
                                                                 )
                                                         ),
                                                 'right' => false
-                                        )
+                                        ),
+                                'tab'   => ReplyTab($comment,$column,$data['id'])
                                 );
+        if($likes!=0)
+        {
+        $comments[$column]['media']['body']['likes']=array(
+                                                                'tag' => 'span',
+                                                                'content' => $likes
+                                                                    );
+        }
     }
 
     return $comments;
 }
 
-function CommentTab($comment,$id,$responses)
+function CommentTab($comment,$id)
 {
     $commentTab=array(
                 'id' => 'tab_comment-'.$comment,
@@ -259,20 +337,87 @@ function CommentTab($comment,$id,$responses)
         
     }
 
-    if($responses)
-    {
-        $commentTab['data']['nav']['responses']=array(
-                                                    'i' => 'fa fa-comments-o',
-                                                    'text'  => array(
+    return $commentTab;
+}
+function UserCommentTab($comment,$id)
+{
+    $UsercommentTab=array(
+                'id' => 'tab_comment-'.$comment,
+                'data'=> array(
+                          'attr'  => array(
+                                        'class' => 'container-fluid'
+                                        ),
+                          'nav'   => array(
+                                        'config'  => array(
+                                                    'i'     => 'fa fa-cog',
+                                                    'text'=> array(
                                                                 'class' => 'hidden-xs',
                                                                 'tag'   => 'span',
-                                                                'content' => 'Respuestas'
-                                                                    )
-                                                        );
+                                                                'content' => 'Opciones'
+                                                                   )
+                                                        )
+                                        ),
+                          'tab'   => array(
+                                        'config' => ''
+                                          )
+                            )
+                       );
 
-        $commentTab['data']['tab']['responses']['list-group']=$responses;
+    return $UsercommentTab;
+}
+function replyTab($comment,$reply,$id)
+{
+    $replyTab=array(
+                'id' => 'tab_comment-'.$comment.'-'.$reply,
+                'data'=> array(
+                          'params'=> array(
+                                        'like' => array(
+                                                    'type' => 'comment',
+                                                    'element' => $id
+                                                    )
+                                            ),
+                          'attr'  => array(
+                                        'class' => 'container-fluid'
+                                        ),
+                          'nav'   => array(
+                                        'like'  => array(
+                                                    'i'     => 'fa fa-thumbs-up'
+                                                        ),
+                                        'dislike'  => array(
+                                                    'i'     => 'fa fa-thumbs-down'
+                                                        )
+                                        ),
+                          'tab'   => array(
+                                        'like' => likeForm($comment.'-'.$reply,$id),
+                                        'dislike' => dislikeForm($comment.'-'.$reply,$id)
+                                          )
+                            )
+                       );
+    if($_SESSION['profile'])
+    {
+        $liked=Search_likes(array(  
+                            'profile' => $_SESSION['profile']['id'],
+                            'type'    => 'comment',
+                            'element' => $id
+                            ));
+        if($liked)
+        {
+            if($liked['like']==1)
+            {
+                $replyTab['data']['nav']['like']['class']='disabled';
+               
+            }
+            else
+            {
+                $replyTab['data']['nav']['dislike']['class']='disabled';
+            }
+                
+        }
+
+        
     }
-    return $commentTab;
+
+    return $replyTab;
 }
 function likeForm($comment,$id)
 {

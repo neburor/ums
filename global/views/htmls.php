@@ -44,6 +44,10 @@ function HTML($id,$params)
 			{
 				$html.=htmlDIV($value['data']);//el group button
 			}
+			if($view=='list-group')
+			{
+				$html.=htmllistgroup($value,$params);
+			}
 		}
 	}
 
@@ -223,12 +227,30 @@ function htmlMedia($media,$params)
 			{
 				$htmlmedia.=htmlFORM($value['id'],$value['data']);
 			}
+			if($key=='likes' || $key=='responses')
+			{
+				$htmlmedia.='<small>'.htmlLRcomment($key,$value).'</small>';
+			}
 		}
 		$htmlmedia.='</div>';
 	}
 	$htmlmedia.='</div>';
 
 	return $htmlmedia;
+}
+function htmlLRcomment($type,$data)
+{
+	$htmlLR='';
+	if($type=='likes')
+	{
+		$htmlLR.=htmltext($data).' Me gusta';
+	}
+	if($type=='responses')
+	{
+		$htmlLR.=' '.htmltext($data).' Respuestas';
+	}
+
+	return $htmlLR;
 }
 function htmlMediaheading($heading)
 {
@@ -242,7 +264,7 @@ function htmlMediaheading($heading)
 		}
 		if($key=='time')
 		{
-			$htmlheading.='<small class="pull-right" itemprop="commentTime" datetime="'.$value.'">'.htmlAgo($value).'</small>';
+			$htmlheading.='<small class="pull-right">'.htmlAgo($value['datetime']).'<span class="sr-only"itemprop="commentTime" datetime="'.$value['iso8601'].'">'.$value['datetime'].'</span></small>';
 		}
 		
 	}
@@ -489,7 +511,7 @@ function htmltabnav($id,$navs,$params)
 
 		$htmltabnav.='<li role="presentation"';
 
-		if(($params['tab'] && $params['tab']==$id))
+		if($params['tab'] && $params['tab']==$id)
 		{
 			$htmltabnav.=' class="';
 			if($params['nav']==$nav)
@@ -503,7 +525,7 @@ function htmltabnav($id,$navs,$params)
 			}
 			$htmltabnav.='"';
 		}
-		elseif($i==1 && $nav!='like')
+		elseif($i==1 && $nav!='like' && $nav!='config')
 		{
 			$htmltabnav.=' class="active';
 			if($value['class'])
@@ -528,25 +550,31 @@ function htmltabnav($id,$navs,$params)
 
 		$htmltabnav.='><a href="';
 
-		if(($nav=='like' || $nav=='dislike') && $value['class']!='disabled')
-		{
-			$htmltabnav.='?tab='.$id.'&nav='.$nav.'&'.$nav.'='.$params['like']['type'].'&element='.$params['like']['element'].'#'.$id;
-		}
-		elseif($nav=='logout')
+		if($nav=='logout')
 		{
 			$htmltabnav.='?logout';
 		}
-		elseif($value['class']!='disabled')
-		{
-			$htmltabnav.='?tab='.$id.'&nav='.$nav.'#'.$id;
-		}
-		else
+		elseif($value['class']=='disabled')
 		{
 			$htmltabnav.='#';
 		}
-
-		if($nav!='logout')
+		else
 		{
+			$htmltabnav.='?';
+			if($params['tabpanel'])
+			{
+				$htmltabnav.='tabpanel='.$params['tabpanel'].'&';
+			}
+
+			$htmltabnav.='tab='.$id.'&nav='.$nav;
+
+			if($nav=='like' || $nav=='dislike')
+			{
+				$htmltabnav.='&'.$nav.'='.$params['like']['type'].'&element='.$params['like']['element'];
+			}
+
+			$htmltabnav.='#'.$id.'"';
+
 			$htmltabnav.='" data-target="#'.$id.'-'.$nav.'" role="tab" data-toggle="tab" aria-controls="'.$id.'-'.$nav.'" aria-expanded="';
 		
 			if($params['tab'] && $params['tab']==$id)
@@ -564,10 +592,11 @@ function htmltabnav($id,$navs,$params)
 			{
 				$htmltabnav.='false';
 			}
+
 		}
 		
-
 		$htmltabnav.='">';
+
 		foreach ($value as $key => $data) 
 		{
 			$i2++;
@@ -609,7 +638,7 @@ function htmltabpanel($id,$tabs,$params)
 			}
 			
 		}
-		elseif($i==1 && $tab!='like')
+		elseif($i==1 && $tab!='like' && $nav!='config')
 		{
 			$htmltabpanel.=' active in';
 		}
@@ -634,11 +663,11 @@ function htmltabpanel($id,$tabs,$params)
 				}
 				if($key=='media')
 				{
-					$htmltabpanel.=htmlMedia($data,array('callback'=>'%23ums:'.$id.':tab:'.$id.'-'.$tab,'tab'=>$id));
+					$htmltabpanel.=htmlMedia($data,array('callback'=>'%23ums:'.$id.':tab:'.$id.'-'.$tab,'tab'=>$params['tab'],'nav'=>$params['nav']));
 				}
 				if($key=='list-group')
 				{
-					$htmltabpanel.=htmllistgroup($data,array('callback'=>'%23ums:'.$id.':tab:'.$id.'-'.$tab,'tab'=>$id));
+					$htmltabpanel.=htmllistgroup($data,array('callback'=>'%23ums:'.$id.':tab:'.$id.'-'.$tab,'tab'=>$params['tab'],'nav'=>$params['nav']));
 				}
 			}
 			

@@ -33,7 +33,7 @@ $LOCALVIEWS['panel_profile']['panel']['data']['heading']['content']['tabnav']=$L
 $LOCALVIEWS['panel_profile']['panel']['data']['body']['content']['tabpanel']=$LOCALVIEWS['tab_profile']['tab']['data']['tab'];
 
 
-#FORMULARIOS DE PREFERENCIAS
+#FORMULARIOS DE PREFERENCIAS PERFIL
 $LOCALVIEWS['form_settings_name']=array('form'=> array('id'=>'form_settings_name','data'=>$FORMS['user_settings_name']));
 $LOCALVIEWS['form_settings_pic']=array('form'=> array('id'=>'form_settings_pic','data'=>$FORMS['user_settings_pic']));
 $LOCALVIEWS['form_settings_pic_upload']=array('form'=> array('id'=>'form_settings_pic_upload','data'=>$FORMS['user_settings_pic_upload']));
@@ -46,10 +46,13 @@ $LOCALVIEWS['link_settings_twitter']= array('twitter'	=> $LINKS['connect_twitter
 $LOCALVIEWS['form_settings_notif']=array('form'=> array('id'=>'form_settings_notif','data'=>$FORMS['user_settings_email']));
 $LOCALVIEWS['form_settings_notif']['form']['data']['groups']['email']['button']['content']['text']['class']='hidden-xs';
 
-#FORMULARIO DE MENSAJE
+#FORMULARIO DE MENSAJE PERFIL
 $LOCALVIEWS['div_intro_newmessage']=array('div'=>array('id'=>'div_intro_newmessage', 'data'=> array('attr'=> array( 'class' => 'col-xs-12 xxs-nopadding'),'content'	=> array( 'intro'	=> $INTROS['messages']))));
 $LOCALVIEWS['form_user_newmessage']=array('form'=>array('id'=>'form_user_newmessage', 'data'=>$FORMS['user_newmessage']));
 $LOCALVIEWS['form_user_message']=array('form'=>array('id'=>'form_user_message', 'data'=>$FORMS['user_message']));
+
+#COMENTARIOS PERFIL
+$LOCALVIEWS['div_intro_newcomment']=array('div'=>array('id'=>'div_intro_newcomment', 'data'=> array('attr'=> array( 'class' => 'col-xs-12 xxs-nopadding'),'content'	=> array( 'intro'	=> $INTROS['comments']))));
 
 #$LOCALVIEWS['contacto1']=$LOCALVIEWS['contacto2']=array('panel'=>$PANELS['contact']);
 #$LOCALVIEWS['contacto2']['panel']['heading']['content']['text']='Formulario de contacto';

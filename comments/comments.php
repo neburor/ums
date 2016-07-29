@@ -27,7 +27,7 @@ else
   $dislikeForm=$FORMS['dislike'];
 }
 
-$LOCALVIEWS['panel_comment']['panel']['data']['list-group']=COMMENTSLIST('http://'.$_SERVER['HTTP_HOST'].strtok($_SERVER["REQUEST_URI"],'?'));
+$LOCALVIEWS['panel_comment']['panel']['data']['list-group']=COMMENTSLIST(array('url'=>'http://'.$_SERVER['HTTP_HOST'].strtok($_SERVER["REQUEST_URI"],'?')));
 
 echo HTML('panel_comment',array('tab'=>$_GET['tab'],'nav'=>$_GET['nav']));          
 
