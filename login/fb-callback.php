@@ -2,7 +2,7 @@
 session_start();
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 
-require 'config.php';
+require '../config.php';
 require_once ('Facebook/autoload.php');
 
 
@@ -26,11 +26,24 @@ if($accessToken = $helper->getAccessToken())
 if($user)
 {
 	$_SESSION['connect']['alert']['success']='Has iniciado sesion con facebook correctamente';
-	$_SESSION['connect']['facebook']['id']=$user['id'];
-	$_SESSION['connect']['facebook']['name']=$user['name'];
-	$_SESSION['connect']['facebook']['email']=$user['email'];
-	$_SESSION['connect']['facebook']['cover']=$user['cover']['source'];
-	$_SESSION['connect']['facebook']['pic']=$user['picture']['url'];
+
+	$_SESSION['connect']['network']='facebook';
+	$_SESSION['connect']['id']=$user['id'];
+	$_SESSION['connect']['name']=$user['name'];
+	$_SESSION['connect']['email']=$user['email'];
+	$_SESSION['connect']['cover']['source']=$user['cover']['source'];
+	if(isset($user['cover']['offset_y']))
+	{
+		$_SESSION['connect']['cover']['offset_y']=$user['cover']['offset_y'];
+	}
+	if(isset($user['cover']['offset_x']))
+	{
+		$_SESSION['connect']['cover']['offset_x']=$user['cover']['offset_x'];
+	}
+	$_SESSION['connect']['pic']=$user['picture']['url'];
+
+	require '../accounts/function_connect.php';
+	$_SESSION['logged']=ConnectAccount();
 }
 else 
 {	
