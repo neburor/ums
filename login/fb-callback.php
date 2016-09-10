@@ -31,14 +31,14 @@ if($user)
 	$_SESSION['connect']['id']=$user['id'];
 	$_SESSION['connect']['name']=$user['name'];
 	$_SESSION['connect']['email']=$user['email'];
-	$_SESSION['connect']['cover']['source']=$user['cover']['source'];
+	$_SESSION['connect']['cover']=$user['cover']['source'];
 	if(isset($user['cover']['offset_y']))
 	{
-		$_SESSION['connect']['cover']['offset_y']=$user['cover']['offset_y'];
+		$_SESSION['connect']['cover_y']=$user['cover']['offset_y'];
 	}
 	if(isset($user['cover']['offset_x']))
 	{
-		$_SESSION['connect']['cover']['offset_x']=$user['cover']['offset_x'];
+		$_SESSION['connect']['cover_x']=$user['cover']['offset_x'];
 	}
 	$_SESSION['connect']['pic']=$user['picture']['url'];
 

@@ -4,7 +4,15 @@ function SearchAccount ($params=array())
 {
 	$sql=mysql_query("
         SELECT * FROM `accounts` 
-        WHERE `network` = '".$search."'
-        AND  `network_id` = '".$params['id']."'
+        WHERE `id` = '".$params['id']."'
         ORDER BY `id` DESC LIMIT 1");
+
+	$row = array();
+        
+    while($i = mysql_fetch_assoc($sql)) 
+    {
+        $row[] = $i;
+    }
+
+    return $row[0];
 }
