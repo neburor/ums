@@ -1,34 +1,18 @@
 <div class="profile page">
     <div class="cover background">
       <?php
-        echo '<img src="'.$_SESSION['profile']['cover']['source'].'"';
-        if(isset($_SESSION['profile']['cover']['offset_x']) || isset($_SESSION['profile']['cover']['offset_y']))
-        {
-          echo ' style="';
-            if(isset($_SESSION['profile']['cover']['offset_y']))
-            {
-              echo 'margin-top: -'.$_SESSION['profile']['cover']['offset_y'].'px;';
-            }
-            if(isset($_SESSION['profile']['cover']['offset_x']))
-            {
-              echo 'margin-left: -'.$_SESSION['profile']['cover']['offset_x'].'px;';
-            }
-          echo '"';
-        }
-        echo '>';
-
+      echo ShowCover();
       ?>
     </div>
   
-    <div class="container cover heading">
-      <div class="row">
+    <div class="cover heading">
     <div class="panel panel-default">
       <div class="panel-heading">
         <div class="media">
           <div class="media-left">
-            <img src="<?php echo $_SESSION['profile']['pic'] ?>" class="img-circle">
+            <img src="<?php echo showPic(); ?>" class="img-circle">
           </div>
-          <div class="media-body"><h1 class="media-heading"><?php echo $_SESSION['profile']['name']?></h1>
+          <div class="media-body"><h1 class="media-heading"><?php echo $_SESSION['logged']['name']?></h1>
           <ul class="nav nav-tabs hidden-xs">
           <li role="presentation" class="active"><a href="?tabpanel=inicio" data-target="#profile-home" role="tab" data-toggle="tab" aria-controls="profile-home" aria-expanded="false"> <i class="fa fa-bookmark"></i> <span>Inicio</span></a></li>
           <li role="presentation"><a href="?tabpanel=mensajes" data-target="#profile-messages" role="tab" data-toggle="tab" aria-controls="profile-messages" aria-expanded="false"> <i class="fa fa-envelope"></i> <span>Mensajes</span></a></li>
@@ -61,7 +45,6 @@
 
         </div>
       </div>
-    </div>
     </div>
 </div>
 </div>

@@ -14,5 +14,12 @@ function SearchAccount ($params=array())
         $row[] = $i;
     }
 
+    $networks=SearchNetworks($params['id']);
+
+    if($networks)
+    {
+        $row[0]['networks']=$networks;
+    }
+    
     return $row[0];
 }

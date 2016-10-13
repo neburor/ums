@@ -1,6 +1,6 @@
 <?php
 session_start();
-error_reporting(E_ERROR | E_WARNING | E_PARSE);
+#error_reporting(E_ERROR | E_WARNING | E_PARSE);
 
 require '../config.php';
 require_once ('Facebook/autoload.php');

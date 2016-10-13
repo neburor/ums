@@ -3,7 +3,7 @@
 
 if(isset($_SESSION['logged']))
 {
- include 'ums/user-profile.php';
+ include 'html_user-profile.php';
 }
 else
 {

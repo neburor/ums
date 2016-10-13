@@ -1,0 +1,409 @@
+/*UMS profile App*/
+body.profile {
+  position: static;
+  height: 100%;
+  overflow: hidden;
+}
+.profile.wrapper{
+  position: absolute;
+  display: block;
+  top: 0;
+  width:85%; 
+  height: 100%;
+  }
+.wrapper.profile.open {
+  z-index: 1001;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 0;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+  display: block;
+}
+.wrapper.profile.in {
+  display: block;
+}
+.wrapper.profile.bg {
+  background: rgba(0,0,0,.6);
+}
+.wrapper.profile, .profile.sidebar, .profile.sidebar-content {
+  height: 100%;
+}
+
+.close.profile {
+  color: #fff;
+  opacity: 1;
+  filter: alpha(opacity=100);
+}
+.close.profile:hover {
+  cursor: pointer;
+}
+/*UMS profile page*/
+.profile-pic {
+  width: 34px;
+  height:34px;
+}
+.profile-pic-small {
+  width: 18px;
+  height:18px;
+}
+.profile.page .cover.background {
+  height: 80px;
+  overflow: hidden;
+}
+.profile.page .cover.background img {
+  width: 100%;
+  min-height: 100%; 
+  margin-right: auto;
+  margin-left: auto;
+}
+.profile.page .cover.heading {
+  margin-top: -56px;
+}
+.profile.page .cover.heading .panel-heading {
+	padding: 0;
+	border-bottom: 0;
+}
+.profile.page .cover.heading .img-circle {
+  height: 50px;
+  width: 50px;
+}
+.profile.page .cover.heading .media-heading {
+  color: #fff;
+  font-weight: bold;
+  text-shadow: 0 0 3px rgba(0,0,0,.8);
+  height: 34px;
+}
+.profile.page .cover.heading .nav-tabs {
+  margin: 0;
+}
+.profile.page .cover.heading .nav-tabs.nav-mobile {
+  border-bottom: 1px solid #ddd !important;
+}
+.profile.page .cover.heading .nav-tabs.nav-mobile li{
+  display: table-cell;
+  width: 1%;
+}
+.profile.page .cover.heading .nav-tabs.nav-mobile li>a {
+  padding: 10px 5px;
+  font-size: 12px;
+  text-align: center;
+  border-bottom-color: transparent !important;
+  margin-bottom: -1px !important;
+}
+.profile.page .cover.heading .nav-tabs.nav-mobile li>a>i{
+  float: left;
+  width: 100%;
+  font-size: 18px;
+  text-align: center;
+}
+.profile.picture img{
+  height: 18px;
+  width: auto;
+}
+.profile.sidebar {
+  position : relative;
+  height   : 100%;
+  overflow : hidden;
+}
+.profile.sidebar > .profile.sidebar-content {
+  position      : absolute;
+  overflow      : scroll;
+  overflow-x    : hidden;
+  top           : 0;
+  right         : 0;
+  bottom        : 0;
+  left          : 0;
+}
+.profile.sidebar > .profile.sidebar-content:focus {
+  outline: thin dotted;
+}
+.profile.sidebar > .profile.sidebar-content::-webkit-scrollbar {
+  display: none;
+}
+.has-scrollbar > .profile.sidebar-content::-webkit-scrollbar {
+  display: block;
+}
+.app.profile .apptop {
+  border-bottom: 1px solid;
+}
+.app.profile .apptop .media-heading {
+  margin-bottom: 0;
+  margin-top: 5px;
+}
+.app.profile .apptop .btn:focus {
+  outline: none;
+}
+.app.profile .apptop p.text-center {
+  margin:0;
+}
+.app.profile .appnav>li>a {
+    margin-bottom: 0;
+}
+.app.profile .appnav>li>a .badge {
+  position: absolute;
+  top: 0;
+}
+.app.profile .appnav>li.active>a>span {
+  -webkit-transition: all .25s ease-out;
+  -o-transition: all .25s ease-out;
+  transition: all .25s ease-out;
+  display: inline;
+}
+.app.profile .appcontent .profile-pic {
+  width: auto;
+  max-width: 45px;
+  height: 45px;
+}
+.app.profile .appcontent .thumbnail-pic {
+  width: auto;
+  max-width: 45px;
+  height: 45px;
+}
+.app.profile .appcontent .comment .media-body {
+    line-height: 15px;
+}
+.app.profile .appstream .message p {
+  margin-bottom: 0;
+  overflow: hidden;
+  max-height: 14px;
+  line-height: 13px;
+}
+.app.profile .appstream .message .media-right {
+  vertical-align: middle;
+}
+.panel-heading.navheading {
+  padding: 0;
+  border-bottom: 0;
+}
+.panel-heading.navheading>i {
+  display: inline-block;
+  padding: 8px 0 8px 8px;
+}
+.panel-heading.navheading>b {
+  font-size: 25px;
+}
+.panel-heading.navheading>.nav-tabs {
+  margin: 0;
+}
+
+.box>.panel-heading:hover {
+  cursor: pointer;
+}
+.box>.panel-body {
+  display: none;
+  padding: 0;
+}
+.box>.panel-footer, .box>.list-group {
+  display: none;
+}
+.box.in>.panel-body, .box.in>.panel-footer, .box.in>.list-group {
+  display: block;
+}
+.box.messages>.panel-body .list-group {
+  margin-bottom: 0
+}
+.box.messages>.panel-footer{
+  padding: 0;
+}
+.box.messages>.panel-footer .form-group{
+  margin-bottom: 0;
+}
+.comments .list-group>li {
+  padding-bottom: 0;
+}
+.comments>.panel>.list-group>li.list-group-item:first-child {
+  padding: 10px 15px;
+}
+.full-width {
+    display:block !important;
+}
+.text-warp {
+  white-space: normal;
+}
+div.upload
+{
+  border: 2px dashed #e6e6e6;
+  background-color: #f7f7f7;
+}
+input.upload::-webkit-file-upload-button
+{
+  visibility: hidden;
+}
+input.upload::before {
+  font-family: 'FontAwesome';
+  content: "\f0ee ...";
+  padding: 5px;
+}
+input.upload {
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 1;
+    filter: alpha(opacity=1);
+    cursor: pointer;
+}
+/*.sidebar {
+    min-height: 100vh;
+    background-color: #222;
+    border-color: #080808;
+}*/
+.visible-xxs {
+  display: none;
+}
+.sidebar-offcanvas-right {
+  display: none;
+}
+.main_content>div{
+  display: none
+}
+.main_content>div.active {
+  display: block;
+}
+.comment .expand {
+    max-height: 80px;
+    overflow: hidden;
+    margin-bottom: 0;
+}
+.comment .expand.in {
+    height: auto;
+    overflow: auto;
+    margin-bottom: 10px;
+}
+.nopadding {
+  padding: 0;
+}
+@media (min-width: 480px) {
+.profile.page .cover.background {
+  height: 112px;
+  overflow: hidden;
+}
+.profile.page .cover.heading {
+  margin-top: -87px;
+}
+.profile.page .cover.heading .img-circle {
+  height: 80px;
+  width: 80px;
+}
+.profile.page .cover.heading .media-heading {
+  height: 64px;
+}
+
+}
+@media (min-width: 768px) {
+.profile.page .cover.background {
+  height: 200px;
+}
+.profile.page .cover.heading {
+  margin-top: -74px;
+}
+.profile.page .cover.heading .img-circle {
+  height: 110px;
+  width: 110px;
+}
+.box>.panel-heading:hover {
+  cursor: inherit;
+}
+.box>.panel-body, .box>.panel-footer, .box>.list-group {
+  display: block;
+}
+ .row-offcanvas-right .profile.wrapper {
+  left: -100%;
+ }
+ .profile.wrapper.open {
+  left: initial;
+ }
+ .profile.wrapper>.sidebar {
+      overflow: hidden;
+ }
+}
+@media (min-width: 992px) {
+
+}
+@media (max-width: 479px) {
+h1 {
+	font-size: 22px;
+}
+h2 {
+	font-size: 20px;
+}
+h3 {
+	font-size: 18px;
+}
+.col-xxs {
+	padding: 0;
+}
+.hidden-xxs {
+	display: none !important;
+}
+.col-xxs-12 {
+	width: 100%;
+}
+.col-xxs-9 {
+	width: 75%;
+}
+.col-xxs-8 {
+	width: 66.66666667%;
+}
+.col-xxs-6 {
+  width: 50%;
+}
+.col-xxs-4 {
+	width: 33.33333333%;
+}
+.col-xxs-3 {
+	width: 25%;
+}
+.visible-xxs {
+  	display: initial !important;
+}
+.xxs-nopadding {
+	padding: 0;
+}
+.col-xxs-push-0 {
+  left: auto;
+}
+.col-xxs-pull-0 {
+	right: auto;
+}
+.app.profile .appstream .nav-pills>li>a {
+  padding: 10px 12px;
+}
+}
+@media (max-width: 767px) {
+  .nav-mobile li{
+    display: table-cell;
+    width: 1%;
+  }
+/* Profile App OffCanvas*/
+.row-offcanvas {
+  position: relative;
+  -webkit-transition: all .25s ease-out;
+  -o-transition: all .25s ease-out;
+  transition: all .25s ease-out;
+ }
+ .row-offcanvas-right {
+  right: 0;
+ } 
+ .row-offcanvas-right .profile.wrapper {
+  left: -85%;
+ }
+  .row-offcanvas-right .profile.wrapper.open {
+  left: 0;
+ }
+ .row-offcanvas-right.active {
+  right: 85%; 
+ }
+ .row-offcanvas-right.active .profile.wrapper {
+  right: -85%;
+  left: initial;
+ }
+
+}
