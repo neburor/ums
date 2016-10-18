@@ -37,7 +37,7 @@ function ConnectAccount ()
 					'type'=>$_SESSION['connect']['network']
 					));
 
-
+	
 	return $ConnectAccount;
 }
 
