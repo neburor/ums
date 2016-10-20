@@ -6,38 +6,56 @@ require 'function_SearchAccount.php';
 require 'function_SearchNetworks.php';
 require 'function_NewAccount.php';
 
-MysqlConnect();
 
 
 function ConnectAccount ()
 {
-	$sql=mysql_query("
+	GLOBAL $mysqli;
+	
+	$sql="
         SELECT * FROM `accounts_sn` 
-        WHERE `network` = '".$_SESSION['connect']['network']."'
+        WHERE `domain` = '".UMSDOMAIN."'
+        AND `network` = '".$_SESSION['connect']['network']."'
         AND  `network_id` = '".$_SESSION['connect']['id']."'
         ORDER BY `id` DESC LIMIT 1
-        ");
-	$row = array();
-        
-	while($i = mysql_fetch_assoc($sql)) 
-	{
-		$row[] = $i;
-	}
+        ";
 
-	if($row[0]['account'])
-	{
-		$ConnectAccount=SearchAccount(array('id'=>$row[0]['account']));
-	}
-	else
-	{
-		$ConnectAccount=NewAccount(array('type'=>'connect'));
-	}
+	if (!$resultado = $mysqli->query($sql)) 
+    {
+        if(isset($_SESSION['debugger']))
+            {
+                $_SESSION['debugger'][]='SQL:select:account_sn:error | '.$mysqli->errno.':'.$mysqli->error;
+            }
+    }
+    else
+    {
+        if(isset($_SESSION['debugger']))
+            {
+                $_SESSION['debugger'][]='SQL:select:accounts_sn:ok';
+            }
+        if ($resultado->num_rows === 0) 
+        {
+        	if(isset($_SESSION['debugger']))
+			{
+				$_SESSION['debugger'][]='mysqli:result:null => NewAccount()';
+			}
+			$ConnectAccount=NewAccount(array('type'=>'connect'));
+        }
+        else
+        {
+        	if(isset($_SESSION['debugger']))
+			{
+				$_SESSION['debugger'][]='mysqli:result:ok => SearchAccount()';
+			}
+			$accounts_sn = $resultado->fetch_assoc();
+			$ConnectAccount=SearchAccount(array('id'=>$accounts_sn['account']));
+        }
+    }
 
 	NewLogin(array(	'account'=>	$ConnectAccount['id'],
 					'type'=>$_SESSION['connect']['network']
 					));
 
-	
 	return $ConnectAccount;
 }
 

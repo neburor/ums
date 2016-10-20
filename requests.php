@@ -8,6 +8,10 @@ if(isset($_GET))
   	{
     		if($_GET['login']=='facebook')// Iniciar sesion con la API de Facebook
     		{
+          if(isset($_SESSION['debugger']))
+          {
+            $_SESSION['debugger'][]='GET:login:facebook => facebook.com';
+          }
 
       			include_once('login/Facebook/autoload.php');
       			$fb = new Facebook\Facebook([
@@ -32,6 +36,11 @@ if(isset($_GET))
   		unset($_SESSION['logged']);
   		header("Location: " . $_SERVER['HTTP_REFERER']);
   	}
+  if(isset($_GET['debugger']))
+    {
+      unset($_SESSION['debugger']);
+      header("Location: " . $_SERVER['HTTP_REFERER']);
+    }
 }
 //POST
 if(isset($_POST))

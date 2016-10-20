@@ -11,7 +11,7 @@ function InsertMessage($params=array())
     					(NULL,'".date("Y-m-d H:i:s")."', '".UMSDOMAIN."', '".'http://'.$_SERVER['HTTP_HOST'].strtok($_SERVER["REQUEST_URI"],'?')."', '".$params['formtype']."', '".$_SESSION['logged']['id']."', '0', '".$params['message']."')
     				";
 
-    	if(mysql_query($insert))
+    	if(mysqli_query($insert))
     	{
         	$response['alert']['success'] = 'Gracias por contactarnos, pronto te responderemos.';
     	}
@@ -28,14 +28,14 @@ function InsertMessage($params=array())
 }
 function ListMessages($account)
 {
-    $sql=mysql_query("
+    $sql=mysqli_query("
         SELECT * FROM `messages` 
         WHERE `from_id` = '".$account."'
         OR `to_id` = '".$account."'
         ORDER BY `id` ASC");
      $rows = array();
         
-    while($i = mysql_fetch_assoc($sql)) 
+    while($i = mysqli_fetch_assoc($sql)) 
     {
         $rows[] = $i;
     }

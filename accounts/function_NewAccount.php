@@ -5,28 +5,34 @@ include 'function_AddNetwork.php';
 
 function NewAccount ($params=array())
 {
+    global $mysqli;
 
-    $insert="
+    $sql="
         INSERT INTO `accounts` 
         (`id`, `datetime`, `domain`, `token_hash`, `user_hash`, `name`, `username`, `password`, `pic`, `cover`, `role`)
         VALUES 
         (NULL, '".date("Y-m-d H:i:s")."','".UMSDOMAIN."', '','', '".$_SESSION['connect']['name']."', '', '', '".$_SESSION['connect']['network']."', '".$_SESSION['connect']['network']."', '0')";
 
-    if(mysql_query($insert))
+    if (!$resultado = $mysqli->query($sql)) 
     {
-    	$lastUser=mysql_insert_id();
-    	AddHash($lastUser);
-    	$Account=SearchAccount(array('id'=>$lastUser));
-    	if($params['type']=='connect')
-    	{
-            $Account['networks']=AddNetwork($Account['id']);
-    	}
-
-    	return $Account;
-
+       if(isset($_SESSION['debugger']))
+        {
+            $_SESSION['debugger'][]='SQL:insert:accounts:error | '.$mysqli->errno.':'.$mysqli->error;
+        }
     }
     else
     {
-        echo mysql_error();
+        if(isset($_SESSION['debugger']))
+        {
+            $_SESSION['debugger'][]='SQL:insert:accounts:ok';
+        }
+        $lastUser=$mysqli->insert_id;
+        AddHash($lastUser);
+        $Account=SearchAccount(array('id'=>$lastUser));
+        if($params['type']=='connect')
+        {
+            $Account['networks']=AddNetwork($Account['id']);
+        }
+        return $Account;
     }
 }

@@ -2,22 +2,44 @@
 //Search networks
 function SearchNetworks ($account)
 {
-	$sql=mysql_query("
-        SELECT * FROM `accounts_sn` 
-        WHERE `account` = '".$account."'");
-    $row = array();
-        
-    while($i = mysql_fetch_assoc($sql)) 
-    {
-        $row[$i['network']] = $i;
-    }
+    global $mysqli;
 
-    if(count($row)==0)
+	$sql="
+        SELECT * FROM `accounts_sn` 
+        WHERE `account` = '".$account."'";
+    if (!$resultado = $mysqli->query($sql)) 
     {
-        return false;
+        if(isset($_SESSION['debugger']))
+        {
+            $_SESSION['debugger'][]='SQL:select:accounts_ns:error | '.$mysqli->errno.':'.$mysqli->error;
+        }
     }
     else
     {
-        return $row;
+        if(isset($_SESSION['debugger']))
+            {
+                $_SESSION['debugger'][]='SQL:select:accounts_ns:ok';
+            }
+        if ($resultado->num_rows === 0) 
+        {
+            if(isset($_SESSION['debugger']))
+            {
+                $_SESSION['debugger'][]='mysqli:result:null';
+            }
+            return false;
+        }
+        else
+        {
+            if(isset($_SESSION['debugger']))
+            {
+                $_SESSION['debugger'][]='mysqli:result:ok';
+            }
+            while ($network = $resultado->fetch_assoc()) 
+            {
+                $networks[$network['network']]=$network;
+            }
+
+             return $networks;  
+        }
     }
 }

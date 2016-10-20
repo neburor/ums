@@ -5,7 +5,6 @@ session_start();
 require '../config.php';
 require_once ('Facebook/autoload.php');
 
-
 $fb = new Facebook\Facebook([
   'app_id' => FBAPPID,
   'app_secret' => FBAPPSECRET,
@@ -25,6 +24,10 @@ if($accessToken = $helper->getAccessToken())
 
 if($user)
 {
+	if(isset($_SESSION['debugger']))
+	{
+		$_SESSION['debugger'][]='API:facebook:connect => ConnectAccount()';
+	}
 	$_SESSION['connect']['alert']['success']='Has iniciado sesion con facebook correctamente';
 
 	$_SESSION['connect']['network']='facebook';
@@ -47,6 +50,10 @@ if($user)
 }
 else 
 {	
+	if(isset($_SESSION['debugger']))
+	{
+		$_SESSION['debugger'][]='API:facebook:error | '.$helper->getError();
+	}
 	$_SESSION['connect']['alert']['danger']='Error de inicio de sesion';
 }
 

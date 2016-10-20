@@ -2,24 +2,46 @@
 //Search Account
 function SearchAccount ($params=array())
 {
-	$sql=mysql_query("
+    global $mysqli;
+    
+	$sql="
         SELECT * FROM `accounts` 
         WHERE `id` = '".$params['id']."'
-        ORDER BY `id` DESC LIMIT 1");
+        ORDER BY `id` DESC LIMIT 1";
 
-	$row = array();
-        
-    while($i = mysql_fetch_assoc($sql)) 
+	if (!$resultado = $mysqli->query($sql)) 
     {
-        $row[] = $i;
+        if(isset($_SESSION['debugger']))
+        {
+            $_SESSION['debugger'][]='SQL:select:accounts:error | '.$mysqli->errno.':'.$mysqli->error;
+        }
     }
-
-    $networks=SearchNetworks($params['id']);
-
-    if($networks)
+    else
     {
-        $row[0]['networks']=$networks;
+        if(isset($_SESSION['debugger']))
+            {
+                $_SESSION['debugger'][]='SQL:select:accounts:ok';
+            }
+        if ($resultado->num_rows === 0) 
+        {
+            if(isset($_SESSION['debugger']))
+            {
+                $_SESSION['debugger'][]='mysqli:result:null';
+            }
+        }
+        else
+        {
+            if(isset($_SESSION['debugger']))
+            {
+                $_SESSION['debugger'][]='mysqli:result:ok => SearchNetworks()';
+            }
+            $account = $resultado->fetch_assoc();
+            if($networks= SearchNetworks($params['id']))
+            {
+                $account['networks']=$networks;
+            }
+        }
     }
     
-    return $row[0];
+    return $account;
 }

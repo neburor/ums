@@ -2,15 +2,26 @@
 //Logins
 function NewLogin ($params=array())
 {
-
-	$insert="
+    global $mysqli;
+    
+	$sql="
         INSERT INTO `logins` 
         (`id`, `datetime`, `domain`, `device`, `type`, `account`) 
         VALUES 
         (NULL, '".date("Y-m-d H:i:s")."', '".UMSDOMAIN."', '".$_SESSION['device']['id']."', '".$params['type']."','".$params['account']."') ";
     
-    if(!mysql_query($insert))
+    if (!$resultado = $mysqli->query($sql)) 
     {
-        echo mysql_error();
+       if(isset($_SESSION['debugger']))
+        {
+            $_SESSION['debugger'][]='SQL:insert:logins:error | '.$mysqli->errno.':'.$mysqli->error;
+        }
+    }
+    else
+    {
+        if(isset($_SESSION['debugger']))
+        {
+            $_SESSION['debugger'][]='SQL:insert:logins:ok';
+        }
     }
 }
