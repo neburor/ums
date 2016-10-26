@@ -1,5 +1,31 @@
 <?php
 //Search networks
+
+function SearchNetworks ($account)
+{
+    $resultado=SQLselect(
+            array(
+                'table'=>'accounts_sn'
+                ),
+            array(
+                'account'=>$account
+                )
+            );
+
+    if($resultado)
+    {
+        foreach ($resultado as $key => $value) 
+        {
+            $networks[$value['network']]=$value;
+        }
+        return $networks; 
+    }
+    else
+    {
+        return false;
+    }
+}
+/*
 function SearchNetworks ($account)
 {
     global $mysqli;
@@ -43,3 +69,4 @@ function SearchNetworks ($account)
         }
     }
 }
+*/

@@ -318,7 +318,7 @@ input.upload {
   left: -100%;
  }
  .profile.wrapper.open {
-  left: initial;
+  left: auto;
  }
  .profile.wrapper>.sidebar {
       overflow: hidden;
@@ -362,7 +362,7 @@ h3 {
 	width: 25%;
 }
 .visible-xxs {
-  	display: initial !important;
+  	display: auto !important;
 }
 .xxs-nopadding {
 	padding: 0;
@@ -403,7 +403,7 @@ h3 {
  }
  .row-offcanvas-right.active .profile.wrapper {
   right: -85%;
-  left: initial;
+  left: auto;
  }
 
 }

@@ -1,6 +1,5 @@
 <?php
 #FormContact
-include 'ums/global/functions_form.php';
 if(isset($_SESSION['logged']))
 {
 echo '
@@ -16,7 +15,7 @@ echo '
               <div class="form-group">
                 <textarea class="form-control" name="message" placeholder="Su mensaje a la administracion ..." minlength="8" maxlength="512" required=""></textarea>
               </div>
-              <div class="form-group response">'.FeedbackAlert($_SESSION['feedback'][$form['id']]['alert']).'</div>
+              <div class="form-group response">'.Feedback($_SESSION['feedback'][$form['id']]).'</div>
               <div class="form-group col-xs-12">
                 <button type="submit" class="btn btn-default"><i class="fa fa-envelope"></i> Enviar mensaje</button>
               </div>

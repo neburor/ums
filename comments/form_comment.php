@@ -2,7 +2,7 @@
 #FormContact
 if(isset($_SESSION['logged']))
 {
-echo '
+$FormComment= '
 	<div class="media">
         <div class="media-left">
             <img src="'.ShowPic().'" class="profile-pic">
@@ -10,12 +10,18 @@ echo '
       	<div class="media-body">
             <strong class="media-heading">'.$_SESSION['logged']['name'].'</strong>
             <form class="form" role="form" action="" method="POST">
-              <input type="hidden" name="formid" value="form_comment">
-              <input type="hidden" name="formtype" value="comentarios">
-              <div class="form-group">
-                <textarea class="form-control" name="comment" placeholder="Escribe tu comentario ..." minlength="8" maxlength="512" required=""></textarea>
+              <input type="hidden" name="formid" value="'.$form['id'].'">
+              <input type="hidden" name="formtype" value="'.$form['type'].'">
+              <input type="hidden" name="inid" value="'.$form['inid'].'">
+              <input type="hidden" name="toid" value="'.$form['toid'].'">
+              <div class="form-group">';
+              if(isset($form['toid']))
+              {
+                $FormComment.='<label class="toid">'.$form['toname'].' :</label>';
+              }
+$FormComment.=  '<textarea class="form-control" name="comment" placeholder="Escribe tu comentario ..." minlength="8" maxlength="512" required=""></textarea>
               </div>
-              <div class="form-group response"></div>
+              <div class="form-group response">'.Feedback($_SESSION['feedback'][$form['id']]).'</div>
               <div class="form-group col-xs-12">
                 <button type="submit" class="btn btn-default"><span>Agregar comentario</span> <i class="fa fa-share"></i></button>
               </div>
@@ -26,7 +32,7 @@ echo '
 }
 else
 {
-echo '	
+$FormComment = '	
 	<form>
       	<div class="form-group col-xs-12">
       		<p><i class="fa fa-info-circle"></i> Complete los siguientes campos o <b><i class="fa fa-sign-in"></i> Inicie sesion</b> / <b><i class="fa fa-user-plus"></i> Registarse</b>.</p>
@@ -55,9 +61,6 @@ echo '
       			<textarea class="form-control" name="comment" placeholder="Escribe tu comentario ..." required=""></textarea>
       		</div>
       	</div>
-        <div class="form-group col-xs-12">
-          <label><input type="checkbox"> Publicar este comentario como anonimo.</label>
-        </div>
         <div class="form-group response"></div>
       	<div class="form-group col-xs-12">
       		<button type="submit" class="btn btn-default btn-block"><span>Agregar comentario</span> <i class="fa fa-share"></i></button>
@@ -65,3 +68,5 @@ echo '
     </form>
 ';
 }
+
+unset($_SESSION['feedback'][$form['id']]);

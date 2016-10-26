@@ -1,5 +1,30 @@
 <?php
 //Search Account
+
+function SearchAccount ($params=array())
+{
+    $resultado=SQLselect(
+            array(
+                'table'=>'accounts',
+                'limit'=>'LIMIT 1'
+                ),
+            array(
+                'id'=>$params['id']
+                )
+            );
+    if($resultado)
+    {
+        $account = array();
+        $account = $resultado;
+        if($networks = SearchNetworks($params['id']))
+        {
+            $account['networks']=$networks;
+        }
+        
+        return $account;
+    }
+}
+/*
 function SearchAccount ($params=array())
 {
     global $mysqli;
@@ -45,3 +70,4 @@ function SearchAccount ($params=array())
     
     return $account;
 }
+*/

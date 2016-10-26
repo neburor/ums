@@ -4,14 +4,23 @@ function InsertMessage($params=array())
 {
 	if(isset($_SESSION['logged']))
 	{
-		$insert = "
-    				INSERT INTO `messages`
-    					(`id`,`datetime`,`domain`,`url`,`form`,`from_id`,`to_id`,`message` )
-    				VALUES 
-    					(NULL,'".date("Y-m-d H:i:s")."', '".UMSDOMAIN."', '".'http://'.$_SERVER['HTTP_HOST'].strtok($_SERVER["REQUEST_URI"],'?')."', '".$params['formtype']."', '".$_SESSION['logged']['id']."', '0', '".$params['message']."')
-    				";
+        $resultado=SQLinsert(
+            array(
+                'table'=>'messages'
+                ),
+            array(
+                'datetime'=> date("Y-m-d H:i:s"),
+                'domain'=> UMSDOMAIN,
+                'device'=> $_SESSION['device']['id'],
+                'url'=> 'http://'.$_SERVER['HTTP_HOST'].strtok($_SERVER["REQUEST_URI"],'?'),
+                'form'=> $params['formtype'], 
+                'from_id'=> $_SESSION['logged']['id'], 
+                'to_id'=> '0',
+                'message'=> $params['message']
+                )
+            );
 
-    	if(mysqli_query($insert))
+    	if($resultado)
     	{
         	$response['alert']['success'] = 'Gracias por contactarnos, pronto te responderemos.';
     	}
@@ -28,17 +37,19 @@ function InsertMessage($params=array())
 }
 function ListMessages($account)
 {
-    $sql=mysqli_query("
-        SELECT * FROM `messages` 
-        WHERE `from_id` = '".$account."'
-        OR `to_id` = '".$account."'
-        ORDER BY `id` ASC");
-     $rows = array();
-        
-    while($i = mysqli_fetch_assoc($sql)) 
-    {
-        $rows[] = $i;
-    }
+    $resultado=SQLselect(
+            array(
+                'table'=>'messages',
+                'query'=>"SELECT * FROM `messages` WHERE `domain` = '".UMSDOMAIN."' AND (`from_id` = '".$account."' OR `to_id` = '".$account."') ORDER BY `id` ASC"
+                )
+            );
 
-    return $rows;
+    if($resultado)
+    {
+        return $resultado;
+    }
+    else
+    {
+        return null;
+    }
 }

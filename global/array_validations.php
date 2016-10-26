@@ -2,24 +2,28 @@
 #VALIDATIONS
 
 $VALIDATIONS['name'] 	  = array(
+							'display'	=> 'Nombre',
 							'pregmatch' => '^[a-zA-Z áéíóúüñÁÉÍÓÚÜÑ]*$',
 							'minlength'	=> 4,
 							'maxlength'	=> 64,
 							'required'	=> true
 							);
 $VALIDATIONS['username']  = $VALIDATIONS['twitter'] = array(
+							'display'	=> 'Nombre',
 							'pregmatch' => '^[a-zA-Z0-9 áéíóúüñÁÉÍÓÚÜÑ]*$',
 							'minlength'	=> 4,
 							'maxlength'	=> 64,
 							'required'	=> true
 							);
 $VALIDATIONS['useremail'] = $VALIDATIONS['email'] = array(
+							'display'	=> 'Correo',
 							'pregmatch' => '^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$',
 							'minlength'	=> 8,
 							'maxlength'	=> 64,
 							'required'	=> true
 							);
 $VALIDATIONS['userpass'] = $VALIDATIONS['pass']	= array(
+							'display'	=> 'Contraseña',
 							'pregmatch' => false,
 							'minlength'	=> 4,
 							'maxlength'	=> 32,
@@ -33,12 +37,14 @@ $VALIDATIONS['action']	= array(
 							'required'	=> false
 							);
 $VALIDATIONS['message']	= array(
+							'display'	=> 'Mensaje',
 							'pregmatch' => false,
 							'minlength'	=> 8,
 							'maxlength'	=> 512,
 							'required'	=> true
 							);
 $VALIDATIONS['comment']	= array(
+							'display'	=> 'Comentario',
 							'pregmatch' => false,
 							'minlength'	=> 8,
 							'maxlength'	=> 1024,

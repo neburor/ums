@@ -4,9 +4,8 @@ if(isset($_SESSION['logged']))
 {
 	if(isset($_SESSION['debugger']))
 	{
-		$_SESSION['debugger'][]='SESSION:logged => include functions_logged.php';
+		$_SESSION['debugger'][]='SESSION:logged';
 	}
-	include 'functions_logged.php';
 }
 if(!isset($_SESSION['device']))
 {

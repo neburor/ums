@@ -5,6 +5,35 @@ include 'function_AddNetwork.php';
 
 function NewAccount ($params=array())
 {
+    $resultado=SQLinsert(
+            array(
+                'table'=>'accounts'
+                ),
+            array(
+                'datetime'=> date("Y-m-d H:i:s"),
+                'domain'=> UMSDOMAIN,
+                'token_hash'=> '',
+                'user_hash'=> '', 
+                'name'=> $_SESSION['connect']['name'], 
+                'username'=> '',
+                'password'=>'',
+                'pic'=>$_SESSION['connect']['network'],
+                'cover'=>$_SESSION['connect']['network'],
+                'role'=>'0'
+                )
+            );
+
+        AddHash($resultado);
+        $Account=SearchAccount(array('id'=>$resultado));
+        if($params['type']=='connect')
+        {
+            $Account['networks']=AddNetwork($Account['id']);
+        }
+        return $Account;
+}
+/*
+function NewAccount ($params=array())
+{
     global $mysqli;
 
     $sql="
@@ -36,3 +65,4 @@ function NewAccount ($params=array())
         return $Account;
     }
 }
+*/

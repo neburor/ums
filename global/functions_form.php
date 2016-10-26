@@ -24,9 +24,42 @@ function FeedbackButton ($type,$button)
 		}
 	}
 }
-function FeedbackAlert ($alert=array())
+function Feedback ($feedback=array())
 {
 	$htmlalert='';
+	$warningFields['count']= 0;
+	$warningFields['content'] = '';
+
+	foreach ($feedback as $key => $value) 
+	{
+		if($key!='button' && $key!='alert')
+		{
+			if($value['status']!='valid' && $value['status']!='norequired')
+			{
+				$warningFields['count']++;
+
+				if($warningFields['count']>1)
+				{
+					$warningFields['content'].= ', ';
+				}
+				$warningFields['content'].='<b>'.$value['display'].'</b>';
+			}
+		}
+		if($key=='alert')
+		{
+			$htmlalert.=FeedbackAlert($value);
+		}
+	}
+
+	if($warningFields['count']>0)
+	{
+		$htmlalert.=FeedbackAlert(array('warning'=>'Los siguientes campos son incorrectos: '.$warningFields['content']));
+	}
+	
+	return $htmlalert;
+}
+function FeedbackAlert($alert=array())
+{
 	foreach ($alert as $key => $value) {
 		if($key=='info')
 		{

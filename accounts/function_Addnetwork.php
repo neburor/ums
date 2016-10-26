@@ -1,5 +1,35 @@
 <?php
 // AddNetwork
+
+function AddNetwork ($id)
+{
+    $resultado=SQLinsert(
+            array(
+                'table'=>'accounts_sn'
+                ),
+            array(
+                'datetime'=> date("Y-m-d H:i:s"),
+                'domain'=> UMSDOMAIN,
+                'account'=> $id,
+                'network'=> $_SESSION['connect']['network'], 
+                'network_id'=> $_SESSION['connect']['id'], 
+                'name'=> $_SESSION['connect']['name'],
+                'email'=> $_SESSION['connect']['email'],
+                'screenname'=> $_SESSION['connect']['screenname'],
+                'url'=> $_SESSION['connect']['url'],
+                'pic'=> $_SESSION['connect']['pic'],
+                'cover'=> $_SESSION['connect']['cover'],
+                'cover_y'=> $_SESSION['connect']['cover_y'],
+                'cover_x'=> $_SESSION['connect']['cover_y']
+                )
+            );
+    if($resultado)
+    {
+         return SearchNetworks($id);
+    }
+   
+}
+/*
 function AddNetwork ($id)
 {
     global $mysqli;
@@ -27,3 +57,4 @@ function AddNetwork ($id)
         return SearchNetworks($id);
     }
 }
+*/

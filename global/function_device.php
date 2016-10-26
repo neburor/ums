@@ -1,5 +1,6 @@
 <?php
 //Devices
+
 function NewDevice ()
 {
     $device_hash = md5($_SERVER['REQUEST_TIME_FLOAT']);

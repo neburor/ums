@@ -6,8 +6,40 @@ require 'function_SearchAccount.php';
 require 'function_SearchNetworks.php';
 require 'function_NewAccount.php';
 
+function ConnectAccount ()
+{
+    $resultado=SQLselect(
+            array(
+                'table'=>'accounts_sn',
+                'limit'=>'LIMIT 1'
+                ),
+            array(
+                'domain'=>UMSDOMAIN,
+                'network'=>$_SESSION['connect']['network'],
+                'network_id'=>$_SESSION['connect']['id']
+                )
+            );
 
+    if($resultado)
+    {
+        $ConnectAccount=SearchAccount(array('id'=>$resultado['account']));
+    }
+    else
+    {
+        $ConnectAccount=NewAccount(array('type'=>'connect'));
+    }
 
+    if($ConnectAccount)
+    {
+        NewLogin(array( 'account'=> $ConnectAccount['id'],
+                    'type'=>$_SESSION['connect']['network']
+                    ));
+    }
+    
+
+    return $ConnectAccount;
+}
+/*
 function ConnectAccount ()
 {
 	GLOBAL $mysqli;
@@ -58,6 +90,4 @@ function ConnectAccount ()
 
 	return $ConnectAccount;
 }
-
-
-
+*/

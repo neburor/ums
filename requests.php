@@ -29,7 +29,29 @@ if(isset($_GET))
 
     			header("Location: " . $loginUrl);
     		}
+        if($_GET['login']=='twitter') // Iniciar sesion con la API de Twitter
+        {
+          if(isset($_SESSION['debugger']))
+          {
+            $_SESSION['debugger'][]='GET:login:twitter => twitter.com';
+          }
+          include_once("login/twitter/twitteroauth.php");
+          $connection = new TwitterOAuth(TWCONSUMERKEY, TWCONSUMERSECRET);
+          $request_token = $connection->getRequestToken(URLSYSTEM.'login/tw-callback.php');
+
+          $_SESSION['connect']['twitter']['token']      = $request_token['oauth_token'];
+          $_SESSION['connect']['twitter']['token_secret']   = $request_token['oauth_token_secret'];
+
+          $twitter_url = $connection->getAuthorizeURL($request_token['oauth_token']);
+
+          $_SESSION['connect']['referer']=$_SERVER['HTTP_REFERER'];
+        header('Location: ' . $twitter_url); 
+    }
 	}
+  if(isset($_GET['likes']))
+  {
+      include 'global/functions_like.php';  
+  }
 	if(isset($_GET['logout']))
   	{
       unset($_SESSION['connect']);
@@ -59,6 +81,7 @@ if(isset($_POST))
 
         if($feedback!='valid' && $feedback!='norequired')
           {
+            $_SESSION['feedback'][$formid][$field]['display']=$VALIDATIONS[$field]['display'];
             $warningFields++;
           }
       }
@@ -111,11 +134,12 @@ if(isset($_POST))
         {
           $formstatus=Insert_chat($_POST);
         }
+        */
         if($formtype=='comment')
         {
-          $formstatus=Insert_comment($_POST);
+          $formstatus=InsertComment($_POST);
         }
-*/
+
         $_SESSION['feedback'][$formid]['alert']=$formstatus['alert'];
 
         if(key($formstatus['alert'])=='success')

@@ -1,12 +1,11 @@
 <?php
 //ListMessages
-include 'ums/global/functions.php';
 
 $listMessages=ListMessages($_SESSION['logged']['id']);
 
 echo '<ul class="list-group">';
 
-if(count($listMessages)!=0)
+if($listMessages)
 {
 	echo '<li class="list-group-item">
 			<i class="fa fa-envelope"></i> '.count($listMessages).' Mensaje';
