@@ -63,6 +63,8 @@ function Signup($post=array())
                             );
                     if($account)
                     {
+                        include 'function_logins.php';
+                        NewLogin(array('type'=>'email','account'=>$account['id']));
                         $_SESSION['logged']=$account;
 
                         include 'ums/accounts/function_SearchNetworks.php';
@@ -127,6 +129,8 @@ function Login($post= array())
                 $response['alert'] = array('success'=>'Has iniciado sesion correctamente');
                 $response['feedback']['useremail'] = 'valid';
                 $response['feedback']['userpass'] = 'valid';
+
+                NewLogin(array('type'=>'email','account'=>$resultado['id']));
 
                 $_SESSION['logged']=$resultado;
 
