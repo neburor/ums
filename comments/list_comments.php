@@ -109,12 +109,13 @@ function LIcomments($comments)
                 if(isset($_GET['replycomment']) && $_GET['replycomment']==$data['id'])
                 {
                     $comments_list.='
-                        <div class="collapse in" id="replycomment_'.$data['id'].'" aria-expanded="true">
+                        <div class="collapse in container-fluid" id="replycomment_'.$data['id'].'" aria-expanded="true">
                             <div class="media"><a data-toggle="collapse" href="#replycomment_'.$data['id'].'" aria-expanded="true" aria-controls="replycomment_'.$data['id'].'" class="pull-right"><i class="fa fa-times"></i></a>
                             </div>';
                     $form=array(
                         'id'    =>'form_reply-'.$data['id'],
                         'type'  =>'comment',
+                        'callback'=>'replycomment_'.$data['id'],
                         'inid'  => $data['id'],
                         'toid'  => $data['from_id'],
                         'toname'=> $data['from_name']
@@ -173,6 +174,7 @@ function LIcomments($comments)
                             $form=array(
                                 'id'    =>'form_reply-'.$data2['id'],
                                 'type'  =>'comment',
+                                'callback'=>'replycomment_'.$data2['id'],
                                 'inid'  => $data['id'],
                                 'toid'  =>$data2['from_id'],
                                 'toname'=>$data2['from_name']

@@ -47,6 +47,7 @@ if($user)
 
 	require '../accounts/function_connect.php';
 	$_SESSION['logged']=ConnectAccount();
+	$callback='#'.$_SESSION['connect']['callback'];
 }
 else 
 {	
@@ -55,6 +56,7 @@ else
 		$_SESSION['debugger'][]='API:facebook:error | '.$helper->getError();
 	}
 	$_SESSION['connect']['alert']['danger']='Error de inicio de sesion';
+	$callback='#'.$_SESSION['connect']['error'];
 }
 
-header("Location: ".$_SESSION['connect']['referer']);
+header("Location: ".$_SESSION['connect']['referer'].$callback);

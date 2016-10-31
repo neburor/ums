@@ -14,12 +14,12 @@ if(isset($_SESSION['logged']))
               <div class="media-heading text-center"><img src="'.ShowPic().'" class="profile-pic"> '.ShowName().'</div>
             </div>
             <div class="media-right">
-              <button class="btn btn-link" type="button" data-show="app.user.settings" data-toggle="toggle" aria-controls="appsettings"><i class="fa fa-cog fa-2x"></i></button>
+              <button class="btn btn-link" type="button" data-show="app.settings.config" data-toggle="toggle" aria-controls="appconfig"><i class="fa fa-cog fa-2x"></i></button>
             </div>
           </div>
-          <div class="collapse appsettings" id="appsettings">
-            <div class="well well-default">
-              Preferencias
+          <div class="tab-content appcontent container-fluid">
+            <div role="tabpanel" class="tab-pane" id="appconfig">
+              Configuracion
             </div>
           </div>
           <ul class="nav nav-tabs nav-justified nav-mobile appnav">
@@ -134,13 +134,35 @@ else
             <div class="media-body">
             </div>
             <div class="media-right">
-              <button class="btn btn-link" type="button" data-show="app.user.login" data-toggle="toggle" aria-expanded="false" aria-controls="applogin"><i class="fa fa-sign-in fa-2x"></i></button>
+              <button class="btn btn-link" type="button" data-show="app.settings.login" data-toggle="show" aria-expanded="false" aria-controls="appsettings"><i class="fa fa-sign-in fa-2x"></i></button>
+              </div>
+            <div class="media-right">
+              <button class="btn btn-link" type="button" data-show="app.settings.signup" data-toggle="show" aria-expanded="false" aria-controls="appsettings"><i class="fa fa-user-plus fa-2x"></i></button>
             </div>
           </div>
-          <div class="collapse applogin" id="applogin">
-            <div class="well well-default">
-              <a href="?login=facebook" class="btn btn-social btn-facebook btn-block"><i class="fa fa-facebook"></i> Conectarse<span class="hidden-xxs"> con facebook</span></a>
-            </div>
+          
+           <div class="tab-content appcontent container-fluid">
+              <div role="tabpanel" class="tab-pane" id="applogin">
+              ';
+            $div=array('intro'=>'col-xs-12','form'=>'col-xs-12');
+            $form=array(
+                'id'    =>'app_settings-login',
+                'type'  =>'login'
+                  );
+            include 'ums/login/html_login-tab.php';
+            echo '
+              </div>
+              <div role="tabpanel" class="tab-pane" id="appsignup">
+              ';
+            $div=array('intro'=>'col-xs-12','form'=>'col-xs-12');
+            $form=array(
+                'id'    =>'app_settings-signup',
+                'type'  =>'signup'
+                  );
+            include 'ums/login/html_signup-tab.php';
+            echo '
+              </div>
+                    
           </div>
           <ul class="nav nav-tabs nav-justified nav-mobile appnav">
             <li role="presentation" class="active"><a href="#" data-target="#appnewsfeed" data-show="app.content.newsfeed" role="tab" data-toggle="tab" aria-controls="appnewsfeed" aria-expanded="true"><i class="fa fa-globe"></i> Noticias</a></li>

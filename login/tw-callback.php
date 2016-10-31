@@ -30,7 +30,7 @@ if($access_token)
 	require '../accounts/function_connect.php';
 
 	$_SESSION['logged']=ConnectAccount();
-
+	$callback='#'.$_SESSION['connect']['callback'];
 }
 else 
 {	
@@ -40,5 +40,6 @@ else
 	}
 
 	$_SESSION['connect']['alert']['danger']='Es necesario que acepte la aplicación para poder iniciar sesion con su cuenta de twitter';
+	$callback='#'.$_SESSION['connect']['error'];
 }
-header("Location: ".$_SESSION['connect']['referer']);
+header("Location: ".$_SESSION['connect']['referer'].$callback);

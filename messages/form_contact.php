@@ -9,10 +9,10 @@ echo '
         </div>
       	<div class="media-body">
             <strong class="media-heading">'.$_SESSION['logged']['name'].'</strong>
-            <form class="form" role="form" action="" method="POST">
+            <form class="form" role="form" action="'.$form['action'].'#'.$form['callback'].'" method="POST">
               <input type="hidden" name="formid" value="'.$form['id'].'">
               <input type="hidden" name="formtype" value="'.$form['type'].'">
-              <div class="form-group">
+              <div class="form-group '.FeedbackClass($_SESSION['feedback'][$form['id']]['message']).'">'.FeedbackIcon($_SESSION['feedback'][$form['id']]['message']).'
                 <textarea class="form-control" name="message" placeholder="Su mensaje a la administracion ..." minlength="8" maxlength="512" required=""></textarea>
               </div>
               <div class="form-group response">'.Feedback($_SESSION['feedback'][$form['id']]).'</div>
@@ -33,8 +33,18 @@ echo '
       	<div class="form-group col-xs-12">
       		<p><i class="fa fa-info-circle"></i> Complete los siguientes campos o <b><i class="fa fa-sign-in"></i> Inicie sesion</b> / <b><i class="fa fa-user-plus"></i> Registarse</b>.</p>
       		<label>Conectarse con :</label> 
-      			<a class="btn btn-social-icon btn-facebook" href="?login=facebook"> <i class="fa fa-facebook"></i></a> 
-      			<a class="btn btn-social-icon btn-twitter" href="?login=twitter"> <i class="fa fa-twitter"></i></a>
+      			<a class="btn btn-social-icon btn-facebook" href="?login=facebook';
+            if($form['callback'])
+            {
+              echo '&callback='.$form['callback'];
+            }
+            echo '"> <i class="fa fa-facebook"></i></a> 
+      			<a class="btn btn-social-icon btn-twitter" href="?login=twitter';
+            if($form['callback'])
+            {
+              echo '&callback='.$form['callback'];
+            }
+            echo '"> <i class="fa fa-twitter"></i></a>
       	</div>
       	<div class="form-group col-xs-6 col-xxs-12">
       		<div class="input-group">

@@ -1,5 +1,65 @@
 <?php
 //Form Functions
+function FeedBackValueData($field=array())
+{
+	if($field['status'])
+	{
+		if($field['status']=='norequired')
+		{
+		}
+		elseif($field['status']!='nodata')
+		{
+			return $field['value'];
+		}
+	}
+}
+function FeedBackValue($field=array())
+{
+	if($field['status'])
+	{
+		if($field['status']=='norequired')
+		{
+		}
+		elseif($field['status']!='nodata')
+		{
+			return 'value="'.$field['value'].'"';
+		}
+	}
+}
+function FeedbackClass($field=array())
+{
+	if($field['status'])
+	{
+		if($field['status']=='norequired')
+		{
+		}
+		elseif($field['status']=='valid')
+		{
+			return 'has-feedback has-success';
+		}
+		elseif($field['status']!='valid')
+		{
+			return 'has-feedback has-warning';
+		}
+	}
+}
+function FeedbackIcon($field=array())
+{
+	if($field['status'])
+	{
+		if($field['status']=='norequired')
+		{
+		}	
+		elseif($field['status']=='valid')
+		{
+			return '<i class="fa fa-check form-control-feedback"></i>';
+		}
+		elseif($field['status']!='valid')
+		{
+			return '<i class="fa fa-warning form-control-feedback"></i>';
+		}
+	}
+}
 function FeedbackButton ($type,$button)
 {
 	if($button==NULL)
@@ -26,34 +86,37 @@ function FeedbackButton ($type,$button)
 }
 function Feedback ($feedback=array())
 {
-	$htmlalert='';
-	$warningFields['count']= 0;
-	$warningFields['content'] = '';
-
-	foreach ($feedback as $key => $value) 
+	if($feedback['alert'])
 	{
-		if($key!='button' && $key!='alert')
-		{
-			if($value['status']!='valid' && $value['status']!='norequired')
-			{
-				$warningFields['count']++;
+		$htmlalert=FeedbackAlert($feedback['alert']);
+	}
+	else
+	{
+		$htmlalert='';
+		$warningFields['count']= 0;
+		$warningFields['content'] = '';
 
-				if($warningFields['count']>1)
+		foreach ($feedback as $key => $value) 
+		{
+			if($key!='button' && $key!='alert')
+			{
+				if($value['status']!='valid' && $value['status']!='norequired')
 				{
-					$warningFields['content'].= ', ';
+					$warningFields['count']++;
+
+					if($warningFields['count']>1)
+					{
+						$warningFields['content'].= ', ';
+					}
+					$warningFields['content'].='<b>'.$value['display'].'</b>';
 				}
-				$warningFields['content'].='<b>'.$value['display'].'</b>';
 			}
 		}
-		if($key=='alert')
-		{
-			$htmlalert.=FeedbackAlert($value);
-		}
-	}
 
-	if($warningFields['count']>0)
-	{
-		$htmlalert.=FeedbackAlert(array('warning'=>'Los siguientes campos son incorrectos: '.$warningFields['content']));
+		if($warningFields['count']>0)
+		{
+			$htmlalert.=FeedbackAlert(array('warning'=>'Los siguientes campos son incorrectos: '.$warningFields['content']));
+		}
 	}
 	
 	return $htmlalert;

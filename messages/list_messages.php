@@ -3,7 +3,7 @@
 
 $listMessages=ListMessages($_SESSION['logged']['id']);
 
-echo '<ul class="list-group">';
+echo '<ul class="list-group" id="'.$form['id'].'"">';
 
 if($listMessages)
 {
@@ -23,13 +23,13 @@ else
 			<i class="fa fa-envelope"></i> Ningun mensaje
 		</li>';
 }
-
-echo '
-		<li class="list-group-item container-fluid">';
 $form=array(
       'id'    =>'form_contact_li',
       'type'  =>'contact'
         );
+echo '
+		<li class="list-group-item container-fluid" id="'.$form['id'].'">';
+
 include 'form_contact_li.php';
 echo '
 		</li>

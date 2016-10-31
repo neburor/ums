@@ -6,6 +6,7 @@ include 'global/functions.php';
 include 'global/functions_form.php';
 include 'sessions.php';
 
+include 'login/functions_db.php';
 include 'messages/functions_db.php';
 include 'comments/functions_db.php';
 

@@ -26,6 +26,11 @@ if(isset($_GET))
       			$loginUrl = $helper->getLoginUrl(URLSYSTEM.'login/fb-callback.php', $permissions);
 
       			$_SESSION['connect']['referer']=$_SERVER['HTTP_REFERER'];
+            if($_GET['callback'])
+            {
+              $_SESSION['connect']['callback']=$_GET['callback'];
+              $_SESSION['connect']['error']=$_GET['error'];
+            }
 
     			header("Location: " . $loginUrl);
     		}
@@ -45,6 +50,11 @@ if(isset($_GET))
           $twitter_url = $connection->getAuthorizeURL($request_token['oauth_token']);
 
           $_SESSION['connect']['referer']=$_SERVER['HTTP_REFERER'];
+          if($_GET['callback'])
+            {
+              $_SESSION['connect']['callback']=$_GET['callback'];
+              $_SESSION['connect']['error']=$_GET['error'];
+            }
         header('Location: ' . $twitter_url); 
     }
 	}
@@ -56,6 +66,8 @@ if(isset($_GET))
   	{
       unset($_SESSION['connect']);
   		unset($_SESSION['logged']);
+      unset($_COOKIE['token']);
+      setcookie('token', null, -1, '/', UMSDOMAIN);
   		header("Location: " . $_SERVER['HTTP_REFERER']);
   	}
   if(isset($_GET['debugger']))
@@ -104,7 +116,7 @@ if(isset($_POST))
       }
       else 
       {
-/*        if($formtype=='login')
+        if($formtype=='login')
         {
           $formstatus=Login($_POST);
         }
@@ -112,6 +124,7 @@ if(isset($_POST))
         {
           $formstatus=Signup($_POST);
         }
+        /*
         if($formtype=='settings')
         {
           if(!empty($_FILES))

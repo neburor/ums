@@ -8,7 +8,7 @@ function ShowName()
 }
 function ShowPic()
 {
-    if($_SESSION['logged']['pic']=='facebook' || $_SESSION['logged']['pic']=='twitter')
+    if($_SESSION['logged']['pic']=='facebook' || $_SESSION['logged']['pic']=='twitter' || $_SESSION['logged']['pic']=='avatar')
     {
         if($_SESSION['logged']['pic']=='twitter')
         {
