@@ -27,7 +27,7 @@ echo '
 else
 {
 echo '	
-	<form class="form" role="form" action="" method="POST">
+	<form class="form" role="form" action="'.$form['action'].'#'.$form['callback'].'" method="POST">
         <input type="hidden" name="formid" value="'.$form['id'].'">
         <input type="hidden" name="formtype" value="'.$form['type'].'">
       	<div class="form-group col-xs-12">
@@ -46,27 +46,31 @@ echo '
             }
             echo '"> <i class="fa fa-twitter"></i></a>
       	</div>
-      	<div class="form-group col-xs-6 col-xxs-12">
+      	<div class="form-group col-xs-6 col-xxs-12 '.FeedbackClass($_SESSION['feedback'][$form['id']]['name']).'">
       		<div class="input-group">
       			<span class="input-group-addon"><i class="fa fa-user"></i></span>
-      			<input type="text" class="form-control" name="name" placeholder="Tu nombre ..." required="">
+      			<input type="text" class="form-control" name="name" placeholder="Tu nombre ..." required="" '.FeedbackValue($_SESSION['feedback'][$form['id']]['name']).'>
+            '.FeedbackIcon($_SESSION['feedback'][$form['id']]['name']).'
       		</div>
       	</div>
-      	<div class="form-group col-xs-6 col-xxs-12">
+      	<div class="form-group col-xs-6 col-xxs-12 '.FeedbackClass($_SESSION['feedback'][$form['id']]['email']).'">
       		<div class="input-group">
       			<span class="input-group-addon"><i class="fa fa-at"></i></span>
-      			<input type="email" class="form-control" name="email" placeholder="Tu correo ..." required="">
+      			<input type="email" class="form-control" name="email" placeholder="Tu correo ..." required="" '.FeedbackValue($_SESSION['feedback'][$form['id']]['email']).'>
+            '.FeedbackIcon($_SESSION['feedback'][$form['id']]['email']).'
       		</div>
       	</div>
       	<div class="form-group col-xs-12">
       		<label><input type="checkbox" name="funnel" value="signon" checked=""> Crearme una cuenta <b>GRATIS!</b>.</label> Recibira un correo para confirmar.
       	</div>
-      	<div class="form-group col-xs-12">
+      	<div class="form-group col-xs-12 '.FeedbackClass($_SESSION['feedback'][$form['id']]['message']).'">
       		<div class="input-group">
       			<span class="input-group-addon"><i class="fa fa-edit"></i></span>
-      			<textarea class="form-control" name="message" placeholder="Su mensaje a la administración ..." required=""></textarea>
+      			<textarea class="form-control" name="message" placeholder="Su mensaje a la administración ..." required="">'.FeedbackValueData($_SESSION['feedback'][$form['id']]['comment']).'</textarea>
+            '.FeedbackIcon($_SESSION['feedback'][$form['id']]['message']).'
       		</div>
       	</div>
+        <div class="form-group col-xs-12 response">'.Feedback($_SESSION['feedback'][$form['id']]).'</div>
       	<div class="form-group col-xs-12">
       		<button type="submit" class="btn btn-default btn-block"><i class="fa fa-envelope"></i> Enviar mensaje</button>
       	</div>

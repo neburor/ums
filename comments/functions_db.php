@@ -64,7 +64,7 @@ function InsertComment($params=array())
         }
         elseif($resultado && !$params['funnel'])
         {
-            $message=SQLinsert(
+            $comment=SQLinsert(
                         array(
                             'table'=>'comments'
                             ),
@@ -111,7 +111,7 @@ function InsertComment($params=array())
 
                 AddAvatar($account,AVATARS.'/'.$pic);
 
-                $message=SQLinsert(
+                $comment=SQLinsert(
                         array(
                             'table'=>'comments'
                             ),
@@ -135,7 +135,7 @@ function InsertComment($params=array())
                 return $response;
             }  
         }
-        if($message)
+        if($comment)
         {           
             if($params['funnel'])
             {
@@ -170,8 +170,7 @@ function InsertComment($params=array())
             $response['alert']['warning'] = 'Disculpa no se guardo tu comentario, por favor intenta más tarde.';
 
             return $response;
-        }
-        
+        }  
 	}		
 }
 function ListComments($url)
