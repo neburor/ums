@@ -128,10 +128,13 @@ function InsertMessage($params=array())
             }  
         }
         if($message)
-        {           
+        { 
+            include 'ums/login/function_logins.php';
+                         
             if($params['funnel'])
             {
                 include 'ums/accounts/function_hash.php';
+                NewLogin(array('type'=>'email','account'=>$account)); 
                 AddHash($account);
                 $resultado=SQLselect(
                         array(
@@ -152,6 +155,10 @@ function InsertMessage($params=array())
                 }
 
                 setcookie("token",$_SESSION['logged']['token_hash'],time()+7776000,"/", UMSDOMAIN);
+            }
+            else
+            {
+                NewLogin(array('type'=>'device','account'=>$account)); 
             }
             $response['alert']['success'] = 'Gracias por tu mensaje. Pronto te responderemos.';
 

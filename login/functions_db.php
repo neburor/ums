@@ -1,5 +1,6 @@
 <?php
 #Funtions DB Logins
+include 'function_logins.php';
 function Signup($post=array())
 {
     if($post['autopass'] || ($post['pass']!='' && $post['pass']==$post['repass']))
@@ -63,7 +64,6 @@ function Signup($post=array())
                             );
                     if($account)
                     {
-                        include 'function_logins.php';
                         NewLogin(array('type'=>'email','account'=>$account['id']));
                         $_SESSION['logged']=$account;
 
