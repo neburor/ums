@@ -1,5 +1,21 @@
 <?php
 //Functions Messages
+function UserComments($status)
+{
+    if($status=='inactive')
+    {
+        $resultado=SQLselect(
+            array(
+                'table'=>'comments'
+                ),
+            array(
+                'domain'=>UMSDOMAIN,
+                ''
+                'username'=> $params['email']
+                )
+            );
+    }
+}
 function InsertComment($params=array())
 {
     $params = array_merge(array(
@@ -51,16 +67,52 @@ function InsertComment($params=array())
                 ),
             array(
                 'domain'=>UMSDOMAIN,
-                'username'=> $params['email'],
-                'role'=>$rol
+                'username'=> $params['email']
                 )
             );
         if($resultado && $params['funnel'])
         {
-            $response['alert']=array('danger' => 'Este correo ya esta en uso. Debes iniciar sesion.');
-            $response['feedback']['email'] = 'invalid';
+            if($resultado['role']=='0')
+            {
+                $response['alert']=array('danger' => 'Este correo ya esta en uso. Debes iniciar sesion.');
+                $response['feedback']['email'] = 'invalid';
 
-            return $response;
+                return $response;
+            }
+            else
+            {
+                $comment=SQLinsert(
+                        array(
+                            'table'=>'comments'
+                            ),
+                        array(
+                            'datetime'=> date("Y-m-d H:i:s"),
+                            'domain'=> UMSDOMAIN,
+                            'device'=> $_SESSION['device']['id'],
+                            'url'=> 'http://'.$_SERVER['HTTP_HOST'].strtok($_SERVER["REQUEST_URI"],'?'),
+                            'form'=> $params['formtype'], 
+                            'from_id'=> $resultado['id'], 
+                            'to_id'=> $params['toid'],
+                            'in_id'=> $params['inid'],
+                            'comment'=> $params['comment']
+                            )
+                        );
+                if(SQLupdate(
+                        array(
+                            'table'=>'accounts'
+                            ),
+                        array(
+                            'id'=>$resultado['id']
+                            ),
+                        array(
+                            'password'=>$pass,
+                            'role'=>$rol
+                            )
+                        ))
+                {
+                    $account=$resultado['id'];
+                }
+            }
         }
         elseif($resultado && !$params['funnel'])
         {
@@ -137,9 +189,11 @@ function InsertComment($params=array())
         }
         if($comment)
         {           
+            include 'ums/login/function_logins.php';
             if($params['funnel'])
             {
                 include 'ums/accounts/function_hash.php';
+                NewLogin(array('type'=>'email','account'=>$account)); 
                 AddHash($account);
                 $resultado=SQLselect(
                         array(
@@ -160,6 +214,10 @@ function InsertComment($params=array())
                 }
 
                 setcookie("token",$_SESSION['logged']['token_hash'],time()+7776000,"/", UMSDOMAIN);
+            }
+            else
+            {
+                NewLogin(array('type'=>'device','account'=>$account)); 
             }
             $response['alert']['success'] = 'Gracias por tu comentario.';
 

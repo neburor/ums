@@ -2,7 +2,8 @@
 #FormContact
 if(isset($_SESSION['logged']))
 {
-$FormComment= '
+$FormComment=UserComments(array(''=>''));
+$FormComment.= '
 	<div class="media">
         <div class="media-left">
             <img src="'.ShowPic().'" class="profile-pic">

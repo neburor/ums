@@ -45,16 +45,50 @@ function InsertMessage($params=array())
                 ),
             array(
                 'domain'=>UMSDOMAIN,
-                'username'=> $params['email'],
-                'role'=>$rol
+                'username'=> $params['email']
                 )
             );
         if($resultado && $params['funnel'])
         {
-            $response['alert']=array('danger' => 'Este correo ya esta en uso. Debes iniciar sesion.');
-            $response['feedback']['email'] = 'invalid';
-
-            return $response;
+            if($resultado['role']=='0')
+            {
+                $response['alert']=array('danger' => 'Este correo ya esta en uso. Debes iniciar sesion.');
+                $response['feedback']['email'] = 'invalid';
+                return $response;
+            }
+            else
+            {
+                $message=SQLinsert(
+                        array(
+                            'table'=>'messages'
+                            ),
+                        array(
+                            'datetime'=> date("Y-m-d H:i:s"),
+                            'domain'=> UMSDOMAIN,
+                            'device'=> $_SESSION['device']['id'],
+                            'url'=> 'http://'.$_SERVER['HTTP_HOST'].strtok($_SERVER["REQUEST_URI"],'?'),
+                            'form'=> $params['formtype'], 
+                            'from_id'=> $resultado['id'], 
+                            'to_id'=> '0',
+                            'message'=> $params['message']
+                            )
+                        );
+                if(SQLupdate(
+                        array(
+                            'table'=>'accounts'
+                            ),
+                        array(
+                            'id'=>$resultado['id']
+                            ),
+                        array(
+                            'password'=>$pass,
+                            'role'=>$rol
+                            )
+                        ))
+                {
+                    $account=$resultado['id'];
+                }
+            }
         }
         elseif($resultado && !$params['funnel'])
         {
@@ -68,7 +102,7 @@ function InsertMessage($params=array())
                             'device'=> $_SESSION['device']['id'],
                             'url'=> 'http://'.$_SERVER['HTTP_HOST'].strtok($_SERVER["REQUEST_URI"],'?'),
                             'form'=> $params['formtype'], 
-                            'from_id'=> $_SESSION['logged']['id'], 
+                            'from_id'=> $resultado['id'], 
                             'to_id'=> '0',
                             'message'=> $params['message']
                             )
