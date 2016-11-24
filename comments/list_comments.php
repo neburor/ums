@@ -96,7 +96,7 @@ function LIcomments($comments)
                             }
                             if($data['liked'])
                             {
-                                $comments_list.='<a href="?likes=comment&dislike='.$data['id'].'&callback=comment_'.$data['id'].'" class="dislike">Me gusta</a> ·';
+                                $comments_list.='<a href="?likes=comment&dislike='.$data['id'].'&callback=comment_'.$data['id'].'" class="dislike">Me gusta <i class="fa fa-times"></i></a> ·';
                             }
                             else
                             {
@@ -154,7 +154,7 @@ function LIcomments($comments)
                             }
                             if($data2['liked'])
                             {
-                                $comments_list.='<a href="?likes=comment&dislike='.$data2['id'].'&callback=comment_'.$data2['id'].'" class="dislike">Me gusta</a> ·';
+                                $comments_list.='<a href="?likes=comment&dislike='.$data2['id'].'&callback=comment_'.$data2['id'].'" class="dislike">Me gusta <i class="fa fa-times"></i></a> ·';
                             }
                             else
                             {

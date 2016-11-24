@@ -17,7 +17,7 @@ function Signup($post=array())
                 ),
             array(
                 'domain'=>UMSDOMAIN,
-                'username'=> $post['useremail']
+                'useremail'=> $post['useremail']
                 )
             );
         if($resultado)
@@ -37,7 +37,7 @@ function Signup($post=array())
                     'token_hash'=> '',
                     'user_hash'=> '', 
                     'name'=> $post['name'], 
-                    'username'=> $post['useremail'],
+                    'useremail'=> $post['useremail'],
                     'password'=>$post['pass'],
                     'pic'=>'avatar',
                     'cover'=>'',
@@ -48,7 +48,7 @@ function Signup($post=array())
             {
                 include 'ums/accounts/function_hash.php';
                 AddHash($resultado);
-                AddAvatar($resultado,AVATARS.'/'.$post['pic']);
+                AddAvatar($resultado,URLTHEME.DIRAVATARS.'/'.$post['pic']);
 
                 if($post['autologin'])
                 {    
@@ -119,7 +119,7 @@ function Login($post= array())
                 ),
             array(
                 'domain'=>UMSDOMAIN,
-                'username'=> $post['useremail']
+                'useremail'=> $post['useremail']
                 )
             );
         if($resultado)

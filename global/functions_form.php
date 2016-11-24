@@ -1,5 +1,36 @@
 <?php
 //Form Functions
+function FeedBackComment($feedback,$toname)
+{
+	if(isset($feedback['alert']['success']))
+	{
+		$htmlComment='
+		<div class="media">
+			<div class="media-left">
+				<img src="'.ShowPic().'" class="profile-pic">
+			</div>
+			<div class="media-body">
+				<span class="media-heading">
+					<b>'.$_SESSION['logged']['name'].'</b>';
+		if(isset($toname))
+		{
+			$htmlComment.=' a <i>'.$toname.'</i>';
+		}
+		$htmlComment.=' 
+                	<small class="pull-right">Ahorita</small>
+                 </span>
+				<p>'.$feedback['comment']['value'].'<br/>
+				<small><i class="fa fa-info-circle"></i> Pendiente de aprobación</small>
+				</p>
+			</div>
+			<div class="media-right">
+				<i class="fa fa-check fa-2x"></i>
+			</div>
+		</div>
+		';
+		return $htmlComment;
+	}
+}
 function FeedBackValueData($field=array())
 {
 	if($field['status'])

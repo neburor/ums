@@ -1,21 +1,6 @@
 <?php
 //Functions Messages
-function UserComments($status)
-{
-    if($status=='inactive')
-    {
-        $resultado=SQLselect(
-            array(
-                'table'=>'comments'
-                ),
-            array(
-                'domain'=>UMSDOMAIN,
-                ''
-                'username'=> $params['email']
-                )
-            );
-    }
-}
+
 function InsertComment($params=array())
 {
     $params = array_merge(array(
@@ -116,7 +101,16 @@ function InsertComment($params=array())
         }
         elseif($resultado && !$params['funnel'])
         {
-            $comment=SQLinsert(
+            if($resultado['role']=='0')
+            {
+                $response['alert']=array('danger' => 'Este correo ya esta en uso. Debes iniciar sesion.');
+                $response['feedback']['email'] = 'invalid';
+
+                return $response;
+            }
+            else
+            {
+                $comment=SQLinsert(
                         array(
                             'table'=>'comments'
                             ),
@@ -132,11 +126,12 @@ function InsertComment($params=array())
                             'comment'=> $params['comment']
                             )
                         );
+            }
         }
         else
-        {   if(AVATARS)
+        {   if(DIRAVATARS)
             {
-                $avatars=scandir(AVATARS);
+                $avatars=scandir(DIRAVATARS);
                 $rand=rand(2,count($avatars)-1);
                 $pic=$avatars[$rand];
             }
@@ -161,7 +156,7 @@ function InsertComment($params=array())
             if($account)
             {
 
-                AddAvatar($account,AVATARS.'/'.$pic);
+                AddAvatar($account,URLTHEME.DIRAVATARS.'/'.$pic);
 
                 $comment=SQLinsert(
                         array(
@@ -270,7 +265,7 @@ function ListComments($url)
             ON comments.`from_id` = accounts_sn.`account` 
             AND accounts.`pic` = accounts_sn.`network`
     WHERE comments.`url` = '".$url."'
-    AND (comments.`status`='1' || comments.`status`='2')
+    AND (comments.`status`='1' || comments.`status`='2' || comments.`status`='3')
     GROUP BY comments.`id`
     ORDER BY comments.`id`
     DESC"

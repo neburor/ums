@@ -43,7 +43,7 @@ function LImessages($messages,$account)
     $admin=0;
     foreach ($messages as $column => $data) 
     {
-        if($data['to']!=$account)
+        if($data['to_id']!=$account)
         {
             if($user==0 and $admin!=0)
             {
@@ -78,7 +78,7 @@ function LImessages($messages,$account)
         
         $date=Interval($data['datetime']);    
         
-        if($data['to']!=$account)
+        if($data['to_id']!=$account)
         {  
            if($user<=1)
             {

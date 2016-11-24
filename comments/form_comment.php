@@ -2,8 +2,7 @@
 #FormContact
 if(isset($_SESSION['logged']))
 {
-$FormComment=UserComments(array(''=>''));
-$FormComment.= '
+$FormComment= ''.FeedbackComment($_SESSION['feedback'][$form['id']],$form['toname']).'
 	<div class="media">
         <div class="media-left">
             <img src="'.ShowPic().'" class="profile-pic">

@@ -18,7 +18,7 @@ echo '<div ums class="ums messages col-xs-12 nopadding">
               {
                 echo 'class="active"';
               }
-              echo '><a href="" data-target="#tab_contact-contact" role="tab" data-toggle="tab" aria-controls="tab_contact-contact" aria-expanded="true"> <i class="fa fa-edit"></i> Mensaje</a></li>
+              echo '><a href="" data-target="#tab_contact-contact" data-hash="/ums/tab/tab_contact-contact" role="tab" data-toggle="tab" aria-controls="tab_contact-contact" aria-expanded="true"> <i class="fa fa-edit"></i> Mensaje</a></li>
 ';
 if(isset($_SESSION['logged']))
 {
@@ -40,13 +40,13 @@ else
               {
                 echo 'class="active"';
               }
-              echo '><a href="" data-target="#tab_contact-login" role="tab" data-toggle="tab" aria-controls="tab_contact-login" aria-expanded="false"> <i class="fa fa-sign-in"></i> <span class="hidden-xxs">Iniciar sesion</span></a></li>
+              echo '><a href="" data-target="#tab_contact-login" data-hash="/ums/tab/tab_contact-login" role="tab" data-toggle="tab" aria-controls="tab_contact-login" aria-expanded="false"> <i class="fa fa-sign-in"></i> <span class="hidden-xxs">Iniciar sesion</span></a></li>
               <li role="presentation" ';
               if($tab=='tab_contact-signup')
               {
                 echo 'class="active"';
               }
-              echo '><a href="" data-target="#tab_contact-signup" role="tab" data-toggle="tab" aria-controls="tab_contact-signup" aria-expanded="false"> <i class="fa fa-user-plus"></i> <span class="hidden-xxs">Registrarse</span></a></li>
+              echo '><a href="" data-target="#tab_contact-signup" data-hash="/ums/tab/tab_contact-signup" role="tab" data-toggle="tab" aria-controls="tab_contact-signup" aria-expanded="false"> <i class="fa fa-user-plus"></i> <span class="hidden-xxs">Registrarse</span></a></li>
             </ul>
           </div>
           <div class="panel-body">

@@ -19,7 +19,7 @@ echo '<div ums class="ums comments col-xs-12 nopadding">
               {
                 echo 'class="active"';
               }
-              echo '><a href="?tab=tab_comment-comment#tab_comment-comment" data-target="#tab_comment-comment" role="tab" data-toggle="tab" aria-controls="tab_comment-comment" aria-expanded="true"> <i class="fa fa-edit"></i> Comentario</a></li>
+              echo '><a href="?tab=tab_comment-comment#tab_comment-comment" data-target="#tab_comment-comment" data-hash="/ums/tab/tab_comment-comment" role="tab" data-toggle="tab" aria-controls="tab_comment-comment" aria-expanded="true"> <i class="fa fa-edit"></i> Comentario</a></li>
 ';
 if(isset($_SESSION['logged']))
 {
@@ -36,13 +36,13 @@ else
               {
                 echo 'class="active"';
               }
-              echo '><a href="?tab=tab_comment-login#tab_comment-login" data-target="#tab_comment-login" role="tab" data-toggle="tab" aria-controls="tab_comment-login" aria-expanded="false"> <i class="fa fa-sign-in"></i> <span class="hidden-xxs">Iniciar sesion</span></a></li>
+              echo '><a href="?tab=tab_comment-login#tab_comment-login" data-target="#tab_comment-login" data-hash="/ums/tab/tab_comment-login" role="tab" data-toggle="tab" aria-controls="tab_comment-login" aria-expanded="false"> <i class="fa fa-sign-in"></i> <span class="hidden-xxs">Iniciar sesion</span></a></li>
               <li role="presentation" ';
               if($tab=='tab_comment-signup')
               {
                 echo 'class="active"';
               }
-              echo '><a href="?tab=tab_comment-signup#tab_comment-signup" data-target="#tab_comment-signup" role="tab" data-toggle="tab" aria-controls="tab_comment-signup" aria-expanded="false"> <i class="fa fa-user-plus"></i> <span class="hidden-xxs">Registrarse</span></a></li>
+              echo '><a href="?tab=tab_comment-signup#tab_comment-signup" data-target="#tab_comment-signup" data-hash="/ums/tab/tab_comment-signup" role="tab" data-toggle="tab" aria-controls="tab_comment-signup" aria-expanded="false"> <i class="fa fa-user-plus"></i> <span class="hidden-xxs">Registrarse</span></a></li>
   ';
 }
 echo '     </ul>

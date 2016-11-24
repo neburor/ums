@@ -92,7 +92,16 @@ function InsertMessage($params=array())
         }
         elseif($resultado && !$params['funnel'])
         {
-            $message=SQLinsert(
+            if($resultado['role']=='0')
+            {
+                $response['alert']=array('danger' => 'Este correo ya esta en uso. Debes iniciar sesion.');
+                $response['feedback']['email'] = 'invalid';
+
+                return $response;
+            }
+            else
+            {
+                $message=SQLinsert(
                         array(
                             'table'=>'messages'
                             ),
@@ -107,11 +116,12 @@ function InsertMessage($params=array())
                             'message'=> $params['message']
                             )
                         );
+            }
         }
         else
-        {   if(AVATARS)
+        {   if(DIRAVATARS)
             {
-                $avatars=scandir(AVATARS);
+                $avatars=scandir(DIRAVATARS);
                 $rand=rand(2,count($avatars)-1);
                 $pic=$avatars[$rand];
             }
@@ -136,7 +146,7 @@ function InsertMessage($params=array())
             if($account)
             {
 
-                AddAvatar($account,AVATARS.'/'.$pic);
+                AddAvatar($account,URLTHEME.DIRAVATARS.'/'.$pic);
 
                 $message=SQLinsert(
                         array(

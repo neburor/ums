@@ -1,0 +1,115 @@
+.ums.dashboard .site-wrapper {
+  min-height: 100vh;
+  display: table;
+}
+.ums.dashboard .site-wrapper-inner {
+  vertical-align: middle;
+  display: table-cell;
+}
+.ums.dashboard .navbar-static-top {
+  margin-bottom: 0;
+}
+.ums.dashboard .navbar-brand{
+  padding: 10px;
+  height: auto;
+  min-height: 50px;
+}
+.ums.dashboard .navbar-brand img {
+  height: auto;
+  width: auto;
+  max-width: 200px;
+  max-height: 30px;
+}
+.ums.dashboard .navbar-static-top .navbar-toggle {
+  padding:9px;
+  min-height: 50px;
+}
+.ums.dashboard .navbar-static-top .nav.navbar-nav>li>a {
+  min-height: 50px;
+  padding: 9px 15px;
+}
+.ums.dashboard .sidebar {
+    min-height: 100vh;
+    background-color: #222;
+    border-color: #080808;
+}
+.ums.dashboard .sidebar .sidebar-nav>li>a>img {
+  height: 16px;
+  width: auto;
+}
+.ums.dashboard .panel .panel-heading .media-body {
+  vertical-align: middle;
+}
+.ums.dashboard .panel .list-group>.list-group-item {
+  padding-bottom: 0;
+}
+.ums.dashboard .comments .list-group>li textarea {
+  padding-top: 6px;
+}
+.ums.dashboard .panel .list-group>.list-group-item .profile-pic,
+.ums.dashboard .panel .list-group>.list-group-item .thumbnail-pic {
+    width: auto;
+    max-width: 45px;
+    height: 45px;
+}
+@media (max-width: 767px) {
+/*OffCanvas*/
+.ums.dashboard .row-offcanvas {
+  position: relative;
+  -webkit-transition: all .25s ease-out;
+  -o-transition: all .25s ease-out;
+  transition: all .25s ease-out;
+ }
+.ums.dashboard .row-offcanvas-right {
+  right: 0;
+ }
+.ums.dashboard .row-offcanvas-left {
+  left: 0;
+ }
+.ums.dashboard .row-offcanvas-right .sidebar-offcanvas-right {
+  right: -75%; 
+ }
+.ums.dashboard .row-offcanvas-left .sidebar-offcanvas-left {
+  left: -75%;
+ }
+.ums.dashboard .row-offcanvas-right.active {
+  right: 75%; 
+ }
+.ums.dashboard .row-offcanvas-left.active {
+  left: 75%; 
+ }
+.ums.dashboard .sidebar-offcanvas-left{
+  position: absolute;
+  display: block;
+  top: 0;
+  width:75%; 
+ }
+.ums.dashboard .sidebar-offcanvas-right {
+  position: absolute;
+  top: 0;
+  width:75%;
+ }
+.ums.dashboard .row-offcanvas-right.active .sidebar-offcanvas-right{
+    display: block;
+ }
+.ums.dashboard .nav-mobil {
+  border-bottom: 1px solid #ddd;
+ }
+.ums.dashboard .nav-mobil li{
+  display: table-cell;
+  width: 1%;
+ }
+.ums.dashboard .nav-mobil li>a {
+    padding: 10px 5px;
+    font-size: 12px;
+    text-align: center;
+    border-bottom-color: transparent !important;
+    margin-bottom: -1px !important;
+}
+.ums.dashboard .nav-mobil li>a>i {
+    float: left;
+    width: 100%;
+    font-size: 18px;
+    text-align: center;
+}
+}
