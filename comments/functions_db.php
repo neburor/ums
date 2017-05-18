@@ -242,6 +242,7 @@ function ListComments($url)
                 'query'=>"SELECT 
     comments.`id`,
     comments.`datetime`,
+    comments.`form`,
     comments.`from_id`,
     comments.`to_id`,
     comments.`in_id`,

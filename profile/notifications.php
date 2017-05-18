@@ -11,6 +11,13 @@ $notifications=SQLselect(
     notifications.`to_id`,
     notifications.`asset`,
     notifications.`asset_id`,
+    Case notifications.`asset`
+        When 'message'
+        Then (SELECT messages.`form` FROM `messages` WHERE messages.`id` = notifications.`asset_id`)
+        When 'comment'
+        Then (SELECT comments.`form` FROM `comments` WHERE comments.`id` = notifications.`asset_id`)
+    END
+    AS `form`,
     accounts.`name` AS `from_name`,
     accounts_sn.`pic` AS `from_pic`,
     Case notifications.`asset`
@@ -38,10 +45,13 @@ $notifications=SQLselect(
     ASC"
                 )
             );
-$admin=SQLselect(
-				array('table'=>'accounts_sn','limit'=>'LIMIT 1'),
-				array('domain'=>UMSDOMAIN,'account'=>'1')
-				);
+if(!$_SESSION['admin'])
+{
+    $_SESSION['admin']=SQLselect(
+                array('table'=>'accounts_sn','limit'=>'LIMIT 1'),
+                array('domain'=>UMSDOMAIN,'account'=>'1')
+                );
+}
 if($notifications)
 {
 	echo '<ul class="list-group appstream">';
@@ -49,14 +59,14 @@ if($notifications)
 		{
 			
 			$date=Interval($value['datetime']);
-			if($key=='message')
+			if($value['asset']=='message')
 			{
 				
 
 				echo '<li class="list-group-item">
                   		<a href="'.URLMESSAGES.'" class="media message">
-                    		<div class="media-left"><img class="img-circle profile-pic" src="'.$admin['pic'].'"></div>
-                    		<div class="media-body"><span class="media-heading"><b>'.$admin['name'].'</b> <small class="pull-right">Hace '.$date[0].' '.$date[1].'</small></span>
+                    		<div class="media-left"><img class="img-circle profile-pic" src="'.$_SESSION['admin']['pic'].'"></div>
+                    		<div class="media-body"><span class="media-heading"><b>'.$_SESSION['admin']['name'].'</b> <small class="pull-right">Hace '.$date[0].' '.$date[1].'</small></span>
                     		<p><small><i class="fa fa-envelope"></i> Contacto</small></p>
                     		<p>'.$value['text'].'</p>
                     		</div>
@@ -64,14 +74,19 @@ if($notifications)
                   		</a>
                 	</li>';
 			}
-			if($key=='comment')
+			if($value['asset']=='comment')
 			{
+                if($value['form']=='reply')
+                {
+                    $value['from_name']=$_SESSION['admin']['name'];
+                    $value['from_pic']=$_SESSION['admin']['pic'];
+                }
 				if(!$_SESSION['urls'][$value['url']])
             	{
                 	$_SESSION['urls'][$value['url']]=get_meta_tags($value['url']);
             	}
 				echo '<li class="list-group-item">
-                  		<a href="'.$value['url'].'" class="media comment">
+                  		<a href="'.$value['url'].'#comment_'.$value['asset_id'].'" class="media comment">
                     		<div class="media-left"><img class="img-circle profile-pic" src="'.$value['from_pic'].'"></div>
                     		<div class="media-body"><span class="media-heading"><b>'.$value['from_name'].'</b> <small class="pull-right">Hace '.$date[0].' '.$date[1].'</small></span>
                     		<p><small><i class="fa fa-commenting"></i> '.$_SESSION['urls'][$value['url']]['title'].'</small></p>
@@ -95,7 +110,7 @@ else
               </div>';
 }
 
-echo '<ul class="list-group appstream">
+/*echo '<ul class="list-group appstream">
                 <li class="list-group-item">
                   <a href class="media message">
                     <div class="media-left"><img class="img-circle profile-pic" src="https://scontent-mia1-1.xx.fbcdn.net/v/t1.0-1/p40x40/13872767_10154306295915775_1841733233213666303_n.jpg?oh=2740478a54b915570cb74b16689a7db7&oe=587EDA67"></div>
@@ -137,3 +152,4 @@ echo '<ul class="list-group appstream">
                   </a>
                 </li>
               </ul>';
+*/

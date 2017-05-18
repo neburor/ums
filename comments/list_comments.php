@@ -1,14 +1,22 @@
 <?php
 //ListComments
 
+
 $ListComments=ListComments('http://'.$_SERVER['HTTP_HOST'].strtok($_SERVER["REQUEST_URI"],'?'));
 
 echo '<ul class="list-group">';
 
 if($ListComments)
 {
+    if(!$_SESSION['admin'])
+    {
+        $_SESSION['admin']=SQLselect(
+                array('table'=>'accounts_sn','limit'=>'LIMIT 1'),
+                array('domain'=>UMSDOMAIN,'account'=>'1')
+                );
+    }
 	echo '<li class="list-group-item">
-			<i class="fa fa-envelope"></i> '.count($ListComments).' Comentario';
+			<i class="fa fa-envelope"></i> <span itemprop="commentCount">'.count($ListComments).'</span> Comentario';
 		if(count($ListComments)!=1)
 		{
 			echo 's';
@@ -25,7 +33,7 @@ else
 }
 echo '
 	</ul>';
-function UserPic($account,$src)
+/*function UserPic($account,$src)
 {
     if($src=='facebook' || $src=='twitter')
     {
@@ -66,28 +74,34 @@ function UserData($account)
 
         return $userData;
      }
-}
+}*/
 function LIcomments($comments)
 {
     $comments_list='';
     foreach ($comments as $column => $data) 
     {
+        if($data['form']=='reply')
+        {
+            $data['from_name']=$_SESSION['admin']['name'];
+            $data['from_pic']=$_SESSION['admin']['pic'];
+        }
         if($data['in_id']==0)
         {
             #$userData=UserData($data['from_id']);
             $date=Interval($data['datetime']); 
             $comments_list.='
             <li class="list-group-item" id="comment_'.$data['id'].'">
-                <div class="media">
+                <div class="media"  itemprop="comment" itemscope itemtype="http://schema.org/UserComments">
                     <div class="media-left">
                         <img class="media-object profile-pic" alt="'.$data['from_name'].'" src="'.$data['from_pic'].'">
                     </div>
                     <div class="media-body">
-                        <span class="media-heading">
-                            <b>'.$data['from_name'].'</b> 
+                        <span class="media-heading" itemprop="creator" itemscope itemtype="http://schema.org/Person">
+                            <b itemprop="name">'.$data['from_name'].'</b> 
                             <small class="pull-right">Hace '.$date[0].' '.$date[1].'</small>
                         </span>
-                        <p> '.$data['comment'].'
+                        <span class="sr-only" itemprop="commentTime" datetime="'.date("c", strtotime($data['datetime'])).'">'.$data['datetime'].'</span>
+                        <p> <span itemprop="commentText">'.$data['comment'].'</span>
                             <br/>
                             <small>';
                             if($data['likes']>0)
@@ -128,6 +142,11 @@ function LIcomments($comments)
                 $comments_list.='<ul class="list-group list-striped">';
                 foreach ($comments as $column2 => $data2) 
                 {
+                    if($data2['form']=='reply')
+                    {
+                        $data2['from_name']=$_SESSION['admin']['name'];
+                        $data2['from_pic']=$_SESSION['admin']['pic'];
+                    }
                     if($data['id']==$data2['in_id'])
                     {
                         #$userData=UserData($data2['from_id']);
@@ -136,16 +155,18 @@ function LIcomments($comments)
 
                         $comments_list.='
                         <li class="list-group-item"  id="comment_'.$data2['id'].'">
-                            <div class="media">
+                            <div class="media" itemscope itemtype="http://schema.org/UserComments">
                                 <div class="media-left">
                                 <img class="media-object profile-pic" alt="'.$data2['from_name'].'" src="'.$data2['from_pic'].'">
                             </div>
                             <div class="media-body">
-                                <small class="media-heading">
-                                    '.$data2['from_name'].' a <i>'.$data2['to_name'].'</i>
+                                <small class="media-heading" itemprop="creator" itemscope itemtype="http://schema.org/Person">
+                                    <span itemprop="name">'.$data2['from_name'].'</span> a <i>'.$data2['to_name'].'</i>
                                     <small class="pull-right">Hace '.$date[0].' '.$date[1].'</small>
+                                    
                                 </small>
-                                <p> '.$data2['comment'].'
+                                <span class="sr-only" itemprop="commentTime" datetime="'.date("c", strtotime($data2['datetime'])).'">'.$data2['datetime'].'</span>
+                                <p><span itemprop="commentText"> '.$data2['comment'].'</span>
                                     <br/>
                                     <small>';
                             if($data2['likes']>0)

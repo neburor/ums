@@ -2,19 +2,22 @@
 #Contact
 if(isset($_GET['tab']))
 {
-  $tab=$_GET['tab'];
+  $tab['tab']=$_GET['tab'];
 }
 else
 {
-  $tab='tab_contact-contact';
+  $tab['tab']='tab_contact-contact';
 }
-echo '<div ums class="ums messages col-xs-12 nopadding">
+echo '<div ums class="ums messages col-xs-12 nopadding"';
+  if($tab['id'])
+  { echo ' id="'.$tab['id'].'"';}
+echo '>
         <div class="panel panel-default">
           <div class="panel-heading navheading">
             <i class="fa fa-envelope fa-3x"></i> <b>Contactanos</b>
             <ul class="nav nav-tabs nav-login">
               <li role="presentation" ';
-              if($tab=='tab_contact-contact')
+              if($tab['tab']=='tab_contact-contact')
               {
                 echo 'class="active"';
               }
@@ -36,13 +39,13 @@ else
 {
   echo '
               <li role="presentation" ';
-              if($tab=='tab_contact-login')
+              if($tab['tab']=='tab_contact-login')
               {
                 echo 'class="active"';
               }
               echo '><a href="" data-target="#tab_contact-login" data-hash="/ums/tab/tab_contact-login" role="tab" data-toggle="tab" aria-controls="tab_contact-login" aria-expanded="false"> <i class="fa fa-sign-in"></i> <span class="hidden-xxs">Iniciar sesion</span></a></li>
               <li role="presentation" ';
-              if($tab=='tab_contact-signup')
+              if($tab['tab']=='tab_contact-signup')
               {
                 echo 'class="active"';
               }
@@ -52,7 +55,7 @@ else
           <div class="panel-body">
             <div class="tab-content">
               <div role="tabpanel" class="tab-pane';
-              if($tab=='tab_contact-contact')
+              if($tab['tab']=='tab_contact-contact')
               {
                 echo ' fade active in';
               }
@@ -68,7 +71,7 @@ include 'form_contact.php';
 echo '
               </div>
               <div role="tabpanel" class="tab-pane';
-              if($tab=='tab_contact-login')
+              if($tab['tab']=='tab_contact-login')
               {
                 echo ' fade active in';
               }
@@ -84,7 +87,7 @@ include 'ums/login/html_login-tab.php';
 
 echo '        </div>';
 echo '        <div role="tabpanel" class="tab-pane';
-              if($tab=='tab_contact-signup')
+              if($tab['tab']=='tab_contact-signup')
               {
                 echo ' fade active in';
               }

@@ -20,7 +20,7 @@ function FeedBackComment($feedback,$toname)
                 	<small class="pull-right">Ahorita</small>
                  </span>
 				<p>'.$feedback['comment']['value'].'<br/>
-				<small><i class="fa fa-info-circle"></i> Pendiente de aprobación</small>
+				<small><i class="fa fa-info-circle"></i> Pendiente de aprovacion</small>
 				</p>
 			</div>
 			<div class="media-right">

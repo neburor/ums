@@ -22,6 +22,12 @@ $('.scrolltop.collapsed').on('click', function (e){
    		e.preventDefault();
    		$(this).animatescroll();
 	});
+$('#cta_btn').on('click', function (e){
+  if($(document).width()<=750)
+  {
+    $('html, body').stop().animate({'scrollTop':0},900,'swing');
+  }
+});
 $('a[href="#"]').on('click', function (e){
 	e.preventDefault();
 });
@@ -95,7 +101,7 @@ function appRoutes(route)
     	}
       if(route[2]=='settings')
       {
-        if($("#app"+route[3]).hasClass('active'))
+        if($("#app"+route[3]).hasClass('active') && route[4]!='open')
         {
           $('#app'+route[3]).removeClass('active');
         }

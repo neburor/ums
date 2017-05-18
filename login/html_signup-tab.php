@@ -61,7 +61,7 @@ echo '
 	';
     if(DIRAVATARS)
     {
-    	$avatars=scandir(DIRAVATARS);
+    	$avatars = array_diff(scandir(path.DIRAVATARS), array('..', '.','administracion.png'));
 		$rand=rand(2,count($avatars)-5);
 		echo '<div class="form-group col-xs-12 avatars"><label>Imagen de perfil:</label><br/>';
 		for ($i=0; $i < 5; $i++) 

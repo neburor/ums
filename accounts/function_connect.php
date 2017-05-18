@@ -5,6 +5,7 @@ require '../login/function_logins.php';
 require 'function_SearchAccount.php';
 require 'function_SearchNetworks.php';
 require 'function_NewAccount.php';
+require 'function_UpdateNetwork.php';
 
 function ConnectAccount ()
 {
@@ -22,6 +23,10 @@ function ConnectAccount ()
 
     if($resultado)
     {
+        if(($_SESSION['connect']['pic']!=$resultado['pic']) || ($_SESSION['connect']['cover']!=$resultado['cover']))
+        {
+            UpdateNetwork($resultado['id']);
+        }
         $ConnectAccount=SearchAccount(array('id'=>$resultado['account']));
     }
     else

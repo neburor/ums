@@ -131,8 +131,21 @@ function Login($post= array())
                 $response['feedback']['userpass'] = 'valid';
 
                 NewLogin(array('type'=>'email','account'=>$resultado['id']));
-
                 $_SESSION['logged']=$resultado;
+
+                $notifs=SQLselect(
+                            array(
+                                'table'=>'notifications'
+                                ),
+                            array(
+                                'to_id'=> $resultado['id'],
+                                'status'=>'0'
+                                )
+                            );
+                if($notifs)
+                {
+                    $_SESSION['logged']['notif']=count($notifs);
+                }
 
                 include 'ums/accounts/function_SearchNetworks.php';
                 if($networks = SearchNetworks($resultado['id']))

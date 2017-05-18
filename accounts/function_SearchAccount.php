@@ -6,10 +6,13 @@ function SearchAccount ($params=array())
     $resultado=SQLselect(
             array(
                 'table'=>'accounts',
-                'limit'=>'LIMIT 1'
-                ),
-            array(
-                'id'=>$params['id']
+                'limit'=>'LIMIT 1',
+                'query'=>"SELECT *, 
+                (select count(*) from `notifications` where `to_id`='".$params['id']."' and `status`='0')
+                AS `notifs`
+                FROM `accounts`
+                WHERE `id`='".$params['id']."'
+                LIMIT 1"
                 )
             );
     if($resultado)

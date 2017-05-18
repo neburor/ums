@@ -4,6 +4,20 @@ body.profile {
   height: 100%;
   overflow: hidden;
 }
+#btn-profile {
+  position: fixed;
+  bottom: 10px;
+  right: 20px;
+  z-index:499;
+  /*IE6 hack */
+     _position: absolute;
+     _top:expression(documentElement.scrollTop+body.scrollTop);
+     _margin-top: 500px;
+}
+#btn-profile a {
+  border-radius: 50%;
+  padding: 12px;
+}
 .profile.wrapper{
   position: absolute;
   display: block;
@@ -33,7 +47,6 @@ body.profile {
 .wrapper.profile, .profile.sidebar, .profile.sidebar-content {
   height: 100%;
 }
-
 .close.profile {
   color: #fff;
   opacity: 1;
@@ -41,6 +54,13 @@ body.profile {
 }
 .close.profile:hover {
   cursor: pointer;
+}
+.profile.button .badge, #cta_btn .badge {
+  position: absolute;
+  padding: 2px 4px;
+  right: 1px;
+  top: 1px;
+  font-weight: normal;
 }
 /*UMS profile page*/
 .profile-pic {
@@ -106,6 +126,7 @@ body.profile {
   width: auto;
 }
 .profile.sidebar {
+  z-index: 1001;
   position : relative;
   height   : 100%;
   overflow : hidden;

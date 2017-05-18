@@ -9,10 +9,15 @@ else
   $tab='tab_comment-comment';
 }
 
-echo '<div ums class="ums comments col-xs-12 nopadding">
+echo '<div ums class="ums comments col-xs-12 nopadding"';
+  if($params_comments['id']!='')
+  {
+    echo ' id="'.$params_comments['id'].'"';
+  }
+echo '>
         <div class="panel panel-default">
           <div class="panel-heading navheading">
-            <i class="fa fa-commenting fa-3x"></i> <b>Comentarios</b>
+            <i class="fa fa-commenting fa-2x"></i> <b>Comentarios</b>
             <ul class="nav nav-tabs nav-login">
               <li role="presentation" ';
               if($tab=='tab_comment-comment')
@@ -82,7 +87,7 @@ $form=array(
       'action'=>'?tab=tab_comment-login',
       'callback'=> array('error'=>'tab_comment-login','success'=>'tab_comment-comment')
         );
-include 'ums/login/html_login-tab.php';
+include path.'ums/login/html_login-tab.php';
   echo '</div>';
   echo '<div role="tabpanel" class="tab-pane';
               if($tab=='tab_comment-signup')
@@ -97,7 +102,7 @@ $form=array(
       'action'=>'?tab=tab_comment-signup',
       'callback'=>array('error'=>'tab_comment-signup','success'=>'tab_comment-comment')
         );
-include 'ums/login/html_signup-tab.php';
+include path.'ums/login/html_signup-tab.php';
   echo '</div>';
 }
 echo '
