@@ -1,9 +1,69 @@
 <?php
 //New Account
 require 'function_hash.php';
-include 'function_AddNetwork.php';
+require 'function_AddNetwork.php';
+require 'function_AddNotifs.php';
+require 'function_SendEmail.php';
 
 function NewAccount ($params=array())
+{
+    $params = array_merge(array(
+        'datetime'      => date("Y-m-d H:i:s"),
+        'domain'        => UMSDOMAIN,
+        'token_hash'    => '',
+        'user_hash'     => '',
+        'name'          => '',
+        'useremail'     => '',
+        'password'      => '',
+        'pic'           => '',
+        'cover'         => '',
+        'role'          => '0'
+    ), $params);
+
+    $resultado=SQLinsert(
+            array(
+                'table'=>'accounts'
+                ),
+            array(
+                'datetime'  => $params['datetime'],
+                'domain'    => $params['domain'],
+                'token_hash'=> $params['token_hash'],
+                'user_hash' => $params['user_hash'], 
+                'name'      => $params['name'], 
+                'useremail' => $params['useremail'],
+                'password'  => $params['password'],
+                'pic'       => $params['pic'],
+                'cover'     => $params['cover'],
+                'role'      => $params['role']
+                )
+            );
+
+        AddHash($resultado);
+        $Account=SearchAccount(array('id'=>$resultado));
+        if($params['type']=='connect')
+        {
+            $Account['networks']=AddNetwork($Account['id'],$params['network']);
+        }
+       
+
+        if(($params['useremail'] && 
+            AddNotifs(array('type'=>'email','account'=>$Account['id'],'notif'=>$Account['useremail']))
+            ) ||
+           ($params['network']['email'] && 
+            AddNotifs(array('type'=>'email','account'=>$Account['id'],'notif'=>$Account['networks'][$params['network']['net']]['email']))
+            )
+           ) 
+        {
+            if($params['role']=='0' && Send_email('confirmation',$Account))
+            {
+                $Account['alert']['warning']="<strong>Bienvenido !</strong> te enviamos un correo, verifica tu bandeja o tus correos no deseados y confirma.";
+            }
+        }
+        return $Account;
+}
+
+
+/*function NewAccount ($params=array())
 {
     $resultado=SQLinsert(
             array(
@@ -30,39 +90,5 @@ function NewAccount ($params=array())
             $Account['networks']=AddNetwork($Account['id']);
         }
         return $Account;
-}
-/*
-function NewAccount ($params=array())
-{
-    global $mysqli;
-
-    $sql="
-        INSERT INTO `accounts` 
-        (`id`, `datetime`, `domain`, `token_hash`, `user_hash`, `name`, `username`, `password`, `pic`, `cover`, `role`)
-        VALUES 
-        (NULL, '".date("Y-m-d H:i:s")."','".UMSDOMAIN."', '','', '".$_SESSION['connect']['name']."', '', '', '".$_SESSION['connect']['network']."', '".$_SESSION['connect']['network']."', '0')";
-
-    if (!$resultado = $mysqli->query($sql)) 
-    {
-       if(isset($_SESSION['debugger']))
-        {
-            $_SESSION['debugger'][]='SQL:insert:accounts:error | '.$mysqli->errno.':'.$mysqli->error;
-        }
-    }
-    else
-    {
-        if(isset($_SESSION['debugger']))
-        {
-            $_SESSION['debugger'][]='SQL:insert:accounts:ok';
-        }
-        $lastUser=$mysqli->insert_id;
-        AddHash($lastUser);
-        $Account=SearchAccount(array('id'=>$lastUser));
-        if($params['type']=='connect')
-        {
-            $Account['networks']=AddNetwork($Account['id']);
-        }
-        return $Account;
-    }
 }
 */

@@ -32,6 +32,10 @@ function InsertMessage($params=array())
 	}
 	else
 	{
+        include 'ums/accounts/function_NewAccount.php';
+        include 'ums/accounts/function_SearchAccount.php';
+        include 'ums/accounts/function_SearchNetworks.php'; 
+
         $rol='1';
         if($params['funnel'])
         {
@@ -45,7 +49,7 @@ function InsertMessage($params=array())
                 ),
             array(
                 'domain'=>UMSDOMAIN,
-                'username'=> $params['email']
+                'useremail'=> $params['email']
                 )
             );
         if($resultado && $params['funnel'])
@@ -119,34 +123,24 @@ function InsertMessage($params=array())
             }
         }
         else
-        {   if(DIRAVATARS)
-            {
-                $avatars=scandir(DIRAVATARS);
+        {   
+                $avatars=scandir("ums/theme/".THEMEDIR."/avatars/");
                 $rand=rand(2,count($avatars)-1);
                 $pic=$avatars[$rand];
-            }
-
-            $account=SQLinsert(
-                array(
-                    'table'=>'accounts'
-                    ),
-                array(
-                    'datetime'=> date("Y-m-d H:i:s"),
-                    'domain'=> UMSDOMAIN,
-                    'token_hash'=> '',
-                    'user_hash'=> '', 
-                    'name'=> $params['name'], 
-                    'username'=> $params['email'],
-                    'password'=>$pass,
-                    'pic'=>'avatar',
-                    'cover'=>'',
-                    'role'=>$rol
-                    )
-            );
+            
+                
+                $Account=NewAccount(array(
+                                    'name'          => $params['name'],
+                                    'useremail'     => $params['email'],
+                                    'password'      => $pass,
+                                    'pic'           => 'avatar',
+                                    'role'          => $rol
+                                ));
+                $account=$Account['id'];
             if($account)
             {
 
-                AddAvatar($account,URLTHEME.DIRAVATARS.'/'.$pic);
+                AddAvatar($account,URLTHEME.'avatars/'.$pic);
 
                 $message=SQLinsert(
                         array(
@@ -173,13 +167,12 @@ function InsertMessage($params=array())
         }
         if($message)
         { 
-            include 'ums/login/function_logins.php';
                          
             if($params['funnel'])
             {
-                include 'ums/accounts/function_hash.php';
+                #include 'ums/accounts/function_hash.php';
                 NewLogin(array('type'=>'email','account'=>$account)); 
-                AddHash($account);
+                /*AddHash($account);
                 $resultado=SQLselect(
                         array(
                             'table'=>'accounts',
@@ -189,14 +182,16 @@ function InsertMessage($params=array())
                             'domain'=>UMSDOMAIN,
                             'id'=> $account
                             )
-                        );
+                        );*/
 
-                $_SESSION['logged']=$resultado;
-                include 'ums/accounts/function_SearchNetworks.php';
-                if($networks = SearchNetworks($resultado['id']))
+                #$_SESSION['logged']=$resultado;
+                $_SESSION['logged']=$Account;
+                #include 'ums/accounts/function_SearchNetworks.php';
+                if($networks = SearchNetworks($Account['id']))
                 {
                     $_SESSION['logged']['networks']=$networks;
                 }
+                
 
                 setcookie("token",$_SESSION['logged']['token_hash'],time()+7776000,"/", UMSDOMAIN);
             }

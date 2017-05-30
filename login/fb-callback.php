@@ -30,23 +30,27 @@ if($user)
 	}
 	$_SESSION['connect']['alert']['success']='Has iniciado sesion con facebook correctamente';
 
-	$_SESSION['connect']['network']='facebook';
-	$_SESSION['connect']['id']=$user['id'];
-	$_SESSION['connect']['name']=$user['name'];
-	$_SESSION['connect']['email']=$user['email'];
-	$_SESSION['connect']['cover']=$user['cover']['source'];
+
+	$UserConnect['network']['net']='facebook';
+	$UserConnect['network']['id']=$user['id'];
+	$UserConnect['network']['name']=$UserConnect['name']=$user['name'];
+	$UserConnect['network']['email']=$user['email'];
+	$UserConnect['pic']='facebook';
+	$UserConnect['cover']='facebook';
+	$UserConnect['network']['cover']=$user['cover']['source'];
 	if(isset($user['cover']['offset_y']))
 	{
-		$_SESSION['connect']['cover_y']=$user['cover']['offset_y'];
+		$UserConnect['network']['cover_y']=$user['cover']['offset_y'];
 	}
 	if(isset($user['cover']['offset_x']))
 	{
-		$_SESSION['connect']['cover_x']=$user['cover']['offset_x'];
+		$UserConnect['network']['cover_x']=$user['cover']['offset_x'];
 	}
-	$_SESSION['connect']['pic']=$user['picture']['url'];
+	$UserConnect['network']['pic']=$user['picture']['url'];
+	$UserConnect['type']='connect';
 
 	require '../accounts/function_connect.php';
-	$_SESSION['logged']=ConnectAccount();
+	$_SESSION['logged']=ConnectAccount($UserConnect);
 	$callback='#'.$_SESSION['connect']['callback'];
 }
 else 

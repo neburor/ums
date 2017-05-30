@@ -7,7 +7,7 @@ require 'function_SearchNetworks.php';
 require 'function_NewAccount.php';
 require 'function_UpdateNetwork.php';
 
-function ConnectAccount ()
+function ConnectAccount ($params=array())
 {
     $resultado=SQLselect(
             array(
@@ -16,28 +16,28 @@ function ConnectAccount ()
                 ),
             array(
                 'domain'=>UMSDOMAIN,
-                'network'=>$_SESSION['connect']['network'],
-                'network_id'=>$_SESSION['connect']['id']
+                'network'=>$params['network']['net'],
+                'network_id'=>$params['network']['id']
                 )
             );
 
     if($resultado)
     {
-        if(($_SESSION['connect']['pic']!=$resultado['pic']) || ($_SESSION['connect']['cover']!=$resultado['cover']))
+        if(($params['network']['pic']!=$resultado['pic']) || ($params['network']['cover']!=$resultado['cover']))
         {
-            UpdateNetwork($resultado['id']);
+            UpdateNetwork($resultado['id'],$params);
         }
         $ConnectAccount=SearchAccount(array('id'=>$resultado['account']));
     }
     else
     {
-        $ConnectAccount=NewAccount(array('type'=>'connect'));
+        $ConnectAccount=NewAccount($params);
     }
 
     if($ConnectAccount)
     {
         NewLogin(array( 'account'=> $ConnectAccount['id'],
-                    'type'=>$_SESSION['connect']['network']
+                    'type'=>$params['network']['net']
                     ));
     }
     

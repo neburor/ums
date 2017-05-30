@@ -12,7 +12,7 @@ $tt = json_decode(json_encode($connection->get('users/show', array('screen_name'
 
 
 
-if($access_token)
+if($access_token['user_id'])
 {	
 	if(isset($_SESSION['debugger']))
 	{
@@ -20,16 +20,19 @@ if($access_token)
 	}
 	$_SESSION['connect']['alert']['success']='Has iniciado sesion con twitter correctamente';
 
-	$_SESSION['connect']['network']='twitter';
-	$_SESSION['connect']['id']=$access_token['user_id'];
-	$_SESSION['connect']['name']=$tt['name'];
-	$_SESSION['connect']['screenname']=$access_token['screen_name'];
-	$_SESSION['connect']['pic']=$tt['profile_image_url'];
-	$_SESSION['connect']['cover']=$tt['profile_banner_url'];
+	$UserConnect['network']['net']='twitter';
+	$UserConnect['network']['id']=$access_token['user_id'];
+	$UserConnect['network']['name']=$UserConnect['name']=$tt['name'];
+	$UserConnect['network']['screenname']=$access_token['screen_name'];
+	$UserConnect['network']['pic']=$tt['profile_image_url'];
+	$UserConnect['network']['cover']=$tt['profile_banner_url'];
+	$UserConnect['pic']='twitter';
+	$UserConnect['cover']='twitter';
+	$UserConnect['type']='connect';
 	
 	require '../accounts/function_connect.php';
 
-	$_SESSION['logged']=ConnectAccount();
+	$_SESSION['logged']=ConnectAccount($UserConnect);
 	$callback='#'.$_SESSION['connect']['callback'];
 }
 else 

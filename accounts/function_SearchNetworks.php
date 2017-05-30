@@ -18,6 +18,7 @@ function SearchNetworks ($account)
         {
             $networks[$value['network']]=$value;
         }
+
         return $networks; 
     }
     else

@@ -31,6 +31,7 @@ $FormComment.=  '<textarea class="form-control" name="comment" placeholder="Escr
         </div>
     </div>
 ';
+
 }
 else
 {

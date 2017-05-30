@@ -69,6 +69,10 @@ $form=array(
         );
 include 'form_comment.php';
 echo $FormComment;
+if($_SESSION['logged']['alert'])
+{
+  echo '<div class="alert alert-'.key($_SESSION['logged']['alert']).' alert-dismissible fade in" role="alert"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button> '.$_SESSION['logged']['alert'][key($_SESSION['logged']['alert'])].'</div>';
+}
 echo '
               </div>
 ';
@@ -85,9 +89,10 @@ $form=array(
       'id'    =>'tab_comment-login',
       'type'  =>'login',
       'action'=>'?tab=tab_comment-login',
-      'callback'=> array('error'=>'tab_comment-login','success'=>'tab_comment-comment')
+      'callback'=> array('error'=>'tab_comment-login','success'=>'tab_comment-comment'),
+      'recovery'=>'<a  href="" data-target="#tab_comment-recovery" data-hash="/ums/tab/tab_comment-recovery" role="tab" data-toggle="tab" aria-controls="tab_comment-recovery" aria-expanded="true" class="pull-right">Recuperar <i class="fa fa-lock"></i></a>'
         );
-include path.'ums/login/html_login-tab.php';
+include 'ums/login/html_login-tab.php';
   echo '</div>';
   echo '<div role="tabpanel" class="tab-pane';
               if($tab=='tab_comment-signup')
@@ -102,7 +107,22 @@ $form=array(
       'action'=>'?tab=tab_comment-signup',
       'callback'=>array('error'=>'tab_comment-signup','success'=>'tab_comment-comment')
         );
-include path.'ums/login/html_signup-tab.php';
+include 'ums/login/html_signup-tab.php';
+  echo '</div>';
+  echo '<div role="tabpanel" class="tab-pane';
+              if($tab=='tab_comment-recover')
+              {
+                echo ' fade active in';
+              }
+              echo '" id="tab_comment-recovery">';
+$div=array('intro'=>'col-sm-5','form'=>'col-sm-7');
+$form=array(
+      'id'    =>'tab_comment-recovery',
+      'type'  =>'recovery',
+      'action'=>'?tab=tab_comment-recovery',
+      'callback'=>array('error'=>'tab_comment-recovery','success'=>'tab_comment-recovery')
+        );
+include 'ums/login/html_recovery-tab.php';
   echo '</div>';
 }
 echo '

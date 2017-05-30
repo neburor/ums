@@ -16,4 +16,8 @@ echo '
 		</div>
 	</form>
 ';
+if($_SESSION['logged']['alert'])
+{
+  echo '<div class="alert alert-'.key($_SESSION['logged']['alert']).' alert-dismissible fade in" role="alert"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button> '.$_SESSION['logged']['alert'][key($_SESSION['logged']['alert'])].'</div>';
+}
 unset($_SESSION['feedback'][$form['id']]);

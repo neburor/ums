@@ -28,8 +28,12 @@ if(isset($_SESSION['logged']))
             <div role="tabpanel" class="tab-pane" id="appconfig">
               Configuracion
             </div>
-          </div>
-          <ul class="nav nav-tabs nav-justified nav-mobile appnav">
+          </div>';
+if($_SESSION['logged']['alert'])
+{
+  echo '<div class="tab-content appcontent"><div class="alert alert-'.key($_SESSION['logged']['alert']).' alert-dismissible fade in" role="alert"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button> '.$_SESSION['logged']['alert'][key($_SESSION['logged']['alert'])].'</div></div>';
+}
+      echo'<ul class="nav nav-tabs nav-justified nav-mobile appnav">
             <li role="presentation" class="active"><a href="#" data-target="#appnewsfeed" data-hash="/app/content/newsfeed" role="tab" data-toggle="tab" aria-controls="appnewsfeed" aria-expanded="true"><i class="fa fa-globe"></i> Noticias</a></li>
             <li role="presentation"><a href="#" data-target="#appnotifications" data-hash="/app/content/notifications" role="tab" data-toggle="tab" aria-controls="appnotifications" aria-expanded="false"><i class="fa fa-bell"></i> Notificaciones</a></li>
           </ul>
@@ -110,9 +114,10 @@ else
                 'type'  =>'login',
                 'callback'=> array(
                             'success'=>'/app/content/newsfeed',
-                            'error'=>'/app/settings/login')
+                            'error'=>'/app/settings/login'),
+                'recovery'=>'<a href="#" data-hash="/app/settings/recovery" data-toggle="show" aria-expanded="false" aria-controls="appsettings">Recuperar <i class="fa fa-lock"></i></a>'
                   );
-            include path.'ums/login/html_login-tab.php';
+            include 'ums/login/html_login-tab.php';
             echo '
               </div>
               <div role="tabpanel" class="tab-pane" id="appsignup">
@@ -125,10 +130,22 @@ else
                             'success'=>'/app/content/newsfeed',
                             'error'=>'/app/settings/signup')
                   );
-            include path.'ums/login/html_signup-tab.php';
+            include 'ums/login/html_signup-tab.php';
             echo '
               </div>
-                    
+            <div role="tabpanel" class="tab-pane" id="apprecovery">
+              ';
+            $div=array('intro'=>'col-xs-12','form'=>'col-xs-12');
+            $form=array(
+                'id'    =>'app_settings-recovery',
+                'type'  =>'recovery',
+                'callback'=>array(
+                            'success'=>'/app/settings/recovery',
+                            'error'=>'/app/settings/recovery')
+                  );
+            include 'ums/login/html_recovery-tab.php';
+            echo '
+              </div>        
           </div>
         </div>
       </div> 

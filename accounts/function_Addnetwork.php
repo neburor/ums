@@ -1,8 +1,9 @@
 <?php
 // AddNetwork
 
-function AddNetwork ($id)
+function AddNetwork ($id,$params)
 {
+    
     $resultado=SQLinsert(
             array(
                 'table'=>'accounts_sn'
@@ -11,16 +12,16 @@ function AddNetwork ($id)
                 'datetime'=> date("Y-m-d H:i:s"),
                 'domain'=> UMSDOMAIN,
                 'account'=> $id,
-                'network'=> $_SESSION['connect']['network'], 
-                'network_id'=> $_SESSION['connect']['id'], 
-                'name'=> $_SESSION['connect']['name'],
-                'email'=> $_SESSION['connect']['email'],
-                'screenname'=> $_SESSION['connect']['screenname'],
-                'url'=> $_SESSION['connect']['url'],
-                'pic'=> $_SESSION['connect']['pic'],
-                'cover'=> $_SESSION['connect']['cover'],
-                'cover_y'=> $_SESSION['connect']['cover_y'],
-                'cover_x'=> $_SESSION['connect']['cover_y']
+                'network'=> $params['net'], 
+                'network_id'=> $params['id'], 
+                'name'=> $params['name'],
+                'email'=> $params['email'],
+                'screenname'=> $params['screenname'],
+                'url'=> $params['url'],
+                'pic'=> $params['pic'],
+                'cover'=> $params['cover'],
+                'cover_y'=> $params['cover_y'],
+                'cover_x'=> $params['cover_y']
                 )
             );
     if($resultado)

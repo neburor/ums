@@ -1,6 +1,6 @@
 <?php
 #Funtions DB Logins
-include 'function_logins.php';
+include 'ums/login/function_logins.php';
 function Signup($post=array())
 {
     if($post['autopass'] || ($post['pass']!='' && $post['pass']==$post['repass']))
@@ -27,51 +27,36 @@ function Signup($post=array())
         }
         else
         {
-            $resultado=SQLinsert(
-                array(
-                    'table'=>'accounts'
-                    ),
-                array(
-                    'datetime'=> date("Y-m-d H:i:s"),
-                    'domain'=> UMSDOMAIN,
-                    'token_hash'=> '',
-                    'user_hash'=> '', 
-                    'name'=> $post['name'], 
-                    'useremail'=> $post['useremail'],
-                    'password'=>$post['pass'],
-                    'pic'=>'avatar',
-                    'cover'=>'',
-                    'role'=>'0'
-                    )
-            );
-            if($resultado)
+            include 'ums/accounts/function_NewAccount.php';
+            include 'ums/accounts/function_SearchAccount.php';
+            include 'ums/accounts/function_SearchNetworks.php';
+            $Account=NewAccount(array(
+                                    'name'          => $post['name'],
+                                    'useremail'     => $post['useremail'],
+                                    'password'      => $post['pass'],
+                                    'pic'           => 'avatar'
+                                ));
+            
+            if($Account)
             {
-                include 'ums/accounts/function_hash.php';
-                AddHash($resultado);
-                AddAvatar($resultado,URLTHEME.DIRAVATARS.'/'.$post['pic']);
+                #include 'ums/accounts/function_hash.php';
+                AddHash($Account['id']);
+                AddAvatar($Account['id'],URLTHEME.'avatars/'.$post['pic']);
 
                 if($post['autologin'])
                 {    
-                    $account=SQLselect(
-                            array(
-                                'table'=>'accounts',
-                                'limit'=>'LIMIT 1'
-                                ),
-                            array(
-                                'domain'=>UMSDOMAIN,
-                                'id'=> $resultado
-                                )
-                            );
-                    if($account)
+                   
+                    if($_SESSION['logged']=$Account)
                     {
-                        NewLogin(array('type'=>'email','account'=>$account['id']));
-                        $_SESSION['logged']=$account;
+                        NewLogin(array('type'=>'email','account'=>$Account['id']));
 
-                        include 'ums/accounts/function_SearchNetworks.php';
-                        if($networks = SearchNetworks($account['id']))
+                        #include 'ums/accounts/function_SearchNetworks.php';
+                        if($networks = SearchNetworks($Account['id']))
                         {
                             $_SESSION['logged']['networks']=$networks;
                         }
+
+                        
 
                        setcookie("token",$_SESSION['logged']['token_hash'],time()+7776000,"/", UMSDOMAIN);
 
@@ -162,7 +147,7 @@ function Login($post= array())
             }
             else
             {
-                $response['alert'] = array('warning'=>'La contraseña no es correcta, <a href="" class="alert-link">Enviarme mi contraseña por correo</a>');
+                $response['alert'] = array('warning'=>'La contraseña no es correcta.');
                 $response['feedback']['useremail']   = 'valid';
                 $response['feedback']['userpass']   = 'invalid';
             }
@@ -172,6 +157,34 @@ function Login($post= array())
             $response['alert'] = array('danger'=>'Usuario no registrado. Crea tu cuenta <b>GRATIS!</b>');
             $response['feedback']['useremail']   = 'invalid';
             $response['feedback']['userpass']   = 'invalid';
+        }
+    }
+
+    return $response;
+}
+function Recovery($post= array())
+{
+    if(!isset($_SESSION['logged']))
+    {
+        require 'ums/accounts/function_SendEmail.php';
+        $resultado=SQLselect(
+            array(
+                'table'=>'accounts',
+                'limit'=>'LIMIT 1'
+                ),
+            array(
+                'domain'=>UMSDOMAIN,
+                'useremail'=> $post['useremail']
+                )
+            );
+        if($resultado && Send_email('recovery',$resultado))
+        {
+            $response['alert'] = array('success'=>'Se ha enviado tu contraseña por correo, verifica tu bandeja y correos no deseados.');   
+        }
+        else
+        {
+            $response['alert'] = array('danger'=>'Usuario no registrado. Crea tu cuenta <b>GRATIS!</b>');
+            $response['feedback']['useremail']   = 'invalid';
         }
     }
 

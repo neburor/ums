@@ -8,7 +8,7 @@ function SearchAccount ($params=array())
                 'table'=>'accounts',
                 'limit'=>'LIMIT 1',
                 'query'=>"SELECT *, 
-                (select count(*) from `notifications` where `to_id`='".$params['id']."' and `status`='0')
+                (select count(*) from `notifications_app` where `to_id`='".$params['id']."' and `status`='0')
                 AS `notifs`
                 FROM `accounts`
                 WHERE `id`='".$params['id']."'

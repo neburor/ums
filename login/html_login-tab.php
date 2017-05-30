@@ -39,8 +39,12 @@ echo '
 			<span class="input-group-addon"> <i class="fa fa-lock"></i></span>
 			<input type="password" class="form-control" name="userpass" placeholder="Su contraseña ..." minlength="4" maxlength="32" required="" '.FeedbackValue($_SESSION['feedback'][$form['id']]['userpass']).'>
 			'.FeedbackIcon($_SESSION['feedback'][$form['id']]['userpass']).'
-		</div>
-	</div>
+		</div>';
+		if($form['recovery'])
+		{
+			echo $form['recovery'];
+		}
+	echo '</div>
 	<div class="form-group col-xs-12">
 		<label><input type="checkbox" name="autologin" checked=""><b> Recordarme !</b></label>
 	</div>

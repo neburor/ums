@@ -18,7 +18,7 @@ if(isset($_SESSION['logged']))
 
        
        echo ' </a>
-         <a href="?logout" class="btn btn-default hidden-xs"><i class="fa fa-power-off"></i></a>
+         <a href="?logout" class="btn btn-default"><i class="fa fa-power-off"></i></a>
       </div>';
 
 }

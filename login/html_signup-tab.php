@@ -59,9 +59,7 @@ echo '
 		<label><input type="checkbox" name="autopass"><b> Contraseña automatica !</b></label>
 	</div>
 	';
-    if(DIRAVATARS)
-    {
-    	$avatars = array_diff(scandir(path.DIRAVATARS), array('..', '.','administracion.png'));
+    	$avatars = array_diff(scandir("ums/theme/".THEMEDIR."/avatars/"), array('..', '.','administracion.png'));
 		$rand=rand(2,count($avatars)-5);
 		echo '<div class="form-group col-xs-12 avatars"><label>Imagen de perfil:</label><br/>';
 		for ($i=0; $i < 5; $i++) 
@@ -70,11 +68,11 @@ echo '
 					<input type="radio" name="pic" value="'.$avatars[$rand+$i].'" ';
 					if($i==0){echo 'checked';}
 			echo '/>
-    				<img src="'.URLTHEME.DIRAVATARS.'/'.$avatars[$rand+$i].'"/>
+    				<img src="'.URLTHEME.'avatars/'.$avatars[$rand+$i].'"/>
  				</label>';
 		}
 		echo '</div>';
-    }
+    
 echo '
 	<div class="form-group col-xs-12 response">'.Feedback($_SESSION['feedback'][$form['id']]).'</div>
 	<div class="form-group col-xs-12">

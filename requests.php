@@ -124,6 +124,10 @@ if(isset($_POST))
         {
           $formstatus=Signup($_POST);
         }
+        if($formtype=='recovery')
+        {
+          $formstatus=Recovery($_POST);
+        }
         /*
         if($formtype=='settings')
         {

@@ -3,45 +3,45 @@
 
 $notifications=SQLselect(
             array(
-                'table'=>'notifications',
+                'table'=>'notifications_app',
                 'query'=>"SELECT 
-    notifications.`id`,
-    notifications.`datetime`,
-    notifications.`from_id`,
-    notifications.`to_id`,
-    notifications.`asset`,
-    notifications.`asset_id`,
-    Case notifications.`asset`
+    notifications_app.`id`,
+    notifications_app.`datetime`,
+    notifications_app.`from_id`,
+    notifications_app.`to_id`,
+    notifications_app.`asset`,
+    notifications_app.`asset_id`,
+    Case notifications_app.`asset`
         When 'message'
-        Then (SELECT messages.`form` FROM `messages` WHERE messages.`id` = notifications.`asset_id`)
+        Then (SELECT messages.`form` FROM `messages` WHERE messages.`id` = notifications_app.`asset_id`)
         When 'comment'
-        Then (SELECT comments.`form` FROM `comments` WHERE comments.`id` = notifications.`asset_id`)
+        Then (SELECT comments.`form` FROM `comments` WHERE comments.`id` = notifications_app.`asset_id`)
     END
     AS `form`,
     accounts.`name` AS `from_name`,
     accounts_sn.`pic` AS `from_pic`,
     Case notifications.`asset`
         When 'message'
-        Then (SELECT messages.`message` FROM `messages` WHERE messages.`id` = notifications.`asset_id`)
+        Then (SELECT messages.`message` FROM `messages` WHERE messages.`id` = notifications_app.`asset_id`)
         When 'comment'
-        Then (SELECT comments.`comment` FROM `comments` WHERE comments.`id` = notifications.`asset_id`)
+        Then (SELECT comments.`comment` FROM `comments` WHERE comments.`id` = notifications_app.`asset_id`)
     END
     AS `text`,
-    Case notifications.`asset`
+    Case notifications_app.`asset`
         When 'comment'
-        Then (SELECT comments.`url` FROM `comments` WHERE comments.`id` = notifications.`asset_id`)
+        Then (SELECT comments.`url` FROM `comments` WHERE comments.`id` = notifications_app.`asset_id`)
     END
     AS `url`
-    FROM `notifications` 
+    FROM `notifications_app` 
         INNER JOIN `accounts`
-            ON notifications.`from_id` = accounts.`id`
+            ON notifications_app.`from_id` = accounts.`id`
         INNER JOIN `accounts_sn`
-            ON notifications.`from_id` = accounts_sn.`account` 
+            ON notifications_app.`from_id` = accounts_sn.`account` 
             AND accounts.`pic` = accounts_sn.`network`
-    WHERE notifications.`to_id` = '".$_SESSION['logged']['id']."'
-    AND notifications.`status`='0'
-    GROUP BY notifications.`id`
-    ORDER BY notifications.`id`
+    WHERE notifications_app.`to_id` = '".$_SESSION['logged']['id']."'
+    AND notifications_app.`status`='0'
+    GROUP BY notifications_app.`id`
+    ORDER BY notifications_app.`id`
     ASC"
                 )
             );

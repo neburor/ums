@@ -1,6 +1,6 @@
 <?php
 //Update Network
-function UpdateNetwork ($id)
+function UpdateNetwork ($id,$params)
 {
 	$resultado=SQLupdate(
             array(
@@ -10,8 +10,8 @@ function UpdateNetwork ($id)
                 'id'=>$id
                 ),
             array(
-            	'pic'=>$_SESSION['connect']['pic'],
-            	'cover'=>$_SESSION['connect']['cover']
+            	'pic'=>$params['network']['pic'],
+            	'cover'=>$params['network']['cover']
             	)
             );
 }
