@@ -9,7 +9,7 @@ function SearchAccount ($params=array())
                 'limit'=>'LIMIT 1',
                 'query'=>"SELECT *, 
                 (select count(*) from `notifications_app` where `to_id`='".$params['id']."' and `status`='0')
-                AS `notifs`
+                AS `notifs_app`
                 FROM `accounts`
                 WHERE `id`='".$params['id']."'
                 LIMIT 1"
@@ -19,6 +19,10 @@ function SearchAccount ($params=array())
     {
         $account = array();
         $account = $resultado;
+        if($notifs = SearchNotifs($params['id']))
+        {
+            $account['notifs']=$notifs;
+        }
         if($networks = SearchNetworks($params['id']))
         {
             $account['networks']=$networks;
@@ -27,50 +31,28 @@ function SearchAccount ($params=array())
         return $account;
     }
 }
-/*
-function SearchAccount ($params=array())
+function SearchNotifs($id)
 {
-    global $mysqli;
-    
-	$sql="
-        SELECT * FROM `accounts` 
-        WHERE `id` = '".$params['id']."'
-        ORDER BY `id` DESC LIMIT 1";
+    $resultado=SQLselect(
+            array(
+                'table'=>'accounts_notif'
+                ),
+            array(
+                'account'=>$id
+                )
+            );
 
-	if (!$resultado = $mysqli->query($sql)) 
+    if($resultado)
     {
-        if(isset($_SESSION['debugger']))
+        foreach ($resultado as $key => $value) 
         {
-            $_SESSION['debugger'][]='SQL:select:accounts:error | '.$mysqli->errno.':'.$mysqli->error;
+            $notifs[$value['type']]=$value;
         }
+
+        return $notifs; 
     }
     else
     {
-        if(isset($_SESSION['debugger']))
-            {
-                $_SESSION['debugger'][]='SQL:select:accounts:ok';
-            }
-        if ($resultado->num_rows === 0) 
-        {
-            if(isset($_SESSION['debugger']))
-            {
-                $_SESSION['debugger'][]='mysqli:result:null';
-            }
-        }
-        else
-        {
-            if(isset($_SESSION['debugger']))
-            {
-                $_SESSION['debugger'][]='mysqli:result:ok => SearchNetworks()';
-            }
-            $account = $resultado->fetch_assoc();
-            if($networks= SearchNetworks($params['id']))
-            {
-                $account['networks']=$networks;
-            }
-        }
+        return false;
     }
-    
-    return $account;
 }
-*/

@@ -51,6 +51,7 @@ if($user)
 
 	require '../accounts/function_connect.php';
 	$_SESSION['logged']=ConnectAccount($UserConnect);
+	$_SESSION['logged']['login']='facebook';
 	$callback='#'.$_SESSION['connect']['callback'];
 }
 else 

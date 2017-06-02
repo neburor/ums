@@ -33,6 +33,7 @@ if($access_token['user_id'])
 	require '../accounts/function_connect.php';
 
 	$_SESSION['logged']=ConnectAccount($UserConnect);
+	$_SESSION['logged']['login']='twitter';
 	$callback='#'.$_SESSION['connect']['callback'];
 }
 else 

@@ -3,7 +3,7 @@
 $form=array(
       'id'    =>'form_contact',
       'type'  =>'contact',
-      'callback'=>'form_contact'
+      'callback'=>'/ums/tab/form_contact'
         );
 echo '<div ums class="ums messages contactus col-xs-12 nopadding">
         <div class="panel panel-default" id="'.$form['id'].'">

@@ -56,11 +56,21 @@ function Signup($post=array())
                             $_SESSION['logged']['networks']=$networks;
                         }
 
+                    $_SESSION['logged']['login']='email';
                         
 
                        setcookie("token",$_SESSION['logged']['token_hash'],time()+7776000,"/", UMSDOMAIN);
 
-                       header("Location: " . strtok($_SERVER['HTTP_REFERER'],'?') . '?tab='. $post['callback'] . '#' . $post['callback']);
+                        if (strpos($post['callback'], '/app/') !== false) 
+                        {
+                            $reff='#'.$post['callback'];
+                        }
+                        else
+                        {
+                            $reff='?tab='. $post['formid'] . '#' . $post['callback'];
+                        }
+
+                        header("Location: " . strtok($_SERVER['HTTP_REFERER'],'?') . $reff);
 
                     }
                     else
@@ -107,6 +117,7 @@ function Login($post= array())
                 'useremail'=> $post['useremail']
                 )
             );
+
         if($resultado)
         {
             if($post['userpass']==$resultado['password'])
@@ -115,12 +126,12 @@ function Login($post= array())
                 $response['feedback']['useremail'] = 'valid';
                 $response['feedback']['userpass'] = 'valid';
 
-                NewLogin(array('type'=>'email','account'=>$resultado['id']));
-                $_SESSION['logged']=$resultado;
+                include 'ums/accounts/function_SearchNetworks.php';
+                include 'ums/accounts/function_SearchAccount.php';
 
-                $notifs=SQLselect(
+                /*$notifs=SQLselect(
                             array(
-                                'table'=>'notifications'
+                                'table'=>'notifications_app'
                                 ),
                             array(
                                 'to_id'=> $resultado['id'],
@@ -136,14 +147,27 @@ function Login($post= array())
                 if($networks = SearchNetworks($resultado['id']))
                 {
                     $_SESSION['logged']['networks']=$networks;
-                }
+                }*/
+                $Account=SearchAccount($resultado);
+                NewLogin(array('type'=>'email','account'=>$Account['id']));
+                $_SESSION['logged']=$Account;
+                $_SESSION['logged']['login']='email';
 
                 if ($post['autologin']) 
                 {
                     setcookie("token",$_SESSION['logged']['token_hash'],time()+7776000,"/", UMSDOMAIN);
                 }
 
-               header("Location: " . strtok($_SERVER['HTTP_REFERER'],'?') . '?tab='. $post['callback'] . '#' . $post['callback']);
+                if (strpos($post['callback'], '/app/') !== false) 
+                {
+                    $reff='#'.$post['callback'];
+                }
+                else
+                {
+                    $reff='?tab='. $post['formid'] . '#' . $post['callback'];
+                }
+
+               header("Location: " . strtok($_SERVER['HTTP_REFERER'],'?') . $reff);
             }
             else
             {

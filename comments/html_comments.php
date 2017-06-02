@@ -48,6 +48,7 @@ else
                 echo 'class="active"';
               }
               echo '><a href="?tab=tab_comment-signup#tab_comment-signup" data-target="#tab_comment-signup" data-hash="/ums/tab/tab_comment-signup" role="tab" data-toggle="tab" aria-controls="tab_comment-signup" aria-expanded="false"> <i class="fa fa-user-plus"></i> <span class="hidden-xxs">Registrarse</span></a></li>
+              <li role="presentation" class="pull-right"><a href="?tab=tab_comment-recovery#tab_comment-recovery" data-target="#tab_comment-recovery" data-hash="/ums/tab/tab_comment-recovery" role="tab" data-toggle="tab" aria-controls="tab_comment-recovery" aria-expanded="false"></a></li>
   ';
 }
 echo '     </ul>
@@ -65,7 +66,7 @@ $form=array(
       'id'    =>'tab_comment',
       'type'  =>'comment',
       'action'=>'?tab=tab_comment-comment',
-      'callback'=>'tab_comment-comment'
+      'callback'=>'/ums/tab/tab_comment-comment'
         );
 include 'form_comment.php';
 echo $FormComment;
@@ -89,8 +90,8 @@ $form=array(
       'id'    =>'tab_comment-login',
       'type'  =>'login',
       'action'=>'?tab=tab_comment-login',
-      'callback'=> array('error'=>'tab_comment-login','success'=>'tab_comment-comment'),
-      'recovery'=>'<a  href="" data-target="#tab_comment-recovery" data-hash="/ums/tab/tab_comment-recovery" role="tab" data-toggle="tab" aria-controls="tab_comment-recovery" aria-expanded="true" class="pull-right">Recuperar <i class="fa fa-lock"></i></a>'
+      'callback'=> array('error'=>'/ums/tab/tab_comment-login','success'=>'/ums/tab/tab_comment-comment'),
+      'recovery'=>'<a  href="?tab=tab_comment-recovery#tab_comment-recovery" data-target="#tab_comment-recovery" data-hash="/ums/tab/tab_comment-recovery" class="pull-right">Recuperar <i class="fa fa-lock"></i></a>'
         );
 include 'ums/login/html_login-tab.php';
   echo '</div>';
@@ -105,7 +106,7 @@ $form=array(
       'id'    =>'tab_comment-signup',
       'type'  =>'signup',
       'action'=>'?tab=tab_comment-signup',
-      'callback'=>array('error'=>'tab_comment-signup','success'=>'tab_comment-comment')
+      'callback'=>array('error'=>'/ums/tab/tab_comment-signup','success'=>'/ums/tab/tab_comment-comment')
         );
 include 'ums/login/html_signup-tab.php';
   echo '</div>';
@@ -120,7 +121,7 @@ $form=array(
       'id'    =>'tab_comment-recovery',
       'type'  =>'recovery',
       'action'=>'?tab=tab_comment-recovery',
-      'callback'=>array('error'=>'tab_comment-recovery','success'=>'tab_comment-recovery')
+      'callback'=>array('error'=>'/ums/tab/tab_comment-recovery','success'=>'/ums/tab/tab_comment-recovery')
         );
 include 'ums/login/html_recovery-tab.php';
   echo '</div>';

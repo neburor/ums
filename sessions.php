@@ -23,6 +23,7 @@ elseif(isset($_COOKIE['token']))
 			$_SESSION['debugger'][]='SESSION:token:connect';
 		}
 		$_SESSION['logged']=$account;
+		$_SESSION['logged']['login']='token';
 	}
 	else
 	{

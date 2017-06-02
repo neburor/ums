@@ -48,6 +48,11 @@ $('.btn-expand').on("click", function (e){
         html == '<i class="fa fa-angle-up"></i> Contraer' ? '<i class="fa fa-angle-down"></i> Expandir' : '<i class="fa fa-angle-up"></i> Contraer');
 e.preventDefault();
 });
+//Avatars
+$('.collapse.avatars').on('show.bs.collapse', function () {
+
+  $(this).load($(this).data('content'));
+})
 });
 
 function Routes(hash)
@@ -150,7 +155,7 @@ function umsRoutes (routes)
 		}
 		else
 		{
-			$('#'+formid).animatescroll();
+        $('#'+actionid).animatescroll();	
 		}
 	}
 

@@ -20,7 +20,7 @@ $notifications=SQLselect(
     AS `form`,
     accounts.`name` AS `from_name`,
     accounts_sn.`pic` AS `from_pic`,
-    Case notifications.`asset`
+    Case notifications_app.`asset`
         When 'message'
         Then (SELECT messages.`message` FROM `messages` WHERE messages.`id` = notifications_app.`asset_id`)
         When 'comment'

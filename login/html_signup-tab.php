@@ -71,7 +71,9 @@ echo '
     				<img src="'.URLTHEME.'avatars/'.$avatars[$rand+$i].'"/>
  				</label>';
 		}
-		echo '</div>';
+		echo '<label><a class="btn btn-link" role="button" data-toggle="collapse" href="#avatars_'.$form['id'].'" aria-expanded="false" aria-controls="avatars"><i class="fa fa-plus fa-3x"></i></a></label>';
+		echo '<div class="collapse avatars" id="avatars_'.$form['id'].'" data-content="'.URLSYSTEM.'login/avatars.php">';
+		echo '</div></div>';
     
 echo '
 	<div class="form-group col-xs-12 response">'.Feedback($_SESSION['feedback'][$form['id']]).'</div>

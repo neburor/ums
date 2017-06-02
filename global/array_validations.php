@@ -22,14 +22,14 @@ $VALIDATIONS['useremail'] = $VALIDATIONS['email'] = array(
 							'maxlength'	=> 64,
 							'required'	=> true
 							);
-$VALIDATIONS['userpass'] = $VALIDATIONS['pass']	= array(
+$VALIDATIONS['userpass'] = $VALIDATIONS['pass']	= $VALIDATIONS['newpass']=array(
 							'display'	=> 'Contraseña',
 							'pregmatch' => false,
 							'minlength'	=> 4,
 							'maxlength'	=> 32,
 							'required'	=> false
 							);
-$VALIDATIONS['userpass']['required']=true;
+$VALIDATIONS['userpass']['required']=$VALIDATIONS['newpass']['required']=true;
 $VALIDATIONS['action']	= array(
 							'pregmatch' => '^[a-z]*$',
 							'minlength'	=> 0,

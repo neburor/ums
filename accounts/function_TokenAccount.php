@@ -1,6 +1,7 @@
 <?php
 //Search Token
 include 'function_SearchNetworks.php';
+include 'function_SearchAccount.php';
 function TokenAccount ($token)
 {
     $resultado=SQLselect(
@@ -14,13 +15,14 @@ function TokenAccount ($token)
             );
     if($resultado)
     {
-        $account = array();
+        /*$account = array();
         $account = $resultado;
         if($networks = SearchNetworks($resultado['id']))
         {
             $account['networks']=$networks;
-        }
+        }*/
+        $Account=SearchAccount($resultado);
         
-        return $account;
+        return $Account;
     }
 }

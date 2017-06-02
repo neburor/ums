@@ -200,6 +200,9 @@ body.profile {
 .app.profile .appcontent .comment .media-body {
     line-height: 15px;
 }
+.app.profile .appcontent .list-group>.list-group-item .form-group {
+  margin-bottom: 0;
+}
 .app.profile .appstream .message p,
 .app.profile .appstream .comment p {
   margin-bottom: 0;

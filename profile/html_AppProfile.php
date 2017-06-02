@@ -2,9 +2,9 @@
 #APPprofile
 if(isset($_SESSION['logged']))
 {
-  if($_SESSION['logged']['notifs'])
+  if($_SESSION['logged']['notifs_app'])
   {
-    echo '<div id="btn-profile"><a href="#" class="btn btn-default" data-hash="/app/content/notifications" id="cta_btn"><i class="fa fa-bell fa-2x"></i><small class="badge">'.$_SESSION['logged']['notifs'].'</small></a></div>';  
+    echo '<div id="btn-profile"><a href="#" class="btn btn-default" data-hash="/app/content/notifications" id="cta_btn"><i class="fa fa-bell fa-2x"></i><small class="badge">'.$_SESSION['logged']['notifs_app'].'</small></a></div>';  
   }
   
   	echo '<div ums class="ums profile wrapper">
@@ -25,9 +25,10 @@ if(isset($_SESSION['logged']))
             </div>
           </div>
           <div class="tab-content appcontent container-fluid">
-            <div role="tabpanel" class="tab-pane" id="appconfig">
-              Configuracion
-            </div>
+            <div role="tabpanel" class="tab-pane" id="appconfig">';
+            
+include 'settings.php';
+echo ' </div>
           </div>';
 if($_SESSION['logged']['alert'])
 {

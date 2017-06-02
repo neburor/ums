@@ -4,11 +4,11 @@ if(isset($_SESSION['logged']))
 {
 	        echo '<div ums class="btn-group ums profile button">
         <a href="#" class="btn btn-default" data-hash="/app/content/notifications">';
-        if($_SESSION['logged']['notifs'] && $_SESSION['logged']['notifs']!='0')
+        if($_SESSION['logged']['notifs_app'] && $_SESSION['logged']['notifs_app']!='0')
         {
           echo '<img src="'.ShowPic().'" class="hidden-xs profile-pic-small"> 
                 <span class="hidden-xs">'.ShowName().'</span>
-                <i class="fa fa-bell"></i><small class="badge">'.$_SESSION['logged']['notifs'].'</small>';
+                <i class="fa fa-bell"></i><small class="badge">'.$_SESSION['logged']['notifs_app'].'</small>';
         }
         else
         {

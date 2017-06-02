@@ -50,9 +50,7 @@ else
                 echo 'class="active"';
               }
               echo '><a href="" data-target="#tab_contact-signup" data-hash="/ums/tab/tab_contact-signup" role="tab" data-toggle="tab" aria-controls="tab_contact-signup" aria-expanded="false"> <i class="fa fa-user-plus"></i> <span class="hidden-xxs">Registrarse</span></a></li>
-              <li role="presentation" class="hidden">
-              <a href="" data-target="#tab_contact-recovery" data-hash="/ums/tab/tab_contact-recovery" role="tab" data-toggle="tab" aria-controls="tab_contact-recovery" aria-expanded="false"> <i class="fa fa-lock"></i> <span class="hidden-xxs">Recuperar</span></a></li>
-              </li>
+              <li role="presentation" class="pull-right"><a href="?tab=tab_contact-recovery#tab_contact-recovery" data-target="#tab_contact-recovery" data-hash="/ums/tab/tab_contact-recovery" role="tab" data-toggle="tab" aria-controls="tab_contact-recovery" aria-expanded="false"></a></li>
             </ul>
           </div>
           <div class="panel-body">
@@ -68,7 +66,7 @@ $form=array(
       'id'    =>'tab_contact',
       'type'  =>'contact',
       'action'=>'?tab=tab_contact-contact',
-      'callback'=>'tab_contact-contact'
+      'callback'=>'/ums/tab/tab_contact-contact'
         );
 include 'form_contact.php';
 echo '
@@ -84,8 +82,8 @@ $form=array(
       'id'    =>'tab_contact-login',
       'type'  =>'login',
       'action'=>'?tab=tab_contact-login',
-      'callback'=>array('error'=>'tab_contact-login','success'=>'tab_contact-contact'),
-      'recovery'=>'<a  href="" data-target="#tab_contact-recovery" data-hash="/ums/tab/tab_contact-recovery" role="tab" data-toggle="tab" aria-controls="tab_contact-recovery" aria-expanded="true" class="pull-right">Recuperar <i class="fa fa-lock"></i></a>'
+      'callback'=>array('error'=>'/ums/tab/tab_contact-login','success'=>'/ums/tab/tab_contact-contact'),
+      'recovery'=>'<a  href="?tab=tab_contact-recovery#tab_contact-recovery" data-target="#tab_contact-recovery" data-hash="/ums/tab/tab_contact-recovery" class="pull-right">Recuperar <i class="fa fa-lock"></i></a>'
         );
 include 'ums/login/html_login-tab.php';
 
@@ -101,7 +99,7 @@ $form=array(
       'id'    =>'tab_contact-signup',
       'type'  =>'signup',
       'action'=>'?tab=tab_contact-signup',
-      'callback'=>array('error'=>'tab_contact-signup','success'=>'tab_contact-contact')
+      'callback'=>array('error'=>'/ums/tab/tab_contact-signup','success'=>'/ums/tab/tab_contact-contact')
         );
 include 'ums/login/html_signup-tab.php';
 
@@ -117,7 +115,7 @@ $form=array(
       'id'    =>'tab_contact-recovery',
       'type'  =>'recovery',
       'action'=>'?tab=tab_contact-recovery',
-      'callback'=>array('error'=>'tab_contact-recovery','success'=>'tab_contact-recovery')
+      'callback'=>array('error'=>'/ums/tab/tab_contact-recovery','success'=>'/ums/tab/tab_contact-recovery')
         );
 include 'ums/login/html_recovery-tab.php';
 

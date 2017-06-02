@@ -75,6 +75,19 @@ if(isset($_GET))
       unset($_SESSION['debugger']);
       header("Location: " . $_SERVER['HTTP_REFERER']);
     }
+  if(isset($_GET['sendconfirm']))
+  {
+    include 'accounts/function_SendEmail.php';
+    if(Send_email('confirmation',$_SESSION['logged']))
+    {
+       header("Location: " . $_SERVER['HTTP_REFERER'].'#'.$_GET['callback']);
+    }
+    else
+    {
+      header("Location: " . $_SERVER['HTTP_REFERER']);
+    }
+   
+  }
 }
 //POST
 if(isset($_POST))
@@ -128,8 +141,8 @@ if(isset($_POST))
         {
           $formstatus=Recovery($_POST);
         }
-        /*
-        if($formtype=='settings')
+        
+        if($formtype=='settings' && isset($_SESSION['logged']))
         {
           if(!empty($_FILES))
           {
@@ -141,7 +154,7 @@ if(isset($_POST))
           }
           
         }
-        */
+        
         if($formtype=='contact')
         {
           $formstatus=InsertMessage($_POST);
