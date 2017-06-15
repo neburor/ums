@@ -14,13 +14,14 @@ if($data[0]=='message')
                 'status'=>'0'
                 ),
             array(
-                'status'=>'4'
+                'status'=>'1'
                 )
             );
 }
-if($data[0]=='comment')
+elseif($data[0]=='comment')
 {
-        $archive=SQLupdate(
+ 
+        $active=SQLupdate(
             array(
                 'table'=>'comments'
                 ),
@@ -29,7 +30,7 @@ if($data[0]=='comment')
                 'status'=>'0'
                 ),
             array(
-                'status'=>'4'
+                'status'=>'1'
                 )
             );
         if($data[2] && $data[3])
@@ -49,6 +50,5 @@ if($data[0]=='comment')
                     )
                 );
         }
-    
 
 }

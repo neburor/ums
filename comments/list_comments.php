@@ -33,48 +33,7 @@ else
 }
 echo '
 	</ul>';
-/*function UserPic($account,$src)
-{
-    if($src=='facebook' || $src=='twitter')
-    {
-        $resultado=SQLselect(
-            array(
-                'table'=>'accounts_sn',
-                'limit'=>'LIMIT 1'
-                ),
-            array(
-                'domain'=>UMSDOMAIN,
-                'account'=> $account,
-                'network'=>$src
-                )
-            );
-        if($resultado)
-        {
-            return $resultado['pic'];
-        }
-    }
-}
-function UserData($account)
-{
-     $resultado=SQLselect(
-            array(
-                'table'=>'accounts',
-                'limit'=>'LIMIT 1'
-                ),
-            array(
-                'domain'=>UMSDOMAIN,
-                'id'=> $account
-                )
-            );
-     if($resultado)
-     {
-        $userData['id']=$resultado['id'];
-        $userData['name']=$resultado['name'];
-        $userData['pic']=UserPic($account,$resultado['pic']);
 
-        return $userData;
-     }
-}*/
 function LIcomments($comments)
 {
     $comments_list='';
@@ -87,10 +46,16 @@ function LIcomments($comments)
         }
         if($data['in_id']==0)
         {
+          
             #$userData=UserData($data['from_id']);
             $date=Interval($data['datetime']); 
             $comments_list.='
-            <li class="list-group-item" id="comment_'.$data['id'].'">
+            <li class="list-group-item';
+                        if($_GET['replycomment']==$data['id'])
+                        {
+                            $comments_list.=' active';
+                        }
+                        $comments_list.='" id="comment_'.$data['id'].'">
                 <div class="media"  itemprop="comment" itemscope itemtype="http://schema.org/UserComments">
                     <div class="media-left">
                         <img class="media-object profile-pic" alt="'.$data['from_name'].'" src="'.$data['from_pic'].'">
@@ -117,7 +82,7 @@ function LIcomments($comments)
                                 $comments_list.='<a href="?likes=comment&like='.$data['id'].'&callback=comment_'.$data['id'].'">Me gusta</a> ·';
                             }
             $comments_list.=' 
-                                <a href="?replycomment='.$data['id'].'#replycomment_'.$data['id'].'">Responder</a>
+                                <a href="?replycomment='.$data['id'].'#comment_'.$data['id'].'">Responder</a>
                             </small>
                         </p>';
                 if(isset($_GET['replycomment']) && $_GET['replycomment']==$data['id'])
@@ -140,8 +105,11 @@ function LIcomments($comments)
                         </div>';
                 }
                 $comments_list.='<ul class="list-group list-striped">';
-                foreach ($comments as $column2 => $data2) 
+                
+                foreach ( array_reverse($comments) as $column2 => $data2) 
                 {
+                    
+                    
                     if($data2['form']=='reply')
                     {
                         $data2['from_name']=$_SESSION['admin']['name'];
@@ -149,12 +117,24 @@ function LIcomments($comments)
                     }
                     if($data['id']==$data2['in_id'])
                     {
+                        
+                        /*if($column2==3)
+                        {
+                            
+                            $div=1;
+                            $comments_list.= '<li><a role="button" data-toggle="collapse" href="#comment_'.$data['id'].'_all" aria-expanded="false" aria-controls="comment_'.$data['id'].'_all">Mostrar todas las respuestas</a></li><div class="collapse" id="comment_'.$data['id'].'_all">';
+                        }*/
                         #$userData=UserData($data2['from_id']);
                         #$userData2=UserData($data2['to_id']);
                         $date=Interval($data2['datetime']); 
 
                         $comments_list.='
-                        <li class="list-group-item"  id="comment_'.$data2['id'].'">
+                        <li class="list-group-item';
+                        if($_GET['replycomment']==$data2['id'])
+                        {
+                            $comments_list.=' active';
+                        }
+                        $comments_list.='"  id="comment_'.$data2['id'].'">
                             <div class="media" itemscope itemtype="http://schema.org/UserComments">
                                 <div class="media-left">
                                 <img class="media-object profile-pic" alt="'.$data2['from_name'].'" src="'.$data2['from_pic'].'">
@@ -182,7 +162,7 @@ function LIcomments($comments)
                                 $comments_list.='<a href="?likes=comment&like='.$data2['id'].'&callback=comment_'.$data2['id'].'">Me gusta</a> ·';
                             }
             $comments_list.=' 
-                                        <a href="?replycomment='.$data2['id'].'#replycomment_'.$data2['id'].'">Responder</a>
+                                        <a href="?replycomment='.$data2['id'].'#comment_'.$data2['id'].'">Responder</a>
                                     </small>
                                 </p>
                         ';
@@ -206,8 +186,15 @@ function LIcomments($comments)
                                 </div>';
                         }
                         $comments_list.='</li>';
+                        
                     }
+
                 }
+                /*if($div==1)
+                {
+                    $comments_list.= '</div>';
+                }*/
+                
                 $comments_list.='</ul>
                     </div>
                 </div>

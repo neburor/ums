@@ -188,6 +188,7 @@ if(isset($_POST))
             $_SESSION['feedback'][$formid][$field]['status']=$feedback;
           }
         }
+      header('Location: '.$_SERVER['REQUEST_URI']);
       }
   }
 }

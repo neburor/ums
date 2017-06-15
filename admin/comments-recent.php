@@ -69,7 +69,7 @@ if($comments)
                             <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                 <ul class="nav nav-tabs">
-                    <li role="presentation"><button class="btn btn-link" data-action="archive" data-content="comment:activate:'.$data['id'];
+                    <li role="presentation"><button class="btn btn-link" data-action="active" data-content="comment:'.$data['id'];
             if($data['to_id']!=0)
             {
                 echo ':'.$data['from_id'].':'.$data['to_id'];
@@ -77,7 +77,8 @@ if($comments)
             echo'"><i class="fa fa-check-circle"></i></button></li>
                   	<li role="presentation"><a href="#" role="tab" data-toggle="tab" data-target="#commentreply_'.$data['id'].'" aria-controls="commentreply_'.$data['id'].'" aria-expanded="false"><i class="fa fa-reply"></i></a></li>
                   	<li role="presentation"><a href="#" role="tab" data-toggle="tab" data-target="#commentedit_'.$data['id'].'" aria-controls="commentedit_'.$data['id'].'" aria-expanded="false"><i class="fa fa-edit"></i></a></li>
-                  	<li role="presentation"><button class="btn btn-link" data-action="archive" data-content="comment:ban:'.$data['id'].'"><i class="fa fa-ban"></i></button></li>
+                    <li role="presentation"><button class="btn btn-link" data-action="archive" data-content="comment:'.$data['id'].'"><i class="fa fa-archive"></i></button></li>
+                  	<li role="presentation"><button class="btn btn-link" data-action="ban" data-content="comment:'.$data['id'].'"><i class="fa fa-ban"></i></button></li>
                 </ul>
                 <div class="tab-content">
                 	<div role="tabpanel" class="tab-pane" id="commentreply_'.$data['id'].'">
@@ -110,11 +111,27 @@ if($comments)
                         <div class="response"></div>
                         <input type="hidden" name="formid" value="commentedit_'.$data['id'].'">
                         <input type="hidden" name="formtype" value="edit">
-                        <input type="hidden" name="toid" value="'.$data['id'].'">
+
+                        <input type="hidden" name="url" value="'.$data['url'].'">
+                        <input type="hidden" name="inid" value="';
+                        if($data['in_id']==0){
+                            echo $data['id'];
+                        } else {
+                            echo $data['in_id'];
+                        }
+                        echo '">
+                        <input type="hidden" name="toid" value="'.$data['from_id'].'">
+                        <input type="hidden" name="id" value="'.$data['id'].'">
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon"> <i class="fa fa-edit"></i></span>
                                 <textarea name="comment" class="form-control" maxlength="1024" minlength="10" required="">'.$data['comment'].'</textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon"> <i class="fa fa-reply"></i></span>
+                                <input type="text" name="reply" placeholder="Su respuesta ..." class="form-control" maxlength="1024" minlength="10" required="">
                             </div>
                         </div>
                         <div class="form-group">

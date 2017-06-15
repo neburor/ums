@@ -86,7 +86,7 @@ if($notifications)
                 	$_SESSION['urls'][$value['url']]=get_meta_tags($value['url']);
             	}
 				echo '<li class="list-group-item">
-                  		<a href="'.$value['url'].'#comment_'.$value['asset_id'].'" class="media comment">
+                  		<a href="'.$value['url'].'?replycomment='.$value['asset_id'].'#comment_'.$value['asset_id'].'" class="media comment">
                     		<div class="media-left"><img class="img-circle profile-pic" src="'.$value['from_pic'].'"></div>
                     		<div class="media-body"><span class="media-heading"><b>'.$value['from_name'].'</b> <small class="pull-right">Hace '.$date[0].' '.$date[1].'</small></span>
                     		<p><small><i class="fa fa-commenting"></i> '.$_SESSION['urls'][$value['url']]['title'].'</small></p>

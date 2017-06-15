@@ -50,17 +50,21 @@ if($comments)
         }
         if($data['status']==1)
         {
-            echo '<span class="sr-only">activado</span> <i class="fa fa-check-circle"></i> ';
+            echo '<span class="sr-only">publicado</span> <i class="fa fa-check-circle"></i> ';
         }
         if($data['status']==2)
         {
-            echo '<span class="sr-only">publicado</span> <i class="fa fa-check-square"></i> ';
+            echo '<span class="sr-only">respondido</span> <i class="fa fa-check-square"></i> '; 
         }
         if($data['status']==3)
         {
             echo '<span class="sr-only">editado</span> <i class="fa fa-edit"></i> ';
         }
         if($data['status']==4)
+        {
+            echo '<span class="sr-only">archivado</span> <i class="fa fa-archive"></i> ';
+        }
+        if($data['status']==5)
         {
             echo '<span class="sr-only">bloqueado</span> <i class="fa fa-ban"></i> ';
         }

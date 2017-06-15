@@ -39,7 +39,7 @@ if($dataForm['message'])
                 );
             $notif=SQLinsert(
                 array(
-                    'table'=>'notifications'
+                    'table'=>'notifications_app'
                     ),
                 array(
                     'datetime'=> date("Y-m-d H:i:s"),
@@ -97,16 +97,34 @@ if($dataForm['comment'])
                     'status'=>'0'
                     ),
                 array(
-                    'status'=>'1'
+                    'status'=>'2'
                     )
                 );
-            if($archive){
+             $notif=SQLinsert(
+                array(
+                    'table'=>'notifications_app'
+                    ),
+                array(
+                    'datetime'=> date("Y-m-d H:i:s"),
+                    'domain'=> $dataForm['domain'],
+                    'from_id'=> $_SESSION['id'], 
+                    'to_id'=> $dataForm['toid'],
+                    'asset'=> 'comment', 
+                    'asset_id'=> $result,
+                    'status'=> '0'
+                    )
+                );
+            if($archive && $notif){
                 $response['alert']['success']='Comentario enviado.';       
-            }else{
-                $response['alert']['warning']='No publicado.';
+            }elseif(!$archive){
+
+                $response['alert']['warning']='No archivado.';
+            }elseif(!$notif)
+            {
+                $response['alert']['warning']='Notificacion no generada.';
             }
         }else{
-            $response['alert']['warning']='No se guardo el mensaje.';
+            $response['alert']['warning']='No se guardo el comentario.';
         }
 
 }

@@ -24,11 +24,17 @@ if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
         include '../global/functions.php';
         if($dataForm['action']){
             switch ($dataForm['action']) {
-            case 'archive':
-                include 'archive.php';
+            case 'active':
+                include 'active.php';
                 break;
             case 'reply':
                 include 'reply.php';
+                break;
+            case 'archive':
+                include 'archive.php';
+                break;
+            case 'ban':
+                include 'ban.php';
                 break;
             default:
                 echo 'error';

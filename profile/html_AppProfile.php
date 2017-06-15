@@ -34,12 +34,12 @@ if($_SESSION['logged']['alert'])
 {
   echo '<div class="tab-content appcontent"><div class="alert alert-'.key($_SESSION['logged']['alert']).' alert-dismissible fade in" role="alert"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button> '.$_SESSION['logged']['alert'][key($_SESSION['logged']['alert'])].'</div></div>';
 }
-      echo'<ul class="nav nav-tabs nav-justified nav-mobile appnav">
-            <li role="presentation" class="active"><a href="#" data-target="#appnewsfeed" data-hash="/app/content/newsfeed" role="tab" data-toggle="tab" aria-controls="appnewsfeed" aria-expanded="true"><i class="fa fa-globe"></i> Noticias</a></li>
-            <li role="presentation"><a href="#" data-target="#appnotifications" data-hash="/app/content/notifications" role="tab" data-toggle="tab" aria-controls="appnotifications" aria-expanded="false"><i class="fa fa-bell"></i> Notificaciones</a></li>
+      echo'<ul class="nav nav-tabs nav-justified nav-mobile appnav">';
+        /*    <li role="presentation" class="active"><a href="#" data-target="#appnewsfeed" data-hash="/app/content/newsfeed" role="tab" data-toggle="tab" aria-controls="appnewsfeed" aria-expanded="true"><i class="fa fa-globe"></i> Noticias</a></li>*/
+        echo '<li role="presentation"><a href="#" data-target="#appnotifications" data-hash="/app/content/notifications" role="tab" data-toggle="tab" aria-controls="appnotifications" aria-expanded="false"><i class="fa fa-bell"></i> Notificaciones</a></li>
           </ul>
-          <div class="tab-content appcontent">
-            <div role="tabpanel" class="tab-pane active" id="appnewsfeed">
+          <div class="tab-content appcontent">';
+         /*   <div role="tabpanel" class="tab-pane active" id="appnewsfeed">
               <ul class="list-group appstream">
                 <li class="list-group-item">
                   <div class="media comment">
@@ -75,8 +75,9 @@ if($_SESSION['logged']['alert'])
                   </ul>
                 </li>
               </ul>
-            </div>
-            <div role="tabpanel" class="tab-pane" id="appnotifications">
+            </div>*/
+
+         echo '<div role="tabpanel" class="tab-pane" id="appnotifications">
 ';
 include 'notifications.php';
 echo '      </div>

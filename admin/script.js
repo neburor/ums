@@ -1,40 +1,54 @@
 //UMS framework with jQuery
-$(document).ready(function(){
 var lastHash = location.hash;
+$(document).ready(function(){
+
+//Dashboard
+if(sessionStorage.getItem("token")){
+  loadDashboard();
+}else if(localStorage.getItem("token")){
+  sessionStorage.setItem("token",localStorage.getItem("token"));
+  sessionStorage.setItem("domain",localStorage.getItem("domain"));
+  progressbar = $('#progress-content>.progress-bar');
+   $.ajax({
+      async: false,
+      type: "POST",
+      url: "ums/admin/login.php",
+      cache: false,
+      data: { token: localStorage.getItem("token")},
+      xhr: function() {
+        var xhr = new window.XMLHttpRequest();
+        xhr.upload.addEventListener("progress", function(evt) {
+          if (evt.lengthComputable) {
+            var percentComplete = evt.loaded / evt.total;
+            $(progressbar).html(Math.round(percentComplete * 100) + "%");
+            $(progressbar).width(Math.round(percentComplete * 100)+ "%");
+          }
+        }, false);
+        return xhr;
+      }
+    }).done(function( html ) {
+      $(progressbar).width(0);
+      loadDashboard();
+    });
+}else{
+  loadLogin('index');
+}
 
 //Routes
 if(location.hash)
 {
-	Routes(location.hash);
+  lastHash= '#';
+  Routes(location.hash);
+} else if(sessionStorage.getItem("token")){
+  location.hash='#/dashboard';
 }
-//Dashboard
-if($('#main_content').length)
-{
-  if(!localStorage.getItem("token")) 
-  {
-    loadLogin('index');
-  } 
-  else 
-  {
-    loadDashboard(localStorage.getItem("token"));  
-  }
-}
+
 $(window).bind('hashchange', function() {
 	if(location.hash)
 	{
-		hash=location.hash;
-		var rL = lastHash.split(':');
-		var rh = hash.split(':');
-		if(rh[0]=='#dashboard' && (rh[2] && rh[0]==rL[0] && rh[1]==rL[1]))
-		{
-			ShowTab('#'+rh[2]);
-		}
-		else
-		{
-			Routes(location.hash);
-		}
+		Routes(location.hash);
 	}
-	lastHash = hash;
+	lastHash = location.hash;
 });
  //SCROLLTOP
 $('.scrolltop.collapsed').on('click', function (e){
@@ -48,170 +62,139 @@ $('a[action="tab"]').on('click', function (e){
 	e.preventDefault();
 	ShowTab($(this).attr('data-target'));
 });
-$('[data-hash]').on('click', function (e) {
-  e.preventDefault();
-  $(this).hashchange('click');
-});
-//comentarios
-$('.btn-expand').on("click", function (e){
-  var expand = $(this).parent(".comment").find(".expand");
-  $(expand).toggleClass("in", 1000, "swing");
-   var html = $(this).html();
-    $(this).html(
-        html == '<i class="fa fa-angle-up"></i> Contraer' ? '<i class="fa fa-angle-down"></i> Expandir' : '<i class="fa fa-angle-up"></i> Contraer');
-e.preventDefault();
-});
+
 });
 
-
-
-
-function ShowPanel(panelid)
+function ShowPanel(route)
 {
+  progressbar = $('#progress-content>.progress-bar');
+  lastcontent = $('#main_content div:first-child');
   $('.sidebar-nav>li>a').removeClass('active');
-  $('a[data-target="'+panelid+'"]').addClass('active');
-	$('#main_content div').slideUp('fast', "linear", function(){
-		$(this).remove();
-	});
-	$('#main_content').append($(panelid).html());
-	$('#main_content').find('table.datatables').DataTables();
+  $('a[data-target="#'+route[1]+'"]').addClass('active');
+  $.ajax({
+      type: "POST",
+      url: "ums/admin/api.php",
+      cache: false,
+      data: { token: sessionStorage.getItem("token"), domain: sessionStorage.getItem("domain"), content: route[1] },
+      xhr: function() {
+                var xhr = new window.XMLHttpRequest();
+                xhr.upload.addEventListener("progress", function(evt) {
+                  if (evt.lengthComputable) {
+                    var percentComplete = evt.loaded / evt.total;
+                    $(progressbar).html(Math.round(percentComplete * 100) + "%");
+                    $(progressbar).width(Math.round(percentComplete * 100)+ "%");
+                  }
+                  }, false);
+                return xhr;
+            }
+    }).done(function( html ) {
+      $(progressbar).width(0);
+      if(html!='error')
+      {
+        $('#main_content').append('<div>'+html+'</div>');
+        $(lastcontent).slideUp('fast', "linear", function(){
+        $(this).remove();
+        });
+        if(route[2])
+            {
+              ShowTab(route);
+            }
+        $('#main_content').find('[data-hash]').on('click', function (e) {
+          e.preventDefault();
+          $(this).hashchange('click');
+        });
+        $('#main_content').find('[data-action]').on('click', function (e){
+          e.preventDefault();
+          $(this).actions();
+        });
+        $('#main_content').find('a[href="#"]').on('click', function (e) {
+          e.preventDefault();
+        });
+        $('#main_content').find('.form.reply').formreply(); 
+      }  
+    });
+	
+	//$('#main_content').append($(panelid).html());
+
+	//$('#main_content').find('table.datatables').DataTables();
 	
 	//DataTables(tables);
 	
 }
-function ShowTab(tabid)
+function ShowTab(route)
 {
-	$('.nav-tabs a[data-target="'+tabid+'"]').tab('show');
+  progressbar = $('#progress-content>.progress-bar');
+  $.ajax({
+      type: "POST",
+      url: "ums/admin/api.php",
+      cache: false,
+      data: { token: sessionStorage.getItem("token"), domain: sessionStorage.getItem("domain"), content: route[1]+'-'+route[2] },
+      xhr: function() {
+                var xhr = new window.XMLHttpRequest();
+                xhr.upload.addEventListener("progress", function(evt) {
+                  if (evt.lengthComputable) {
+                    var percentComplete = evt.loaded / evt.total;
+                    $(progressbar).html(Math.round(percentComplete * 100) + "%");
+                    $(progressbar).width(Math.round(percentComplete * 100)+ "%");
+                  }
+                  }, false);
+                return xhr;
+            }
+    }).done(function( html ) {
+      $(progressbar).width(0);
+      if(html!='error')
+      {
+        $('#'+route[1]+'-'+route[2]).empty().append('<div>'+html+'</div>');
+        $('.nav-tabs a[data-target="#'+route[1]+'-'+route[2]+'"]').tab('show');
+        $('#'+route[1]+'-'+route[2]).find('[data-hash]').on('click', function (e) {
+          e.preventDefault();
+          $(this).hashchange('click');
+        });
+        $('#'+route[1]+'-'+route[2]).find('[data-action]').on('click', function (e){
+          e.preventDefault();
+          $(this).actions();
+        });
+        $('#'+route[1]+'-'+route[2]).find('a[href="#"]').on('click', function (e) {
+          e.preventDefault();
+        });
+        $('#'+route[1]+'-'+route[2]).find('.form.reply').formreply(); 
+      }  
+    });
+	
 }
 function Routes(hash)
 {
-	var routes = hash.split(':');
-	if(routes[0]=='#ums')
-	{
-		umsRoutes(routes);
-	}
-	if(routes[0]=='#app')
-	{
-		appRoutes(routes);
-	}
-	if(routes[0]=='#dashboard')
-	{
-		dashboardRoutes(routes);
-	}	
-}
-function appRoutes(route)
-{
-    if(route[1]=='close')
+  var routes = hash.split('/');
+  if(routes[1]!='logout')
+  {
+    var rL = lastHash.split('/');
+    var rh = routes;
+    if(rh[2] && rh[1]==rL[1])
     {
-        if($('body').hasClass('profile'))
-        {
-          	$('body.profile').toggleClass('profile');
-        		$('.profile.sidebar-content').animate({'margin-left':'600px'}, 200, function(){
-          		$('.wrapper.profile').toggleClass('open');
-          		$('.wrapper.profile').toggleClass('bg');
-          		$('.profile.sidebar-content').css('margin-left','0');
-        	});
-        }
-        else
-        {
-         	$('.row-offcanvas-right').removeClass('active');
-        }
-    }
-    else if(route[1]=='login')
-    {
-
+      ShowTab(routes);
     }
     else
     {
-    	if($(document).width()<=750 && !$('.row-offcanvas-right').hasClass('active'))
-    	{
-				$('.row-offcanvas-right').toggleClass('active');
-    	}
-    	else if($(document).width()>=751 && !$('body').hasClass('profile'))
-    	{
-    			$('body').toggleClass('profile');
-          			$('.wrapper.profile').toggleClass('open');
-          			$('.profile.sidebar-content').css('margin-left','600px');
-            		$('.profile.sidebar-content').animate({'margin-left':'0'},300, function(){
-            		$('.wrapper.profile').toggleClass('bg');
-          		});
-    	}
-      if(route[1]=='settings')
-      {
-        if($("#app"+route[2]).hasClass('active'))
-        {
-          $('#app'+route[2]).removeClass('active');
-        }
-        else
-        {
-          $('<a data-target="#app'+route[2]+'"></a>').tab('show');
-        }
-      }
-
-    	if(route[1]=='content')
-      {
-        $('a[data-target="#app'+route[2]+'"]').tab('show');
-      }
-      
-    }
-/*    if(action[1]=='login')
-    {
-    	if(action[2]=='facebook')
-        {
-         	FB.login(function(response) {
-            	if (response.status === 'connected') 
-            	{
-              		FB.api('/me?fields=id,name,email', function(response) {
-                		console.log('Successful login for: ' + response.name + '('+response.id+')  email: '+ response.email);
-              		});
-            	}
-            	else 
-            	{
-              		console.log('Fail login');
-            	}  
-          	},{scope: 'email'});
-        }
-    }
-*/
-}
-function dashboardRoutes (routes)
-{
-  console.log(routes[1]);
-  if(routes[1]!='logout')
-  {
-    ShowPanel('#'+routes[1]);
-    if(routes[2])
-    {
-      ShowTab('#'+routes[2]);
+      ShowPanel(routes);
     }
   }
   else
   {
-    location.hash="#";
-    localStorage.removeItem("token");
-    loadLogin();
+    logout();
   }
 	
 }
-function umsRoutes (routes)
-{	
-	action = routes[1];
-	actionid=routes[2];
 
-	if(action=='tab')
-	{
-		if($('.nav-tabs a[data-target="#'+actionid+'"]').length > 0)
-		{
-			$('.nav-tabs a[data-target="#'+actionid+'"]').tab('show').animatescroll();
-		}
-		else
-		{
-			$('#'+formid).animatescroll();
-		}
-	}
-
+function logout ()
+{
+  location.hash="#";
+  localStorage.removeItem("token");
+  sessionStorage.removeItem("token");
+  localStorage.removeItem("domain");
+  sessionStorage.removeItem("domain");
+  document.cookie = 'token="";expires="-1"; path=/';
+  loadLogin();
 }
-
 function DataTables ()
 {
    
@@ -293,13 +276,150 @@ $.fn.hashchange = function (click)
   }
   else if(click=='click')
   {
-    Routes(location.hash);
+    var rh = location.hash.split('/');
+    if(rh[2])
+    {
+      ShowTab(rh);
+    }
+    else
+    {
+      Routes(location.hash);
+    }
   }
 }
 
 $.fn.animatescroll = function ()
 {
 	$('html, body').stop().animate({'scrollTop':$(this).offset().top},900,'swing')
+}
+$.fn.actions = function ()
+{
+  action = $(this).attr('data-action');
+  if(action=='domain')
+  {
+    domain=$(this).attr('data-content');
+    sessionStorage.setItem("domain", domain);
+    if(localStorage.getItem("domain"))
+    {
+      localStorage.setItem("domain", domain);
+    }
+    Routes(location.hash);
+    $('button.domainname').empty().append('<i class="fa fa-globe fa-2x"></i>');
+    $('a.domainname').empty().append('<i class="fa fa-globe fa-2x"></i> ' + domain);
+  }
+  if(action=='active' || action=='archive' || action=='ban')
+  {
+    content = $(this).attr('data-content');
+    type = content.split(':')[0]
+    element = $(this).parent().parent().parent().parent('.'+type);
+    progressbar = $(element).find('.progress-bar');
+    $.ajax({
+      type: "POST",
+      url: "ums/admin/api.php",
+      cache: false,
+      data: { token: localStorage.getItem("token"), domain: localStorage.getItem("domain"), action: action, content: content},
+      xhr: function() {
+        var xhr = new window.XMLHttpRequest();
+        xhr.upload.addEventListener("progress", function(evt) {
+          if (evt.lengthComputable) {
+            var percentComplete = evt.loaded / evt.total;
+            $(progressbar).html(Math.round(percentComplete * 100) + "%");
+            $(progressbar).width(Math.round(percentComplete * 100)+ "%");
+          }
+        }, false);
+        return xhr;
+      }
+    }).done(function( html ) {
+      $(progressbar).width(0);
+      $(element).slideUp('fast', "linear", function(){
+        $(element).remove();
+        });
+    });
+  }
+}
+$.fn.formreply = function(option) 
+{
+  $(this).on("submit", function(event) {
+    event.preventDefault();
+    if($(this).find('input[name="message"]').length)
+    {
+      type = 'message';
+    }
+    if($(this).find('input[name="comment"]').length || $(this).find('textarea[name="comment"]').length)
+    {
+      type = 'comment';
+    }
+    //Elementos del formulario
+    var status = [];
+    var inputWarning = null;
+    response=$(this).find('div.response');
+    btncontrol=$(this).find('button[type="submit"]');
+    element = $(this).parent().parent().parent().parent('.list-group-item');
+    if($(this).find('.progress-bar').length) {
+      progressbar=$(this).find('.progress-bar');
+    } else {
+      progressbar = $(element).find('.progress-bar');
+    }
+    
+    //Inputs de los formularios para verificar si existen y si son correctas
+    $($(this).find('input,textarea,select')).each(function(){
+      $(this).parent().parent().removeClass('has-error');
+        if($(this).is(':disabled')){}
+        else 
+        {
+          if($(this).attr('type')!='checkbox'){
+            status[$(this).attr('name')]=Checkinputs($(this),Validations($(this).attr('name')));
+            console.log($(this).attr('name')+'|'+status[$(this).attr('name')]+':'+$(this).val());
+            if($(this).attr('type')!='hidden' && status[$(this).attr('name')]!='valid'){
+              $(this).parent().parent().addClass('has-error');
+              inputWarning++;
+            } 
+          }
+        }
+    }); 
+    if(inputWarning){
+      $(response).empty().append(Feedback(status));
+    }
+    else
+    {
+      var form = new FormData($(this)[0]);
+      form.append('domain',sessionStorage.getItem('domain'));
+      form.append('token',sessionStorage.getItem('token'));
+      //Envio del formulario con AJAX
+        $.ajax({
+            type: "POST",
+            url: "ums/admin/api.php",
+            dataType: "json",
+            data: form,
+            cache: false,
+            contentType: false,
+            processData: false,
+            xhr: function() {
+                var xhr = new window.XMLHttpRequest();
+                xhr.upload.addEventListener("progress", function(evt) {
+                  if (evt.lengthComputable) {
+                    var percentComplete = evt.loaded / evt.total;
+                    $(progressbar).html(Math.round(percentComplete * 100) + "%");
+                    $(progressbar).width(Math.round(percentComplete * 100)+ "%");
+                  }
+                  }, false);
+                return xhr;
+            },
+            beforeSend: function(){
+              $(btncontrol).append(' <i class="fa fa-cog fa-spin"></i>').attr("disabled","disabled");
+            }
+         }).done(function(data) {
+      $(progressbar).width(0);
+      $(element).slideUp('fast', "linear", function(){
+        $(element).remove();
+        });
+    }).fail(function(data){
+      $(btncontrol).find('i.fa-spin').remove();
+      $(btncontrol).removeAttr("disabled");
+      $(response).empty().append(FeedbackAlert({'error':'El servidor no responde.'}));
+    });
+    }
+  });
 }
 $.fn.Login = function() 
 {
@@ -308,7 +428,11 @@ $.fn.Login = function()
     //Elementos del formulario
     var status = [];
     var inputWarning = null;
-    autologin=$(this).find('input[name="autologin"]').val();
+    var autologin = null;
+    if($(this).find('input[name="autologin"]').is(":checked"))
+    {
+      autologin='on';
+    }
     result=$(this).find('div.response');
     btncontrol=$(this).find('button[type="submit"]');
     progress=$(this).find('.progress');
@@ -321,8 +445,6 @@ $.fn.Login = function()
         {
           if($(this).attr('type')!='checkbox'){
             status[$(this).attr('name')]=Checkinputs($(this),Validations($(this).attr('name')));
-
-
             if($(this).attr('type')!='hidden' && status[$(this).attr('name')]!='valid'){
               $(this).parent().parent().addClass('has-error');
               inputWarning++;
@@ -349,14 +471,13 @@ $.fn.Login = function()
             xhr: function() {
                 var xhr = new window.XMLHttpRequest();
                 xhr.upload.addEventListener("progress", function(evt) {
-                if (evt.lengthComputable) {
-                var percentComplete = evt.loaded / evt.total;
-                $(progressbar).html(Math.round(percentComplete * 100) + "%");
-                $(progressbar).width(Math.round(percentComplete * 100)+ "%");
-                console.log(percentComplete);
-                }
-                }, false);
-            return xhr;
+                  if (evt.lengthComputable) {
+                    var percentComplete = evt.loaded / evt.total;
+                    $(progressbar).html(Math.round(percentComplete * 100) + "%");
+                    $(progressbar).width(Math.round(percentComplete * 100)+ "%");
+                  }
+                  }, false);
+                return xhr;
             },
             beforeSend: function(){
               $(btncontrol).append(' <i class="fa fa-cog fa-spin"></i>').attr("disabled","disabled");
@@ -368,11 +489,14 @@ $.fn.Login = function()
                 }
                 else
                 {
-                  if(autologin=='on')
+                  if(autologin)
                   {
                     localStorage.setItem("token", data.token);
+                    localStorage.setItem("domain", data.domains);
                   }
-                  loadDashboard(data.token);
+                  sessionStorage.setItem("token", data.token);
+                  sessionStorage.setItem("domain", data.domains);
+                  loadDashboard('#/dashboard');
                 }  
             },
             error: function(){ 
@@ -391,7 +515,7 @@ function loadLogin(options)
 {
   if(options=='index')
   {
-    $('#main_content').append('<div class="col-sm-8 col-md-6 col-lg-4 col-md-push-2 col-lg-push-3 col-xs-12 xxs-nopadding">          <div class="site-wrapper"><div class="site-wrapper-inner">          <div class="form-group text-center">            <img src="http://www.hostingmex.com.mx/imagenes/hostingmex-logo.png">          </div>          <form class="form col-xs-12 xxs-nopadding" role="form" action="#" method="POST" id="login_form">           <div class="progress">              <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>            </div>            <input type="hidden" name="formid" value="app_settings-login">            <input type="hidden" name="formtype" value="login">            <div class="form-group col-xs-12 ">              <div class="input-group">                <span class="input-group-addon"> <i class="fa fa-at"></i></span>                <input type="email" class="form-control" name="useremail" placeholder="Su correo ..." minlength="8" maxlength="64" required="">              </div>            </div>            <div class="form-group col-xs-12 ">              <div class="input-group">                <span class="input-group-addon"> <i class="fa fa-lock"></i></span>                <input type="password" class="form-control" name="userpass" placeholder="Su contraseña ..." minlength="4" maxlength="32" required="">              </div>            </div>            <div class="form-group col-xs-12">              <label><input type="checkbox" name="autologin" checked=""><b> Recordarme !</b></label>            </div>            <div class="form-group col-xs-12 response"></div>              <div class="form-group col-xs-12">                <button type="submit" class="btn btn-default"> <i class="fa fa-sign-in"></i> <span>Iniciar sesion</span></button>              </div>          </form>          </div></div>        </div>').find('.form').Login();
+    $('#main_content').append('<div class="col-sm-8 col-md-6 col-lg-4 col-md-push-2 col-lg-push-3 col-xs-12 xxs-nopadding">          <div class="site-wrapper"><div class="site-wrapper-inner">          <div class="form-group text-center">            <img src="http://www.hostingmex.com.mx/imagenes/hostingmex-logo.png" class="logo">          </div>          <form class="form col-xs-12 xxs-nopadding" role="form" action="#" method="POST" id="login_form">           <div class="progress">              <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>            </div>            <input type="hidden" name="formid" value="app_settings-login">            <input type="hidden" name="formtype" value="login">            <div class="form-group col-xs-12 ">              <div class="input-group">                <span class="input-group-addon"> <i class="fa fa-at"></i></span>                <input type="email" class="form-control" name="useremail" placeholder="Su correo ..." minlength="8" maxlength="64" required="">              </div>            </div>            <div class="form-group col-xs-12 ">              <div class="input-group">                <span class="input-group-addon"> <i class="fa fa-lock"></i></span>                <input type="password" class="form-control" name="userpass" placeholder="Su contraseña ..." minlength="4" maxlength="32" required="">              </div>            </div>            <div class="form-group col-xs-12">              <label><input type="checkbox" name="autologin" checked=""><b> Recordarme !</b></label>            </div>            <div class="form-group col-xs-12 response"></div>              <div class="form-group col-xs-12">                <button type="submit" class="btn btn-default"> <i class="fa fa-sign-in"></i> <span>Iniciar sesion</span></button>              </div>          </form>          </div></div>        </div>').find('.form').Login();
   }
   else
   {
@@ -402,54 +526,85 @@ function loadLogin(options)
         {
           $('#main_content>div').slideUp('fast', "linear", function(){
           $(this).remove();
-          $('#main_content').append('<div class="col-sm-8 col-md-6 col-lg-4 col-md-push-2 col-lg-push-3 col-xs-12 xxs-nopadding">          <div class="site-wrapper"><div class="site-wrapper-inner">          <div class="form-group text-center">            <img src="http://www.hostingmex.com.mx/imagenes/hostingmex-logo.png">          </div>          <form class="form col-xs-12 xxs-nopadding" role="form" action="#" method="POST" id="login_form">           <div class="progress">              <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>            </div>            <input type="hidden" name="formid" value="app_settings-login">            <input type="hidden" name="formtype" value="login">            <div class="form-group col-xs-12 ">              <div class="input-group">                <span class="input-group-addon"> <i class="fa fa-at"></i></span>                <input type="email" class="form-control" name="useremail" placeholder="Su correo ..." minlength="8" maxlength="64" required="">              </div>            </div>            <div class="form-group col-xs-12 ">              <div class="input-group">                <span class="input-group-addon"> <i class="fa fa-lock"></i></span>                <input type="password" class="form-control" name="userpass" placeholder="Su contraseña ..." minlength="4" maxlength="32" required="">              </div>            </div>            <div class="form-group col-xs-12">              <label><input type="checkbox" name="autologin" checked=""><b> Recordarme !</b></label>            </div>            <div class="form-group col-xs-12 response"></div>              <div class="form-group col-xs-12">                <button type="submit" class="btn btn-default"> <i class="fa fa-sign-in"></i> <span>Iniciar sesion</span></button>              </div>          </form>          </div></div>        </div>').find('.form').Forms();
+          $('#main_content').append('<div class="col-sm-8 col-md-6 col-lg-4 col-md-push-2 col-lg-push-3 col-xs-12 xxs-nopadding">          <div class="site-wrapper"><div class="site-wrapper-inner">          <div class="form-group text-center">            <img src="http://www.hostingmex.com.mx/imagenes/hostingmex-logo.png" class="logo">          </div>          <form class="form col-xs-12 xxs-nopadding" role="form" action="#" method="POST" id="login_form">           <div class="progress">              <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>            </div>            <input type="hidden" name="formid" value="app_settings-login">            <input type="hidden" name="formtype" value="login">            <div class="form-group col-xs-12 ">              <div class="input-group">                <span class="input-group-addon"> <i class="fa fa-at"></i></span>                <input type="email" class="form-control" name="useremail" placeholder="Su correo ..." minlength="8" maxlength="64" required="">              </div>            </div>            <div class="form-group col-xs-12 ">              <div class="input-group">                <span class="input-group-addon"> <i class="fa fa-lock"></i></span>                <input type="password" class="form-control" name="userpass" placeholder="Su contraseña ..." minlength="4" maxlength="32" required="">              </div>            </div>            <div class="form-group col-xs-12">              <label><input type="checkbox" name="autologin" checked=""><b> Recordarme !</b></label>            </div>            <div class="form-group col-xs-12 response"></div>              <div class="form-group col-xs-12">                <button type="submit" class="btn btn-default"> <i class="fa fa-sign-in"></i> <span>Iniciar sesion</span></button>              </div>          </form>          </div></div>        </div>').find('.form').Login();
           });
         }
         else
         {
-          $('#main_content').append('<div class="col-sm-8 col-md-6 col-lg-4 col-md-push-2 col-lg-push-3 col-xs-12 xxs-nopadding">          <div class="site-wrapper"><div class="site-wrapper-inner">          <div class="form-group text-center">            <img src="http://www.hostingmex.com.mx/imagenes/hostingmex-logo.png">          </div>          <form class="form col-xs-12 xxs-nopadding" role="form" action="#" method="POST" id="login_form">           <div class="progress">              <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>            </div>            <input type="hidden" name="formid" value="app_settings-login">            <input type="hidden" name="formtype" value="login">            <div class="form-group col-xs-12 ">              <div class="input-group">                <span class="input-group-addon"> <i class="fa fa-at"></i></span>                <input type="email" class="form-control" name="useremail" placeholder="Su correo ..." minlength="8" maxlength="64" required="">              </div>            </div>            <div class="form-group col-xs-12 ">              <div class="input-group">                <span class="input-group-addon"> <i class="fa fa-lock"></i></span>                <input type="password" class="form-control" name="userpass" placeholder="Su contraseña ..." minlength="4" maxlength="32" required="">              </div>            </div>            <div class="form-group col-xs-12">              <label><input type="checkbox" name="autologin" checked=""><b> Recordarme !</b></label>            </div>            <div class="form-group col-xs-12 response"></div>              <div class="form-group col-xs-12">                <button type="submit" class="btn btn-default"> <i class="fa fa-sign-in"></i> <span>Iniciar sesion</span></button>              </div>          </form>          </div></div>        </div>').find('.form').Login();
+          $('#main_content').append('<div class="col-sm-8 col-md-6 col-lg-4 col-md-push-2 col-lg-push-3 col-xs-12 xxs-nopadding">          <div class="site-wrapper"><div class="site-wrapper-inner">          <div class="form-group text-center">            <img src="http://www.hostingmex.com.mx/imagenes/hostingmex-logo.png" class="logo">          </div>          <form class="form col-xs-12 xxs-nopadding" role="form" action="#" method="POST" id="login_form">           <div class="progress">              <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>            </div>            <input type="hidden" name="formid" value="app_settings-login">            <input type="hidden" name="formtype" value="login">            <div class="form-group col-xs-12 ">              <div class="input-group">                <span class="input-group-addon"> <i class="fa fa-at"></i></span>                <input type="email" class="form-control" name="useremail" placeholder="Su correo ..." minlength="8" maxlength="64" required="">              </div>            </div>            <div class="form-group col-xs-12 ">              <div class="input-group">                <span class="input-group-addon"> <i class="fa fa-lock"></i></span>                <input type="password" class="form-control" name="userpass" placeholder="Su contraseña ..." minlength="4" maxlength="32" required="">              </div>            </div>            <div class="form-group col-xs-12">              <label><input type="checkbox" name="autologin" checked=""><b> Recordarme !</b></label>            </div>            <div class="form-group col-xs-12 response"></div>              <div class="form-group col-xs-12">                <button type="submit" class="btn btn-default"> <i class="fa fa-sign-in"></i> <span>Iniciar sesion</span></button>              </div>          </form>          </div></div>        </div>').find('.form').Login();
         }  
       });
       $(this).remove();
     });
   }
 }
-function loadDashboard()
+function loadDashboard(hash)
 {
-  $('#main_content>div').slideUp('fast', "linear", function(){
-    $(this).remove();
-  });
-  $('#main_content').append('<div class="col-xs-12"><h1>Contenido principal</h1></div>');
-  $('#sidebar-offcanvas-right').append('<nav class="sidebar sidebar-offcanvas-right">      <ul class="nav sidebar-nav">        <li><a href="#" data-content="#profile" data-target="#profile-home" data-hash="dashboard:profile:profile-home"><i class="fa fa-globe"></i> coleccionotrosmundos.org</a></li>                <li><a href="#" data-content="#profile" data-target="#profile-messages" data-hash="dashboard:profile:profile-messages"><img src="img/img_logo_pyb.png"> PitbullsAndBullys</a></li>                <li><a href="#" data-content="#profile" data-target="#profile-comments" data-hash="dashboard:profile:profile-comments"><img src="http://www.librosyrevistas.org/img/favicon.png"> Libros y Revistas</a></li>        <li role="separator" class="divider"></li>        <li><a href="#" data-content="#profile" data-target="#profile-config" data-hash="dashboard:profile:profile-config"><i class="fa fa-cog"></i> Preferencias</a></li>        <li role="separator" class="divider"></li>        <li><a href="#" data-hash="dashboard:logout"><i class="fa fa-sign-out"></i> Salir</a></li>      </ul>    </nav>');
-  $('#sidebar-offcanvas-left').append('<nav class="sidebar sidebar-offcanvas-left">      <ul class="nav sidebar-nav">        <li class="">            <a href="#" data-target="#dashboard" data-hash="dashboard:dashboard"><span class="icon"><i class="fa fa-globe"></i></span> Dashboard</a>        </li>        <li class="">            <a href="#" data-target="#users" data-hash="dashboard:users"><span class="icon"><i class="fa fa-users"></i></span> Usuarios</a>        </li>        <li class="">            <a href="#" data-target="#messages" data-hash="dashboard:messages"><span class="icon"><i class="fa fa-envelope"></i></span> Mensajes</a>        </li>        <li class="">            <a href="#" data-content="#comments" data-hash="dashboard:comments"><span class="icon"><i class="fa fa-commenting"></i></span> Comentarios </a>        </li>        <li class="#">            <a href=""><span class="icon"><i class="fa fa-list-alt"></i></span> Encuestas </a>        </li>        <li class="#">            <a href="#"><span class="icon"><i class="fa fa-newspaper-o"></i></span> Clasificados </a>        </li>      </ul>    </nav>');
-  $('#navbar').append('<nav class="navbar navbar-inverse navbar-static-top">    <div class="container-fluid">      <div class="navbar-header">        <button type="button" class="navbar-toggle collapsed pull-left" data-offcanvas="offcanvas-left">          <i class="fa fa-bars fa-2x"></i>        </button>        <a class="navbar-brand" href="http://ums.hostingmex.com.mx/"><img src="http://www.hostingmex.com.mx/imagenes/hostingmex-logo.png" alt="Administracion de usuarios Web"></a>        <button type="button" class="navbar-toggle collapsed pull-right" data-offcanvas="offcanvas-right">          <img src="img/pic.jpg" class="img-rounded">        </button>      </div>      <div class="navbar-collapse collapse">        <ul class="nav navbar-nav navbar-right">          <li><a href="#"><i class="fa fa-envelope"></i></a></li>          <li>            <a href="#" class="dropdown-toggle img-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"><img src="img/pic.jpg" class="img-rounded"> Nebur Oirad <span class="caret"></span></a>              <ul class="dropdown-menu sidebar-right">                <li><a href="#" data-content="#profile" data-target="#profile-home" data-hash="dashboard:profile:profile-home"><i class="fa fa-user"></i> Mi Perfil</a></li>                <li><a href="#" data-content="#profile" data-target="#profile-messages" data-hash="dashboard:profile:profile-messages"><i class="fa fa-envelope"></i> Mensajes</a></li>                <li><a href="#" data-content="#profile" data-target="#profile-comments" data-hash="dashboard:profile:profile-comments"><i class="fa fa-commenting"></i> Comentarios</a></li>                <li role="separator" class="divider"></li>                <li><a href="#" data-content="#profile" data-target="#profile-config" data-hash="dashboard:profile:profile-config"><i class="fa fa-cog"></i> Preferencias</a></li>                <li role="separator" class="divider"></li>                <li><a href="#" data-hash="dashboard:logout"><i class="fa fa-sign-out"></i> Salir</a></li>              </ul>          </li>        </ul>       </div>    </div>  </nav>');
-  //OFFCANVAS
-$('[data-offcanvas="offcanvas-right"]').click(function () {
-    $('.row-offcanvas-right').toggleClass('active');
-});
-$('[data-offcanvas="offcanvas-left"]').click(function () {
-    $('.row-offcanvas-left').toggleClass('active');
-});
-$('[data-hash]').on('click', function (e) {
-  e.preventDefault();
-  $(this).hashchange('click');
-});
-//MENU
-var sidebar_left = $('.sidebar-offcanvas-left').find('a');
-var sidebar_right = $('.sidebar-offcanvas-right').find('a');
-
-  $(sidebar_left).each(function(){
-      $(this).on('click', function(){
+  if(hash){
+    location.hash=hash;
+  }
+  $.ajax({
+      type: "POST",
+      url: "ums/admin/api.php",
+      data: { token: sessionStorage.getItem("token"), domain: sessionStorage.getItem("domain"), content: "navbar" }
+    }).done(function( html ) {
+      $('#navbar').append(html);
+      $('#navbar').find('[data-hash]').on('click', function (e) {
+        e.preventDefault();
+        $(this).hashchange('click');
+      });    
+      $('#navbar').find('[data-offcanvas="offcanvas-left"]').click(function () {
+        $('.row-offcanvas-left').toggleClass('active');
+      });
+      $('#navbar').find('[data-offcanvas="offcanvas-right"]').click(function () {
+        $('.row-offcanvas-right').toggleClass('active');
+      });
+     $('#navbar').find('a[href="#"]').on('click', function (e){
+      e.preventDefault();
+      });
+     $('#navbar').find('[data-action]').on('click', function (e){
+      e.preventDefault();
+      $(this).actions();
+     });
+    });  
+  $.ajax({
+      type: "POST",
+      url: "ums/admin/api.php",
+      data: { token: sessionStorage.getItem("token"), domain: sessionStorage.getItem("domain"), content: "sidebar-left" }
+    }).done(function( html ) {
+      $('#sidebar-offcanvas-left').append(html);
+      $('#sidebar-offcanvas-left').find('[data-hash]').on('click', function (e) {
+        e.preventDefault();
+        $(this).hashchange('click');
         $('.row-offcanvas-left').removeClass('active');
       });
-    
-  });
-  $(sidebar_right).each(function(){
-      $(this).on('click', function(){
+      $('#sidebar-offcanvas-left').find('a[href="#"]').on('click', function (e){
+        e.preventDefault();
+      });
+      
+    });
+    $.ajax({
+      type: "POST",
+      url: "ums/admin/api.php",
+      data: { token: sessionStorage.getItem("token"), domain: sessionStorage.getItem("domain"), content: "sidebar-right" }
+    }).done(function( html ) {
+      $('#sidebar-offcanvas-right').append(html);
+      $('#sidebar-offcanvas-right').find('[data-hash]').on('click', function (e) {
+        e.preventDefault();
+        $(this).hashchange('click');
         $('.row-offcanvas-right').removeClass('active');
       });
-    
-  });
+      $('#sidebar-offcanvas-right').find('a[href="#"]').on('click', function (e){
+        e.preventDefault();
+      });
+      $('#sidebar-offcanvas-right').find('[data-action]').on('click', function (e){
+      e.preventDefault();
+      $(this).actions();
+      $('.row-offcanvas-right').removeClass('active');
+     });
+    });
+
+
 }
 function Feedback(feedback)
 {
@@ -516,6 +671,10 @@ function Validations(input)
   {
     validations['pregmatch']=/^[\w.-]+$/;
   }
+  if(input == 'toid')
+  {
+    validations['minlength'] = 1;
+  }
   if(input == 'name' ||
      input == 'username')
   {
@@ -531,6 +690,21 @@ function Validations(input)
      input == 'userpass')
   {
     validations['display']='Contraseña';
+  }
+  if(input == 'comment')
+  {
+    validations['display']='Comentario';
+    validations['maxlength'] = 1024;
+  }
+  if(input == 'message')
+  {
+    validations['display']='Mensaje';
+    validations['maxlength'] = 1024;
+  }
+   if(input == 'reply')
+  {
+    validations['display']='Respuesta';
+    validations['maxlength'] = 1024;
   }
 
   return validations;
