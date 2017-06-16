@@ -8,6 +8,7 @@ include 'sessions.php';
 
 include 'login/functions_db.php';
 include 'accounts/functions_db.php';
+include 'profile/functions_db.php';
 include 'messages/functions_db.php';
 include 'comments/functions_db.php';
 

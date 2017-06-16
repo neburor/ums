@@ -11,6 +11,7 @@ $notifications=SQLselect(
     notifications_app.`to_id`,
     notifications_app.`asset`,
     notifications_app.`asset_id`,
+    notifications_app.`status`,
     Case notifications_app.`asset`
         When 'message'
         Then (SELECT messages.`form` FROM `messages` WHERE messages.`id` = notifications_app.`asset_id`)
@@ -39,7 +40,6 @@ $notifications=SQLselect(
             ON notifications_app.`from_id` = accounts_sn.`account` 
             AND accounts.`pic` = accounts_sn.`network`
     WHERE notifications_app.`to_id` = '".$_SESSION['logged']['id']."'
-    AND notifications_app.`status`='0'
     GROUP BY notifications_app.`id`
     ORDER BY notifications_app.`id`
     ASC"
@@ -63,7 +63,12 @@ if($notifications)
 			{
 				
 
-				echo '<li class="list-group-item">
+				echo '<li class="list-group-item';
+                if($value['status']==0)
+                {
+                    echo ' active';
+                }
+                echo '">
                   		<a href="'.URLMESSAGES.'" class="media message">
                     		<div class="media-left"><img class="img-circle profile-pic" src="'.$_SESSION['admin']['pic'].'"></div>
                     		<div class="media-body"><span class="media-heading"><b>'.$_SESSION['admin']['name'].'</b> <small class="pull-right">Hace '.$date[0].' '.$date[1].'</small></span>
@@ -85,8 +90,13 @@ if($notifications)
             	{
                 	$_SESSION['urls'][$value['url']]=get_meta_tags($value['url']);
             	}
-				echo '<li class="list-group-item">
-                  		<a href="'.$value['url'].'?replycomment='.$value['asset_id'].'#comment_'.$value['asset_id'].'" class="media comment">
+				echo '<li class="list-group-item';
+                if($value['status']==0)
+                {
+                    echo ' active';
+                }
+                echo '">
+                  		<a href="'.$value['url'].'?replycomment='.$value['asset_id'].'&notifapp='.$value['id'].'#comment_'.$value['asset_id'].'" class="media comment">
                     		<div class="media-left"><img class="img-circle profile-pic" src="'.$value['from_pic'].'"></div>
                     		<div class="media-body"><span class="media-heading"><b>'.$value['from_name'].'</b> <small class="pull-right">Hace '.$date[0].' '.$date[1].'</small></span>
                     		<p><small><i class="fa fa-commenting"></i> '.$_SESSION['urls'][$value['url']]['title'].'</small></p>

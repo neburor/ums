@@ -88,6 +88,10 @@ if(isset($_GET))
     }
    
   }
+  if(isset($_GET['notifapp']))
+  {
+    NotifApp(array('id'=>$_GET['notifapp']));
+  }
 }
 //POST
 if(isset($_POST))
@@ -188,7 +192,7 @@ if(isset($_POST))
             $_SESSION['feedback'][$formid][$field]['status']=$feedback;
           }
         }
-      header('Location: '.$_SERVER['REQUEST_URI']);
+      #header('Location: '.$_SERVER['REQUEST_URI']);
       }
   }
 }

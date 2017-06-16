@@ -115,7 +115,7 @@ else
                 'id'    =>'app_settings-login',
                 'type'  =>'login',
                 'callback'=> array(
-                            'success'=>'/app/content/newsfeed',
+                            'success'=>'/app/content/notifications',
                             'error'=>'/app/settings/login'),
                 'recovery'=>'<a href="#" data-hash="/app/settings/recovery" data-toggle="show" aria-expanded="false" aria-controls="appsettings">Recuperar <i class="fa fa-lock"></i></a>'
                   );
@@ -129,7 +129,7 @@ else
                 'id'    =>'app_settings-signup',
                 'type'  =>'signup',
                 'callback'=>array(
-                            'success'=>'/app/content/newsfeed',
+                            'success'=>'/app/content/notifications',
                             'error'=>'/app/settings/signup')
                   );
             include 'ums/login/html_signup-tab.php';
