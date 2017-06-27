@@ -89,14 +89,7 @@ if($comments)
             			<input type="hidden" name="formtype" value="reply">
                         <input type="hidden" name="url" value="'.$data['url'].'">
                         <input type="hidden" name="title" value="'.$_SESSION['urls'][$data['url']]['title'].'">
-                        <input type="hidden" name="inid" value="';
-                        if($data['in_id']==0){
-                            echo $data['id'];
-                        } else {
-                            echo $data['in_id'];
-                        }
-                        echo '">
-                        <input type="hidden" name="toid" value="'.$data['from_id'].'">
+                        <input type="hidden" name="route" value="'.$data['id'].':'.$data['from_id'].':'.$data['to_id'].':'.$data['to_comm'].':'.$data['in_id'].'">
             			<div class="form-group">
               				<div class="input-group">
                 				<span class="input-group-addon"> <i class="fa fa-edit"></i></span>

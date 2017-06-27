@@ -1,7 +1,7 @@
 <?php
 #Archive
-$data = explode(":", $dataForm['content']);
-if($data[0]=='message')
+$route = explode(":", $dataForm['content']);
+if($route[0]=='message')
 {
 	$result=SQLupdate(
             array(
@@ -9,7 +9,7 @@ if($data[0]=='message')
                 'limit'=>' '
                 ),
             array(
-                'from_id'=>$data[1],
+                'from_id'=>$route[1],
                 'status'=>'0'
                 ),
             array(
@@ -25,7 +25,7 @@ if($data[0]=='message')
          $response['alert']['warning']='No se activo el mensaje.';
     }
 }
-elseif($data[0]=='comment')
+elseif($route[0]=='comment')
 {
  
         $active=SQLupdate(
@@ -33,7 +33,7 @@ elseif($data[0]=='comment')
                 'table'=>'comments'
                 ),
             array(
-                'id'=>$data[1],
+                'id'=>$route[1],
                 'status'=>'0'
                 ),
             array(
@@ -41,7 +41,7 @@ elseif($data[0]=='comment')
                 )
             );
        
-        if($data[2] && $data[3])
+        if($route[2] && $route[3])
         {
             $notif=SQLinsert(
                 array(
@@ -50,10 +50,10 @@ elseif($data[0]=='comment')
                 array(
                     'datetime'=> date("Y-m-d H:i:s"),
                     'domain'=> $dataForm['domain'],
-                    'from_id'=> $data[2], 
-                    'to_id'=> $data[3],
+                    'from_id'=> $route[2], 
+                    'to_id'=> $route[3],
                     'asset'=> 'comment', 
-                    'asset_id'=> $data[1],
+                    'asset_id'=> $route[1],
                     'status'=> '0'
                     )
                 );
@@ -64,7 +64,7 @@ elseif($data[0]=='comment')
                 'limit'=>'LIMIT 1'
                 ),
             array( 
-                'account'=>$data[3],
+                'account'=>$route[3],
                 'type'=>'email'
                 )
             );
@@ -77,43 +77,43 @@ elseif($data[0]=='comment')
                 'query'=>"SELECT 
                     accounts.`name`,
                     accounts_sn.`pic` AS `pic`,
-                    (select `comment` from `comments` where `id`= ".$data[1].") 
+                    (select `comment` from `comments` where `id`= ".$route[1].") 
                     AS `comment`
                     FROM `accounts` 
                     INNER JOIN `accounts_sn`
                         ON accounts.`id` = accounts_sn.`account` 
                         AND accounts.`pic` = accounts_sn.`network`
-                    WHERE accounts.`id` = '".$data[2]."'
+                    WHERE accounts.`id` = '".$route[2]."'
                     LIMIT 1"
                     )
                 );
             
-            if($data[4])
-            {
-                $to=SQLselect(
+                if($route[4])
+                {
+                    $to=SQLselect(
                     array(
                     'table'=>'accounts',
                     'query'=>"SELECT 
                         accounts.`name`,
                         accounts_sn.`pic` AS `pic`,
-                        (select `comment` from `comments` where `id`= ".$data[4].") 
+                        (select `comment` from `comments` where `id`= ".$route[4].") 
                         AS `comment`
                         FROM `accounts` 
                         INNER JOIN `accounts_sn`
                             ON accounts.`id` = accounts_sn.`account` 
                             AND accounts.`pic` = accounts_sn.`network`
-                        WHERE accounts.`id` = '".$data[3]."'
+                        WHERE accounts.`id` = '".$route[3]."'
                         LIMIT 1"
                         )
                 );
-            }
+                }
 
                 $page = explode(",", $dataForm['source']);
 
                 include 'function_SendEmail.php';
                 if(Send_email('reply',array(
                                 'domain'    => $dataForm['domain'],
-                                'id'        => $data[3],
+                                'id'        => $route[3],
                                 'email'     => $notifs['notif'],
                                 'url'       => $page[0],
                                 'title'     => $page[1],
@@ -123,7 +123,7 @@ elseif($data[0]=='comment')
                                 'from_name' => $from[0]['name'],
                                 'from_pic'  => $from[0]['pic'],
                                 'from_comment'=> $from[0]['comment'],
-                                'url_reply' => $page[0].'?replycomment='.$data[1].'#comment_'.$data[1]
+                                'url_reply' => $page[0].'?replycomment='.$route[1].'#comment_'.$route[1]
                             )))
                 {
                     $response['alert']['success']='Se envio correo.';

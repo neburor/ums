@@ -42,7 +42,7 @@ $notifications=SQLselect(
     WHERE notifications_app.`to_id` = '".$_SESSION['logged']['id']."'
     GROUP BY notifications_app.`id`
     ORDER BY notifications_app.`id`
-    ASC"
+    DESC"
                 )
             );
 if(!$_SESSION['admin'])

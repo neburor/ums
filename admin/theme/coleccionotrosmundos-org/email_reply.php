@@ -1,5 +1,13 @@
 <?php
 //Email reply template
+if($params['from_name']=='admin')
+{
+	$params['from_name']='Administracion';
+}
+if($params['from_pic']=='admin')
+{
+	$params['from_pic']='http://v5.coleccionotrosmundos.org/ums/theme/otrosmundos/avatars/administracion.png';
+}
 $subjet = "Tienes una respuesta a tu comentario";
 $cuerpo = '
 <table style="border-collapse:collapse;width:100%;background:#ffebb6;">
