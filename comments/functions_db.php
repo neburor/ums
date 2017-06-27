@@ -4,9 +4,9 @@
 function InsertComment($params=array())
 {
     $params = array_merge(array(
-        'inid'=> '0',
-        'toid'=> '0'
+        'route'=> '0:0:0'
     ), $params);
+    $params['route'] = explode(":", $params['route']);
 
 	if(isset($_SESSION['logged']))
 	{
@@ -21,8 +21,9 @@ function InsertComment($params=array())
                 'url'=> 'http://'.$_SERVER['HTTP_HOST'].strtok($_SERVER["REQUEST_URI"],'?'),
                 'form'=> $params['formtype'], 
                 'from_id'=> $_SESSION['logged']['id'], 
-                'to_id'=> $params['toid'],
-                'in_id'=> $params['inid'],
+                'to_id'=> $params['route'][0],
+                'in_id'=> $params['route'][1],
+                'to_comm'=> $params['route'][2],
                 'comment'=> $params['comment']
                 )
             );
@@ -80,8 +81,9 @@ function InsertComment($params=array())
                             'url'=> 'http://'.$_SERVER['HTTP_HOST'].strtok($_SERVER["REQUEST_URI"],'?'),
                             'form'=> $params['formtype'], 
                             'from_id'=> $resultado['id'], 
-                            'to_id'=> $params['toid'],
-                            'in_id'=> $params['inid'],
+                            'to_id'=> $params['route'][0],
+                            'in_id'=> $params['route'][1],
+                            'to_comm'=> $params['route'][2],
                             'comment'=> $params['comment']
                             )
                         );
@@ -124,8 +126,9 @@ function InsertComment($params=array())
                             'url'=> 'http://'.$_SERVER['HTTP_HOST'].strtok($_SERVER["REQUEST_URI"],'?'),
                             'form'=> $params['formtype'], 
                             'from_id'=> $resultado['id'], 
-                            'to_id'=> $params['toid'],
-                            'in_id'=> $params['inid'],
+                            'to_id'=> $params['route'][0],
+                            'in_id'=> $params['route'][1],
+                            'to_comm'=> $params['route'][2],
                             'comment'=> $params['comment']
                             )
                         );
@@ -163,8 +166,9 @@ function InsertComment($params=array())
                             'url'=> 'http://'.$_SERVER['HTTP_HOST'].strtok($_SERVER["REQUEST_URI"],'?'),
                             'form'=> $params['formtype'], 
                             'from_id'=> $account, 
-                            'to_id'=> $params['toid'],
-                            'in_id'=> $params['inid'],
+                            'to_id'=> $params['route'][0],
+                            'in_id'=> $params['route'][1],
+                            'to_comm'=> $params['route'][2],
                             'comment'=> $params['comment']
                             )
                         );

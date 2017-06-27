@@ -74,7 +74,11 @@ function LIcomments($comments)
                             {
                                 $comments_list.='<i class="fa fa-thumbs-up"></i> '.$data['likes'].' ·';
                             }
-                            if($data['liked'])
+                            if($data['from_id']==$_SESSION['logged']['id'])
+                            {
+                                $comments_list.='Me gusta ';
+                            }
+                            elseif($data['liked'])
                             {
                                 $comments_list.='<a href="?likes=comment&dislike='.$data['id'].'&callback=comment_'.$data['id'].'" class="dislike">Me gusta <i class="fa fa-times"></i></a> ·';
                             }
@@ -82,18 +86,26 @@ function LIcomments($comments)
                             {
                                 $comments_list.='<a href="?likes=comment&like='.$data['id'].'&callback=comment_'.$data['id'].'">Me gusta</a> ·';
                             }
-            $comments_list.='<a ';
-            if(isset($_GET['replycomment']) && $_GET['replycomment']==$data['id'])
-            {
-                $comments_list.='data-toggle="collapse" href="#replycomment_'.$data['id'].'" aria-expanded="true" aria-controls="replycomment_'.$data['id'].'" ';
-            }
-            else
-            {
-                $comments_list.='href="?replycomment='.$data['id'].'#comment_'.$data['id'].'"';
-            }
-                                
-            $comments_list.='  >Responder</a>
-                            </small>
+
+                            if($data['from_id']==$_SESSION['logged']['id'])
+                            {
+                                $comments_list.='Responder';
+                            }
+                            else
+                            {
+                                $comments_list.='<a ';
+                                if(isset($_GET['replycomment']) && $_GET['replycomment']==$data['id'])
+                                {
+                                    $comments_list.='data-toggle="collapse" href="#replycomment_'.$data['id'].'" aria-expanded="true" aria-controls="replycomment_'.$data['id'].'" ';
+                                }
+                                else
+                                {
+                                    $comments_list.='href="?replycomment='.$data['id'].'#comment_'.$data['id'].'"';
+                                }
+                                $comments_list.='  >Responder</a>';
+                            }
+
+                $comments_list.='</small>
                         </p>';
                 if(isset($_GET['replycomment']) && $_GET['replycomment']==$data['id'])
                 {
@@ -107,6 +119,7 @@ function LIcomments($comments)
                         'callback'=>'replycomment_'.$data['id'],
                         'inid'  => $data['id'],
                         'toid'  => $data['from_id'],
+                        'tocomm'=> $data['id'],
                         'toname'=> $data['from_name']
                                 );
                     include 'form_comment.php';
@@ -169,7 +182,11 @@ function LIcomments($comments)
                             {
                                 $comments_list.='<i class="fa fa-thumbs-up"></i> '.$data2['likes'].' ·';
                             }
-                            if($data2['liked'])
+                            if($data2['from_id']==$_SESSION['logged']['id'])
+                            {
+                                $comments_list.='Me gusta ';
+                            }
+                            elseif($data2['liked'])
                             {
                                 $comments_list.='<a href="?likes=comment&dislike='.$data2['id'].'&callback=comment_'.$data2['id'].'" class="dislike">Me gusta <i class="fa fa-times"></i></a> ·';
                             }
@@ -177,10 +194,27 @@ function LIcomments($comments)
                             {
                                 $comments_list.='<a href="?likes=comment&like='.$data2['id'].'&callback=comment_'.$data2['id'].'">Me gusta</a> ·';
                             }
-            $comments_list.=' 
-                                        <a href="?replycomment='.$data2['id'].'#comment_'.$data2['id'].'">Responder</a>
-                                    </small>
-                                </p>
+
+                            if($data2['from_id']==$_SESSION['logged']['id'])
+                            {
+                                $comments_list.='Responder';
+                            }
+                            else
+                            {
+                                $comments_list.=' <a ';
+                                if(isset($_GET['replycomment']) && $_GET['replycomment']==$data2['id'])
+                                {
+                                    $comments_list.='data-toggle="collapse" href="#replycomment_'.$data2['id'].'" aria-expanded="true" aria-controls="replycomment_'.$data2['id'].'" ';
+                                }
+                                else
+                                {
+                                    $comments_list.='href="?replycomment='.$data2['id'].'#comment_'.$data2['id'].'"';
+                                }
+                                $comments_list.='> Responder</a>';
+                            }
+
+                        $comments_list.='</small>
+                                </p></div></div>
                         ';
                         if(isset($_GET['replycomment']) && $_GET['replycomment']==$data2['id'])
                         {
@@ -194,12 +228,12 @@ function LIcomments($comments)
                                 'callback'=>'replycomment_'.$data2['id'],
                                 'inid'  => $data['id'],
                                 'toid'  => $data2['from_id'],
+                                'tocomm'=> $data2['id'],
                                 'toname'=> $data2['from_name']
                                         );
                             include 'form_comment.php';
                             $comments_list.=$FormComment;
-                            $comments_list.='
-                                </div>';
+                           
                         }
                         $comments_list.='</li>';
                         

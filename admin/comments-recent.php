@@ -10,6 +10,7 @@ $comments=SQLselect(
     comments.`from_id`,
     comments.`to_id`,
     comments.`in_id`,
+    comments.`to_comm`,
     comments.`comment`,
     accounts.`name` AS `from_name`,
     accounts_sn.`pic` AS `from_pic`,
@@ -72,7 +73,7 @@ if($comments)
                     <li role="presentation"><button class="btn btn-link" data-action="active" data-source="'.$data['url'].','.$_SESSION['urls'][$data['url']]['title'].'" data-content="comment:'.$data['id'];
             if($data['to_id']!=0)
             {
-                echo ':'.$data['from_id'].':'.$data['to_id'];
+                echo ':'.$data['from_id'].':'.$data['to_id'].':'.$data['to_comm'];
             }
             echo'" title="Publicar"><i class="fa fa-check-circle"></i></button></li>
                   	<li role="presentation"><a href="#" role="tab" data-toggle="tab" data-target="#commentreply_'.$data['id'].'" aria-controls="commentreply_'.$data['id'].'" aria-expanded="false" title="Responder"><i class="fa fa-reply"></i></a></li>

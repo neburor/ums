@@ -72,35 +72,41 @@ elseif($data[0]=='comment')
             {
 
                 $from=SQLselect(
-            array(
+                array(
                 'table'=>'accounts',
                 'query'=>"SELECT 
-    accounts.`name`,
-    accounts_sn.`pic` AS `pic`,
-    (select `comment` from `comments` where `id`= ".$data[1].") 
- AS `comment`
-    FROM `accounts` 
-        INNER JOIN `accounts_sn`
-            ON accounts.`id` = accounts_sn.`account` 
-            AND accounts.`pic` = accounts_sn.`network`
-    WHERE accounts.`id` = '".$data[2]."'
-    LIMIT 1"
-                )
-            );
-            /*    $to=SQLselect(
-            array(
-                'table'=>'accounts',
-                'query'=>"SELECT 
-    accounts.`name`,
-    accounts_sn.`pic` AS `pic`
-    FROM `accounts` 
-        INNER JOIN `accounts_sn`
-            ON accounts.`id` = accounts_sn.`account` 
-            AND accounts.`pic` = accounts_sn.`network`
-    WHERE accounts.`id` = '".$data[3]."'
-    LIMIT 1"
-                )
-            );*/
+                    accounts.`name`,
+                    accounts_sn.`pic` AS `pic`,
+                    (select `comment` from `comments` where `id`= ".$data[1].") 
+                    AS `comment`
+                    FROM `accounts` 
+                    INNER JOIN `accounts_sn`
+                        ON accounts.`id` = accounts_sn.`account` 
+                        AND accounts.`pic` = accounts_sn.`network`
+                    WHERE accounts.`id` = '".$data[2]."'
+                    LIMIT 1"
+                    )
+                );
+            
+            if($data[4])
+            {
+                $to=SQLselect(
+                    array(
+                    'table'=>'accounts',
+                    'query'=>"SELECT 
+                        accounts.`name`,
+                        accounts_sn.`pic` AS `pic`,
+                        (select `comment` from `comments` where `id`= ".$data[4].") 
+                        AS `comment`
+                        FROM `accounts` 
+                        INNER JOIN `accounts_sn`
+                            ON accounts.`id` = accounts_sn.`account` 
+                            AND accounts.`pic` = accounts_sn.`network`
+                        WHERE accounts.`id` = '".$data[3]."'
+                        LIMIT 1"
+                        )
+                );
+            }
 
                 $page = explode(",", $dataForm['source']);
 
@@ -111,6 +117,9 @@ elseif($data[0]=='comment')
                                 'email'     => $notifs['notif'],
                                 'url'       => $page[0],
                                 'title'     => $page[1],
+                                'name'      => $to[0]['name'],
+                                'pic'       => $to[0]['pic'],
+                                'comment'   => $to[0]['comment'],
                                 'from_name' => $from[0]['name'],
                                 'from_pic'  => $from[0]['pic'],
                                 'from_comment'=> $from[0]['comment'],
