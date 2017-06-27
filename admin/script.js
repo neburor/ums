@@ -310,6 +310,7 @@ $.fn.actions = function ()
   if(action=='active' || action=='archive' || action=='ban')
   {
     content = $(this).attr('data-content');
+    source = $(this).attr('data-source');
     type = content.split(':')[0]
     element = $(this).parent().parent().parent().parent('.'+type);
     progressbar = $(element).find('.progress-bar');
@@ -317,7 +318,7 @@ $.fn.actions = function ()
       type: "POST",
       url: "ums/admin/api.php",
       cache: false,
-      data: { token: localStorage.getItem("token"), domain: localStorage.getItem("domain"), action: action, content: content},
+      data: { token: localStorage.getItem("token"), domain: localStorage.getItem("domain"), action: action, content: content, source: source},
       xhr: function() {
         var xhr = new window.XMLHttpRequest();
         xhr.upload.addEventListener("progress", function(evt) {

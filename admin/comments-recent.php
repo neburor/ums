@@ -69,16 +69,16 @@ if($comments)
                             <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                 <ul class="nav nav-tabs">
-                    <li role="presentation"><button class="btn btn-link" data-action="active" data-content="comment:'.$data['id'];
+                    <li role="presentation"><button class="btn btn-link" data-action="active" data-source="'.$data['url'].','.$_SESSION['urls'][$data['url']]['title'].'" data-content="comment:'.$data['id'];
             if($data['to_id']!=0)
             {
                 echo ':'.$data['from_id'].':'.$data['to_id'];
             }
-            echo'"><i class="fa fa-check-circle"></i></button></li>
-                  	<li role="presentation"><a href="#" role="tab" data-toggle="tab" data-target="#commentreply_'.$data['id'].'" aria-controls="commentreply_'.$data['id'].'" aria-expanded="false"><i class="fa fa-reply"></i></a></li>
-                  	<li role="presentation"><a href="#" role="tab" data-toggle="tab" data-target="#commentedit_'.$data['id'].'" aria-controls="commentedit_'.$data['id'].'" aria-expanded="false"><i class="fa fa-edit"></i></a></li>
-                    <li role="presentation"><button class="btn btn-link" data-action="archive" data-content="comment:'.$data['id'].'"><i class="fa fa-archive"></i></button></li>
-                  	<li role="presentation"><button class="btn btn-link" data-action="ban" data-content="comment:'.$data['id'].'"><i class="fa fa-ban"></i></button></li>
+            echo'" title="Publicar"><i class="fa fa-check-circle"></i></button></li>
+                  	<li role="presentation"><a href="#" role="tab" data-toggle="tab" data-target="#commentreply_'.$data['id'].'" aria-controls="commentreply_'.$data['id'].'" aria-expanded="false" title="Responder"><i class="fa fa-reply"></i></a></li>
+                  	<li role="presentation"><a href="#" role="tab" data-toggle="tab" data-target="#commentedit_'.$data['id'].'" aria-controls="commentedit_'.$data['id'].'" aria-expanded="false" title="Editar"><i class="fa fa-edit"></i></a></li>
+                    <li role="presentation"><button class="btn btn-link" data-action="archive" data-content="comment:'.$data['id'].'" title="Archivar"><i class="fa fa-archive"></i></button></li>
+                  	<li role="presentation"><button class="btn btn-link" data-action="ban" data-content="comment:'.$data['id'].'" title="Bannear"><i class="fa fa-ban"></i></button></li>
                 </ul>
                 <div class="tab-content">
                 	<div role="tabpanel" class="tab-pane" id="commentreply_'.$data['id'].'">
@@ -87,6 +87,7 @@ if($comments)
                         <input type="hidden" name="formid" value="commentreply_'.$data['id'].'">
             			<input type="hidden" name="formtype" value="reply">
                         <input type="hidden" name="url" value="'.$data['url'].'">
+                        <input type="hidden" name="title" value="'.$_SESSION['urls'][$data['url']]['title'].'">
                         <input type="hidden" name="inid" value="';
                         if($data['in_id']==0){
                             echo $data['id'];
@@ -113,6 +114,7 @@ if($comments)
                         <input type="hidden" name="formtype" value="edit">
 
                         <input type="hidden" name="url" value="'.$data['url'].'">
+                        <input type="hidden" name="title" value="'.$_SESSION['urls'][$data['url']]['title'].'">
                         <input type="hidden" name="inid" value="';
                         if($data['in_id']==0){
                             echo $data['id'];

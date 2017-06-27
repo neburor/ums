@@ -72,7 +72,7 @@ function LImessages($messages,$account)
    
         if(($count==1)or($li==1))
         {
-            $message_list.='<li class="list-group-item container-fluid">';
+            $message_list.='<li class="list-group-item container-fluid" id="message_'.$data['id'].'">';
             $li=0;
         }
         

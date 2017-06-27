@@ -43,6 +43,7 @@ function LIcomments($comments)
         {
             $data['from_name']=$_SESSION['admin']['name'];
             $data['from_pic']=$_SESSION['admin']['pic'];
+            $data['from_id']=1;
         }
         if($data['in_id']==0)
         {
@@ -81,8 +82,17 @@ function LIcomments($comments)
                             {
                                 $comments_list.='<a href="?likes=comment&like='.$data['id'].'&callback=comment_'.$data['id'].'">Me gusta</a> ·';
                             }
-            $comments_list.=' 
-                                <a href="?replycomment='.$data['id'].'#comment_'.$data['id'].'">Responder</a>
+            $comments_list.='<a ';
+            if(isset($_GET['replycomment']) && $_GET['replycomment']==$data['id'])
+            {
+                $comments_list.='data-toggle="collapse" href="#replycomment_'.$data['id'].'" aria-expanded="true" aria-controls="replycomment_'.$data['id'].'" ';
+            }
+            else
+            {
+                $comments_list.='href="?replycomment='.$data['id'].'#comment_'.$data['id'].'"';
+            }
+                                
+            $comments_list.='  >Responder</a>
                             </small>
                         </p>';
                 if(isset($_GET['replycomment']) && $_GET['replycomment']==$data['id'])
@@ -109,11 +119,17 @@ function LIcomments($comments)
                 foreach ( array_reverse($comments) as $column2 => $data2) 
                 {
                     
-                    
+                    if($data2['to_id']==0)
+                    {
+                        $data2['to_name']=$_SESSION['admin']['name'];
+                        $data2['to_pic']=$_SESSION['admin']['pic'];
+                    }
                     if($data2['form']=='reply')
                     {
                         $data2['from_name']=$_SESSION['admin']['name'];
                         $data2['from_pic']=$_SESSION['admin']['pic'];
+                        $data2['from_id']=0;
+
                     }
                     if($data['id']==$data2['in_id'])
                     {
@@ -177,8 +193,8 @@ function LIcomments($comments)
                                 'type'  =>'comment',
                                 'callback'=>'replycomment_'.$data2['id'],
                                 'inid'  => $data['id'],
-                                'toid'  =>$data2['from_id'],
-                                'toname'=>$data2['from_name']
+                                'toid'  => $data2['from_id'],
+                                'toname'=> $data2['from_name']
                                         );
                             include 'form_comment.php';
                             $comments_list.=$FormComment;

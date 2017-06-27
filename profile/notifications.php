@@ -69,7 +69,7 @@ if($notifications)
                     echo ' active';
                 }
                 echo '">
-                  		<a href="'.URLMESSAGES.'" class="media message">
+                  		<a href="'.URLMESSAGES.'?notifapp='.$value['id'].'#message_'.$value['asset_id'].'" class="media message">
                     		<div class="media-left"><img class="img-circle profile-pic" src="'.$_SESSION['admin']['pic'].'"></div>
                     		<div class="media-body"><span class="media-heading"><b>'.$_SESSION['admin']['name'].'</b> <small class="pull-right">Hace '.$date[0].' '.$date[1].'</small></span>
                     		<p><small><i class="fa fa-envelope"></i> Contacto</small></p>

@@ -90,7 +90,12 @@ if(isset($_GET))
   }
   if(isset($_GET['notifapp']))
   {
-    NotifApp(array('id'=>$_GET['notifapp']));
+    NotifApp(
+      array(
+        'to_id'=>$_SESSION['logged']['id'],
+        'id'=>$_GET['notifapp']
+        )
+      );
   }
 }
 //POST

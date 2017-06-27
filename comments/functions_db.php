@@ -245,7 +245,7 @@ function ListComments($url)
     accounts_sn.`pic` AS `from_pic`,
     Case accounts.`name`
         When comments.`to_id` = accounts.`id`
-        Then (SELECT accounts.`name` FROM `accounts` WHERE comments.`to_id` = accounts.`id`)
+        Then (SELECT accounts.`name` FROM `accounts` WHERE accounts.`id`= comments.`to_id`)
     END
     AS `to_name`,
  (select count(*) from `likes` where `asset`= 'comment' and `asset_id` = comments.`id` and `like` = '1') 
