@@ -25,10 +25,10 @@ if($route[0]=='message')
          $response['alert']['warning']='No se activo el mensaje.';
     }
 }
+
 elseif($route[0]=='comment')
 {
- 
-        $active=SQLupdate(
+    $active=SQLupdate(
             array(
                 'table'=>'comments'
                 ),
@@ -39,11 +39,11 @@ elseif($route[0]=='comment')
             array(
                 'status'=>'1'
                 )
-            );
+    );
        
-        if($route[2] && $route[3])
-        {
-            $notif=SQLinsert(
+    if($route[2] && $route[3])
+    {
+        $notifapp=SQLinsert(
                 array(
                     'table'=>'notifications_app'
                     ),
@@ -56,22 +56,9 @@ elseif($route[0]=='comment')
                     'asset_id'=> $route[1],
                     'status'=> '0'
                     )
-                );
+        );
 
-            $notifs=SQLselect(
-            array(
-                'table'=>'accounts_notif',
-                'limit'=>'LIMIT 1'
-                ),
-            array( 
-                'account'=>$route[3],
-                'type'=>'email'
-                )
-            );
-            if($notifs['status']=='1')
-            {
-
-                $from=SQLselect(
+        $from=SQLselect(
                 array(
                 'table'=>'accounts',
                 'query'=>"SELECT 
@@ -86,12 +73,10 @@ elseif($route[0]=='comment')
                     WHERE accounts.`id` = '".$route[2]."'
                     LIMIT 1"
                     )
-                );
+        );
             
-                if($route[4])
-                {
-                    $to=SQLselect(
-                    array(
+        $to=SQLselect(
+                array(
                     'table'=>'accounts',
                     'query'=>"SELECT 
                         accounts.`name`,
@@ -105,16 +90,14 @@ elseif($route[0]=='comment')
                         WHERE accounts.`id` = '".$route[3]."'
                         LIMIT 1"
                         )
-                );
-                }
+        );
+        
+        $page = explode(",", $dataForm['source']);
 
-                $page = explode(",", $dataForm['source']);
-
-                include 'function_SendEmail.php';
-                if(Send_email('reply',array(
+        include 'function_SendEmail.php';
+        $response=Send_email('reply',array(
                                 'domain'    => $dataForm['domain'],
                                 'id'        => $route[3],
-                                'email'     => $notifs['notif'],
                                 'url'       => $page[0],
                                 'title'     => $page[1],
                                 'name'      => $to[0]['name'],
@@ -123,26 +106,14 @@ elseif($route[0]=='comment')
                                 'from_name' => $from[0]['name'],
                                 'from_pic'  => $from[0]['pic'],
                                 'from_comment'=> $from[0]['comment'],
-                                'url_reply' => $page[0].'?replycomment='.$route[1].'#comment_'.$route[1]
-                            )))
-                {
-                    $response['alert']['success']='Se envio correo.';
-                }
-                else
-                {
-                    $response['alert']['warning']='No se envio el correo.';
-                }
-            }
-            else
-            {
-                $response['alert']['warning']='No esta confirmado el correo.';
-            }
-            
-        }
-        else
-        {
-            $response['alert']['success']='Se activo el comentario.';
-        }
-
+                                'commentid'   => $route[1],
+                                'notifapp'  => $notifapp
+                                    )
+                            );
+    }            
+    else
+    {
+        $response['alert']['success']='Se activo el comentario.';
+    }
 }
 echo json_encode($response);

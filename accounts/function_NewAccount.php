@@ -44,6 +44,10 @@ function NewAccount ($params=array())
         {
             $Account['networks']=AddNetwork($Account['id'],$params['network']);
         }
+        if($params['autopass'])
+        {
+            $Account['autopass']='on';
+        }
        
 
         if(($params['useremail'] && 

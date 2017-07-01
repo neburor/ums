@@ -101,7 +101,7 @@ if($dataForm['comment'])
                     'status'=>'2'
                     )
                 );
-             $notif=SQLinsert(
+             $notifapp=SQLinsert(
                 array(
                     'table'=>'notifications_app'
                     ),
@@ -115,21 +115,10 @@ if($dataForm['comment'])
                     'status'=> '0'
                     )
                 );
-            if($active && $notif)
+            if($active && $notifapp)
             {
-                $notifs=SQLselect(
-                array(
-                    'table'=>'accounts_notif',
-                    'limit'=>'LIMIT 1'
-                    ),
-                array( 
-                    'account'=>$route[1],
-                    'type'=>'email'
-                    )
-                );
-                if($notifs['status']=='1')
-                {
-                   $from=SQLselect(
+                
+                $from=SQLselect(
                     array(
                     'table'=>'accounts',
                     'query'=>"SELECT 
@@ -144,13 +133,12 @@ if($dataForm['comment'])
                         WHERE accounts.`id` = '".$route[1]."'
                         LIMIT 1"
                         )
-                    );
+                );
 
-                    include 'function_SendEmail.php';
-                    if(Send_email('reply',array(
+                include 'function_SendEmail.php';
+                $response=Send_email('reply',array(
                                 'domain'    => $dataForm['domain'],
                                 'id'        => $route[1],
-                                'email'     => $notifs['notif'],
                                 'url'       => $dataForm['url'],
                                 'title'     => $dataForm['title'],
                                 'name'      => $from[0]['name'],
@@ -160,18 +148,9 @@ if($dataForm['comment'])
                                 'from_pic'  => 'admin',
                                 'from_comment'=> $dataForm['comment'],
                                 'url_reply' => $dataForm['url'].'?replycomment='.$result.'#comment_'.$result
-                            )))
-                    {
-                        $response['alert']['success']='Se envio correo.';
-                    }
-                    else
-                    {
-                        $response['alert']['warning']='No se envio el correo.';
-                    }
-                }
-                else{
-                    $response['alert']['warning']='Notificacion por correo no activada.';
-                }       
+                            )
+                );
+                       
             }elseif(!$active){
 
                 $response['alert']['warning']='Comentario no activado.';
@@ -180,72 +159,60 @@ if($dataForm['comment'])
                 $response['alert']['warning']='Notificacion no generada.';
             }
 
-        if($route[3]!=0)
-        {
-            $notif=SQLinsert(
-                array(
-                    'table'=>'notifications_app'
-                    ),
-                array(
-                    'datetime'=> date("Y-m-d H:i:s"),
-                    'domain'=> $dataForm['domain'],
-                    'from_id'=> $route[1], 
-                    'to_id'=> $route[2],
-                    'asset'=> 'comment', 
-                    'asset_id'=> $route[0],
-                    'status'=> '0'
-                    )
-                );
-            $notifs=SQLselect(
-                array(
-                    'table'=>'accounts_notif',
-                    'limit'=>'LIMIT 1'
-                    ),
-                array( 
-                    'account'=>$route[2],
-                    'type'=>'email'
-                    )
-                );
-                if($notifs['status']=='1')
-                {
-                    $to=SQLselect(
+            if($route[3]!=0)
+            {
+                $notifapp=SQLinsert(
                     array(
-                    'table'=>'accounts',
-                    'query'=>"SELECT 
-                        accounts.`name`,
-                        accounts_sn.`pic` AS `pic`,
-                        (select `comment` from `comments` where `id`= ".$route[3].") 
-                        AS `comment`
-                        FROM `accounts` 
-                        INNER JOIN `accounts_sn`
-                            ON accounts.`id` = accounts_sn.`account` 
-                            AND accounts.`pic` = accounts_sn.`network`
-                        WHERE accounts.`id` = '".$route[2]."'
-                        LIMIT 1"
-                        )
-                    );
-
-                    $from=SQLselect(
+                        'table'=>'notifications_app'
+                        ),
                     array(
-                    'table'=>'accounts',
-                    'query'=>"SELECT 
-                        accounts.`name`,
-                        accounts_sn.`pic` AS `pic`,
-                        (select `comment` from `comments` where `id`= ".$route[0].") 
-                        AS `comment`
-                        FROM `accounts` 
-                        INNER JOIN `accounts_sn`
-                            ON accounts.`id` = accounts_sn.`account` 
-                            AND accounts.`pic` = accounts_sn.`network`
-                        WHERE accounts.`id` = '".$route[1]."'
-                        LIMIT 1"
+                        'datetime'=> date("Y-m-d H:i:s"),
+                        'domain'=> $dataForm['domain'],
+                        'from_id'=> $route[1], 
+                        'to_id'=> $route[2],
+                        'asset'=> 'comment', 
+                        'asset_id'=> $route[0],
+                        'status'=> '0'
                         )
-                    );
+                );
+            
+                $to=SQLselect(
+                    array(
+                        'table'=>'accounts',
+                        'query'=>"SELECT 
+                            accounts.`name`,
+                            accounts_sn.`pic` AS `pic`,
+                            (select `comment` from `comments` where `id`= ".$route[3].") 
+                            AS `comment`
+                            FROM `accounts` 
+                            INNER JOIN `accounts_sn`
+                                ON accounts.`id` = accounts_sn.`account` 
+                                AND accounts.`pic` = accounts_sn.`network`
+                            WHERE accounts.`id` = '".$route[2]."'
+                            LIMIT 1"
+                        )
+                );
 
-                    if(Send_email('reply',array(
+                $from=SQLselect(
+                    array(
+                        'table'=>'accounts',
+                        'query'=>"SELECT 
+                            accounts.`name`,
+                            accounts_sn.`pic` AS `pic`,
+                            (select `comment` from `comments` where `id`= ".$route[0].") 
+                            AS `comment`
+                            FROM `accounts` 
+                            INNER JOIN `accounts_sn`
+                                ON accounts.`id` = accounts_sn.`account` 
+                                AND accounts.`pic` = accounts_sn.`network`
+                            WHERE accounts.`id` = '".$route[1]."'
+                            LIMIT 1"
+                        )
+                );
+
+                $response.=Send_email('reply',array(
                                 'domain'    => $dataForm['domain'],
                                 'id'        => $route[1],
-                                'email'     => $notifs['notif'],
                                 'url'       => $dataForm['url'],
                                 'title'     => $dataForm['title'],
                                 'name'      => $to[0]['name'],
@@ -255,20 +222,13 @@ if($dataForm['comment'])
                                 'from_pic'  => $from[0]['pic'],
                                 'from_comment'=> $from[0]['comment'],
                                 'url_reply' => $dataForm['url'].'?replycomment='.$route[0].'#comment_'.$route[0]
-                            )))
-                    {
-                        $response['alert']['success'].='(Se envio correo.)';
-                    }
-                    else
-                    {
-                        $response['alert']['warning'].='(No se envio el correo.)';
-                    }
-                }
-        } 
-
-        }else{
-            $response['alert']['warning']='No se guardo el comentario.';
+                            )
+                );
+            } 
         }
-
+        else
+        {
+            $response['alert']['warning'].='No se guardo el comentario.';
+        }
 }
 echo json_encode($response);

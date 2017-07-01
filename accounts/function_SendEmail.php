@@ -1,5 +1,5 @@
 <?php
-#Send email confirmation
+#Send email 
 function Send_email($type,$params=array())
 {
 
@@ -17,6 +17,18 @@ function Send_email($type,$params=array())
             );
 	if($resultado)
 	{
+        $emails=SQLinsert(
+                array(
+                    'table'=>'emails'
+                    ),
+                array(
+                    'send'=> date("Y-m-d H:i:s"),
+                    'domain'=> UMSDOMAIN,
+                    'account'=> $params['id'], 
+                    'asset'=> $type
+                    )
+            );
+        
 		require $_SERVER['DOCUMENT_ROOT'].'/ums/theme/'.THEMEDIR.'/email_'.$type.'.php';
 
 		$headers = "MIME-Version: 1.0" . "\n"; 
@@ -24,8 +36,10 @@ function Send_email($type,$params=array())
     	$headers .="From: ".UMSDOMAIN." <contacto@".UMSDOMAIN.">" . "\r\n";
     	$headers .="X-Sender: <x-sender@".UMSDOMAIN.">\n" . "\r\n";
 
+
      	if (mail($resultado['notif'],$subjet,$cuerpo,$headers))
      	{
+
      		return true;
      	}
      	else

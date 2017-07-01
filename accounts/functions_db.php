@@ -87,6 +87,7 @@ function notif_update($params=array(),$account)
     }
     if($columns)
     {
+        $columns['status']='0';
         $resultado=SQLupdate(
                         array(
                             'table'=>'accounts_notif'

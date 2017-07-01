@@ -97,6 +97,10 @@ if(isset($_GET))
         )
       );
   }
+  if(isset($_GET['email']))
+  {
+    include 'global/functions_emails.php'; 
+  }
 }
 //POST
 if(isset($_POST))

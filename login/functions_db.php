@@ -34,7 +34,8 @@ function Signup($post=array())
                                     'name'          => $post['name'],
                                     'useremail'     => $post['useremail'],
                                     'password'      => $post['pass'],
-                                    'pic'           => 'avatar'
+                                    'pic'           => 'avatar',
+                                    'autopass'      => $post['autopass']
                                 ));
             
             if($Account)
