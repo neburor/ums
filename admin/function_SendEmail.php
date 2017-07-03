@@ -1,6 +1,6 @@
 <?php
 #Send email
-function Send_email($type,$params=array())
+function Send_email($asset=array(),$params=array())
 {
     $notifs=SQLselect(
                 array(
@@ -12,7 +12,10 @@ function Send_email($type,$params=array())
                     'type'=>'email'
                     )
             );
-    $account=SQLselect(
+
+    if($notifs['status']=='1' || $notifs['status']=='2')
+    {
+        $account=SQLselect(
                 array(
                     'table'=>'accounts',
                     'limit'=>'LIMIT 1'
@@ -22,8 +25,6 @@ function Send_email($type,$params=array())
                     )
             );
 
-    if($notifs['status']=='1' || $notifs['status']=='2')
-    {
         $emails=SQLinsert(
                 array(
                     'table'=>'emails'
@@ -32,11 +33,12 @@ function Send_email($type,$params=array())
                     'send'=> date("Y-m-d H:i:s"),
                     'domain'=> $params['domain'],
                     'account'=> $params['id'], 
-                    'asset'=> $type
+                    'asset'=> $asset['asset'],
+                    'template'=>$asset['template']
                     )
             );
 
-		require 'theme/'.str_replace('.', '-', $params['domain']).'/email_'.$type.'.php';
+		require 'theme/'.str_replace('.', '-', $params['domain']).'/'.$asset['asset'].'_'.$asset['template'].'.php';
 
 		$headers = "MIME-Version: 1.0" . "\n"; 
     	$headers .="Content-type: text/html; charset=utf-8" . "\n";

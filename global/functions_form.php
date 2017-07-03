@@ -1,5 +1,30 @@
 <?php
 //Form Functions
+function FeedBackMessage($feedback)
+{
+	if(isset($feedback['alert']['success']))
+	{
+		$htmlMessage='
+		<div class="media">
+			<div class="media-left">
+				<img src="'.ShowPic().'" class="profile-pic">
+			</div>
+			<div class="media-body">
+				<span class="media-heading">
+					<b>'.$_SESSION['logged']['name'].'</b> 
+                	<small class="pull-right">Ahorita</small>
+                 </span>
+				<p>'.$feedback['message']['value'].'
+				</p>
+			</div>
+			<div class="media-right">
+				<i class="fa fa-check fa-2x"></i>
+			</div>
+		</div>
+		';
+		return $htmlMessage;
+	}
+}
 function FeedBackComment($feedback,$toname)
 {
 	if(isset($feedback['alert']['success']))

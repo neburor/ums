@@ -9,10 +9,7 @@ $form=array(
 
 echo '<div class="col-xs-12">
 		';
-if($_SESSION['logged']['notifs']['email']['status']=='0')
-{
-	echo '<div class="alert alert-warning alert-dismissible fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button><b><i class="fa fa-warning"></i> Advertencia ! </b> Su cuenta de correo no esta confirmada. <a href="?sendconfirm&callback=/app/settings/config" class="btn btn-warning">Enviar correo</a></div>';
-}
+
 echo '	<h3 class="text-center">Mis preferencias</h3>
 		<form class="form" role="form" action="'.$form['action'].'#'.$form['callback'].'" method="POST">
 					<input type="hidden" name="formid" value="'.$form['id'].'">

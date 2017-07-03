@@ -2,7 +2,7 @@
 #FormContact
 if(isset($_SESSION['logged']))
 {
-echo '
+echo FeedbackMessage($_SESSION['feedback'][$form['id']]).'
 	<div class="media">
         <div class="media-left">
             <img src="'.ShowPic().'" class="profile-pic">

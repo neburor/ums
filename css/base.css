@@ -157,6 +157,7 @@ body.profile {
 .avatars label > input + img{ /* IMAGE STYLES */
   cursor:pointer;
   border:2px solid transparent;
+  pointer-events: none;
 }
 .avatars label > input:checked + img{ /* (RADIO CHECKED) IMAGE STYLES */
   border:2px solid #000;

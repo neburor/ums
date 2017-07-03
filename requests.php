@@ -97,9 +97,13 @@ if(isset($_GET))
         )
       );
   }
-  if(isset($_GET['email']))
+  if(isset($_GET['confirmation']) || isset($_GET['recovery']))
   {
     include 'global/functions_emails.php'; 
+  }
+  if(isset($_GET['email']))
+  {
+    include 'global/email_open.php'; 
   }
 }
 //POST

@@ -229,6 +229,7 @@ function ListComments($url)
     if(isset($_SESSION['logged']))
     {
         $liked="`account` = '".$_SESSION['logged']['id']."'";
+        $usercomments=" OR (comments.`from_id`='".$_SESSION['logged']['id']."' && comments.`status`='0')";
     }
     else
     {
@@ -265,6 +266,7 @@ function ListComments($url)
             AND accounts.`pic` = accounts_sn.`network`
     WHERE comments.`url` = '".$url."'
     AND (comments.`status`='1' || comments.`status`='2' || comments.`status`='3')
+    ".$usercomments."
     GROUP BY comments.`id`
     ORDER BY comments.`id`
     DESC"

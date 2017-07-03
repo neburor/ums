@@ -231,7 +231,7 @@ function Validations(input)
 {
   var validations = {
         display:input, 
-        pregmatch:/^[a-zA-Z0-9 áéíóúüñÁÉÍÓÚÜÑ]*$/, 
+        pregmatch:/^[a-zA-Z0-9 áéíóúüñÁÉÍÓÚÜÑ_@.,/#&+-]*$/, 
         minlength:4,
         maxlength:64,
         required:true

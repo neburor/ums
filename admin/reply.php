@@ -5,7 +5,7 @@
 $route = explode(":", $dataForm['route']);
 if($dataForm['message'])
 {
-    $result=SQLinsert(
+    $InsertarMensaje=SQLinsert(
             array(
                 'table'=>'messages'
                 ),
@@ -22,7 +22,7 @@ if($dataForm['message'])
                 )
             );
 
-        if($result)
+        if($InsertarMensaje)
         {
             $archive=SQLupdate(
                 array(
@@ -47,13 +47,25 @@ if($dataForm['message'])
                     'from_id'=> $_SESSION['id'], 
                     'to_id'=> $dataForm['toid'],
                     'asset'=> 'message', 
-                    'asset_id'=> $result,
+                    'asset_id'=> $InsertarMensaje,
                     'status'=> '0'
                     )
                 );
 
             if($archive && $notif){
-                $response['alert']['success']='Mensaje enviado.';       
+
+                include 'function_SendEmail.php';
+                $response=Send_email(
+                            array(
+                                'asset'     => 'message',
+                                'template'  => 'reply'
+                                ),
+                            array(
+                                'domain'    => $dataForm['domain'],
+                                'id'        => $dataForm['toid'],
+                                'message'   => $dataForm['message']
+                                )
+                            );       
             }elseif(!$archive){
 
                 $response['alert']['warning']='No archivado.';
