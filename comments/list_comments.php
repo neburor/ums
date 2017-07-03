@@ -8,13 +8,6 @@ echo '<ul class="list-group">';
 
 if($ListComments)
 {
-    if(!$_SESSION['admin'])
-    {
-        $_SESSION['admin']=SQLselect(
-                array('table'=>'accounts_sn','limit'=>'LIMIT 1'),
-                array('domain'=>UMSDOMAIN,'account'=>'1')
-                );
-    }
 	echo '<li class="list-group-item">
 			<i class="fa fa-envelope"></i> <span itemprop="commentCount">'.count($ListComments).'</span> Comentario';
 		if(count($ListComments)!=1)
@@ -41,8 +34,8 @@ function LIcomments($comments)
     {
         if($data['form']=='reply')
         {
-            $data['from_name']=$_SESSION['admin']['name'];
-            $data['from_pic']=$_SESSION['admin']['pic'];
+            $data['from_name']=ADMINNAME;
+            $data['from_pic']=ADMINPIC;
             $data['from_id']=1;
         }
         if($data['in_id']==0)
@@ -134,13 +127,13 @@ function LIcomments($comments)
                     
                     if($data2['to_id']==0)
                     {
-                        $data2['to_name']=$_SESSION['admin']['name'];
-                        $data2['to_pic']=$_SESSION['admin']['pic'];
+                        $data2['to_name']=ADMINNAME;
+                        $data2['to_pic']=ADMINPIC;
                     }
                     if($data2['form']=='reply')
                     {
-                        $data2['from_name']=$_SESSION['admin']['name'];
-                        $data2['from_pic']=$_SESSION['admin']['pic'];
+                        $data2['from_name']=ADMINNAME;
+                        $data2['from_pic']=ADMINPIC;
                         $data2['from_id']=0;
 
                     }

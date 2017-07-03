@@ -45,13 +45,7 @@ $notifications=SQLselect(
     DESC"
                 )
             );
-if(!$_SESSION['admin'])
-{
-    $_SESSION['admin']=SQLselect(
-                array('table'=>'accounts_sn','limit'=>'LIMIT 1'),
-                array('domain'=>UMSDOMAIN,'account'=>'1')
-                );
-}
+
 if($notifications)
 {
 	echo '<ul class="list-group appstream">';
@@ -70,8 +64,8 @@ if($notifications)
                 }
                 echo '">
                   		<a href="'.URLMESSAGES.'?notifapp='.$value['id'].'#message_'.$value['asset_id'].'" class="media message">
-                    		<div class="media-left"><img class="img-circle profile-pic" src="'.$_SESSION['admin']['pic'].'"></div>
-                    		<div class="media-body"><span class="media-heading"><b>'.$_SESSION['admin']['name'].'</b> <small class="pull-right">Hace '.$date[0].' '.$date[1].'</small></span>
+                    		<div class="media-left"><img class="img-circle profile-pic" src="'.ADMINPIC.'"></div>
+                    		<div class="media-body"><span class="media-heading"><b>'.ADMINNAME.'</b> <small class="pull-right">Hace '.$date[0].' '.$date[1].'</small></span>
                     		<p><small><i class="fa fa-envelope"></i> Contacto</small></p>
                     		<p>'.$value['text'].'</p>
                     		</div>
@@ -83,8 +77,8 @@ if($notifications)
 			{
                 if($value['form']=='reply')
                 {
-                    $value['from_name']=$_SESSION['admin']['name'];
-                    $value['from_pic']=$_SESSION['admin']['pic'];
+                    $value['from_name']=ADMINNAME;
+                    $value['from_pic']=ADMINPIC;
                 }
 				if(!$_SESSION['urls'][$value['url']])
             	{
