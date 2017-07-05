@@ -1,6 +1,6 @@
 <?php
 #Send email
-function Send_email($asset=array(),$params=array())
+function Send_email($params=array())
 {
     $notifs=SQLselect(
                 array(
@@ -33,12 +33,13 @@ function Send_email($asset=array(),$params=array())
                     'send'=> date("Y-m-d H:i:s"),
                     'domain'=> $params['domain'],
                     'account'=> $params['id'], 
-                    'asset'=> $asset['asset'],
-                    'template'=>$asset['template']
+                    'asset'=> $params['asset'],
+                    'asset_id'=> $params['asset_id'],
+                    'template'=>$params['template']
                     )
             );
 
-		require 'theme/'.str_replace('.', '-', $params['domain']).'/'.$asset['asset'].'_'.$asset['template'].'.php';
+		require 'theme/'.str_replace('.', '-', $params['domain']).'/'.$params['asset'].'_'.$params['template'].'.php';
 
 		$headers = "MIME-Version: 1.0" . "\n"; 
     	$headers .="Content-type: text/html; charset=utf-8" . "\n";

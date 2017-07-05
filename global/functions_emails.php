@@ -5,6 +5,10 @@ if(isset($_GET['confirmation'])){
     $route = explode(":", $_GET['confirmation']);
 }elseif (isset($_GET['recovery'])) {
     $route = explode(":", $_GET['recovery']);
+}elseif (isset($_GET['message'])) {
+    $route = explode(":", $_GET['message']);
+}elseif (isset($_GET['comment'])) {
+    $route = explode(":", $_GET['comment']);
 }
 
 if( strlen($route[0])==18 && 

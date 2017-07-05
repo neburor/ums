@@ -97,7 +97,7 @@ if(isset($_GET))
         )
       );
   }
-  if(isset($_GET['confirmation']) || isset($_GET['recovery']))
+  if(isset($_GET['confirmation']) || isset($_GET['recovery']) || isset($_GET['message']) || isset($_GET['comment']))
   {
     include 'global/functions_emails.php'; 
   }

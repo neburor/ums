@@ -58,9 +58,9 @@ if($dataForm['message'])
                 $response=Send_email(
                             array(
                                 'asset'     => 'message',
-                                'template'  => 'reply'
-                                ),
-                            array(
+                                'asset_id'  => $InsertarMensaje,
+                                'template'  => 'reply',
+                                'notifapp'  => $notif,
                                 'domain'    => $dataForm['domain'],
                                 'id'        => $dataForm['toid'],
                                 'message'   => $dataForm['message']
@@ -80,7 +80,18 @@ if($dataForm['message'])
 }
 if($dataForm['comment'])
 {
-    $result=SQLinsert(
+    if($route[3]==0 && $route[4]==0)
+    {
+        $in_id=$route[0];
+        $to_comm=$route[0];
+    }
+    else
+    {
+        $in_id=$route[4];
+        $to_comm=$route[3];
+    }
+
+    $InsertarComentario=SQLinsert(
             array(
                 'table'=>'comments'
                 ),
@@ -92,14 +103,14 @@ if($dataForm['comment'])
                 'form'=> $dataForm['formtype'], 
                 'from_id'=> $_SESSION['id'], 
                 'to_id'=> $route[1], 
-                'in_id'=> $route[4],
-                'to_comm'=> $route[3],
+                'in_id'=> $in_id,
+                'to_comm'=> $to_comm,
                 'comment'=> $dataForm['comment'],
                 'status'=> '1'
                 )
             );
 
-        if($result)
+        if($InsertarComentario)
         {
             $active=SQLupdate(
                 array(
@@ -148,7 +159,12 @@ if($dataForm['comment'])
                 );
 
                 include 'function_SendEmail.php';
-                $response=Send_email('reply',array(
+                $response=Send_email(
+                            array(
+                                'asset'     => 'comment',
+                                'asset_id'  => $InsertarComentario,
+                                'template'  => 'reply',
+                                'notifapp'  => $notifapp,
                                 'domain'    => $dataForm['domain'],
                                 'id'        => $route[1],
                                 'url'       => $dataForm['url'],
@@ -158,8 +174,7 @@ if($dataForm['comment'])
                                 'comment'   => $from[0]['comment'],
                                 'from_name' => 'admin',
                                 'from_pic'  => 'admin',
-                                'from_comment'=> $dataForm['comment'],
-                                'url_reply' => $dataForm['url'].'?replycomment='.$result.'#comment_'.$result
+                                'from_comment'=> $dataForm['comment']
                             )
                 );
                        
@@ -222,7 +237,12 @@ if($dataForm['comment'])
                         )
                 );
 
-                $response.=Send_email('reply',array(
+                $response.=Send_email(
+                            array(
+                                'asset'     => 'comment',
+                                'asset_id'  => $route[0],
+                                'template'  => 'reply',
+                                'notifapp'  => $notifapp,
                                 'domain'    => $dataForm['domain'],
                                 'id'        => $route[1],
                                 'url'       => $dataForm['url'],
@@ -232,9 +252,8 @@ if($dataForm['comment'])
                                 'comment'   => $to[0]['comment'],
                                 'from_name' => $from[0]['name'],
                                 'from_pic'  => $from[0]['pic'],
-                                'from_comment'=> $from[0]['comment'],
-                                'url_reply' => $dataForm['url'].'?replycomment='.$route[0].'#comment_'.$route[0]
-                            )
+                                'from_comment'=> $from[0]['comment']
+                                )
                 );
             } 
         }
