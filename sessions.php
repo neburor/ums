@@ -6,6 +6,14 @@ if(isset($_SESSION['logged']))
 	{
 		$_SESSION['debugger'][]='SESSION:logged';
 	}
+	$notifapp=SQLselect(
+            array(
+                'table'=>'notifications_app',
+                'limit'=>'LIMIT 1',
+                'query'=>"SELECT count(*) FROM `notifications_app` where `to_id`='".$_SESSION['logged']['id']."' and `status`='0'"
+                )
+            );
+	$_SESSION['logged']['notifs_app']=$notifapp['count(*)'];
 }
 elseif(isset($_COOKIE['token']))
 {

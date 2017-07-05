@@ -95,7 +95,10 @@ elseif($route[0]=='comment')
         $page = explode(",", $dataForm['source']);
 
         include 'function_SendEmail.php';
-        $response=Send_email('reply',array(
+        $response=Send_email(array(
+                                'asset'     => 'comment',
+                                'asset_id'  => $route[1],
+                                'template'  => 'reply',
                                 'domain'    => $dataForm['domain'],
                                 'id'        => $route[3],
                                 'url'       => $page[0],
