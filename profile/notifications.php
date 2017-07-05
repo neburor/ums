@@ -63,7 +63,7 @@ if($notifications)
                     echo ' active';
                 }
                 echo '">
-                  		<a href="'.URLMESSAGES.'?notifapp='.$value['id'].'#message_'.$value['asset_id'].'" class="media message">
+                  		<a href="'.URLMESSAGES.'?app=message:'.$_SESSION['logged']['token_hash'].':'.$value['id'].':'.$value['asset_id'].'#message_'.$value['asset_id'].'" class="media message">
                     		<div class="media-left"><img class="img-circle profile-pic" src="'.ADMINPIC.'"></div>
                     		<div class="media-body"><span class="media-heading"><b>'.ADMINNAME.'</b> <small class="pull-right">Hace '.$date[0].' '.$date[1].'</small></span>
                     		<p><small><i class="fa fa-envelope"></i> Contacto</small></p>
@@ -90,7 +90,7 @@ if($notifications)
                     echo ' active';
                 }
                 echo '">
-                  		<a href="'.$value['url'].'?replycomment='.$value['asset_id'].'&notifapp='.$value['id'].'#comment_'.$value['asset_id'].'" class="media comment">
+                  		<a href="'.$value['url'].'?app=comment:'.$_SESSION['logged']['token_hash'].':'.$value['id'].':'.$value['asset_id'].'#comment_'.$value['asset_id'].'" class="media comment">
                     		<div class="media-left"><img class="img-circle profile-pic" src="'.$value['from_pic'].'"></div>
                     		<div class="media-body"><span class="media-heading"><b>'.$value['from_name'].'</b> <small class="pull-right">Hace '.$date[0].' '.$date[1].'</small></span>
                     		<p><small><i class="fa fa-commenting"></i> '.$_SESSION['urls'][$value['url']]['title'].'</small></p>

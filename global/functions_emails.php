@@ -1,62 +1,118 @@
 <?php
 #Email click tracking
 
-if(isset($_GET['confirmation'])){
-    $route = explode(":", $_GET['confirmation']);
-}elseif (isset($_GET['recovery'])) {
-    $route = explode(":", $_GET['recovery']);
-}elseif (isset($_GET['message'])) {
-    $route = explode(":", $_GET['message']);
-}elseif (isset($_GET['comment'])) {
-    $route = explode(":", $_GET['comment']);
-}
+$route = explode(":", $_GET['email']);
 
-if( strlen($route[0])==18 && 
-        preg_match('#^[a-zA-Z0-9]*$#',$route[0]) && 
-        preg_match('#^[0-9]*$#',$route[1]))
+if( strlen($route[1])==18 && 
+    preg_match('#^[a-zA-Z0-9]*$#',$route[1]))
     {
-        $confirmToken=SQLselect(
-            array(
-                'table'=>'accounts',
-                'limit'=>'LIMIT 1'
-                ),
-            array(
-                'token_hash'=>$route[0]
-                )
-            );
-        if($confirmToken && $confirmToken['token_hash']==$route[0])
+        if(!isset($_SESSION['logged']))
         {
-            $update=SQLupdate(
+            $confirmToken=SQLselect(
+                array(
+                    'table'=>'accounts',
+                    'limit'=>'LIMIT 1'
+                    ),
+                array(
+                    'token_hash'=>$route[1]
+                    )
+                );
+        }
+        else
+        {
+            $confirmToken=$_SESSION['logged'];
+        }
+        if($confirmToken && $confirmToken['token_hash']==$route[1])
+        {
+            if($route[0]=='open')
+            {
+                $update=SQLupdate(
                     array(
                         'table'=>'emails',
                         ),
                     array(
-                        'id'=>$route[1],
+                        'id'=>$route[2],
+                        'account'=>$confirmToken['id'],
+                        'open'=>'0000-00-00 00:00:00'
+                        ),
+                    array(
+                        'open'=>date("Y-m-d H:i:s")
+                        )
+                );
+                if($route[3]=='confirm')
+                {
+                    $update=SQLupdate(
+                        array(
+                            'table'=>'accounts_notif'
+                            ),
+                        array(
+                            'account'=>$confirmToken['id'],
+                            'status'=>'0'
+                            ),
+                        array(
+                            'status'=>'2'
+                            )
+                    );
+
+                    if(isset($_SESSION['logged']) && $_SESSION['logged']['id']==$confirmToken['id'])
+                    {
+                        $_SESSION['logged']['notifs']['email']['status']='2';
+                    }   
+                }
+            header("Location: ".URLTHEME."pixel.jpg");
+            }
+            else
+            {
+                $update=SQLupdate(
+                    array(
+                        'table'=>'emails',
+                        ),
+                    array(
+                        'id'=>$route[2],
                         'account'=>$confirmToken['id'],
                         'click'=>'0000-00-00 00:00:00'
                         ),
                     array(
                         'click'=>date("Y-m-d H:i:s")
                         )
-            );
-        }
-
-        if(isset($_GET['confirmation']))
-        {
-            $update=SQLupdate(
-                array(
-                    'table'=>'accounts_notif'
-                    ),
-                array(
-                    'account'=>$confirmToken['id']
-                    ),
-                array(
-                    'status'=>'1'
-                    )
                 );
-            if($update)
-            {
-                $_SESSION['feedback']['top']['alerts']['success']=" Tu correo ha sido confirmado correctamente.";
-            }
+
+                if($route[0]=='confirmation')
+                {
+                    $update=SQLupdate(
+                        array(
+                            'table'=>'accounts_notif'
+                            ),
+                        array(
+                            'account'=>$confirmToken['id']
+                            ),
+                        array(
+                            'status'=>'1'
+                            )
+                        );
+                    if($update)
+                    {
+                        $_SESSION['feedback']['top']['alerts']['success']=" Tu correo ha sido confirmado correctamente.";
+                    }
+                }
+                if($route[0]=='comment')
+                {
+                    $_SESSION['feedback']['commentreply']=$route[4];
+                }
+                if($route[0]=='message')
+                {
+                    $_SESSION['feedback']['messagereply']=$route[4];
+                }
+
+                if(isset($route[3]) && $route[3]!=0)
+                {
+                    NotifApp(
+                            array(
+                                'to_id'=>$confirmToken['id'],
+                                'id'=>$route[3]
+                                )
+                            );
+                }
+            }  
         }
     }

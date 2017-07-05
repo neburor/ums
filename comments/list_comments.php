@@ -45,7 +45,8 @@ function LIcomments($comments)
             $date=Interval($data['datetime']); 
             $comments_list.='
             <li class="list-group-item';
-                        if($_GET['replycomment']==$data['id'])
+                        if($_GET['replycomment']==$data['id'] || 
+                            $_SESSION['feedback']['commentreply']==$data['id'])
                         {
                             $comments_list.=' active';
                         }
@@ -87,7 +88,8 @@ function LIcomments($comments)
                             else
                             {
                                 $comments_list.='<a ';
-                                if(isset($_GET['replycomment']) && $_GET['replycomment']==$data['id'])
+                                if((isset($_GET['replycomment']) && $_GET['replycomment']==$data['id']) ||
+                                    (isset($_SESSION['feedback']['commentreply']) && $_SESSION['feedback']['commentreply']==$data['id']))
                                 {
                                     $comments_list.='data-toggle="collapse" href="#replycomment_'.$data['id'].'" aria-expanded="true" aria-controls="replycomment_'.$data['id'].'" ';
                                 }
@@ -100,7 +102,8 @@ function LIcomments($comments)
 
                 $comments_list.='</small>
                         </p>';
-                if(isset($_GET['replycomment']) && $_GET['replycomment']==$data['id'])
+                if((isset($_GET['replycomment']) && $_GET['replycomment']==$data['id']) ||
+                    (isset($_SESSION['feedback']['commentreply']) && $_SESSION['feedback']['commentreply']==$data['id']))
                 {
                     $comments_list.='
                         <div class="collapse in container-fluid" id="replycomment_'.$data['id'].'" aria-expanded="true">
@@ -152,7 +155,7 @@ function LIcomments($comments)
 
                         $comments_list.='
                         <li class="list-group-item';
-                        if($_GET['replycomment']==$data2['id'])
+                        if($_GET['replycomment']==$data2['id'] || $_SESSION['feedback']['commentreply']==$data2['id'])
                         {
                             $comments_list.=' active';
                         }
@@ -195,7 +198,8 @@ function LIcomments($comments)
                             else
                             {
                                 $comments_list.=' <a ';
-                                if(isset($_GET['replycomment']) && $_GET['replycomment']==$data2['id'])
+                                if((isset($_GET['replycomment']) && $_GET['replycomment']==$data2['id']) ||
+                    (isset($_SESSION['feedback']['commentreply']) && $_SESSION['feedback']['commentreply']==$data2['id']))
                                 {
                                     $comments_list.='data-toggle="collapse" href="#replycomment_'.$data2['id'].'" aria-expanded="true" aria-controls="replycomment_'.$data2['id'].'" ';
                                 }
@@ -209,7 +213,8 @@ function LIcomments($comments)
                         $comments_list.='</small>
                                 </p></div></div>
                         ';
-                        if(isset($_GET['replycomment']) && $_GET['replycomment']==$data2['id'])
+                        if((isset($_GET['replycomment']) && $_GET['replycomment']==$data2['id']) ||
+                    (isset($_SESSION['feedback']['commentreply']) && $_SESSION['feedback']['commentreply']==$data2['id']))
                         {
                             $comments_list.='
                                 <div class="collapse in" id="replycomment_'.$data2['id'].'" aria-expanded="true">
@@ -247,6 +252,7 @@ function LIcomments($comments)
         
     }
 
+    $_SESSION['feedback']['commentreply']=0;
     return $comments_list;
 }
 

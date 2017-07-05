@@ -88,22 +88,13 @@ if(isset($_GET))
     }
    
   }
-  if(isset($_GET['notifapp']))
-  {
-    NotifApp(
-      array(
-        'to_id'=>$_SESSION['logged']['id'],
-        'id'=>$_GET['notifapp']
-        )
-      );
-  }
-  if(isset($_GET['confirmation']) || isset($_GET['recovery']) || isset($_GET['message']) || isset($_GET['comment']))
+  if(isset($_GET['email']))
   {
     include 'global/functions_emails.php'; 
   }
-  if(isset($_GET['email']))
+  if(isset($_GET['app']))
   {
-    include 'global/email_open.php'; 
+    include 'profile/functions_app.php'; 
   }
 }
 //POST
