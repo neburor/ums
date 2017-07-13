@@ -98,7 +98,7 @@ elseif($route[0]=='comment')
         $response=Send_email(array(
                                 'asset'     => 'comment',
                                 'asset_id'  => $route[1],
-                                'template'  => 'reply',
+                                'template'  => 'comment_reply',
                                 'domain'    => $dataForm['domain'],
                                 'id'        => $route[3],
                                 'url'       => $page[0],

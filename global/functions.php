@@ -20,6 +20,10 @@ function ShowPic()
     {
         return 'images/pics/pic_'.$_SESSION['logged']['user_hash'].'.jpg';
     }
+    else
+    {
+        return $_SESSION['logged']['networks'][$_SESSION['logged']['pic']]['pic'];
+    }
 
    
 }

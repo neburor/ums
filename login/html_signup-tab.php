@@ -14,6 +14,12 @@ echo '
               echo '&callback='.$form['callback']['success'].'&error='.$form['callback']['error'];
             }
             echo '"> <i class="fa fa-facebook"></i> <span>Registrarse con Facebook</span></a> 
+        <a class="btn btn-block btn-social btn-google" href="?login=google';
+            if($form['callback'])
+            {
+              echo '&callback='.$form['callback']['success'].'&error='.$form['callback']['error'];
+            }
+            echo '"> <i class="fa fa-facebook"></i> <span>Registrarse con Google</span></a> 
     	<a class="btn btn-block btn-social btn-twitter" href="?login=twitter';
             if($form['callback'])
             {
@@ -23,6 +29,7 @@ echo '
 	</div>
 </div>
 <form class="form '.$div['form'].' xxs-nopadding" role="form" action="'.$form['action'].'#'.$form['callback']['error'].'" method="POST">
+	<fieldset><legend>ó</legend>
     <input type="hidden" name="formid" value="'.$form['id'].'"/>
     <input type="hidden" name="formtype" value="'.$form['type'].'"/>
     <input type="hidden" name="autologin" value="on"/>
@@ -80,6 +87,7 @@ echo '
 	<div class="form-group col-xs-12">
 		<button type="submit" class="btn btn-default"> <i class="fa fa-user-plus"></i> <span>Crear cuenta</span></button>
 	</div>
+	</fieldset>
 </form>
 ';
 unset($_SESSION['feedback'][$form['id']]);

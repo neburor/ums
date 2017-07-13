@@ -57,6 +57,31 @@ if(isset($_GET))
             }
         header('Location: ' . $twitter_url); 
     }
+    if($_GET['login']=='google')
+    {
+      if(isset($_SESSION['debugger']))
+          {
+            $_SESSION['debugger'][]='GET:login:google => google.com';
+          }
+      require_once 'login/google/Google_Client.php';
+      require_once 'login/google/contrib/Google_Oauth2Service.php';
+
+      $client = new Google_Client(); 
+      $client->setApplicationName("Google UserInfo PHP Starter Application");
+      $client->setClientId(GCLIENT);
+      $client->setClientSecret(GSECRET);
+      $client->setRedirectUri(URLSYSTEM.'login/g-callback.php');
+      $oauth2 = new Google_Oauth2Service($client);
+      $authUrl = $client->createAuthUrl();
+      $_SESSION['connect']['referer']=$_SERVER['HTTP_REFERER'];
+            if($_GET['callback'])
+            {
+              $_SESSION['connect']['callback']=$_GET['callback'];
+              $_SESSION['connect']['error']=$_GET['error'];
+            }
+      
+          header("Location: " . $authUrl);
+    }
 	}
   if(isset($_GET['likes']))
   {

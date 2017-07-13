@@ -76,6 +76,9 @@ if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
             case 'reply':
                 include 'reply.php';
                 break;
+            case 'email':
+                include 'email.php';
+                break;
             case 'edit':
                 include 'edit.php';
                 break;

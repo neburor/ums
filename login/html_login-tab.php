@@ -15,6 +15,12 @@ echo '
               echo '&callback='.$form['callback']['success'].'&error='.$form['callback']['error'];
             }
             echo '"> <i class="fa fa-facebook"></i></a> 
+        <a class="btn btn-social-icon btn-google" href="?login=google';
+            if($form['callback'])
+            {
+              echo '&callback='.$form['callback']['success'].'&error='.$form['callback']['error'];
+            }
+            echo '"> <i class="fa fa-google"></i></a>
 		<a class="btn btn-social-icon btn-twitter" href="?login=twitter';
             if($form['callback'])
             {

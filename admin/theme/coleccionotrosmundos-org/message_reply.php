@@ -22,6 +22,19 @@ $cuerpo = '
 		</tr>
 		<tr style="border-collapse:collapse;">
 			<td style="border-collapse:collapse;color:#353a3d;font-size:16px;font-weight:400;word-wrap:break-word;line-height:1.4;font-family:Helvetica Neue, Helvetica, Helvetica, Arial, sans-serif;padding: 10px" colspan="2">
+			<div>
+				<img class="thumbnail-pic" alt="'.$params['name'].'" src="'.$params['pic'].'" style="width:40px; height: auto; float: left; margin-right:10px;">
+				<b>Tú</b>
+				<p style="text-align: left;padding: 10px;margin: 0;">';
+				foreach ($params['messages'] as $mess => $data) {
+					$cuerpo.=$data['message'].'<br>';
+				}
+$cuerpo.='</p>
+				</div>
+			</td>
+		</tr>
+		<tr style="border-collapse:collapse;">
+			<td style="border-collapse:collapse;color:#353a3d;font-size:16px;font-weight:400;word-wrap:break-word;line-height:1.4;font-family:Helvetica Neue, Helvetica, Helvetica, Arial, sans-serif;padding: 10px" colspan="2">
 			<div style="margin-left: 40px; margin-top: 10px; ">
 				<img class="thumbnail-pic" alt="'.SITENAME.'" src="'.URLTHEME.'avatars/administracion.png" style="width:40px; height: auto; float: left; margin-right:10px;">
 				<b>Administración</b>

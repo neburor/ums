@@ -149,7 +149,12 @@ body.profile {
 .has-scrollbar > .profile.sidebar-content::-webkit-scrollbar {
   display: block;
 }
-
+.form fieldset legend {
+  width: inherit;
+  text-align: center;
+  padding: 0 10px;
+  border-bottom: 0;
+}
 .avatars label > input{ /* HIDE RADIO */
   visibility: hidden; /* Makes input not-clickable */
   position: absolute; /* Remove input from document flow */

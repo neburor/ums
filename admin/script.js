@@ -632,9 +632,9 @@ function Feedback(feedback)
     }
     if(inputWarning>0)
     {
-
       htmlalert=FeedbackAlert({'warning':'Los siguientes campos son incorrectos: ' + textWarning});
     }
+
   }
 
   return htmlalert;
@@ -660,12 +660,13 @@ function FeedbackAlert(alert)
 function Validations(input)
 {
   var validations = {
-        display:input, 
-        pregmatch:/^[a-zA-Z0-9 áéíóúüñÁÉÍÓÚÜÑ_@.,/#&+-?¿!;:$%]*$/, 
+        display:input,
+        pregmatch:false, 
         minlength:4,
         maxlength:64,
         required:true
       };
+      /*pregmatch:/^[a-zA-Z0-9 áéíóúüñÁÉÍÓÚÜÑ_@.,#&+-?¿!;:$%]*$/, */
   if(input == 'formid' ||
      input == 'formtype' ||
      input == 'callback')
@@ -706,8 +707,12 @@ function Validations(input)
   {
     validations['display']='Respuesta';
     validations['maxlength'] = 1024;
+    validations['required']= false;
   }
-
+  if(input == 'url')
+  {
+    validations['maxlength'] = 1024;
+  }
   return validations;
 }
 function Checkinputs(input,validations)
@@ -740,11 +745,15 @@ function Checkinputs(input,validations)
   }
   else if(!validations['required'])
   {
-    status='norequired';
+    status='valid';
   }
   else if($(input).val()=='')
   {
     status='nodata';
+  }
+  else
+  {
+    status='required';
   }
 
   return status;

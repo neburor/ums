@@ -8,6 +8,9 @@ $connection = new TwitterOAuth(TWCONSUMERKEY, TWCONSUMERSECRET, $_SESSION['conne
 $access_token = $connection->getAccessToken($_REQUEST['oauth_verifier']);
 
 $tt = json_decode(json_encode($connection->get('users/show', array('screen_name'=>$access_token['screen_name']))), True);
+$tt_email = $connection->get("account/verify_credentials", ['include_entities' => true, 'skip_status' => true, 'include_email' => true]);
+$_SESSION['tt']=$tt_email;
+
 #$tt_cover = json_decode(json_encode($connection->get('users/profile_banner', array('screen_name'=>$access_token['screen_name']))), True);
 
 
@@ -24,6 +27,7 @@ if($access_token['user_id'])
 	$UserConnect['network']['id']=$access_token['user_id'];
 	$UserConnect['network']['name']=$UserConnect['name']=$tt['name'];
 	$UserConnect['network']['screenname']=$access_token['screen_name'];
+	$UserConnect['network']['email']=$tt_email->email;
 	$UserConnect['network']['pic']=$tt['profile_image_url'];
 	$UserConnect['network']['cover']=$tt['profile_banner_url'];
 	$UserConnect['pic']='twitter';

@@ -5,38 +5,7 @@
 $route = explode(":", $dataForm['route']);
 if($dataForm['message'])
 {
-    $InsertarMensaje=SQLinsert(
-            array(
-                'table'=>'messages'
-                ),
-            array(
-                'datetime'=> date("Y-m-d H:i:s"),
-                'domain'=> $dataForm['domain'],
-                'device'=> $_SESSION['device']['id'],
-                'url'=> 'http://ums.hostingmex.com.mx',
-                'form'=> $dataForm['formtype'], 
-                'from_id'=> $_SESSION['id'], 
-                'to_id'=> $dataForm['toid'],
-                'message'=> $dataForm['message'],
-                'status'=> '1'
-                )
-            );
-
-        if($InsertarMensaje)
-        {
-            $messages=SQLselect(
-                array(
-                    'table'=>'messages',
-                    'order'=>'ASC',
-                    'limit'=>' '
-                    ),
-                array(
-                    'from_id'=>$dataForm['toid'],
-                    'status'=>'0'
-                    )
-                );
-
-            $archive=SQLupdate(
+    $archive=SQLupdate(
                 array(
                     'table'=>'messages',
                     'limit'=>' '
@@ -48,70 +17,28 @@ if($dataForm['message'])
                 array(
                     'status'=>'1'
                     )
-                );
-            $notif=SQLinsert(
-                array(
-                    'table'=>'notifications_app'
-                    ),
-                array(
-                    'datetime'=> date("Y-m-d H:i:s"),
-                    'domain'=> $dataForm['domain'],
-                    'from_id'=> $_SESSION['id'], 
-                    'to_id'=> $dataForm['toid'],
-                    'asset'=> 'message', 
-                    'asset_id'=> $InsertarMensaje,
-                    'status'=> '0'
-                    )
-                );
-
-            if($archive && $notif){
-                $from=SQLselect(
+    );
+           
+    if($archive)
+    {
+        include 'function_SendEmail.php';
+        
+        $response=Send_email(
                     array(
-                    'table'=>'accounts',
-                    'query'=>"SELECT 
-                        accounts.`name`,
-                        accounts_sn.`pic` AS `pic`
-                        FROM `accounts` 
-                        INNER JOIN `accounts_sn`
-                            ON accounts.`id` = accounts_sn.`account` 
-                            AND accounts.`pic` = accounts_sn.`network`
-                        WHERE accounts.`id` = '".$dataForm['toid']."'
-                        LIMIT 1"
+                        'asset'     => 'message',
+                        'asset_id'  => $dataForm['toid'],
+                        'template'  => 'response_email',
+                        'domain'    => $dataForm['domain'],
+                        'id'        => $dataForm['toid'],
+                        'response'  => $dataForm['response']
                         )
-                );
-
-                include 'function_SendEmail.php';
-                $response=Send_email(
-                            array(
-                                'asset'     => 'message',
-                                'asset_id'  => $InsertarMensaje,
-                                'template'  => 'message_reply',
-                                'notifapp'  => $notif,
-                                'domain'    => $dataForm['domain'],
-                                'id'        => $dataForm['toid'],
-                                'message'   => $dataForm['message'],
-                                'name'      => $from[0]['name'],
-                                'pic'       => $from[0]['pic'],
-                                'messages'  => $messages
-                                )
-                            );       
-            }elseif(!$archive){
-
-                $response['alert']['warning']='No archivado.';
-            }elseif(!$notif)
-            {
-                $response['alert']['warning']='Notificacion no generada.';
-            }
-        }else{
-            $response['alert']['warning']='No se guardo el mensaje.';
-        }
-
+                    );       
+    }elseif(!$archive){
+        $response['alert']['warning']='No archivado.';
+    } 
 }
 if($dataForm['comment'])
 {
-    include 'function_SendEmail.php';
-    $response='';
-
     if($route[3]==0 && $route[4]==0)
     {
         $in_id=$route[0];
@@ -123,51 +50,7 @@ if($dataForm['comment'])
         $to_comm=$route[3];
     }
 
-    $comment=SQLselect(
-                array(
-                    'table'=>'comments',
-                    'limit'=>'LIMIT 1'
-                    ),
-                array(
-                    'id'=>$route[0]
-                    )
-            );
-    if($comment['comment']!=$dataForm['comment'])
-    {
-        $edit=SQLupdate(
-                array(
-                    'table'=>'comments'
-                    ),
-                array(
-                    'id'=>$route[0],
-                    'status'=>'0'
-                    ),
-                array(
-                    'comment'=>$dataForm['comment'],
-                    'status'=>'3'
-                    )
-                );
-        if($edit)
-        {
-            $response.='Comentario editado. ';
-        }
-        $edit_comment=$dataForm['comment'];
-    }
-
-    if($dataForm['reply']!='')
-    {
-        if($dataForm['publish']=='false')
-        {
-            $ReplyStatus='4';
-            $CommentStatus='4';
-        }
-        else
-        {
-            $ReplyStatus='2';
-            $CommentStatus='1';
-        }
-
-        $InsertarComentario=SQLinsert(
+    $InsertarComentario=SQLinsert(
             array(
                 'table'=>'comments'
                 ),
@@ -181,13 +64,14 @@ if($dataForm['comment'])
                 'to_id'=> $route[1], 
                 'in_id'=> $in_id,
                 'to_comm'=> $to_comm,
-                'comment'=> $dataForm['reply'],
-                'status'=> $ReplyStatus
+                'comment'=> $dataForm['comment'],
+                'status'=> '1'
                 )
             );
+
         if($InsertarComentario)
         {
-                $active=SQLupdate(
+            $active=SQLupdate(
                 array(
                     'table'=>'comments'
                     ),
@@ -196,12 +80,9 @@ if($dataForm['comment'])
                     'status'=>'0'
                     ),
                 array(
-                    'status'=>$CommentStatus
+                    'status'=>'2'
                     )
                 );
-            
-
-            
              $notifapp=SQLinsert(
                 array(
                     'table'=>'notifications_app'
@@ -216,7 +97,7 @@ if($dataForm['comment'])
                     'status'=> '0'
                     )
                 );
-            if($notifapp)
+            if($active && $notifapp)
             {
                 
                 $from=SQLselect(
@@ -236,12 +117,12 @@ if($dataForm['comment'])
                         )
                 );
 
-                
-                $response.=Send_email(
+                include 'function_SendEmail.php';
+                $response=Send_email(
                             array(
                                 'asset'     => 'comment',
                                 'asset_id'  => $InsertarComentario,
-                                'template'  => 'comment_reply',
+                                'template'  => 'reply',
                                 'notifapp'  => $notifapp,
                                 'domain'    => $dataForm['domain'],
                                 'id'        => $route[1],
@@ -250,45 +131,23 @@ if($dataForm['comment'])
                                 'name'      => $from[0]['name'],
                                 'pic'       => $from[0]['pic'],
                                 'comment'   => $from[0]['comment'],
-                                'edit_comment'=> $edit_comment,
                                 'from_name' => 'admin',
                                 'from_pic'  => 'admin',
-                                'from_comment'=> $dataForm['reply']
+                                'from_comment'=> $dataForm['comment']
                             )
                 );
                        
             }elseif(!$active){
-                $response.='Comentario no activado. ';
+
+                $response['alert']['warning']='Comentario no activado.';
             }elseif(!$notif)
             {
-                $response.='Notificacion no generada. ';
+                $response['alert']['warning']='Notificacion no generada.';
             }
-        }
-        else
-        {
-            $response.='No se guardo el comentario. ';
-        }
-    }
-    elseif(!isset($edit_comment))
-    {
-        $active=SQLupdate(
-                array(
-                    'table'=>'comments'
-                    ),
-                array(
-                    'id'=>$route[0],
-                    'status'=>'0'
-                    ),
-                array(
-                    'status'=>'1'
-                    )
-                );
-        $response.='Comentario activado sin respuesta. ';
-    }
-        
-    if($route[3]!=0)
-    {
-        $notifapp=SQLinsert(
+
+            if($route[3]!=0)
+            {
+                $notifapp=SQLinsert(
                     array(
                         'table'=>'notifications_app'
                         ),
@@ -303,7 +162,7 @@ if($dataForm['comment'])
                         )
                 );
             
-        $to=SQLselect(
+                $to=SQLselect(
                     array(
                         'table'=>'accounts',
                         'query'=>"SELECT 
@@ -320,7 +179,7 @@ if($dataForm['comment'])
                         )
                 );
 
-        $from=SQLselect(
+                $from=SQLselect(
                     array(
                         'table'=>'accounts',
                         'query'=>"SELECT 
@@ -337,11 +196,11 @@ if($dataForm['comment'])
                         )
                 );
 
-        $response.=Send_email(
+                $response.=Send_email(
                             array(
                                 'asset'     => 'comment',
                                 'asset_id'  => $route[0],
-                                'template'  => 'comment_reply',
+                                'template'  => 'reply',
                                 'notifapp'  => $notifapp,
                                 'domain'    => $dataForm['domain'],
                                 'id'        => $route[2],
@@ -355,7 +214,11 @@ if($dataForm['comment'])
                                 'from_comment'=> $from[0]['comment']
                                 )
                 );
-    } 
-        
+            } 
+        }
+        else
+        {
+            $response['alert']['warning'].='No se guardo el comentario.';
+        }
 }
 echo json_encode($response);

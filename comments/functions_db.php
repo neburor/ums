@@ -229,7 +229,7 @@ function ListComments($url)
     if(isset($_SESSION['logged']))
     {
         $liked="`account` = '".$_SESSION['logged']['id']."'";
-        $usercomments=" OR (comments.`from_id`='".$_SESSION['logged']['id']."' && comments.`status`='0')";
+        $usercomments=" OR comments.`from_id`='".$_SESSION['logged']['id']."' OR comments.`to_id`='".$_SESSION['logged']['id']."'";
     }
     else
     {
@@ -246,6 +246,7 @@ function ListComments($url)
     comments.`to_id`,
     comments.`in_id`,
     comments.`comment`,
+    comments.`status`,
     accounts.`name` AS `from_name`,
     accounts_sn.`pic` AS `from_pic`,
     Case accounts.`name`
@@ -265,8 +266,8 @@ function ListComments($url)
             ON comments.`from_id` = accounts_sn.`account` 
             AND accounts.`pic` = accounts_sn.`network`
     WHERE comments.`url` = '".$url."'
-    AND (comments.`status`='1' || comments.`status`='2' || comments.`status`='3')
-    ".$usercomments."
+    AND (comments.`status`='1' || comments.`status`='2' || comments.`status`='3'
+    ".$usercomments.")
     GROUP BY comments.`id`
     ORDER BY comments.`id`
     DESC"

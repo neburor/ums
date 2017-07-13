@@ -61,7 +61,29 @@ function LIcomments($comments)
                             <small class="pull-right">Hace '.$date[0].' '.$date[1].'</small>
                         </span>
                         <span class="sr-only" itemprop="commentTime" datetime="'.date("c", strtotime($data['datetime'])).'">'.$data['datetime'].'</span>
-                        <p> <span itemprop="commentText">'.$data['comment'].'</span>
+                        <p>';
+                        if(isset($_SESSION['logged']) && 
+                            ($data['from_id']==$_SESSION['logged']['id']||
+                                    $data['to_id']==$_SESSION['logged']['id']))
+                                {
+                                    if($data['status']==0)
+                                    {
+                                        $comments_list.='<span class="sr-only">nuevo</span> <i class="fa fa-star" title="Nuevo"></i> ';
+                                    }
+                                    if($data['status']==1 || $data2['status']==2 || $data2['status']==3)
+                                    {
+                                        $comments_list.='<span class="sr-only">publicado</span> <i class="fa fa-check-circle" title="Publicado"></i> ';
+                                    }
+                                    if($data['status']==4)
+                                    {
+                                        $comments_list.='<span class="sr-only">archivado</span> <i class="fa fa-archive" title="Archivado"></i> ';
+                                    }
+                                    if($data['status']==5)
+                                    {
+                                        $comments_list.='<span class="sr-only">bloqueado</span> <i class="fa fa-ban" title="Baneado"></i> ';
+                                    }
+                                }
+                        $comments_list.='<span itemprop="commentText">'.$data['comment'].'</span>
                             <br/>
                             <small>';
                             if($data['likes']>0)
@@ -171,14 +193,37 @@ function LIcomments($comments)
                                     
                                 </small>
                                 <span class="sr-only" itemprop="commentTime" datetime="'.date("c", strtotime($data2['datetime'])).'">'.$data2['datetime'].'</span>
-                                <p><span itemprop="commentText"> '.$data2['comment'].'</span>
+                                <p>';
+                                if(isset($_SESSION['logged']) && 
+                                    ($data2['from_id']==$_SESSION['logged']['id']||
+                                    $data2['to_id']==$_SESSION['logged']['id']))
+                                {
+                                    if($data2['status']==0)
+                                    {
+                                        $comments_list.='<span class="sr-only">nuevo</span> <i class="fa fa-star" title="Nuevo"></i> ';
+                                    }
+                                    if($data2['status']==1 || $data2['status']==2 || $data2['status']==3)
+                                    {
+                                        $comments_list.='<span class="sr-only">publicado</span> <i class="fa fa-check-circle" title="Publicado"></i> ';
+                                    }
+                                    if($data2['status']==4)
+                                    {
+                                        $comments_list.='<span class="sr-only">archivado</span> <i class="fa fa-archive" title="Archivado"></i> ';
+                                    }
+                                    if($data2['status']==5)
+                                    {
+                                        $comments_list.='<span class="sr-only">bloqueado</span> <i class="fa fa-ban" title="Baneado"></i> ';
+                                    }
+                                }
+                        $comments_list.='<span itemprop="commentText"> '.$data2['comment'].'</span>
                                     <br/>
                                     <small>';
                             if($data2['likes']>0)
                             {
                                 $comments_list.='<i class="fa fa-thumbs-up"></i> '.$data2['likes'].' ·';
                             }
-                            if($data2['from_id']==$_SESSION['logged']['id'])
+                            if($data2['from_id']==$_SESSION['logged']['id']||
+                               ($data2['form']=='reply' && $data2['status']=='4'))
                             {
                                 $comments_list.='Me gusta ';
                             }
@@ -191,7 +236,8 @@ function LIcomments($comments)
                                 $comments_list.='<a href="?likes=comment&like='.$data2['id'].'&callback=comment_'.$data2['id'].'">Me gusta</a> ·';
                             }
 
-                            if($data2['from_id']==$_SESSION['logged']['id'])
+                            if($data2['from_id']==$_SESSION['logged']['id']||
+                               ($data2['form']=='reply' && $data2['status']=='4'))
                             {
                                 $comments_list.='Responder';
                             }
@@ -213,8 +259,12 @@ function LIcomments($comments)
                         $comments_list.='</small>
                                 </p></div></div>
                         ';
-                        if((isset($_GET['replycomment']) && $_GET['replycomment']==$data2['id']) ||
-                    (isset($_SESSION['feedback']['commentreply']) && $_SESSION['feedback']['commentreply']==$data2['id']))
+                        if(($data2['form']=='reply' && $data2['status']!='4') &&
+                            ((isset($_GET['replycomment']) && $_GET['replycomment']==$data2['id']) ||
+                                (isset($_SESSION['feedback']['commentreply']) && 
+                                $_SESSION['feedback']['commentreply']==$data2['id'])
+                            )
+                            )
                         {
                             $comments_list.='
                                 <div class="collapse in" id="replycomment_'.$data2['id'].'" aria-expanded="true">

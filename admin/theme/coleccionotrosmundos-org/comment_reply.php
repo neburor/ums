@@ -32,7 +32,12 @@ $cuerpo = '
 			<div>
 				<img class="thumbnail-pic" alt="'.$params['name'].'" src="'.$params['pic'].'" style="width:40px; height: auto; float: left; margin-right:10px;">
 				<b>Tú</b>
-				<p style="text-align: left;padding: 10px;margin: 0;">'.$params['comment'].'</p>
+				<p style="text-align: left;padding: 10px;margin: 0;">'.$params['comment'];
+		if($params['edit_comment'])
+		{
+			$cuerpo.=' <small><i>*Editado</i></small>';
+		}
+$cuerpo.=		'</p>
 				</div>
 			</td>
 		</tr>

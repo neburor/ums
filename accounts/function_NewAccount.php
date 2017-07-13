@@ -58,6 +58,11 @@ function NewAccount ($params=array())
             )
            ) 
         {
+            if($notifs = SearchNotifs($Account['id']))
+            {
+                $Account['notifs']=$notifs;
+            }
+
             if($params['role']=='0' && Send_email('confirmation',$Account))
             {
                 $Account['alert']['warning']="<strong>Bienvenido !</strong> te enviamos un correo, verifica tu bandeja o tus correos no deseados y confirma.";

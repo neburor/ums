@@ -39,7 +39,7 @@ function Send_email($params=array())
                     )
             );
 
-		require 'theme/'.str_replace('.', '-', $params['domain']).'/'.$params['asset'].'_'.$params['template'].'.php';
+		require 'theme/'.str_replace('.', '-', $params['domain']).'/'.$params['template'].'.php';
 
 		$headers = "MIME-Version: 1.0" . "\n"; 
     	$headers .="Content-type: text/html; charset=utf-8" . "\n";
@@ -51,16 +51,16 @@ function Send_email($params=array())
      	if (mail($notifs['notif'],$subjet,$cuerpo,$headers))
      	{
             
-     		$response['alert']['success']='Correo enviado.';
+     		$response='Correo enviado. ';
      	}
      	else
      	{
-     		$response['alert']['warning']='Correo no enviado.';
+     		$response='Correo no enviado. ';
      	}
     }
     else
     {
-        $response['alert']['warning']='Correo no confirmado.';
+        $response='Correo no confirmado. ';
     }	
 
     return $response;

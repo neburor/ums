@@ -40,7 +40,7 @@ $FormComment = '
         <input type="hidden" name="formtype" value="'.$form['type'].'">
          <input type="hidden" name="route" value="'.$form['toid'].':'.$form['inid'].':'.$form['tocomm'].'">
       	<div class="form-group col-xs-12">
-      		<p><i class="fa fa-info-circle"></i> Complete los siguientes campos o <b><i class="fa fa-sign-in"></i> Inicie sesion</b> / <b><i class="fa fa-user-plus"></i> Registarse</b>.</p>
+      		<p><i class="fa fa-info-circle"></i> Complete los siguientes campos o <b><i class="fa fa-sign-in"></i> Inicie sesion</b> / <b><i class="fa fa-user-plus"></i> Registrese</b>.</p>
       		<label>Conectarse con :</label> 
       			<a class="btn btn-social-icon btn-facebook" href="?login=facebook';
             if($form['callback'])
@@ -48,6 +48,12 @@ $FormComment = '
               $FormComment.='&callback='.$form['callback'];
             }
             $FormComment.='"> <i class="fa fa-facebook"></i></a> 
+            <a class="btn btn-social-icon btn-google" href="?login=google';
+            if($form['callback'])
+            {
+              $FormComment.='&callback='.$form['callback'];
+            }
+            $FormComment.='"> <i class="fa fa-google"></i></a>
       			<a class="btn btn-social-icon btn-twitter" href="?login=twitter';
             if($form['callback'])
             {
