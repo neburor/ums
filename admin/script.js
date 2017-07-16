@@ -110,7 +110,8 @@ function ShowPanel(route)
         $('#main_content').find('a[href="#"]').on('click', function (e) {
           e.preventDefault();
         });
-        $('#main_content').find('.form.reply').formreply(); 
+        $('#main_content').find('.form.reply').formreply();
+        $('#main_content').find('.chartc3').chartc3(); 
       }  
     });
 	
@@ -158,6 +159,7 @@ function ShowTab(route)
           e.preventDefault();
         });
         $('#'+route[1]+'-'+route[2]).find('.form.reply').formreply(); 
+        $('#main_content').find('.chartc3').chartc3();
       }  
     });
 	
@@ -231,7 +233,71 @@ function DataTables ()
 
     });
 }
+$.fn.chartc3 = function ()
+{
+  if($(this).length > 0)
+  {
+    var chartsc3 =  $(this);
+    
+    if (!$("link[href='../c3-0.4.14/c3.min.css']").length)
+    {
+      $("<link/>", {
+        rel: "stylesheet",
+        type: "text/css",
+        href: "../c3-0.4.14/c3.min.css"
+      }).appendTo("head");
+    }
+    
+    $.cachedScript( "../d3-3.5.17/d3.min.js" ).done(function( script, textStatus ) {
+      $.cachedScript( "../c3-0.4.14/c3.min.js" ).done(function( script, textStatus ) {
+        $(chartsc3).each(function(){
+          var jsonData = jQuery.parseJSON($(this).attr('data-content'));
+          //var jsonKeys = jQuery.parseJSON($(this).attr('data-keys'));
+          var jsonNames = jQuery.parseJSON($(this).attr('data-names'));
+          //$(this).removeAttr('data');
+          console.log(jsonNames);
+          names={ 'send':'Enviados',
+                    'open':'Abiertos',
+                    'click':'Clicks'
+                      };
+          console.log(names);
+        
+          c3.generate({
+            bindto: '#'+$(this).attr('id'),
+            data: {
+                json: jsonData,
+                keys: {
+                  x: 'day',
+                  value: ['send', 'open', 'click']
+                      },
+                  names:{ 'send':'Enviados',
+                    'open':'Abiertos',
+                    'click':'Clicks'
+                      }
+                },
+            axis : {
+                x : {
+                  type : 'timeseries',
+                  tick: {
+                    format: '%d' }
+                  }
+                }
+          });
+        });
+      });
+    });
 
+    /*$.getScript( "./d3-3.5.17/d3.min.js").done(function(script, textStatus){
+      $.getScript( "../c3-0.4.14/c3.min.js").done(function( script, textStatus ) {
+        $(this).each(function(){
+          console.log($(this));
+        });
+      });
+    }); */
+     
+     
+  }
+}
 $.fn.DataTables = function ()
 {
 	
@@ -758,3 +824,16 @@ function Checkinputs(input,validations)
 
   return status;
 }
+jQuery.cachedScript = function( url, options ) {
+ 
+  // Allow user to set any option except for dataType, cache, and url
+  options = $.extend( options || {}, {
+    dataType: "script",
+    cache: true,
+    url: url
+  });
+ 
+  // Use $.ajax() since it is more flexible than $.getScript
+  // Return the jqXHR object so we can chain callbacks
+  return jQuery.ajax( options );
+};

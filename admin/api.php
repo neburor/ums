@@ -41,6 +41,12 @@ if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
             } 
         }elseif($dataForm['content']) {
             switch ($dataForm['content']) {
+            case 'emails':
+                include 'emails.php';
+                break;
+            case 'emails-resume':
+                include 'emails-resume.php';
+                break;
             case 'messages':
                 include 'messages.php';
                 break;
