@@ -246,42 +246,38 @@ $.fn.chartc3 = function ()
         type: "text/css",
         href: "../c3-0.4.14/c3.min.css"
       }).appendTo("head");
+      $("<link/>", {
+        rel: "stylesheet",
+        type: "text/css",
+        href: "../css/custom-c3.css"
+      }).appendTo("head");
     }
     
     $.cachedScript( "../d3-3.5.17/d3.min.js" ).done(function( script, textStatus ) {
       $.cachedScript( "../c3-0.4.14/c3.min.js" ).done(function( script, textStatus ) {
         $(chartsc3).each(function(){
           var jsonData = jQuery.parseJSON($(this).attr('data-content'));
-          //var jsonKeys = jQuery.parseJSON($(this).attr('data-keys'));
+          var jsonKeys = $(this).attr('data-keys').split(",");
           var jsonNames = jQuery.parseJSON($(this).attr('data-names'));
           //$(this).removeAttr('data');
-          console.log(jsonNames);
-          names={ 'send':'Enviados',
-                    'open':'Abiertos',
-                    'click':'Clicks'
-                      };
-          console.log(names);
-        
+         
           c3.generate({
             bindto: '#'+$(this).attr('id'),
             data: {
                 json: jsonData,
                 keys: {
                   x: 'day',
-                  value: ['send', 'open', 'click']
-                      },
-                  names:{ 'send':'Enviados',
-                    'open':'Abiertos',
-                    'click':'Clicks'
-                      }
+                  value: jsonKeys
                 },
+                names: jsonNames
+            },
             axis : {
                 x : {
                   type : 'timeseries',
                   tick: {
                     format: '%d' }
-                  }
                 }
+            }    
           });
         });
       });

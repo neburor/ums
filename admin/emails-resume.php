@@ -7,7 +7,8 @@ $send=SQLselect(
     DATE(emails.`send`) AS day, 
      COUNT(*) AS send
     FROM emails
-    WHERE DATE_SUB(NOW(), INTERVAL 7 DAY) < emails.`send` 
+    WHERE DATE_SUB(NOW(), INTERVAL 7 DAY) < emails.`send`
+    AND  `domain` = '".$_POST['domain']."'
     GROUP BY day 
     ORDER BY day desc"
                 )
@@ -19,7 +20,8 @@ $open=SQLselect(
     DATE(emails.`open`) AS day, 
      COUNT(*) AS open
     FROM emails
-    WHERE DATE_SUB(NOW(), INTERVAL 7 DAY) < emails.`open` 
+    WHERE DATE_SUB(NOW(), INTERVAL 7 DAY) < emails.`open`
+    AND  `domain` = '".$_POST['domain']."' 
     GROUP BY day 
     ORDER BY day desc"
                 )
@@ -33,6 +35,7 @@ $click=SQLselect(
      COUNT(*) AS click
     FROM emails
     WHERE DATE_SUB(NOW(), INTERVAL 7 DAY) < emails.`click` 
+    AND  `domain` = '".$_POST['domain']."'
     GROUP BY day 
     ORDER BY day desc"
                 )
@@ -63,8 +66,8 @@ foreach ($data as $key => $value) {
   if($x!=1){$columns.=',';}
   $columns.='{"day":"'.$value['day'].'","send":'.$value['send'].',"open":'.$value['open'].',"click":'.$value['click'].'}';
 }
-$keys="send,open,click";
-$names='[{"send":"Enviados","open":"Abiertos","click":"Clicks"}]';
+$keys='send,open,click';
+$names='{"send":"Enviados","open":"Abiertos","click":"Clicks"}';
 
 echo '<div class="chartc3 top" id="resumeemails"'; 
 echo "data-content='[".$columns."]'";
