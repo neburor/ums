@@ -51,12 +51,12 @@ $cuerpo.='</p>
 		</tr>
 		<tr style="border-collapse:collapse;">
 			<td style="padding:10px; text-align:center;" colspan="2">
-				<a href="http://www.coleccionotrosmundos.org/" target="_blank"><img src="http://v5.coleccionotrosmundos.org/img/O_M.png" alt="Coleccion otros mundos" width="50" height="46"></a>
+				<a href="https://www.coleccionotrosmundos.com/" target="_blank"><img src="https://www.coleccionotrosmundos.com/img/O_M.png" alt="Coleccion otros mundos" width="50" height="46"></a>
 			</td>
 		</tr>
 		<tr style="border-collapse:collapse;">
 			<td style="padding:10px; text-align:center;" colspan="2">
-				<a href="https://www.facebook.com/coleccionotrosmundos/" target="_blank"><img src="http://v5.coleccionotrosmundos.org/img/fb-btn.png" alt="Siguenos en facebook" width="25" height="25"></a>
+				<a href="https://www.facebook.com/coleccionotrosmundos/" target="_blank"><img src="https://www.coleccionotrosmundos.com/img/fb-btn.png" alt="Siguenos en facebook" width="25" height="25"></a>
 			</td>
 		</tr>
 	</tbody>

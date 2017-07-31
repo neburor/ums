@@ -19,14 +19,14 @@ $comments=SQLselect(
         Then (SELECT accounts.`name` FROM `accounts` WHERE comments.`to_id` = accounts.`id`)
     END
     AS `to_name`,
-    accounts_notif.`status` AS `notif`
+    IFNULL(accounts_notif.`status` ,'0') AS `notif`
     FROM `comments` 
         INNER JOIN `accounts`
             ON comments.`from_id` = accounts.`id`
         INNER JOIN `accounts_sn`
             ON comments.`from_id` = accounts_sn.`account` 
             AND accounts.`pic` = accounts_sn.`network`
-        INNER JOIN `accounts_notif`
+        LEFT JOIN `accounts_notif`
             ON accounts.`id` = accounts_notif.`account` 
     WHERE comments.`domain` = '".$dataForm['domain']."'
     AND comments.`status`='0'

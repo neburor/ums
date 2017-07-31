@@ -121,12 +121,18 @@ if(isset($_GET))
   {
     include 'profile/functions_app.php'; 
   }
+  if(isset($_GET['q']))
+  {
+    include 'accounts/tracking_searchs.php';
+  }
 }
 //POST
 if(isset($_POST))
 {
   if(isset($_POST['formid']))
   {
+    if($_POST['repeatmail']=='')
+    {
     $formid=$_POST['formid'];
     $formtype=$_POST['formtype'];
 
@@ -223,5 +229,10 @@ if(isset($_POST))
         }
       #header('Location: '.$_SERVER['REQUEST_URI']);
       }
+    }
+    else
+    {
+      SpamForm($_POST);
+    }
   }
 }

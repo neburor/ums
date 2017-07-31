@@ -74,6 +74,7 @@ $FormComment = '
       			<input type="email" class="form-control" name="email" placeholder="Tu correo ..." required="" '.FeedbackValue($_SESSION['feedback'][$form['id']]['email']).'>
           '.FeedbackIcon($_SESSION['feedback'][$form['id']]['email']).'
       		</div>
+          <div class="hidden"><input type="email" name="repeatmail" placeholder="Confirmar correo"></div>
       	</div>
       	<div class="form-group col-xs-12">
       		<label><input type="checkbox" name="funnel" value="signon" checked=""> Crearme una cuenta <b>GRATIS!</b>.</label> Recibira un correo para confirmar.

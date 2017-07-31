@@ -1,5 +1,21 @@
 <?php
 //Form Functions
+function SpamForm($post)
+{
+	$resultado=SQLinsert(
+            array(
+                'table'=>'spam_form'
+                ),
+            array(
+                'datetime'=> date("Y-m-d H:i:s"),
+                'domain'=> UMSDOMAIN,
+                'device'=> $_SESSION['device']['id'],
+                'url'=> 'http://'.$_SERVER['HTTP_HOST'].strtok($_SERVER["REQUEST_URI"],'?'),
+                'formtype'=> $post['formtype'],
+                'formid'=> $post['formid']
+                )
+            );
+}
 function FeedBackMessage($feedback)
 {
 	if(isset($feedback['alert']['success']))

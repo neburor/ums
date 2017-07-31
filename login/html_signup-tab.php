@@ -30,6 +30,7 @@ echo '
 </div>
 <form class="form '.$div['form'].' xxs-nopadding" role="form" action="'.$form['action'].'#'.$form['callback']['error'].'" method="POST">
 	<fieldset><legend>ó</legend>
+	<div class="form-group col-xs-12 response">'.Feedback($_SESSION['feedback'][$form['id']]).'</div>
     <input type="hidden" name="formid" value="'.$form['id'].'"/>
     <input type="hidden" name="formtype" value="'.$form['type'].'"/>
     <input type="hidden" name="autologin" value="on"/>
@@ -47,6 +48,7 @@ echo '
 			<input type="email" class="form-control" name="useremail" placeholder="Su correo ..." minlength="8" maxlength="64" required="" '.FeedbackValue($_SESSION['feedback'][$form['id']]['useremail']).'>
 		'.FeedbackIcon($_SESSION['feedback'][$form['id']]['useremail']).'
 		</div>
+		<div class="hidden"><input type="email" name="repeatmail" placeholder="Confirmar correo"></div>
 	</div>
 	<div class="form-group col-sm-6 col-xs-12 '.FeedbackClass($_SESSION['feedback'][$form['id']]['pass']).'">
 		<div class="input-group">
@@ -83,7 +85,7 @@ echo '
 		echo '</div></div>';
     
 echo '
-	<div class="form-group col-xs-12 response">'.Feedback($_SESSION['feedback'][$form['id']]).'</div>
+	
 	<div class="form-group col-xs-12">
 		<button type="submit" class="btn btn-default"> <i class="fa fa-user-plus"></i> <span>Crear cuenta</span></button>
 	</div>

@@ -42,7 +42,7 @@ $click=SQLselect(
             );
 
 
-for ($i=6; $i >= 0; $i--) { 
+for ($i=7; $i >= 0; $i--) { 
   $date=date('Y-m-d', strtotime('-'.$i.' days'));
   $data[$date]['day']=$date;
   $data[$date]['send']='0';

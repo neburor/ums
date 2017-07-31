@@ -6,6 +6,8 @@ include 'global/functions.php';
 include 'global/functions_form.php';
 include 'sessions.php';
 
+include 'accounts/tracking_urls.php';
+
 include 'login/functions_db.php';
 include 'accounts/functions_db.php';
 include 'profile/functions_db.php';

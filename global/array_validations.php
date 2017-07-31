@@ -3,7 +3,7 @@
 
 $VALIDATIONS['name'] 	  = array(
 							'display'	=> 'Nombre',
-							'pregmatch' => '^[a-zA-Z áéíóúüñÁÉÍÓÚÜÑ]*$',
+							'pregmatch' => '^[a-zA-Z0-9 áéíóúüñÁÉÍÓÚÜÑ]*$',
 							'minlength'	=> 4,
 							'maxlength'	=> 64,
 							'required'	=> true
