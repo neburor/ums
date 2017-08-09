@@ -42,28 +42,28 @@ echo '
             {
               echo '&callback='.$form['callback'];
             }
-            echo '"> <i class="fa fa-facebook"></i></a> 
+            echo '" rel="nofollow"> <i class="fa fa-facebook"></i></a> 
             <a class="btn btn-social-icon btn-google" href="?login=google';
             if($form['callback'])
             {
               echo '&callback='.$form['callback'];
             }
-            echo '"> <i class="fa fa-google"></i></a>
+            echo '" rel="nofollow"> <i class="fa fa-google"></i></a>
       			<a class="btn btn-social-icon btn-twitter" href="?login=twitter';
             if($form['callback'])
             {
               echo '&callback='.$form['callback'];
             }
-            echo '"> <i class="fa fa-twitter"></i></a>
+            echo '" rel="nofollow"> <i class="fa fa-twitter"></i></a>
       	</div>
-      	<div class="form-group col-xs-6 col-xxs-12 '.FeedbackClass($_SESSION['feedback'][$form['id']]['name']).'">
+      	<div class="form-group '.$form['groupclass'].FeedbackClass($_SESSION['feedback'][$form['id']]['name']).'">
       		<div class="input-group">
       			<span class="input-group-addon"><i class="fa fa-user"></i></span>
       			<input type="text" class="form-control" name="name" placeholder="Tu nombre ..." required="" '.FeedbackValue($_SESSION['feedback'][$form['id']]['name']).'>
             '.FeedbackIcon($_SESSION['feedback'][$form['id']]['name']).'
       		</div>
       	</div>
-      	<div class="form-group col-xs-6 col-xxs-12 '.FeedbackClass($_SESSION['feedback'][$form['id']]['email']).'">
+      	<div class="form-group '.$form['groupclass'].FeedbackClass($_SESSION['feedback'][$form['id']]['email']).'">
       		<div class="input-group">
       			<span class="input-group-addon"><i class="fa fa-at"></i></span>
       			<input type="email" class="form-control" name="email" placeholder="Tu correo ..." required="" '.FeedbackValue($_SESSION['feedback'][$form['id']]['email']).'>

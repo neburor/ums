@@ -64,14 +64,18 @@ function Signup($post=array())
 
                         if (strpos($post['callback'], '/app/') !== false) 
                         {
-                            $reff='#'.$post['callback'];
+                            $reff=strtok($_SERVER['HTTP_REFERER'],'?') . '#'.$post['callback'];
+                        }
+                        elseif(strpos($post['callback'], 'wiki') !== false)
+                        {
+                            $reff = $_SERVER['HTTP_REFERER'] .'&tab='. $post['formid'] . '#' . $post['callback'];
                         }
                         else
                         {
-                            $reff='?tab='. $post['formid'] . '#' . $post['callback'];
+                            $reff=strtok($_SERVER['HTTP_REFERER'],'?') . '?tab='. $post['formid'] . '#' . $post['callback'];
                         }
 
-                        header("Location: " . strtok($_SERVER['HTTP_REFERER'],'?') . $reff);
+                        header("Location: " . $reff);
 
                     }
                     else
@@ -161,14 +165,19 @@ function Login($post= array())
 
                 if (strpos($post['callback'], '/app/') !== false) 
                 {
-                    $reff='#'.$post['callback'];
+                    $reff = strtok($_SERVER['HTTP_REFERER'],'?') . '#'.$post['callback'];
+                }
+                elseif(strpos($post['callback'], 'wiki') !== false)
+                {
+                    $reff = $_SERVER['HTTP_REFERER'] .'&tab='. $post['formid'] . '#' . $post['callback'];
+                    
                 }
                 else
                 {
-                    $reff='?tab='. $post['formid'] . '#' . $post['callback'];
+                    $reff= strtok($_SERVER['HTTP_REFERER'],'?') .'?tab='. $post['formid'] . '#' . $post['callback'];
                 }
 
-               header("Location: " . strtok($_SERVER['HTTP_REFERER'],'?') . $reff);
+               header("Location: " .  $reff);
             }
             else
             {

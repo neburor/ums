@@ -28,8 +28,8 @@ if($access_token['user_id'])
 	$UserConnect['network']['name']=$UserConnect['name']=$tt['name'];
 	$UserConnect['network']['screenname']=$access_token['screen_name'];
 	$UserConnect['network']['email']=$tt_email->email;
-	$UserConnect['network']['pic']=$tt['profile_image_url'];
-	$UserConnect['network']['cover']=$tt['profile_banner_url'];
+	$UserConnect['network']['pic']=$tt['profile_image_url_https'];
+	$UserConnect['network']['cover']=$tt['profile_banner_url_https'];
 	$UserConnect['pic']='twitter';
 	$UserConnect['cover']='twitter';
 	$UserConnect['type']='connect';

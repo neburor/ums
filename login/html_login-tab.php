@@ -14,19 +14,19 @@ echo '
             {
               echo '&callback='.$form['callback']['success'].'&error='.$form['callback']['error'];
             }
-            echo '"> <i class="fa fa-facebook"></i></a> 
+            echo '" rel="nofollow"> <i class="fa fa-facebook"></i></a> 
         <a class="btn btn-social-icon btn-google" href="?login=google';
             if($form['callback'])
             {
               echo '&callback='.$form['callback']['success'].'&error='.$form['callback']['error'];
             }
-            echo '"> <i class="fa fa-google"></i></a>
+            echo '" rel="nofollow"> <i class="fa fa-google"></i></a>
 		<a class="btn btn-social-icon btn-twitter" href="?login=twitter';
             if($form['callback'])
             {
               echo '&callback='.$form['callback']['success'].'&error='.$form['callback']['error'];
             }
-            echo '"> <i class="fa fa-twitter"></i></a>
+            echo '" rel="nofollow"> <i class="fa fa-twitter"></i></a>
 	</div>
 </div>
 <form class="form '.$div['form'].' xxs-nopadding" role="form" action="'.$form['action'].'#'.$form['callback']['error'].'" method="POST">

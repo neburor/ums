@@ -96,11 +96,11 @@ function LIcomments($comments)
                             }
                             elseif($data['liked'])
                             {
-                                $comments_list.='<a href="?likes=comment&dislike='.$data['id'].'&callback=comment_'.$data['id'].'" class="dislike">Me gusta <i class="fa fa-times"></i></a> ·';
+                                $comments_list.='<a href="?likes=comment&dislike='.$data['id'].'&callback=comment_'.$data['id'].'" class="dislike" rel="nofollow">Me gusta <i class="fa fa-times"></i></a> ·';
                             }
                             else
                             {
-                                $comments_list.='<a href="?likes=comment&like='.$data['id'].'&callback=comment_'.$data['id'].'">Me gusta</a> ·';
+                                $comments_list.='<a href="?likes=comment&like='.$data['id'].'&callback=comment_'.$data['id'].'" rel="nofollow">Me gusta</a> ·';
                             }
 
                             if($data['from_id']==$_SESSION['logged']['id'])
@@ -119,7 +119,7 @@ function LIcomments($comments)
                                 {
                                     $comments_list.='href="?replycomment='.$data['id'].'#comment_'.$data['id'].'"';
                                 }
-                                $comments_list.='  >Responder</a>';
+                                $comments_list.=' rel="nofollow" >Responder</a>';
                             }
 
                 $comments_list.='</small>
@@ -229,11 +229,11 @@ function LIcomments($comments)
                             }
                             elseif($data2['liked'])
                             {
-                                $comments_list.='<a href="?likes=comment&dislike='.$data2['id'].'&callback=comment_'.$data2['id'].'" class="dislike">Me gusta <i class="fa fa-times"></i></a> ·';
+                                $comments_list.='<a href="?likes=comment&dislike='.$data2['id'].'&callback=comment_'.$data2['id'].'" class="dislike" rel="nofollow">Me gusta <i class="fa fa-times"></i></a> ·';
                             }
                             else
                             {
-                                $comments_list.='<a href="?likes=comment&like='.$data2['id'].'&callback=comment_'.$data2['id'].'">Me gusta</a> ·';
+                                $comments_list.='<a href="?likes=comment&like='.$data2['id'].'&callback=comment_'.$data2['id'].'" rel="nofollow">Me gusta</a> ·';
                             }
 
                             if($data2['from_id']==$_SESSION['logged']['id']||
@@ -253,7 +253,7 @@ function LIcomments($comments)
                                 {
                                     $comments_list.='href="?replycomment='.$data2['id'].'#comment_'.$data2['id'].'"';
                                 }
-                                $comments_list.='> Responder</a>';
+                                $comments_list.=' rel="nofollow"> Responder</a>';
                             }
 
                         $comments_list.='</small>

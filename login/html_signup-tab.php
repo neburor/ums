@@ -13,19 +13,19 @@ echo '
             {
               echo '&callback='.$form['callback']['success'].'&error='.$form['callback']['error'];
             }
-            echo '"> <i class="fa fa-facebook"></i> <span>Registrarse con Facebook</span></a> 
+            echo '" rel="nofollow"> <i class="fa fa-facebook"></i> <span>Registrarse con Facebook</span></a> 
         <a class="btn btn-block btn-social btn-google" href="?login=google';
             if($form['callback'])
             {
               echo '&callback='.$form['callback']['success'].'&error='.$form['callback']['error'];
             }
-            echo '"> <i class="fa fa-facebook"></i> <span>Registrarse con Google</span></a> 
+            echo '" rel="nofollow"> <i class="fa fa-facebook"></i> <span>Registrarse con Google</span></a> 
     	<a class="btn btn-block btn-social btn-twitter" href="?login=twitter';
             if($form['callback'])
             {
               echo '&callback='.$form['callback']['success'].'&error='.$form['callback']['error'];
             }
-            echo '"> <i class="fa fa-twitter"></i> <span>Registrarse con Twitter</span></a>
+            echo '" rel="nofollow"> <i class="fa fa-twitter"></i> <span>Registrarse con Twitter</span></a>
 	</div>
 </div>
 <form class="form '.$div['form'].' xxs-nopadding" role="form" action="'.$form['action'].'#'.$form['callback']['error'].'" method="POST">

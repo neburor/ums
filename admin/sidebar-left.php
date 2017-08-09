@@ -18,6 +18,9 @@ echo '
 		<li class="">
 			<a href="#" data-target="#comments" data-hash="/comments"><span class="icon"><i class="fa fa-commenting"></i></span> Comentarios </a>
 		</li>
+		<li class="">
+			<a href="#" data-target="#contents" data-hash="/contents"><span class="icon"><i class="fa fa-file-text"></i></span> Contenidos </a>
+		</li>
 		<li class="#">
 			<a href="#"><span class="icon"><i class="fa fa-list-alt"></i></span> Encuestas </a>
 		</li>

@@ -66,6 +66,7 @@ $form=array(
       'id'    =>'tab_contact',
       'type'  =>'contact',
       'action'=>'?tab=tab_contact-contact',
+      'groupclass'=>'col-xs-6 col-xxs-12',
       'callback'=>'/ums/tab/tab_contact-contact'
         );
 include 'form_contact.php';

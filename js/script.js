@@ -1,7 +1,6 @@
 //UMS framework with jQuery
 $(document).ready(function(){
 
-
 //Routes
 if(location.hash)
 {
@@ -62,10 +61,14 @@ function Routes(hash)
 	{
 		umsRoutes(routes);
 	}
-	if(routes[1]=='app')
+	else if(routes[1]=='app')
 	{
 		appRoutes(routes);
 	}	
+  else 
+  {
+    $(routes[0]).animatescroll();
+  }
 }
 function appRoutes(route)
 {
@@ -159,6 +162,15 @@ function umsRoutes (routes)
 		}
 	}
 
+}
+$.fn.sendEditor = function ()
+{
+  $.ajax({
+      type: "POST",
+      url: "ums/wiki/api.php",
+      cache: false,
+      data: { content: $(this) }
+    });
 }
 $.fn.hashchange = function (click)
 {
