@@ -52,7 +52,7 @@ if(!isset($_SESSION['device']))
 		}
 		SearchDevice();
 	}
-	else
+	elseif(!isset($_GET['metatags']))
 	{
 		if(isset($_SESSION['debugger']))
 		{

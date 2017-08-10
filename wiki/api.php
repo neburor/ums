@@ -16,6 +16,7 @@ if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
                 'datetime'=> date("Y-m-d H:i:s"),
                 'url'=> strtok($_SERVER['HTTP_REFERER'],'?'),
                 'account'=> $_SESSION['logged']['id'],
+                'old'=>$_POST['old'],
                 'status'=> '0', 
                 'content'=> str_replace(array("'"),array("\'"), $_POST['content'])
                 )
@@ -32,6 +33,7 @@ if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
                 	WHERE `datetime` = (
                 		SELECT MAX(`datetime`) FROM `content_wiki` 
                 		WHERE `url` = '".strtok($_SERVER['HTTP_REFERER'],'?')."' AND `status` = '1')
+                        `url` = '".strtok($_SERVER['HTTP_REFERER'],'?')."' AND `status` = '1'
                 	")
 				);
 			if($result)
@@ -44,6 +46,7 @@ if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
                 	'datetime'=> date("Y-m-d H:i:s"),
                 	'url'=> strtok($_SERVER['HTTP_REFERER'],'?'),
                 	'account'=> $_SESSION['logged']['id'],
+                    'old'=>$_POST['old'],
                 	'status'=> '0', 
                 	'content'=> str_replace(array("'"),array("\'"),$result['content']).str_replace(array("'"),array("\'"), $_POST['add'])
                 	)

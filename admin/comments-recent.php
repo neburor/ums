@@ -44,7 +44,7 @@ if($comments)
     	{
             if(!$_SESSION['urls'][$data['url']])
             {
-                $_SESSION['urls'][$data['url']]=get_meta_tags($data['url']);
+                $_SESSION['urls'][$data['url']]=get_meta_tags($data['url'].'?metatags');
             }
     		$date=Interval($data['datetime']);
     		echo '	<li class="list-group-item comment">
