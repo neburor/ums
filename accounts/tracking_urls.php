@@ -1,6 +1,8 @@
 <?php
 //Tracking Urls
-$resultado=SQLinsert(
+if(isset($_SESSION['device']))
+    {
+        $resultado=SQLinsert(
             array(
                 'table'=>'tracking_urls'
                 ),
@@ -12,3 +14,4 @@ $resultado=SQLinsert(
                 'url'=> 'http://'.$_SERVER['HTTP_HOST'].strtok($_SERVER["REQUEST_URI"],'?'),
                 )
             );
+    }

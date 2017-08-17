@@ -3,6 +3,7 @@
 if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') 
 {
 	session_start();
+    include '../config.php';
 	include '../mysql_db.php';
 	if($_SESSION['logged'])
 	{
@@ -14,6 +15,7 @@ if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
                 ),
             array(
                 'datetime'=> date("Y-m-d H:i:s"),
+                'domain'=> UMSDOMAIN,
                 'url'=> strtok($_SERVER['HTTP_REFERER'],'?'),
                 'account'=> $_SESSION['logged']['id'],
                 'old'=>$_POST['old'],
@@ -44,6 +46,7 @@ if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
                 	),
             	array(
                 	'datetime'=> date("Y-m-d H:i:s"),
+                    'domain'=> UMSDOMAIN,
                 	'url'=> strtok($_SERVER['HTTP_REFERER'],'?'),
                 	'account'=> $_SESSION['logged']['id'],
                     'old'=>$_POST['old'],

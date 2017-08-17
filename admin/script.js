@@ -112,6 +112,7 @@ function ShowPanel(route)
         });
         $('#main_content').find('.form.reply').formreply();
         $('#main_content').find('.chartc3').chartc3(); 
+        $('#main_content').find('.ckeditor').ckeditor();
       }  
     });
 	
@@ -232,6 +233,42 @@ function DataTables ()
             }
 
     });
+}
+$.fn.ckeditor = function ()
+{
+  if($(this).length > 0)
+  {
+    var ckeditor =  $(this);
+    $.cachedScript( "https://cdn.ckeditor.com/4.7.1/standard/ckeditor.js" ).done(function( script, textStatus ) {
+        CKEDITOR.plugins.addExternal( "save", "/ckeditor/save/", "plugin.js" );
+        CKEDITOR.plugins.addExternal( "showblocks", "/ckeditor/showblocks/", "plugin.js" );
+        $(ckeditor).each(function(){
+
+
+          CKEDITOR.replace($(this).attr('id'), {
+            extraPlugins: "save,showblocks",
+            on: {
+              save: function(evt)
+              {
+               var wikiDATA = $('#' + $(this).attr('name') + '_data').val();
+                $.ajax({
+                  type: "POST",
+                  url: "/ums/admin/api.php",
+                  cache: false,
+                  data: { token: sessionStorage.getItem("token"), domain: sessionStorage.getItem("domain") ,formtype : 'wiki', data : wikiDATA, content: evt.editor.getSnapshot() }
+                }); 
+              return false;
+              
+              }
+            },
+            allowedContent : true,
+            entities_latin : false,
+            htmlEncodeOutput : false,
+            entities : false
+            });
+          });
+      });
+  }
 }
 $.fn.chartc3 = function ()
 {

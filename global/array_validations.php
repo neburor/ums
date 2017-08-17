@@ -58,16 +58,16 @@ $VALIDATIONS['reply']	= array(
 							);
 $VALIDATIONS['pic']= array(
 							'pregmatch' => '\.(?:jpe?g|png|gif)$',
-							'filesize'	=> 204800, //1024 * 2 (200Kb)
+							'filesize'	=> 204800, //(200Kb)
 							'minlength'	=> 4,
 							'maxlength'	=> 512,
 							'accept'	=> 'image/*',
 							'multiple'	=> false,
 							'required'  => true
 							);
-$VALIDATIONS['cover']= array(
+$VALIDATIONS['cover']= $VALIDATIONS['imgwiki'] = array(
 							'pregmatch' => '\.(?:jpe?g|png|gif)$',
-							'filesize'	=> 1048576, //1024 * 1024  (1Mb)
+							'filesize'	=> 2097152, // (2Mb)
 							'minlength'	=> 4,
 							'maxlength'	=> 512,
 							'accept'	=> 'image/*',
