@@ -121,6 +121,7 @@ if($wikis)
                                 echo $diffA->render($sidebyside);
                             }
                             echo $diff->render($inline);
+                            echo $diff->render($changes);
                             echo'
                                 <form class="form" role="form" method="post">
                                     <div class="form-group">
