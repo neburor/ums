@@ -34,9 +34,9 @@ $notifications=SQLselect(
     END
     AS `url`
     FROM `notifications_app` 
-        INNER JOIN `accounts`
+        LEFT JOIN `accounts`
             ON notifications_app.`from_id` = accounts.`id`
-        INNER JOIN `accounts_sn`
+        LEFT JOIN `accounts_sn`
             ON notifications_app.`from_id` = accounts_sn.`account` 
             AND accounts.`pic` = accounts_sn.`network`
     WHERE notifications_app.`to_id` = '".$_SESSION['logged']['id']."'

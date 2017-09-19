@@ -21,8 +21,8 @@ if(isset($_GET))
         									]);
 
       			$helper = $fb->getRedirectLoginHelper();
-      			$permissions = ['email','user_photos']; // optional
-      			
+      			//$permissions = ['email','user_photos'];  optional
+      			$permissions = ['email']; 
       			$loginUrl = $helper->getLoginUrl(URLSYSTEM.'login/fb-callback.php', $permissions);
 
       			$_SESSION['connect']['referer']=$_SERVER['HTTP_REFERER'];

@@ -394,6 +394,14 @@ $.fn.animatescroll = function ()
 $.fn.actions = function ()
 {
   action = $(this).attr('data-action');
+  if($(this).find('img').length)
+  {
+    ico='<img src="' + $(this).find('img').attr('src') + '"> ';
+  }
+  else
+  {
+    ico='<i class="fa fa-globe fa-2x"></i> ';
+  }
   if(action=='domain')
   {
     domain=$(this).attr('data-content');
@@ -403,8 +411,8 @@ $.fn.actions = function ()
       localStorage.setItem("domain", domain);
     }
     Routes(location.hash);
-    $('button.domainname').empty().append('<i class="fa fa-globe fa-2x"></i>');
-    $('a.domainname').empty().append('<i class="fa fa-globe fa-2x"></i> ' + domain);
+    $('button.domainname').empty().append(ico);
+    $('a.domainname').empty().append(ico + domain);
   }
   if(action=='active' || action=='archive' || action=='ban')
   {

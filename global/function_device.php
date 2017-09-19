@@ -14,7 +14,7 @@ function NewDevice ()
             array(
                 'datetime'=> date("Y-m-d H:i:s"),
                 'domain'=> UMSDOMAIN,
-                'device_hash'=> $device_hash,
+                'device_hash'=> $_COOKIE['device'],
                 'user_agent'=> $_SERVER['HTTP_USER_AGENT'], 
                 'remote_addr'=> $_SERVER['REMOTE_ADDR'], 
                 'request_uri'=> $_SERVER['REQUEST_URI']

@@ -77,7 +77,11 @@ if(isset($_GET['wiki']) && $_GET['wiki']!='history' && $_GET['wiki']!='preview' 
     htmlEncodeOutput : false,
     entities : false,
     startupOutlineBlocks : true,
-    filebrowserImageUploadUrl: "../ums/wiki/ckeditor_imgupload.php"
+    filebrowserImageUploadUrl: "../ums/wiki/ckeditor_imgupload.php",
+    keystrokes:
+          [
+            [ CKEDITOR.ALT + 83 /*S*/, "save" ]
+          ]
     });
 
         </script>';
@@ -118,7 +122,7 @@ if(isset($_GET['wiki']) && $_GET['wiki']!='history' && $_GET['wiki']!='preview' 
             			//console.log(evt.editor.getSnapshot());
             			$.ajax({
               				type: "POST",
-              				url: "../ums/wiki/api.php",
+              				url: "'.$wiki['api'].'",
               				cache: false,
               				data: { old : oldvalue, '.$ckeditorP.': evt.editor.getSnapshot() }
             				}).done(function() {
@@ -150,7 +154,11 @@ if(isset($_GET['wiki']) && $_GET['wiki']!='history' && $_GET['wiki']!='preview' 
     		htmlEncodeOutput : false,
     		entities : false,
     		startupOutlineBlocks : true,
-    		filebrowserImageUploadUrl: "../ums/wiki/ckeditor_imgupload.php"
+    		filebrowserImageUploadUrl: "../ums/wiki/ckeditor_imgupload.php",
+        keystrokes :
+          [
+            [ CKEDITOR.ALT + 83 /*S*/, "save" ]
+          ]
     	});
 </script>';
   }

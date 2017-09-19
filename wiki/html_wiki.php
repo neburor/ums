@@ -1,8 +1,72 @@
 <?php
 #Wiki
 
+if(isset($_GET['wiki']) && $_GET['wiki']=='history')
+{
+  $dataWikihistory = SQLselect(
+                array(
+                  'table'=>'content_wiki',
+                  'query'=>'SELECT
+                a.`id`,
+                a.`datetime`,
+                a.`url`,
+                a.`account`,
+                IFNULL(accounts.`name`, "'.ADMINNAME.'") AS `from_name`,
+                IFNULL(accounts_sn.`pic`, "'.ADMINPIC.'") AS `from_pic`,
+                IFNULL(b.`content`, "") AS `old`,
+                a.`content` AS `new`
+                FROM `content_wiki` a
+                    LEFT OUTER JOIN `content_wiki` b 
+                    ON a.`old` = b.`id`
+                    LEFT JOIN `accounts`
+                    ON a.`account` = accounts.`id`
+                    LEFT JOIN `accounts_sn`
+                    ON a.`account` = accounts_sn.`account` 
+                    AND accounts.`pic` = accounts_sn.`network`
+                WHERE a.`url` = "'.$url.'"
+                AND a.`status` = "1"
+                ORDER BY a.`datetime` DESC')
+                );
+    require_once 'Diff.php';
+    require_once 'Diff/Renderer/Html/Changes.php';
+    $str_search=array("<br>","<p>","<h2>","</p>","</h2>","<hr>","<blockquote>","</blockquote>","><");
+    $str_replace=array("\n<br>\n","<p>\n","<h2>\n","\n</p>","\n</h2>","\n<hr>\n","<blockquote>\n","\n</blockquote>",">\n<");
+    $html_wiki = '<div class="ums"><div class="panel-group" id="history" role="tablist" aria-multiselectable="true">';
+    foreach ($dataWikihistory as $edit => $value) 
+    {
+      $a = explode("\n", str_replace($str_search,$str_replace,$value['old']));
+      $b = explode("\n", str_replace($str_search,$str_replace,$value['new']));
+      $diff = new Diff($a, $b, array());
 
-if(isset($_GET['wiki']) && isset($_SESSION['logged'])) {
+      $changes = new Diff_Renderer_Html_Changes;
+      $date=Interval($value['datetime']);
+      $html_wiki.= '<div class="panel panel-default">
+    
+        <a class="panel-heading" role="button" data-toggle="collapse" data-parent="#history" href="#history-'.$value['id'].'" aria-expanded="true" aria-controls="history-'.$value['id'].'">
+          <div class="media">
+                        <div class="media-left">
+                           <img class="media-object profile-pic" alt="'.$value['from_name'].'" src="'.$value['from_pic'].'">
+                         </div>
+                         <div class="media-body">
+                           <span class="media-heading">
+                             <b>'.$value['from_name'].'</b> 
+                             <small class="pull-right">Hace '.$date[0].' '.$date[1].'</small>
+                           </span>
+                         </div>
+                         <div class="media-right"><i class="fa fa-chevron-right"></i></div>
+                        </div>
+        </a>
+    
+    <div id="history-'.$value['id'].'" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+      <div class="panel-body">
+      '.$diff->render($changes).'
+      </div>
+    </div>
+  </div>';
+    }
+    $html_wiki.= '</div></div>';
+}
+elseif(isset($_GET['wiki']) && isset($_SESSION['logged'])) {
   $dataWikiuser =SQLselect(
           array(
                   'table'=>'content_wiki',
@@ -39,25 +103,22 @@ if(isset($_GET['wiki']) && isset($_SESSION['logged'])) {
         </div>';
 
   }
-  elseif($_GET['wiki']=='history')
-  {
-    $html_wiki = '<div ums class="ums tab-content">
-          <div role="tabpanel" class="tab-pane fade active in" id="tab_wiki-history">
-          <div id="history">
-          <h2>Hisotrial</h2>
-          </div>
-          </div>
-        </div>';
-  }
   elseif ($_GET['wiki']=='preview') 
   {
     if($dataWikiuser['content'])
     {
-      $html_wiki = '<div ums class="ums" id="preview">'.$dataWikiuser['content'].'</div>';
+      $html_wiki = '<div id="preview">'.$dataWikiuser['content'].'</div>';
     }
     else
     {
-
+      $html_wiki = '<div ums class="ums" id="preview">
+                      <div class="media">
+                        <div class="media-body text-center">
+                          <i class="fa fa-edit fa-4x"></i>
+                          <b class="media-heading">NO HAY CAMBIOS REALIZADOS</b>
+                        </div> 
+                      </div>
+                    </div>';
     }
   }
   else
@@ -80,22 +141,7 @@ if(isset($_GET['wiki']) && isset($_SESSION['logged'])) {
           </div>
         </div>';
   }
-
-  
 }elseif (isset($_GET['wiki']) && !isset($_SESSION['logged'])) {
-
-  if($_GET['wiki']=='history')
-  {
-    $html_wiki = '<div ums class="ums tab-content">
-          <div role="tabpanel" class="tab-pane fade active in" id="tab_wiki-history">
-          <div id="history">
-          <h2>Hisotrial</h2>
-          </div>
-          </div>
-        </div>';
-  }
-  else
-  {
 
   if(isset($_GET['tab']))
   {
@@ -176,7 +222,7 @@ include 'ums/login/html_recovery-tab.php';
                 </div>
               </div>
             </div>';
-}
+
 }
 else{
   $html_wiki= $dataWiki['content'];

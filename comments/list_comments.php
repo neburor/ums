@@ -2,10 +2,8 @@
 //ListComments
 
 
-$ListComments=ListComments('http://'.$_SERVER['HTTP_HOST'].strtok($_SERVER["REQUEST_URI"],'?'));
-
+$ListComments=ListComments(URL);
 echo '<ul class="list-group">';
-
 if($ListComments)
 {
 	echo '<li class="list-group-item">

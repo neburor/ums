@@ -18,7 +18,7 @@ function InsertComment($params=array())
                 'datetime'=> date("Y-m-d H:i:s"),
                 'domain'=> UMSDOMAIN,
                 'device'=> $_SESSION['device']['id'],
-                'url'=> 'http://'.$_SERVER['HTTP_HOST'].strtok($_SERVER["REQUEST_URI"],'?'),
+                'url'=> URL,
                 'form'=> $params['formtype'], 
                 'from_id'=> $_SESSION['logged']['id'], 
                 'to_id'=> $params['route'][0],
@@ -78,7 +78,7 @@ function InsertComment($params=array())
                             'datetime'=> date("Y-m-d H:i:s"),
                             'domain'=> UMSDOMAIN,
                             'device'=> $_SESSION['device']['id'],
-                            'url'=> 'http://'.$_SERVER['HTTP_HOST'].strtok($_SERVER["REQUEST_URI"],'?'),
+                            'url'=> URL,
                             'form'=> $params['formtype'], 
                             'from_id'=> $resultado['id'], 
                             'to_id'=> $params['route'][0],
@@ -123,7 +123,7 @@ function InsertComment($params=array())
                             'datetime'=> date("Y-m-d H:i:s"),
                             'domain'=> UMSDOMAIN,
                             'device'=> $_SESSION['device']['id'],
-                            'url'=> 'http://'.$_SERVER['HTTP_HOST'].strtok($_SERVER["REQUEST_URI"],'?'),
+                            'url'=> URL,
                             'form'=> $params['formtype'], 
                             'from_id'=> $resultado['id'], 
                             'to_id'=> $params['route'][0],
@@ -163,7 +163,7 @@ function InsertComment($params=array())
                             'datetime'=> date("Y-m-d H:i:s"),
                             'domain'=> UMSDOMAIN,
                             'device'=> $_SESSION['device']['id'],
-                            'url'=> 'http://'.$_SERVER['HTTP_HOST'].strtok($_SERVER["REQUEST_URI"],'?'),
+                            'url'=> URL,
                             'form'=> $params['formtype'], 
                             'from_id'=> $account, 
                             'to_id'=> $params['route'][0],
@@ -229,7 +229,7 @@ function ListComments($url)
     if(isset($_SESSION['logged']))
     {
         $liked="`account` = '".$_SESSION['logged']['id']."'";
-        $usercomments=" OR comments.`from_id`='".$_SESSION['logged']['id']."' OR comments.`to_id`='".$_SESSION['logged']['id']."'";
+        $usercomments=" OR (comments.`url` = '".$url."' AND (comments.`from_id`='".$_SESSION['logged']['id']."' || comments.`to_id`='".$_SESSION['logged']['id']."'))";
     }
     else
     {
@@ -259,15 +259,15 @@ function ListComments($url)
  (select `like` from `likes` where `asset`= 'comment' and `asset_id` = comments.`id` and ".$liked." ORDER BY `id` DESC LIMIT 1) 
  AS `liked`
     FROM `comments` 
-        INNER JOIN `accounts`
+        LEFT JOIN `accounts`
             ON comments.`from_id` = accounts.`id`
             OR comments.`to_id` = accounts.`id`
-        INNER JOIN `accounts_sn`
+        LEFT JOIN `accounts_sn`
             ON comments.`from_id` = accounts_sn.`account` 
             AND accounts.`pic` = accounts_sn.`network`
     WHERE comments.`url` = '".$url."'
-    AND (comments.`status`='1' || comments.`status`='2' || comments.`status`='3'
-    ".$usercomments.")
+    AND (comments.`status`='1' || comments.`status`='2' || comments.`status`='3')
+    ".$usercomments."
     GROUP BY comments.`id`
     ORDER BY comments.`id`
     DESC"

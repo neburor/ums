@@ -33,7 +33,8 @@
     background-color: #222;
     border-color: #080808;
 }
-.ums.dashboard .sidebar .sidebar-nav>li>a>img {
+.ums.dashboard .sidebar .sidebar-nav>li>a>img,
+.ums.dashboard .navbar-right .sidebar-right>li>a>img {
   height: 16px;
   width: auto;
 }

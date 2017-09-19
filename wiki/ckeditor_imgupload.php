@@ -2,8 +2,7 @@
 //CKEditor Img Upload
 
 session_start();
-include '../config.php';
-include '../mysql_db.php';
+include '../ums.php';
 
 	if(!empty($_FILES) && isset($_SESSION['logged'])) 
 	{

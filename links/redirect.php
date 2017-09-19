@@ -15,6 +15,7 @@ $resultado=SQLinsert(
                 'device'=> $_SESSION['device']['id'],
                 'account'=> $_SESSION['logged']['id'],
                 'url'=> strtok($_SERVER['HTTP_REFERER'],'?'),
+                'source'=>$_GET['source'],
                 'click'=>$_GET['click'],
                 'btn'=>$_GET['btn']
                 )

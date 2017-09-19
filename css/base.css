@@ -234,7 +234,9 @@ body.profile {
 .panel-heading.navheading>.nav-tabs {
   margin: 0;
 }
-
+.panel-group>.panel>a.panel-heading {
+  display: block;
+}
 .box>.panel-heading:hover {
   cursor: pointer;
 }
@@ -343,6 +345,87 @@ input.upload {
 }
 .nopadding {
   padding: 0;
+}
+.Differences {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  empty-cells: show;
+}
+.Differences thead th {
+  text-align: left;
+  border-bottom: 1px solid #000;
+  background: #aaa;
+  color: #000;
+  padding: 4px;
+}
+.Differences tbody th {
+  text-align: right;
+  background: #ccc;
+  width: 4em;
+  padding: 1px 2px;
+  border-right: 1px solid #000;
+  vertical-align: top;
+  font-size: 13px;
+}
+.ums .Differences td {
+  padding: 1px 2px;
+  font-family: Consolas, monospace;
+  font-size: 13px;
+}
+
+.ums .DifferencesSideBySide .ChangeInsert td.Left {
+  background: #dfd;
+}
+
+.ums .DifferencesSideBySide .ChangeInsert td.Right {
+  background: #cfc;
+}
+
+.ums .DifferencesSideBySide .ChangeDelete td.Left {
+  background: #f88;
+}
+
+.ums .DifferencesSideBySide .ChangeDelete td.Right {
+  background: #faa;
+}
+
+.ums .DifferencesSideBySide .ChangeReplace .Left {
+  background: #fe9;
+}
+
+.ums .DifferencesSideBySide .ChangeReplace .Right {
+  background: #fd8;
+}
+
+.ums .Differences ins, .Differences del {
+  text-decoration: none;
+}
+
+.ums .DifferencesSideBySide .ChangeReplace ins, .DifferencesSideBySide .ChangeReplace del {
+  background: #fc0;
+}
+
+.ums .Differences .Skipped {
+  background: #f7f7f7;
+}
+
+.ums .DifferencesInline .ChangeReplace .Left,
+.ums .DifferencesInline .ChangeDelete .Left {
+  background: #fdd;
+}
+
+.ums .DifferencesInline .ChangeReplace .Right,
+.ums .DifferencesInline .ChangeInsert .Right {
+  background: #dfd;
+}
+
+.ums .DifferencesInline .ChangeReplace ins {
+  background: #9e9;
+}
+
+.ums .DifferencesInline .ChangeReplace del {
+  background: #e99;
 }
 @media (min-width: 480px) {
 .profile.page .cover.background {
