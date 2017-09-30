@@ -33,6 +33,8 @@ if($access_token['user_id'])
 	$UserConnect['pic']='twitter';
 	$UserConnect['cover']='twitter';
 	$UserConnect['type']='connect';
+	$UserConnect['form_id'] = (isset($_SESSION['connect']['callback'])) ? $_SESSION['connect']['callback'] : $_SESSION['connect']['btn'];
+	$UserConnect['url_ref']=$_SESSION['connect']['ref'];
 	
 	require '../accounts/function_connect.php';
 

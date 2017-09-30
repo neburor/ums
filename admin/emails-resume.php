@@ -66,12 +66,25 @@ foreach ($data as $key => $value) {
   if($x!=1){$columns.=',';}
   $columns.='{"day":"'.$value['day'].'","send":'.$value['send'].',"open":'.$value['open'].',"click":'.$value['click'].'}';
 }
-$keys='send,open,click';
+
+$keys='{"x":"day","value":["send","open","click"]}';
 $names='{"send":"Enviados","open":"Abiertos","click":"Clicks"}';
 
+$data_content='{
+                "bindto": "#resumeemails",
+                "data": {
+                  "json": ['.$columns.'],
+                  "keys": '.$keys.',
+                  "names": '.$names.'
+                },
+              "axis":{
+                  "x": {"type":"timeseries", "tick" :{"format":"%d" }
+                      }
+                  }
+                }
+            ';
+
 echo '<div class="chartc3 top" id="resumeemails"'; 
-echo "data-content='[".$columns."]'";
-echo "data-keys='".$keys."'";
-echo "data-names='".$names."'";
+echo "data-content='".$data_content."'";
 echo "></div>";
 

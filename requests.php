@@ -26,6 +26,12 @@ if(isset($_GET))
       			$loginUrl = $helper->getLoginUrl(URLSYSTEM.'login/fb-callback.php', $permissions);
 
       			$_SESSION['connect']['referer']=$_SERVER['HTTP_REFERER'];
+            $_SESSION['connect']['ref']=strtok($_SERVER['HTTP_REFERER'],'?');
+
+            if($_GET['btn'])
+            {
+              $_SESSION['connect']['btn']=$_GET['btn'];
+            }
             if($_GET['callback'])
             {
               $_SESSION['connect']['callback']=$_GET['callback'];
@@ -50,6 +56,12 @@ if(isset($_GET))
           $twitter_url = $connection->getAuthorizeURL($request_token['oauth_token']);
 
           $_SESSION['connect']['referer']=$_SERVER['HTTP_REFERER'];
+          $_SESSION['connect']['ref']=strtok($_SERVER['HTTP_REFERER'],'?');
+
+          if($_GET['btn'])
+          {
+            $_SESSION['connect']['btn']=$_GET['btn'];
+          }
           if($_GET['callback'])
             {
               $_SESSION['connect']['callback']=$_GET['callback'];
@@ -74,6 +86,12 @@ if(isset($_GET))
       $oauth2 = new Google_Oauth2Service($client);
       $authUrl = $client->createAuthUrl();
       $_SESSION['connect']['referer']=$_SERVER['HTTP_REFERER'];
+      $_SESSION['connect']['ref']=strtok($_SERVER['HTTP_REFERER'],'?');
+      
+            if($_GET['btn'])
+            {
+              $_SESSION['connect']['btn']=$_GET['btn'];
+            }
             if($_GET['callback'])
             {
               $_SESSION['connect']['callback']=$_GET['callback'];

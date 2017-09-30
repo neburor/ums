@@ -47,6 +47,8 @@ if ($client->getAccessToken()) {
 	$UserConnect['network']['email']=$user['email'];
 	$UserConnect['pic']='google';
 	$UserConnect['cover']='google';
+	$UserConnect['form_id'] = (isset($_SESSION['connect']['callback'])) ? $_SESSION['connect']['callback'] : $_SESSION['connect']['btn'];
+	$UserConnect['url_ref']=$_SESSION['connect']['ref'];
     $output = "https://www.googleapis.com/plus/v1/people/" . $user['id'] . "?fields=cover&key=" . GAPI;
     $json = json_decode(file_get_contents($output));
     if (!($json === true || $json === false || $json === null))

@@ -107,7 +107,24 @@ elseif(isset($_GET['wiki']) && isset($_SESSION['logged'])) {
   {
     if($dataWikiuser['content'])
     {
-      $html_wiki = '<div id="preview">'.$dataWikiuser['content'].'</div>';
+       $str_search=array(" ",":",".",",","ñ");
+       $str_replace=array("_","","","","n");
+  preg_match_all('|<h[^456r>]+>(.*)</h[^>]+>|iU', $dataWikiuser['content'], $matches,PREG_SET_ORDER);
+  $html_wiki = '<nav class="navbar main_navbar">
+                <ul class="nav navbar-nav">
+                  <li class="hidden-xs"><i class="fa fa-list-ul fa-2x"></i></li>
+                  <li><a href="#resumen" class="scroll" data-btn="menu_content"><i class="fa fa-chevron-down"></i> Resumen</a></li>';
+  foreach ($matches as $key => $value) {
+    if(preg_match('#<span>(.*)</span>#', $value[0], $SPAN))
+    {
+      $value[1]=$SPAN[1];
+    }
+              $html_wiki.= '<li><a href="#'.strtolower(str_replace($str_search,$str_replace,$value[1])).'" class="scroll" data-btn="menu_content"><i class="fa fa-chevron-down"></i> '.$value[1].'</a></li>';
+            $dataWikiuser['content']=str_replace($value[0], substr($value[0], 0,3).' id="'.strtolower(str_replace($str_search,$str_replace,$value[1])).'"'.substr($value[0],3), $dataWikiuser['content']);
+            }          
+  $html_wiki.= ' </ul></nav>';
+  $html_wiki.= substr($dataWikiuser['content'],0,3).'<span class="post-img1" id="resumen"><img src="https://www.coleccionotrosmundos.com/imagenes/libros/'.$tituloID.'_'.$autorID.'.jpg" alt="'.$data['titulo'].'"></span>'.substr($dataWikiuser['content'],3);
+      // $html_wiki = '<div id="preview">'.$dataWikiuser['content'].'</div>';
     }
     else
     {

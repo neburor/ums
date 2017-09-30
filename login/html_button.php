@@ -3,7 +3,7 @@
 if(isset($_SESSION['logged']))
 {
 	        echo '<div ums class="btn-group ums profile button">
-        <a href="#" class="btn btn-default" data-hash="/app/content/notifications">';
+        <a href="#" class="btn btn-default" data-hash="/app/content/notifications" data-btn="login_btn">';
         if($_SESSION['logged']['notifs_app'] && $_SESSION['logged']['notifs_app']!='0')
         {
           echo '<img src="'.ShowPic().'" class="hidden-xs profile-pic-small"> 
@@ -25,16 +25,17 @@ if(isset($_SESSION['logged']))
 else
      {
           echo '<div ums class="btn-group ums profile button">
-          <a href="#" class="btn btn-default" data-hash="/app/settings/login/open"><i class="fa fa-user"></i> <span class="hidden-xs">Mi perfil</span></a>
+          <a href="#" class="btn btn-default" data-hash="/app/settings/login/open" data-btn="btn_login"><i class="fa fa-user"></i> <span class="hidden-xs">Mi perfil</span></a>
           <button type="button" class="btn btn-default dropdown-toggle hidden-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
           <ul class="dropdown-menu dropdown-menu-right">
-            <li><a href="#" class="" data-hash="/app/settings/login/open" data-toggle="show"><i class="fa fa-sign-in"></i> Iniciar sesión</a></li>
+            <li><a href="#" class="" data-hash="/app/settings/login/open" data-toggle="show" data-btn="btn_login"><i class="fa fa-sign-in"></i> Iniciar sesión</a></li>
             <li role="separator" class="divider"></li>
             <li class="dropdown-header"><i class="fa fa-unlock-alt"></i> Conectarse</li>
-            <li><a href="?login=facebook" class=""><i class="fa fa-facebook"></i> Facebook</a></li>
-            <li><a href="?login=twitter" class=""><i class="fa fa-twitter"></i> Twitter</a></li>
+            <li><a href="?login=facebook&btn=btn_login" class=""><i class="fa fa-facebook"></i> Facebook</a></li>
+            <li><a href="?login=twitter&btn=btn_login" class=""><i class="fa fa-twitter"></i> Twitter</a></li>
+            <li><a href="?login=google&btn=btn_login" class=""><i class="fa fa-google"></i> Google</a></li>
             <li role="separator" class="divider"></li>
-            <li><a href="#" data-hash="/app/settings/signup/open" data-toggle="show"><i class="fa fa-user-plus"></i> Registrarse</a></li>
+            <li><a href="#" data-hash="/app/settings/signup/open" data-toggle="show" data-btn="btn_login"><i class="fa fa-user-plus"></i> Registrarse</a></li>
           </ul>
       </div>';
         }

@@ -289,46 +289,17 @@ $.fn.chartc3 = function ()
         href: "../css/custom-c3.css"
       }).appendTo("head");
     }
-    
+
     $.cachedScript( "../d3-3.5.17/d3.min.js" ).done(function( script, textStatus ) {
       $.cachedScript( "../c3-0.4.14/c3.min.js" ).done(function( script, textStatus ) {
+
         $(chartsc3).each(function(){
-          var jsonData = jQuery.parseJSON($(this).attr('data-content'));
-          var jsonKeys = $(this).attr('data-keys').split(",");
-          var jsonNames = jQuery.parseJSON($(this).attr('data-names'));
-          //$(this).removeAttr('data');
-         
-          c3.generate({
-            bindto: '#'+$(this).attr('id'),
-            data: {
-                json: jsonData,
-                keys: {
-                  x: 'day',
-                  value: jsonKeys
-                },
-                names: jsonNames
-            },
-            axis : {
-                x : {
-                  type : 'timeseries',
-                  tick: {
-                    format: '%d' }
-                }
-            }    
+          var DataContent = jQuery.parseJSON($(this).attr('data-content'));
+            c3.generate(DataContent);
           });
-        });
+        
       });
     });
-
-    /*$.getScript( "./d3-3.5.17/d3.min.js").done(function(script, textStatus){
-      $.getScript( "../c3-0.4.14/c3.min.js").done(function( script, textStatus ) {
-        $(this).each(function(){
-          console.log($(this));
-        });
-      });
-    }); */
-     
-     
   }
 }
 $.fn.DataTables = function ()

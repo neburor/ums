@@ -17,7 +17,9 @@ function NewAccount ($params=array())
         'password'      => '',
         'pic'           => '',
         'cover'         => '',
-        'role'          => '0'
+        'role'          => '0',
+        'form_id'       => '',
+        'url_ref'       => ''
     ), $params);
 
     $resultado=SQLinsert(
@@ -34,7 +36,9 @@ function NewAccount ($params=array())
                 'password'  => $params['password'],
                 'pic'       => $params['pic'],
                 'cover'     => $params['cover'],
-                'role'      => $params['role']
+                'role'      => $params['role'],
+                'form_id'   => $params['form_id'],
+                'url_ref'   => $params['url_ref']
                 )
             );
 

@@ -42,17 +42,29 @@ echo '
             {
               echo '&callback='.$form['callback'];
             }
+            if($form['btn'])
+            {
+              echo '&btn='.$form['btn'];
+            }
             echo '" rel="nofollow"> <i class="fa fa-facebook"></i></a> 
             <a class="btn btn-social-icon btn-google" href="?login=google';
             if($form['callback'])
             {
               echo '&callback='.$form['callback'];
             }
+            if($form['btn'])
+            {
+              echo '&btn='.$form['btn'];
+            }
             echo '" rel="nofollow"> <i class="fa fa-google"></i></a>
       			<a class="btn btn-social-icon btn-twitter" href="?login=twitter';
             if($form['callback'])
             {
               echo '&callback='.$form['callback'];
+            }
+            if($form['btn'])
+            {
+              echo '&btn='.$form['btn'];
             }
             echo '" rel="nofollow"> <i class="fa fa-twitter"></i></a>
       	</div>

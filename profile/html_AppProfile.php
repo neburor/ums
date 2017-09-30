@@ -4,7 +4,7 @@ if(isset($_SESSION['logged']))
 {
   if($_SESSION['logged']['notifs_app'])
   {
-    echo '<div id="btn-profile"><a href="#" class="btn btn-default" data-hash="/app/content/notifications" id="cta_btn"><i class="fa fa-bell fa-2x"></i><small class="badge">'.$_SESSION['logged']['notifs_app'].'</small></a></div>';  
+    echo '<div id="btn-profile"><a href="#" class="btn btn-default" data-hash="/app/content/notifications" data-btn="cta" id="cta_btn"><i class="fa fa-bell fa-2x"></i><small class="badge">'.$_SESSION['logged']['notifs_app'].'</small></a></div>';  
   }
   
   	echo '<div ums class="ums profile wrapper">
@@ -12,13 +12,13 @@ if(isset($_SESSION['logged']))
         <div class="profile app sidebar-content col-xs-12 nopadding">
           <div class="media apptop">
             <div class="media-left">
-              <button class="btn btn-link" data-hash="/app/close"><i class="fa fa-times fa-2x"></i></button>
+              <button class="btn btn-link" data-hash="/app/close" data-btn="app"><i class="fa fa-times fa-2x"></i></button>
             </div>
             <div class="media-body">
               <div class="media-heading text-center"><img src="'.ShowPic().'" class="profile-pic"> '.ShowName().'</div>
             </div>
             <div class="media-right">
-              <button class="btn btn-link" type="button" data-hash="/app/settings/config" data-toggle="toggle" aria-controls="appconfig"><i class="fa fa-cog fa-2x"></i></button>
+              <button class="btn btn-link" type="button" data-hash="/app/settings/config" data-toggle="toggle" aria-controls="appconfig" data-btn="app"><i class="fa fa-cog fa-2x"></i></button>
             </div>
             <div class="media-right">
               <a href="?logout" class="btn btn-link"><i class="fa fa-power-off fa-2x"></i></a>
@@ -92,22 +92,22 @@ echo '      </div>
 }
 else
 {
-  echo '<div id="btn-profile"><a href="#" class="btn btn-default" data-hash="/app/settings/signup/open" id="cta_btn"><i class="fa fa-user-plus fa-2x"></i></a></div>';
+  echo '<div id="btn-profile"><a href="#" class="btn btn-default" data-hash="/app/settings/signup/open" data-btn="cta" id="cta_btn"><i class="fa fa-user-plus fa-2x"></i></a></div>';
 
 	echo '<div ums class="ums profile wrapper">
       <div class="profile sidebar col-md-4 col-sm-6 col-xs-12 nopadding pull-right">
         <div class="profile app sidebar-content col-xs-12 nopadding">
           <div class="media apptop">
             <div class="media-left">
-              <button class="btn btn-link" data-hash="/app/close"><i class="fa fa-times fa-2x"></i></button>
+              <button class="btn btn-link" data-hash="/app/close" data-btn="app"><i class="fa fa-times fa-2x"></i></button>
             </div>
             <div class="media-body">
             </div>
             <div class="media-right">
-              <button class="btn btn-link" type="button" data-hash="/app/settings/login" data-toggle="show" aria-expanded="false" aria-controls="appsettings"><i class="fa fa-sign-in fa-2x"></i></button>
+              <button class="btn btn-link" type="button" data-hash="/app/settings/login" data-toggle="show" aria-expanded="false" aria-controls="appsettings" data-btn="app"><i class="fa fa-sign-in fa-2x"></i></button>
               </div>
             <div class="media-right">
-              <button class="btn btn-link" type="button" data-hash="/app/settings/signup" data-toggle="show" aria-expanded="false" aria-controls="appsettings"><i class="fa fa-user-plus fa-2x"></i></button>
+              <button class="btn btn-link" type="button" data-hash="/app/settings/signup" data-toggle="show" aria-expanded="false" aria-controls="appsettings" data-btn="app"><i class="fa fa-user-plus fa-2x"></i></button>
             </div>
           </div>
           

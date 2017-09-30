@@ -37,6 +37,11 @@ $('a[action="tab"]').on('click', function (e){
 $('[data-hash]').on('click', function (e) {
   e.preventDefault();
   $(this).hashchange('click');
+  btn=$(this).attr('data-btn');
+  label = $(this).attr('data-hash');
+  if (typeof(ga) === 'function') {
+    ga('send', 'event', 'UMS', btn, label);
+  }
 });
 //comentarios
 $('.btn-expand').on("click", function (e){

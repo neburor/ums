@@ -52,3 +52,19 @@ if($data[0]=='comment')
     
 
 }
+if($data[0]=='wiki')
+{
+    $result=SQLupdate(
+            array(
+                'table'=>'content_wiki',
+                'limit'=>' '
+                ),
+            array(
+                'id'=>$data[1],
+                'status'=>'0'
+                ),
+            array(
+                'status'=>'2'
+                )
+            );
+}

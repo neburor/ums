@@ -26,7 +26,7 @@ if($route[0]=='message')
     }
 }
 
-elseif($route[0]=='comment')
+if($route[0]=='comment')
 {
     $active=SQLupdate(
             array(
@@ -117,6 +117,29 @@ elseif($route[0]=='comment')
     else
     {
         $response['alert']['success']='Se activo el comentario.';
+    }
+}
+if ($route[0]=='wiki') {
+   $result=SQLupdate(
+            array(
+                'table'=>'content_wiki',
+                'limit'=>' '
+                ),
+            array(
+                'id'=>$route[1],
+                'status'=>'0'
+                ),
+            array(
+                'status'=>'1'
+                )
+            );
+    if($result)
+    {
+         $response['alert']['warning']='Se activo el contenido.';
+    }
+    else
+    {
+         $response['alert']['warning']='No se activo el contenido.';
     }
 }
 echo json_encode($response);

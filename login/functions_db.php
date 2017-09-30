@@ -35,7 +35,9 @@ function Signup($post=array())
                                     'useremail'     => $post['useremail'],
                                     'password'      => $post['pass'],
                                     'pic'           => 'avatar',
-                                    'autopass'      => $post['autopass']
+                                    'autopass'      => $post['autopass'],
+                                    'form_id'       => $post['formid'],
+                                    'url_ref'       => strtok($_SERVER['HTTP_REFERER'],'?')
                                 ));
             
             if($Account)

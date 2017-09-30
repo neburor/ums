@@ -17,7 +17,8 @@ $resultado=SQLinsert(
                 'url'=> strtok($_SERVER['HTTP_REFERER'],'?'),
                 'source'=>$_GET['source'],
                 'click'=>$_GET['click'],
-                'btn'=>$_GET['btn']
+                'btn'=>$_GET['btn'],
+                'tourl'=>$_GET['url']
                 )
             );
 

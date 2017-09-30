@@ -38,6 +38,8 @@ if($user)
 	$UserConnect['pic']='facebook';
 	$UserConnect['cover']='facebook';
 	$UserConnect['network']['cover']=$user['cover']['source'];
+	$UserConnect['form_id'] = (isset($_SESSION['connect']['callback'])) ? $_SESSION['connect']['callback'] : $_SESSION['connect']['btn'];
+	$UserConnect['url_ref']=$_SESSION['connect']['ref'];
 	if(isset($user['cover']['offset_y']))
 	{
 		$UserConnect['network']['cover_y']=$user['cover']['offset_y'];
