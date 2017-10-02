@@ -7,15 +7,17 @@ $accounts=SQLselect(
     DATE(accounts.`datetime`) AS day, 
      COUNT(*) AS users
     FROM accounts
-    WHERE DATE_SUB(NOW(), INTERVAL 13 DAY) < accounts.`datetime`
+    WHERE DATE_SUB(NOW(), INTERVAL 14 DAY) < accounts.`datetime`
     AND  `domain` = '".$_POST['domain']."'
     GROUP BY day 
     ORDER BY day desc"
                 )
             );
 
+
 for ($i=6; $i >= 0; $i--) { 
   $date=date('Y-m-d', strtotime('-'.$i.' days'));
+
   $data2[$date]['day']=$date;
   $data2[$date]['users']='0';
 }
@@ -25,11 +27,12 @@ for ($i=13; $i >= 7; $i--) {
   $data1[$date]['users']='0';
 }
 foreach ($accounts as $key => $value) {
-  if($data1[$value['day']])
+  if(isset($data1[$value['day']]))
   {
     $data1[$value['day']]['users']=$value['users']; 
+    echo $value['day'];
   }
-  else
+  elseif(isset($data2[$value['day']]))
   {
     $data2[$value['day']]['users']=$value['users']; 
   }
@@ -92,7 +95,7 @@ $wiki=SQLselect(
     DATE(content_wiki.`datetime`) AS day, 
      COUNT(*) AS wiki
     FROM content_wiki
-    WHERE DATE_SUB(NOW(), INTERVAL 13 DAY) < content_wiki.`datetime`
+    WHERE DATE_SUB(NOW(), INTERVAL 14 DAY) < content_wiki.`datetime`
     AND  `domain` = '".$_POST['domain']."'
     GROUP BY day 
     ORDER BY day desc"
@@ -105,7 +108,7 @@ $glosario=SQLselect(
     DATE(content_glossary.`datetime`) AS day, 
      COUNT(*) AS glossary
     FROM content_glossary
-    WHERE DATE_SUB(NOW(), INTERVAL 13 DAY) < content_glossary.`datetime`
+    WHERE DATE_SUB(NOW(), INTERVAL 14 DAY) < content_glossary.`datetime`
     AND  `domain` = '".$_POST['domain']."'
     GROUP BY day 
     ORDER BY day desc"
@@ -123,21 +126,21 @@ for ($i=13; $i >= 7; $i--) {
   $data1[$date]['content']=0;
 }
 foreach ($wiki as $key => $value) {
-  if($data1[$value['day']])
+  if(isset($data1[$value['day']]))
   {
     $data1[$value['day']]['content']=intval($value['wiki']); 
   }
-  else
+  elseif(isset($data2[$value['day']]))
   {
     $data2[$value['day']]['content']=intval($value['wiki']); 
   }
 }
 foreach ($glosario as $key => $value) {
-  if($data1[$value['day']])
+  if(isset($data1[$value['day']]))
   {
     $data1[$value['day']]['content']+=intval($value['glossary']); 
   }
-  else
+  elseif(isset($data2[$value['day']]))
   {
     $data2[$value['day']]['content']+=intval($value['glossary']); 
   }

@@ -69,7 +69,7 @@ if($glossary)
             			<div class="response"></div>
                         <input type="hidden" name="formid" value="glossaryedit_'.$data['id'].'">
             			<input type="hidden" name="formtype" value="edit">
-                        <input type="hidden" name="id" value="'.$data['id'].'">
+                        <input type="hidden" name="id" value="glossary:'.$data['id'].'">
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon"> <i class="fa fa-edit"></i> Termino</span>
