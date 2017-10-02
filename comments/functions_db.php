@@ -146,7 +146,9 @@ function InsertComment($params=array())
                                     'useremail'     => $params['email'],
                                     'password'      => $pass,
                                     'pic'           => 'avatar',
-                                    'role'          => $rol
+                                    'role'          => $rol,
+                                    'form_id'       => $params['formid'],
+                                    'url_ref'       => strtok($_SERVER['HTTP_REFERER'],'?')
                                 ));
                 $account=$Account['id'];
 

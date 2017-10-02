@@ -68,3 +68,19 @@ if($data[0]=='wiki')
                 )
             );
 }
+if($data[0]=='glossary')
+{
+    $result=SQLupdate(
+            array(
+                'table'=>'content_glossary',
+                'limit'=>' '
+                ),
+            array(
+                'id'=>$data[1],
+                'status'=>'0'
+                ),
+            array(
+                'status'=>'2'
+                )
+            );
+}

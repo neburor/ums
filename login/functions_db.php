@@ -51,7 +51,12 @@ function Signup($post=array())
                    
                     if($_SESSION['logged']=$Account)
                     {
-                        NewLogin(array('type'=>'email','account'=>$Account['id']));
+                        NewLogin(array(
+                            'type'=>'email',
+                            'account'=>$Account['id'],
+                            'form_id'=>$post['formid'],
+                            'url'=>strtok($_SERVER['HTTP_REFERER'],'?')
+                        ));
 
                         #include 'ums/accounts/function_SearchNetworks.php';
                         if($networks = SearchNetworks($Account['id']))
@@ -156,7 +161,12 @@ function Login($post= array())
                     $_SESSION['logged']['networks']=$networks;
                 }*/
                 $Account=SearchAccount($resultado);
-                NewLogin(array('type'=>'email','account'=>$Account['id']));
+                NewLogin(array(
+                    'type'=>'email',
+                    'account'=>$Account['id'],
+                    'form_id'=>$post['formid'],
+                    'url'=>strtok($_SERVER['HTTP_REFERER'],'?')
+                ));
                 $_SESSION['logged']=$Account;
                 $_SESSION['logged']['login']='email';
 

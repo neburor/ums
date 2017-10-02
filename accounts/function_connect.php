@@ -37,7 +37,9 @@ function ConnectAccount ($params=array())
     if($ConnectAccount)
     {
         NewLogin(array( 'account'=> $ConnectAccount['id'],
-                    'type'=>$params['network']['net']
+                    'type'=>$params['network']['net'],
+                    'form_id'=>$_SESSION['connnect']['form_id'],
+                    'url'=>$_SESSION['connect']['url_ref']
                     ));
     }
     

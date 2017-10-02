@@ -74,3 +74,17 @@ $VALIDATIONS['cover']= $VALIDATIONS['imgwiki'] = array(
 							'multiple'	=> false,
 							'required'  => true
 							);
+$VALIDATIONS['term']	= array(
+							'display'	=> 'Término',
+							'pregmatch' => false,
+							'minlength'	=> 4,
+							'maxlength'	=> 64,
+							'required'	=> true
+							);
+$VALIDATIONS['description']	= array(
+							'display'	=> 'Descripción',
+							'pregmatch' => false,
+							'minlength'	=> 8,
+							'maxlength'	=> 512,
+							'required'	=> true
+							);

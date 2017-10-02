@@ -182,10 +182,12 @@ if(isset($_POST))
 
     if($warningFields)
       {
-        $_SESSION['feedback'][$formid]['button']='warning';
+        $_SESSION['feedback'][$formid]['button']=$_SESSION['feedback'][$formid]['status']='warning';
       }
       else 
       {
+        $_SESSION['feedback'][$formid]['status']='success';
+        
         if($formtype=='login')
         {
           $formstatus=Login($_POST);

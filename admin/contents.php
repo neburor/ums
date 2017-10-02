@@ -10,12 +10,14 @@ echo '<div class="panel panel-default contents">
             <ul class="nav nav-tabs hidden-xs">
           		<li role="presentation" class="active"><a href="#" data-target="#contents-resume" role="tab" data-toggle="tab" aria-controls="contents-resume" aria-expanded="true" data-hash="/contents/resume"> <i class="fa fa-bookmark"></i> <span>Resumen</span></a></li>
               <li role="presentation"><a href="#" data-target="#contents-wiki" role="tab" data-toggle="tab" aria-controls="contents-wiki" aria-expanded="true" data-hash="/contents/wiki"> <i class="fa fa-files-o"></i> <span>Wiki</span></a></li>
+              <li role="presentation"><a href="#" data-target="#contents-glossary" role="tab" data-toggle="tab" aria-controls="contents-glossary" aria-expanded="true" data-hash="/contents/glossary"> <i class="fa fa-files-o"></i> <span>Glosario</span></a></li>
         	</ul>
           </div>
         </div>
         <ul class="nav nav-tabs nav-mobil nav-justified visible-xs">
           <li role="presentation" class="active"><a href="#" data-target="#contents-resume" role="tab" data-toggle="tab" aria-controls="contents-resume" aria-expanded="true" data-hash="/contents/resume"> <i class="fa fa-bookmark"></i> <span>Resumen</span></a></li>
           <li role="presentation"><a href="#" data-target="#contents-wiki" role="tab" data-toggle="tab" aria-controls="contents-wiki" aria-expanded="true" data-hash="/contents/wiki"> <i class="fa fa-files-o"></i> <span>Wiki</span></a></li>
+          <li role="presentation"><a href="#" data-target="#contents-glossary" role="tab" data-toggle="tab" aria-controls="contents-glossary" aria-expanded="true" data-hash="/contents/glossary"> <i class="fa fa-book"></i> <span>Glosario</span></a></li>
         </ul>
       </div>
       <div class="panel-body">
@@ -25,6 +27,9 @@ include 'contents-resume.php';
 echo '    </div>
           <div role="tabpanel" class="tab-pane" id="contents-wiki">';
 include 'contents-wiki.php';              
+echo '    </div>
+          <div role="tabpanel" class="tab-pane" id="contents-glossary">';
+include 'contents-glossary.php';              
 echo '    </div>
         </div>
       </div>

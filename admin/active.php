@@ -142,4 +142,27 @@ if ($route[0]=='wiki') {
          $response['alert']['warning']='No se activo el contenido.';
     }
 }
+if ($route[0]=='glossary') {
+   $result=SQLupdate(
+            array(
+                'table'=>'content_glossary',
+                'limit'=>' '
+                ),
+            array(
+                'id'=>$route[1],
+                'status'=>'0'
+                ),
+            array(
+                'status'=>'1'
+                )
+            );
+    if($result)
+    {
+         $response['alert']['warning']='Se activo el contenido.';
+    }
+    else
+    {
+         $response['alert']['warning']='No se activo el contenido.';
+    }
+}
 echo json_encode($response);

@@ -72,9 +72,9 @@ function FeedBackComment($feedback,$toname)
 		return $htmlComment;
 	}
 }
-function FeedBackValueData($field=array())
+function FeedBackValueData($field=array(),$status=array())
 {
-	if($field['status'])
+	if($field['status'] && $status['show']==$status['status'])
 	{
 		if($field['status']=='norequired')
 		{
@@ -85,9 +85,9 @@ function FeedBackValueData($field=array())
 		}
 	}
 }
-function FeedBackValue($field=array())
+function FeedBackValue($field=array(),$status=array())
 {
-	if($field['status'])
+	if($field['status'] && $status['show']==$status['status'])
 	{
 		if($field['status']=='norequired')
 		{
@@ -98,9 +98,9 @@ function FeedBackValue($field=array())
 		}
 	}
 }
-function FeedbackClass($field=array())
+function FeedbackClass($field=array(),$status=array())
 {
-	if($field['status'])
+	if($field['status'] && $status['show']==$status['status'])
 	{
 		if($field['status']=='norequired')
 		{
@@ -115,9 +115,9 @@ function FeedbackClass($field=array())
 		}
 	}
 }
-function FeedbackIcon($field=array())
+function FeedbackIcon($field=array(),$status=array())
 {
-	if($field['status'])
+	if($field['status'] && $status['show']==$status['status'])
 	{
 		if($field['status']=='norequired')
 		{
@@ -170,7 +170,7 @@ function Feedback ($feedback=array())
 
 		foreach ($feedback as $key => $value) 
 		{
-			if($key!='button' && $key!='alert')
+			if($key!='button' && $key!='alert' && $key!='status')
 			{
 				if($value['status']!='valid' && $value['status']!='norequired')
 				{
