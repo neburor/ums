@@ -30,7 +30,6 @@ foreach ($accounts as $key => $value) {
   if(isset($data1[$value['day']]))
   {
     $data1[$value['day']]['users']=$value['users']; 
-    echo $value['day'];
   }
   elseif(isset($data2[$value['day']]))
   {

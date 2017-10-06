@@ -110,6 +110,12 @@ elseif(isset($_GET['wiki']) && isset($_SESSION['logged'])) {
        $str_search=array(" ",":",".",",","ñ");
        $str_replace=array("_","","","","n");
   preg_match_all('|<h[^456r>]+>(.*)</h[^>]+>|iU', $dataWikiuser['content'], $matches,PREG_SET_ORDER);
+  preg_match_all('|<img class="cke_iframe" (.*)">|iU', $dataWiki['content'], $iframes,PREG_SET_ORDER);
+  foreach ($iframes as $key => $value) {
+  preg_match_all('|data-cke-realelement="(.*)" |iU', $value[1], $iframe,PREG_SET_ORDER);
+  $dataWikiuser['content']=str_replace($value[0], urldecode($iframe[0][1]),$dataWikiuser['content']);
+  }
+
   $html_wiki = '<nav class="navbar main_navbar">
                 <ul class="nav navbar-nav">
                   <li class="hidden-xs"><i class="fa fa-list-ul fa-2x"></i></li>
