@@ -94,6 +94,7 @@ function ShowPanel(route)
         $('#main_content').append('<div>'+html+'</div>');
         $(lastcontent).slideUp('fast', "linear", function(){
         $(this).remove();
+        
         });
         if(route[2])
             {
@@ -110,9 +111,11 @@ function ShowPanel(route)
         $('#main_content').find('a[href="#"]').on('click', function (e) {
           e.preventDefault();
         });
+        
         $('#main_content').find('.form.reply').formreply();
         $('#main_content').find('.chartc3').chartc3(); 
         $('#main_content').find('.ckeditor').ckeditor();
+        
       }  
     });
 	
