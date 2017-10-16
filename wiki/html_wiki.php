@@ -1,6 +1,5 @@
 <?php
 #Wiki
-
 if(isset($_GET['wiki']) && $_GET['wiki']=='history')
 {
   $dataWikihistory = SQLselect(
@@ -107,16 +106,24 @@ elseif(isset($_GET['wiki']) && isset($_SESSION['logged'])) {
   {
     if($dataWikiuser['content'])
     {
+      
        $str_search=array(" ",":",".",",","ñ");
        $str_replace=array("_","","","","n");
   preg_match_all('|<h[^456r>]+>(.*)</h[^>]+>|iU', $dataWikiuser['content'], $matches,PREG_SET_ORDER);
   preg_match_all('|<img class="cke_iframe" (.*)">|iU', $dataWiki['content'], $iframes,PREG_SET_ORDER);
+  
   foreach ($iframes as $key => $value) {
   preg_match_all('|data-cke-realelement="(.*)" |iU', $value[1], $iframe,PREG_SET_ORDER);
   $dataWikiuser['content']=str_replace($value[0], urldecode($iframe[0][1]),$dataWikiuser['content']);
   }
-
-  $html_wiki = '<nav class="navbar main_navbar">
+  if($functions_wiki)
+  {
+    $glossary=SearchRef($dataWikiuser['content']);
+    $dataWikiuser['content']=$glossary['content'];
+  }
+  
+  $html_wiki = '<div id="preview">
+                <nav class="navbar main_navbar">
                 <ul class="nav navbar-nav">
                   <li class="hidden-xs"><i class="fa fa-list-ul fa-2x"></i></li>
                   <li><a href="#resumen" class="scroll" data-btn="menu_content"><i class="fa fa-chevron-down"></i> Resumen</a></li>';
@@ -130,6 +137,10 @@ elseif(isset($_GET['wiki']) && isset($_SESSION['logged'])) {
             }          
   $html_wiki.= ' </ul></nav>';
   $html_wiki.= substr($dataWikiuser['content'],0,3).'<span class="post-img1" id="resumen"><img src="https://www.coleccionotrosmundos.com/imagenes/libros/'.$tituloID.'_'.$autorID.'.jpg" alt="'.$data['titulo'].'"></span>'.substr($dataWikiuser['content'],3);
+  if($functions_wiki)
+  {
+    $html_wiki.=$glossary['glossary'];
+  }
       // $html_wiki = '<div id="preview">'.$dataWikiuser['content'].'</div>';
     }
     else
@@ -143,6 +154,7 @@ elseif(isset($_GET['wiki']) && isset($_SESSION['logged'])) {
                       </div>
                     </div>';
     }
+    $html_wiki.='</div>';
   }
   else
   {
@@ -249,28 +261,18 @@ include 'ums/login/html_recovery-tab.php';
 }
 else{
   $html_wiki= $dataWiki['content'];
+  preg_match_all('|<img class="cke_iframe" (.*)">|iU', $html_wiki, $iframes,PREG_SET_ORDER);
+  
+  foreach ($iframes as $key => $value) {
+  preg_match_all('|data-cke-realelement="(.*)" |iU', $value[1], $iframe,PREG_SET_ORDER);
+  $html_wiki=str_replace($value[0], urldecode($iframe[0][1]),$html_wiki);
+  }
+  if($functions_wiki)
+  {
+    $glossary=SearchRef($html_wiki);
+    $html_wiki=$glossary['content'];
+    $html_wiki.=$glossary['glossary'];
+  }
 }
 
-$html_wiki.=' <div class="clearfix"></div>
-                <ul class="nav nav-tabs nav-mobile nav-justified" id="editar">
-                  <li><a href="'.strtok($_SERVER["REQUEST_URI"],'?').'#articulo"><i class="fa fa-file-text"></i><span> Leer</span></a></li>';
-if(!isset($_GET['wiki']))
-{
-  $html_wiki.='   <li><a href="?wiki#edit"><i class="fa fa-edit"></i><span> Editar</span></a></li>';
-}
-else
-{
-  if($_GET['wiki']=='advanced')
-  {
-    $html_wiki.=' <li><a href="?wiki#edit"><i class="fa fa-edit"></i><span> Basico</span></a></li>
-                  <li><a href="?wiki=preview#preview"><i class="fa fa-files-o"></i><span> Preview</span></a></li>';
-  }
-  else
-  {
-    $html_wiki.=' <li><a href="?wiki=advanced#edit"><i class="fa fa-edit"></i><span> Avanzado</span></a></li>
-                  <li><a href="?wiki=preview#preview"><i class="fa fa-files-o"></i><span> Preview</span></a></li>';
-  }
-}
-$html_wiki.='     <li><a href="?wiki=add#add"><i class="fa fa-sticky-note"></i><span> Agregar</span></a></li>
-                  <li><a href="?wiki=history#history"><i class="fa fa-history"></i><span> Historial</span></a></li>                  
-                </ul>';
+

@@ -3,6 +3,8 @@ session_start();
 include '../config.php';
 include_once("twitter/twitteroauth.php");
 
+$REFF=$_SESSION['connect']['referer'];
+
 $connection = new TwitterOAuth(TWCONSUMERKEY, TWCONSUMERSECRET, $_SESSION['connect']['twitter']['token'] , $_SESSION['connect']['twitter']['token_secret']);
 
 $access_token = $connection->getAccessToken($_REQUEST['oauth_verifier']);
@@ -50,6 +52,19 @@ else
 	}
 
 	$_SESSION['connect']['alert']['danger']='Es necesario que acepte la aplicación para poder iniciar sesion con su cuenta de twitter';
-	$callback='#'.$_SESSION['connect']['error'];
+	$callback=(isset($_SESSION['connect']['error']))? '#'.$_SESSION['connect']['error'] : '#'.$_SESSION['connect']['callback'];
+
+	$form=(isset($_SESSION['connect']['error'])) ? $_SESSION['connect']['error'] : ((isset($_SESSION['connect']['callback'])) ? $_SESSION['connect']['callback'] : $_SESSION['connect']['btn']);
+
+	require '../mysql_db.php';
+	include '../login/function_logins.php';
+	ErrorLogin(array(
+				'type'=> 'twitter', 
+                'error'=> '',
+                'form_id'=> $form,
+                'url'=> $_SESSION['connect']['ref']
+				));
+
 }
-header("Location: ".$_SESSION['connect']['referer'].$callback);
+unset($_SESSION['connect']);
+header("Location: ".$REFF.$callback);

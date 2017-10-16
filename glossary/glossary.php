@@ -2,8 +2,9 @@
 #Glossary
 $sc=$sc_url=array("'",".",",","?","!","¡","¿","ñ",":","á","é","í","ó","ú");
 $pc=$pc_url=array("","","","","","","","n","","a","e","i","o","u");
-$sc_url[]=" ";
-$pc_url[]="";
+array_push($sc_url,' ');
+array_push($pc_url,'-');
+
 if(isset($_POST) && $_POST['formtype']=='glossary')
 {
 	$formstatus=InsertTerm($_POST);

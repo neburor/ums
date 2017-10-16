@@ -1,6 +1,6 @@
 <?php
 #Email click tracking
-
+//[0]Type:[1]tokenhash:[2]emailid:[3]notifid:[4]assetid
 $route = explode(":", $_GET['email']);
 
 if( strlen($route[1])==18 && 

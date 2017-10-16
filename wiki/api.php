@@ -29,6 +29,7 @@ if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
                 array(
                     'datetime'=> date("Y-m-d H:i:s"),
                     'domain'=> UMSDOMAIN,
+                    'table'=> $_POST['table'],
                     'url'=> strtok($_SERVER['HTTP_REFERER'],'?'),
                     'account'=> $_SESSION['logged']['id'],
                     'old'=>$_POST['old'],
@@ -91,6 +92,7 @@ if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
             	   array(
                 	'datetime'=> date("Y-m-d H:i:s"),
                     'domain'=> UMSDOMAIN,
+                    'table'=>$_POST['table'],
                 	'url'=> strtok($_SERVER['HTTP_REFERER'],'?'),
                 	'account'=> $_SESSION['logged']['id'],
                     'old'=>$result['id'],

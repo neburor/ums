@@ -5,6 +5,8 @@ session_start();
 require '../config.php';
 require_once ('Facebook/autoload.php');
 
+$REFF=$_SESSION['connect']['referer'];
+
 $fb = new Facebook\Facebook([
   'app_id' => FBAPPID,
   'app_secret' => FBAPPSECRET,
@@ -63,7 +65,19 @@ else
 		$_SESSION['debugger'][]='API:facebook:error | '.$helper->getError();
 	}
 	$_SESSION['connect']['alert']['danger']='Error de inicio de sesion';
-	$callback='#'.$_SESSION['connect']['error'];
-}
 
-header("Location: ".$_SESSION['connect']['referer'].$callback);
+	$callback=(isset($_SESSION['connect']['error']))? '#'.$_SESSION['connect']['error'] : '#'.$_SESSION['connect']['callback'];
+
+	$form=(isset($_SESSION['connect']['error'])) ? $_SESSION['connect']['error'] : ((isset($_SESSION['connect']['callback'])) ? $_SESSION['connect']['callback'] : $_SESSION['connect']['btn']);
+
+	require '../mysql_db.php';
+	include '../login/function_logins.php';
+	ErrorLogin(array(
+				'type'=> 'facebook', 
+                'error'=> $helper->getError(),
+                'form_id'=> $form,
+                'url'=> $_SESSION['connect']['ref']
+				));
+}
+unset($_SESSION['connect']);
+header("Location: ".$REFF.$callback);

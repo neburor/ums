@@ -5,6 +5,9 @@ session_start();
 require '../config.php';
 require_once 'google/Google_Client.php';
 require_once 'google/contrib/Google_Oauth2Service.php';
+
+$REFF=$_SESSION['connect']['referer'];
+
 $client = new Google_Client();
 $client->setApplicationName("Google UserInfo PHP Starter Application");
 // Visit https://code.google.com/apis/console?api=plus to generate your
@@ -79,7 +82,19 @@ else
 		$_SESSION['debugger'][]='API:google:error | ';
 	}
 	$_SESSION['connect']['alert']['danger']='Error de inicio de sesion';
-	$callback='#'.$_SESSION['connect']['error'];
-}
+	$_SESSION['connect']['referer'];
+	$callback=(isset($_SESSION['connect']['error']))? '#'.$_SESSION['connect']['error'] : '#'.$_SESSION['connect']['callback'];
 
-header("Location: ".$_SESSION['connect']['referer'].$callback);
+	$form=(isset($_SESSION['connect']['error'])) ? $_SESSION['connect']['error'] : ((isset($_SESSION['connect']['callback'])) ? $_SESSION['connect']['callback'] : $_SESSION['connect']['btn']);
+
+	require '../mysql_db.php';
+	include '../login/function_logins.php';
+	ErrorLogin(array(
+				'type'=> 'google', 
+                'error'=> '',
+                'form_id'=> $form,
+                'url'=> $_SESSION['connect']['ref']
+				));
+}
+unset($_SESSION['connect']);
+header("Location: ".$REFF.$callback);

@@ -98,7 +98,7 @@ function LIcomments($comments)
                             }
                             else
                             {
-                                $comments_list.='<a href="?likes=comment&like='.$data['id'].'&callback=comment_'.$data['id'].'" rel="nofollow">Me gusta</a> ·';
+                                $comments_list.='<a href="?likes=comment&like='.$data['id'].'&callback=comment_'.$data['id'].'" rel="nofollow">Me gusta</a> · ';
                             }
 
                             if($data['from_id']==$_SESSION['logged']['id'])

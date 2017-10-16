@@ -16,6 +16,15 @@ $(window).bind('hashchange', function() {
 	}
 	lastHash = hash;
 });
+//Modals
+$('a.locked').on("click", function(){
+  event.preventDefault();
+    var path = $(this).attr("data-target");
+    $(path).modal('show');
+    if (typeof(ga) === 'function') {
+      ga('send', 'event', 'UMS', 'lock',path);
+    }
+});
  //SCROLLTOP
 $('.scrolltop.collapsed').on('click', function (e){
    		e.preventDefault();
@@ -166,6 +175,10 @@ function umsRoutes (routes)
         $('#'+actionid).animatescroll();	
 		}
 	}
+  if (action=='modal') 
+  {
+    $('#'+actionid).modal('show');
+  }
 
 }
 $.fn.sendEditor = function ()

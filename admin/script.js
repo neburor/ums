@@ -242,7 +242,7 @@ $.fn.ckeditor = function ()
   if($(this).length > 0)
   {
     var ckeditor =  $(this);
-    $.cachedScript( "https://cdn.ckeditor.com/4.7.1/standard/ckeditor.js" ).done(function( script, textStatus ) {
+    $.cachedScript( "https://cdn.ckeditor.com/4.7.3/standard/ckeditor.js" ).done(function( script, textStatus ) {
         CKEDITOR.plugins.addExternal( "save", "/ckeditor/save/", "plugin.js" );
         CKEDITOR.plugins.addExternal( "showblocks", "/ckeditor/showblocks/", "plugin.js" );
         $(ckeditor).each(function(){
@@ -784,7 +784,8 @@ function Validations(input)
     validations['display']='Mensaje';
     validations['maxlength'] = 1024;
   }
-   if(input == 'reply')
+   if(input == 'reply'
+    || input == 'response')
   {
     validations['display']='Respuesta';
     validations['maxlength'] = 1024;
@@ -793,6 +794,14 @@ function Validations(input)
   if(input == 'url')
   {
     validations['maxlength'] = 1024;
+  }
+  if(input == 'description')
+  {
+    validations['maxlength'] = 256;
+  }
+   if(input == 'subtitle')
+  {
+    validations['required']= false;
   }
   return validations;
 }

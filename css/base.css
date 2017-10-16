@@ -210,15 +210,13 @@ body.profile {
 .app.profile .appcontent .list-group>.list-group-item .form-group {
   margin-bottom: 0;
 }
-.app.profile .appstream .message p,
-.app.profile .appstream .comment p {
+.app.profile .appstream .media p {
   margin-bottom: 0;
   overflow: hidden;
   max-height: 14px;
   line-height: 13px;
 }
-.app.profile .appstream .message .media-right,
-.app.profile .appstream .comment .media-right {
+.app.profile .appstream .media .media-right {
   vertical-align: middle;
 }
 .panel-heading.navheading {

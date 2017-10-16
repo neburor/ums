@@ -20,6 +20,7 @@ if($data[0]=='glossary')
                 'words'=>$dataForm['words'],
                 'description'=>$dataForm['description'],
                 'title'=>$dataForm['title'],
+                'url'=>$dataForm['url'],
                 'subtitle'=>$dataForm['subtitle']
                 )
             );

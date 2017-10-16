@@ -16,7 +16,7 @@ if(isset($_GET['wiki']) && $_GET['wiki']!='history' && $_GET['wiki']!='preview' 
   {
     echo '<script src="https://cdn.ckeditor.com/4.7.1/full/ckeditor.js"></script>';
     echo '<script>
-
+          
             CKEDITOR.replace("'.$ckeditorID.'", {
       on: {
       	instanceReady: function(evt)
@@ -36,7 +36,7 @@ if(isset($_GET['wiki']) && $_GET['wiki']!='history' && $_GET['wiki']!='preview' 
               	type: "POST",
               	url: "'.$wiki['api'].'",
               	cache: false,
-              	data: { old : oldvalue, '.$ckeditorP.': evt.editor.getSnapshot() },
+              	data: { table : "'.$wiki['table'].'",old : oldvalue, '.$ckeditorP.': evt.editor.getSnapshot() },
               	xhr: function() {
         			var xhr = new window.XMLHttpRequest();
         			xhr.upload.addEventListener("progress", function(send) {
@@ -124,7 +124,7 @@ if(isset($_GET['wiki']) && $_GET['wiki']!='history' && $_GET['wiki']!='preview' 
               				type: "POST",
               				url: "'.$wiki['api'].'",
               				cache: false,
-              				data: { old : oldvalue, '.$ckeditorP.': evt.editor.getSnapshot() }
+              				data: { table : "'.$wiki['table'].'", old : oldvalue, '.$ckeditorP.': evt.editor.getSnapshot() }
             				}).done(function() {
   								evt.editor.commands.save.disable();
 							}).fail(function( jqXHR, textStatus ) {

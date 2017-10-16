@@ -19,3 +19,21 @@ function NewLogin ($params=array())
                 )
             );
 }
+function ErrorLogin ($params=array())
+{
+    $resultado=SQLinsert(
+            array(
+                'table'=>'logins_error'
+                ),
+            array(
+                'datetime'=> date("Y-m-d H:i:s"),
+                'domain'=> UMSDOMAIN,
+                'device'=> $_SESSION['device']['id'],
+                'remote_addr'=> $_SERVER['REMOTE_ADDR'],
+                'type'=> $params['type'], 
+                'error'=> $params['error'],
+                'form_id'=> $params['form_id'],
+                'url'=> $params['url']
+                )
+            );
+}

@@ -6,6 +6,7 @@ $wikis=SQLselect(
                 'query'=> 'SELECT
                 a.`id`,
                 a.`datetime`,
+                a.`table`,
                 a.`url`,
                 a.`account`,
                 accounts.`name` AS `from_name`,
@@ -145,7 +146,7 @@ if($wikis)
                             <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                         <ul class="nav nav-tabs">
-                            <li role="presentation"><button class="btn btn-link" data-action="active" data-source="" data-content="wiki:'.$data['id'].'" title="Publicar"><i class="fa fa-check-circle"></i></button></li>';
+                            <li role="presentation"><button class="btn btn-link" data-action="active" data-source="" data-content="wiki:'.$data['table'].':'.$data['id'].':'.$data['account'].'" title="Publicar"><i class="fa fa-check-circle"></i></button></li>';
                         if(!$data['actual'])
                         {
                               echo '<li role="presentation"><a href="#" role="tab" data-toggle="tab" data-target="#wiki_update_'.$data['id'].'" aria-controls="wiki_update_'.$data['id'].'" aria-expanded="false" title="Actualizar"><i class="fa fa-repeat"></i></a></li>';

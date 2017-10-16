@@ -89,7 +89,7 @@ echo '
       	<div class="form-group col-xs-12 '.FeedbackClass($_SESSION['feedback'][$form['id']]['message']).'">
       		<div class="input-group">
       			<span class="input-group-addon"><i class="fa fa-edit"></i></span>
-      			<textarea class="form-control" name="message" placeholder="Su mensaje a la administración ..." required="">'.FeedbackValueData($_SESSION['feedback'][$form['id']]['comment']).'</textarea>
+      			<textarea class="form-control" name="message" placeholder="Su mensaje a la administración ..." required="">'.FeedbackValueData($_SESSION['feedback'][$form['id']]['message']).'</textarea>
             '.FeedbackIcon($_SESSION['feedback'][$form['id']]['message']).'
       		</div>
       	</div>

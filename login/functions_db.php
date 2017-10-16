@@ -44,6 +44,12 @@ function Signup($post=array())
             {
                 #include 'ums/accounts/function_hash.php';
                 AddHash($Account['id']);
+                if($post['autopic'])
+                {
+                    $avatars=scandir("ums/theme/".THEMEDIR."/avatars/");
+                    $rand=rand(2,count($avatars)-1);
+                    $post['pic']=$avatars[$rand];
+                }
                 AddAvatar($Account['id'],URLTHEME.'avatars/'.$post['pic']);
 
                 if($post['autologin'])
@@ -196,6 +202,13 @@ function Login($post= array())
                 $response['alert'] = array('warning'=>'La contraseña no es correcta.');
                 $response['feedback']['useremail']   = 'valid';
                 $response['feedback']['userpass']   = 'invalid';
+
+                ErrorLogin(array(
+                'type'=> 'email', 
+                'error'=> 'La contraseña no es correcta.',
+                'form_id'=> $post['formid'],
+                'url'=> strtok($_SERVER['HTTP_REFERER'],'?')
+                ));
             }
         }
         else
@@ -203,6 +216,13 @@ function Login($post= array())
             $response['alert'] = array('danger'=>'Usuario no registrado. Crea tu cuenta <b>GRATIS!</b>');
             $response['feedback']['useremail']   = 'invalid';
             $response['feedback']['userpass']   = 'invalid';
+
+            ErrorLogin(array(
+                'type'=> 'email', 
+                'error'=> 'Usuario no registrado.',
+                'form_id'=> $post['formid'],
+                'url'=> strtok($_SERVER['HTTP_REFERER'],'?')
+                ));
         }
     }
 

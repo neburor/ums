@@ -38,8 +38,8 @@ function ConnectAccount ($params=array())
     {
         NewLogin(array( 'account'=> $ConnectAccount['id'],
                     'type'=>$params['network']['net'],
-                    'form_id'=>$_SESSION['connnect']['form_id'],
-                    'url'=>$_SESSION['connect']['url_ref']
+                    'form_id'=>$params['form_id'],
+                    'url'=>$params['url_ref']
                     ));
     }
     

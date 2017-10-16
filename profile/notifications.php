@@ -17,6 +17,8 @@ $notifications=SQLselect(
         Then (SELECT messages.`form` FROM `messages` WHERE messages.`id` = notifications_app.`asset_id`)
         When 'comment'
         Then (SELECT comments.`form` FROM `comments` WHERE comments.`id` = notifications_app.`asset_id`)
+        When 'wiki'
+        Then 'admin'
     END
     AS `form`,
     accounts.`name` AS `from_name`,
@@ -26,11 +28,15 @@ $notifications=SQLselect(
         Then (SELECT messages.`message` FROM `messages` WHERE messages.`id` = notifications_app.`asset_id`)
         When 'comment'
         Then (SELECT comments.`comment` FROM `comments` WHERE comments.`id` = notifications_app.`asset_id`)
+        When 'wiki'
+        Then 'Se publico tu edición.'
     END
     AS `text`,
     Case notifications_app.`asset`
         When 'comment'
         Then (SELECT comments.`url` FROM `comments` WHERE comments.`id` = notifications_app.`asset_id`)
+        When 'wiki'
+        Then (SELECT content_wiki.`url` FROM `content_wiki` WHERE content_wiki.`id` = notifications_app.`asset_id`)
     END
     AS `url`
     FROM `notifications_app` 
@@ -100,6 +106,33 @@ if($notifications)
                   		</a>
                 	</li>';
 			}
+            if($value['asset']=='wiki')
+            {
+                if($value['form']=='admin')
+                {
+                    $value['from_name']=ADMINNAME;
+                    $value['from_pic']=ADMINPIC;
+                }
+                if(!$_SESSION['urls'][$value['url']])
+                {
+                    $_SESSION['urls'][$value['url']]=get_meta_tags($value['url']);
+                }
+                echo '<li class="list-group-item';
+                if($value['status']==0)
+                {
+                    echo ' active';
+                }
+                echo '">
+                        <a href="'.$value['url'].'?app=wiki:'.$value['id'].'" class="media wiki">
+                            <div class="media-left"><img class="img-circle profile-pic" src="'.$value['from_pic'].'"></div>
+                            <div class="media-body"><span class="media-heading"><b>'.$value['from_name'].'</b> <small class="pull-right">Hace '.$date[0].' '.$date[1].'</small></span>
+                            <p><small><i class="fa fa-files-o"></i> '.$_SESSION['urls'][$value['url']]['title'].'</small></p>
+                            <p>'.$value['text'].'</p>
+                            </div>
+                            <div class="media-right"><i class="fa fa-chevron-right"></i></div>
+                        </a>
+                    </li>';
+            }
 		}
 	echo '</ul>';
 }

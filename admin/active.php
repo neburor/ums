@@ -120,22 +120,83 @@ if($route[0]=='comment')
     }
 }
 if ($route[0]=='wiki') {
-   $result=SQLupdate(
+    $result=SQLselect(
             array(
                 'table'=>'content_wiki',
-                'limit'=>' '
+                'limit'=>'LIMIT 1',
+                'query'=>'
+                SELECT 
+                b.`id`,
+                b.`status`,
+                b.`url`,
+                b.`titulo`
+                FROM `content_wiki` a
+                    LEFT JOIN `content_'.$route[1].'` b 
+                    ON a.`url` = b.`url`
+                WHERE
+                a.`id`="'.$route[2].'"
+                LIMIT 1
+                '
+                )
+            );
+    if($result['status']=='0')
+    {
+        $active=SQLupdate(
+            array(
+                'table'=>'content_'.$route[1],
+                'limit'=>'LIMIT 1'
                 ),
             array(
-                'id'=>$route[1],
+                'id'=>$result['id'],
                 'status'=>'0'
                 ),
             array(
                 'status'=>'1'
                 )
             );
-    if($result)
+    }
+    $active=SQLupdate(
+            array(
+                'table'=>'content_wiki',
+                'limit'=>'LIMIT 1'
+                ),
+            array(
+                'id'=>$route[2],
+                'status'=>'0'
+                ),
+            array(
+                'status'=>'1'
+                )
+            );
+    if($active)
     {
-         $response['alert']['warning']='Se activo el contenido.';
+        $notifapp=SQLinsert(
+                array(
+                    'table'=>'notifications_app'
+                    ),
+                array(
+                    'datetime'=> date("Y-m-d H:i:s"),
+                    'domain'=> $dataForm['domain'],
+                    'from_id'=> '0', 
+                    'to_id'=> $route[3],
+                    'asset'=> 'wiki', 
+                    'asset_id'=> $route[2],
+                    'status'=> '0'
+                    )
+        );
+        include 'function_SendEmail.php';
+        $Send_email=Send_email(array(
+                                'asset'     => 'wiki',
+                                'asset_id'  => $route[2],
+                                'template'  => 'wiki_active',
+                                'domain'    => $dataForm['domain'],
+                                'id'        => $route[3],
+                                'url'       => $result['url'],
+                                'title'     => $result['titulo'],
+                                'notifapp'  => $notifapp
+                                    )
+                            );
+         $response['alert']['success']='Se activo el contenido.'.$Send_email;
     }
     else
     {
