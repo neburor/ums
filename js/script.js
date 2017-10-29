@@ -65,7 +65,12 @@ e.preventDefault();
 $('.collapse.avatars').on('show.bs.collapse', function () {
 
   $(this).load($(this).data('content'));
-})
+});
+//Polls
+$('[data-poll]').click( function() {
+  $(this).umsPoll();
+});
+
 });
 
 function Routes(hash)

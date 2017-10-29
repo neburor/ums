@@ -281,6 +281,141 @@ body.profile {
 .comments>.panel>.list-group>li.list-group-item:first-child {
   padding: 10px 15px;
 }
+.poll .line-ind {
+  padding: 2px;
+  border-radius: 5px;
+  position: relative;
+  border: 1px #e7e7e7 solid;
+}
+.poll .line {
+  background: #E9EAED;
+  height: 24px;
+  border-radius: 4px;
+  -webkit-transition: width 1.2s ease-in-out;
+  -moz-transition: width 1.2s ease-in-out;
+  -o-transition: width 1.2s ease-in-out;
+}
+.poll .line-desc {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  right: 10px;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin-top: -6px;
+}
+.poll .list-group-item .line-btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.poll .list-group-item .line-btn button {
+   padding: 3px 10px;
+}
+.poll .list-group-item.li-btn {
+  padding: 0 !important;
+  background: transparent;
+  border:0;
+}
+.poll .list-group-item.li-btn>.btn.btn-default {
+  border-top-right-radius: 0;
+  border-top-left-radius:0; 
+}
+.poll .list-group-item.li-btn .well {
+  margin-bottom: 0;
+  border-radius: 0;
+  background: transparent;
+  padding:0;
+}
+/*.ul-inline li {
+  width: auto;
+  height: 100%;
+  float: left;
+  padding: 10px;
+  border-right: 1px solid rgba(0, 0, 0, 0.3);
+}
+.line-ind {
+  padding: 2px;
+  border-radius: 5px;
+  position: relative;
+  background: rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.6), 0 1px 0 rgba(255, 255, 255, 0.06);
+  background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.1), transparent) !important;
+  background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0.1), transparent) !important;
+}
+.line {
+  height: 24px;
+  border-radius: 4px;
+  opacity: 0.8;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.6);
+  -webkit-transition: width 1.2s ease-in-out;
+  -moz-transition: width 1.2s ease-in-out;
+  -o-transition: width 1.2s ease-in-out;
+  background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.08), rgba(0, 0, 0, 0.2)) !important;
+  background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.08), rgba(0, 0, 0, 0.2)) !important;
+}
+.line-desc {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  right: 10px;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin-top: -6px;
+  color: rgba(255, 255, 255, 0.7);
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.6);
+}
+.line-desc,
+.line-desc span {
+  font-family: 'Dosis';
+}
+.list-group.pyb .line-ind .btn.pyb {
+  position: absolute;
+  right: 0;
+  top: 0;
+   padding: 3px 10px;
+}
+.well.pyb {
+  background: transparent;
+  border: 0;
+}
+.li-btn .well.pyb {
+  margin: 0;
+  padding: 0;
+}
+.li-btn .input-group {
+  padding: 5px 14px;
+}
+.li-btn .input-group .form-control {
+    background: rgba(0, 0, 0, 0.1);
+    border: transparent;
+  box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.6), 0 1px 0 rgba(255, 255, 255, 0.06);
+  background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.1), transparent) !important;
+  background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0.1), transparent) !important;
+  line-height: 24px;
+  padding: 5px 10px;
+  height: auto;
+  font-family: "Ubuntu";
+  color: #999999;
+}
+.li-btn .input-group .form-control:hover, .li-btn .input-group .form-control:active, .li-btn .input-group .form-control:focus {
+  background-color: rgba(255, 255, 255, 0.04);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.8);
+  background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.014), rgba(0, 0, 0, 0.02)) !important;
+  background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.014), rgba(0, 0, 0, 0.02)) !important;
+  box-shadow:inset 0 0 0 1px rgba(255, 255, 255, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.01), inset 0 -1px 0 #bd8302 !important;
+  color: #f1f3fd;
+}
+.li-btn .input-group .input-group-addon {
+   border: 0;
+}
+.li-btn .input-group .btn {
+
+}*/
 .full-width {
     display:block !important;
 }

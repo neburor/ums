@@ -111,7 +111,7 @@ $form=array(
 include 'ums/login/html_signup-tab.php';
   echo '</div>';
   echo '<div role="tabpanel" class="tab-pane';
-              if($tab=='tab_comment-recover')
+              if($tab=='tab_comment-recovery')
               {
                 echo ' fade active in';
               }

@@ -34,9 +34,9 @@ if(isset($_GET['wiki']) && $_GET['wiki']!='history' && $_GET['wiki']!='preview' 
             //console.log(evt.editor.getSnapshot());
             $.ajax({
               	type: "POST",
-              	url: "'.$wiki['api'].'",
+              	url: "'.URLSYSTEM.'api.php",
               	cache: false,
-              	data: { table : "'.$wiki['table'].'",old : oldvalue, '.$ckeditorP.': evt.editor.getSnapshot() },
+              	data: { ums: "wiki", table : "'.$wiki['table'].'",old : oldvalue, '.$ckeditorP.': evt.editor.getSnapshot() },
               	xhr: function() {
         			var xhr = new window.XMLHttpRequest();
         			xhr.upload.addEventListener("progress", function(send) {
@@ -122,9 +122,9 @@ if(isset($_GET['wiki']) && $_GET['wiki']!='history' && $_GET['wiki']!='preview' 
             			//console.log(evt.editor.getSnapshot());
             			$.ajax({
               				type: "POST",
-              				url: "'.$wiki['api'].'",
+              				url: "'.URLSYSTEM.'api.php",
               				cache: false,
-              				data: { table : "'.$wiki['table'].'", old : oldvalue, '.$ckeditorP.': evt.editor.getSnapshot() }
+              				data: {  ums: "wiki", table : "'.$wiki['table'].'", old : oldvalue, '.$ckeditorP.': evt.editor.getSnapshot() }
             				}).done(function() {
   								evt.editor.commands.save.disable();
 							}).fail(function( jqXHR, textStatus ) {
