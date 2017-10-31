@@ -8,6 +8,14 @@ function htmlPoll($params=array())
         'tag'			=> 'p',
         'line'			=> 'transparent'
     ), $params);
+    if(isset($_SESSION['logged']))
+    {
+        $sliked="`account` = '".$_SESSION['logged']['id']."'";
+    }
+    else
+    {
+        $sliked="`device` = '".$_SESSION['device']['id']."' AND `account` = '0'";
+    }
 
 	$Datapoll=SQLselect(
             array(
@@ -30,11 +38,12 @@ function htmlPoll($params=array())
 			array('table'=>'likes',
 				'query'=>'
 					SELECT 
-					`asset_id`, 
+					l.`asset_id`, 
 					count(*),
 					count(*) / t.`total` * 100 AS `percentage`, 
-					t.`total`
-					FROM `likes` 
+					t.`total`,
+					(SELECT count(*) FROM `likes` WHERE l.`asset_id` = `asset_id`  AND '.$sliked.') AS `liked`
+					FROM `likes` l 
 					CROSS JOIN 
 					(SELECT count(*) AS total FROM `likes` WHERE `asset_id` IN ('.$vote_list.')) t
                   	WHERE `asset_id` IN ('.$vote_list.')
@@ -42,14 +51,18 @@ function htmlPoll($params=array())
 				')
 			);
 	foreach ($PollLikes as $key => $value) {
-		$Likes[$value['asset_id']]=$value['percentage'];
+		$Likes[$value['asset_id']]['percentage']=$value['percentage'];
+		$Likes[$value['asset_id']]['liked']=$value['liked'];
+		if($value['liked']=='1')
+		{
+			$PollLiked=true;
+		}
 	}
-
 	$htmlPoll='';
 	foreach ($Datapoll as $key => $value) {
 		if($value['type']=='title')
 		{
-			$htmlPoll.='<'.$params['tag'].'>'.$value['title'].'</'.$params['tag'].'>';
+			$htmlPoll.='<'.$params['tag'].'>'.$value['display'].'</'.$params['tag'].'>';
 		}
 	}
 
@@ -58,13 +71,22 @@ function htmlPoll($params=array())
 		if($value['type']=='vote')
 		{
 			$params['line']=$value['line'];
+			if($PollLiked){
+				$disabled=' disabled="disabled"';
+				$width=(isset($Likes[$value['id']])) ? $Likes[$value['id']]['percentage'] : '1';
+				$btn_text=($Likes[$value['id']]['liked']==1) ? '<i class="fa fa-check"></i> <i class="fa fa-thumbs-up"></i>' : 'votar';
+				$btn_class=($Likes[$value['id']]['liked']==1) ? ' liked' : '';
+			}else{
+				$btn_text='votar';
+				$width='1';
+			}
 			$htmlPoll.='
 			<li class="list-group-item">
 		 		<div class="line-ind">
-		 			<div class="line '.$params['line'].'" style="width: 1%" data-width="'.$Likes[$value['id']].'"></div>
+		 			<div class="line '.$params['line'].'" style="width: '.$width.'%" data-width="'.$Likes[$value['id']]['percentage'].'"></div>
 		 			<p class="line-desc">'.$value['display'].'<span class="line-count"></span></p>
 		 			<div class="input-group line-btn">
-		 				<button class="btn btn-default pull-right" data-poll="vote:'.$params['id'].':'.$value['id'].':'.$value['display'].'">votar</button>
+		 				<button class="btn btn-default pull-right'.$btn_class.'" data-poll="vote:'.$params['id'].':'.$value['id'].':'.$value['display'].'"'.$disabled.'>'.$btn_text.'</button>
 		 			</div>
 		 		</div>
 		 	</li>';

@@ -70,7 +70,8 @@ $('.collapse.avatars').on('show.bs.collapse', function () {
 $('[data-poll]').click( function() {
   $(this).umsPoll();
 });
-
+//Forms
+$('.ums form.images').Images();
 });
 
 function Routes(hash)
@@ -334,4 +335,29 @@ function Checkinputs(input,validations)
   }
 
   return status;
+}
+$.fn.Images = function() {
+    //Mostrar imagen a subir
+    $($(this).find('input[name="imagen"]')).on('change',function(){
+        readURL(this);
+    });
+    $(this).on("submit", function(e) {
+      e.preventDefault();
+
+    });
+}
+function readURL(input) {
+    progressbar=$(this).find(".progress-bar");
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            btnupload=$(input).parents('form').find('button[type="submit"]');
+            imgpreview=$(input).parents('form').find('img');
+            
+            reader.onload = function (e) {
+                $(imgpreview).attr('src', e.target.result).removeClass("hidden").css("opacity","1");
+                $(btnupload).removeAttr('disabled').empty().append('Subir <i class="fa fa-cloud-upload"></i>');
+                $(progressbar).width(0).empty().append('0%');
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
 }

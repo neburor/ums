@@ -116,10 +116,15 @@ elseif(isset($_GET['wiki']) && isset($_SESSION['logged'])) {
   preg_match_all('|data-cke-realelement="(.*)" |iU', $value[1], $iframe,PREG_SET_ORDER);
   $dataWikiuser['content']=str_replace($value[0], urldecode($iframe[0][1]),$dataWikiuser['content']);
   }
-  if($functions_wiki)
+  if($functions['glossary'])
   {
     $glossary=SearchRef($dataWikiuser['content']);
     $dataWikiuser['content']=$glossary['content'];
+  }
+  if($functions['polls'])
+  {
+    $polls=SearchPolls($dataWikiuser['content']);
+    $dataWikiuser['content']=$polls['content'];
   }
   
   // $html_wiki = '<div id="preview">
@@ -138,7 +143,7 @@ elseif(isset($_GET['wiki']) && isset($_SESSION['logged'])) {
   // $html_wiki.= ' </ul></nav>';
   // $html_wiki.= substr($dataWikiuser['content'],0,3).'<span class="post-img1" id="resumen"><img src="https://www.coleccionotrosmundos.com/imagenes/libros/'.$tituloID.'_'.$autorID.'.jpg" alt="'.$data['titulo'].'"></span>'.substr($dataWikiuser['content'],3);
     $html_wiki='<div id="preview">'.$dataWikiuser['content'];
-  if($functions_wiki)
+  if($functions['glossary'])
   {
     $html_wiki.=$glossary['glossary'];
   }
@@ -269,11 +274,16 @@ else{
   preg_match_all('|data-cke-realelement="(.*)" |iU', $value[1], $iframe,PREG_SET_ORDER);
   $html_wiki=str_replace($value[0], urldecode($iframe[0][1]),$html_wiki);
   }
-  if($functions_wiki)
+  if($functions['glossary'])
   {
     $glossary=SearchRef($html_wiki);
     $html_wiki=$glossary['content'];
     $html_wiki.=$glossary['glossary'];
+  }
+  if($functions['polls'])
+  {
+    $polls=SearchPolls($dataWikiuser['content']);
+    $dataWikiuser['content']=$polls['content'];
   }
 }
 

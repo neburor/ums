@@ -1,6 +1,6 @@
 <?php
 //Wiki Functions
-$functions_wiki=true;
+$functions['glossary']=true;
 function SearchRef($content)
 {
 	// preg_match_all('|<a class="glossary"(.*)>#</a>|iU', $content, $glossary,PREG_SET_ORDER);

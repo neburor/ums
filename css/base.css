@@ -314,6 +314,14 @@ body.profile {
 .poll .list-group-item .line-btn button {
    padding: 3px 10px;
 }
+.poll .list-group-item .line-btn button[disabled='disabled'] {
+  opacity: .5;
+  color: #333;
+}
+.poll .list-group-item .line-btn button[disabled='disabled'].liked {
+  opacity: 1;
+  color: #f1f3fd;
+}
 .poll .list-group-item.li-btn {
   padding: 0 !important;
   background: transparent;
@@ -416,12 +424,96 @@ body.profile {
 .li-btn .input-group .btn {
 
 }*/
+.carousel-images {
+  position: relative;
+}
+.carousel-images .carousel-caption {
+  z-index: 20;
+  right: 0;
+  left: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  bottom: 0;
+  text-shadow:none;
+  text-align: left;
+  top: 265px;
+}
+.carousel-images .carousel-caption .btn-group.dropup {
+  left: 15%;
+  right: 15%;
+}
+.carousel-images .item {
+  height: 300px !important;
+}
+.carousel-images .item img {
+  position: relative;
+  height: 300px !important;
+  width: auto;
+}
+.carousel-images .carousel-indicators {
+    position: relative;
+    top: 0;
+    margin-bottom: 0;
+    bottom: inherit;
+    left: inherit; 
+    z-index: 15;
+    width: 100%;
+    padding-left: 0; 
+    margin-left: 0;
+    text-align: center;
+    list-style: none;
+    display: inline-block;
+}
+.carousel-images .carousel-indicators li {
+  display: table-cell;
+  width: 1%;
+  border-radius: 0;
+  padding:10px;
+}
+.carousel-images .carousel-control {
+  background: transparent;
+}
+.carousel-images .carousel-control span{
+    top: 0;
+}
+.carousel-images .pagination {
+  margin: 0;
+}
+.carousel-images .pagination li{
+  display: table-cell;
+    width: 1%;
+}
+.carousel-images .pagination li>a, .carousel-images .pagination li>span{
+  float: none;
+  display: block;
+  text-align: center;
+}
 .full-width {
     display:block !important;
 }
 .text-warp {
   white-space: normal;
 }
+.fileUpload {
+  position: relative;
+  overflow: hidden;
+}
+.fileUpload input.upload {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 0;
+  filter: alpha(opacity=0);
+  cursor: pointer;
+}
+.fileUpload input.upload:hover {
+  cursor: pointer;
+}
+
 div.upload
 {
   border: 2px dashed #e6e6e6;

@@ -20,7 +20,7 @@ $.fn.umsPoll = function ()
     });
   }
   var formData = new FormData();
-  formData.append("asset", "poll");
+  formData.append("ums", "poll");
   formData.append("asset_id", route[2]);
     $.ajax({
            type: "POST",
@@ -32,7 +32,7 @@ $.fn.umsPoll = function ()
            success: function()
            {   
                btncontrol.empty().html(\'<i class="fa fa-check"></i> <i class="fa fa-thumbs-up"></i>\');
-               btncontrol.attr(\'disabled\',\'disabled\');
+               btncontrol.attr(\'disabled\',\'disabled\').addClass(\'liked\');
            },
            beforeSend: function() 
            {   

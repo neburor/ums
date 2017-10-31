@@ -121,6 +121,24 @@ if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
                 );
             }
 		  }
-        }	
+      }	
 	}
+    if($_POST['ums']=='poll')
+    {
+        SQLinsert(
+                array(
+                    'table'=>'likes'
+                    ),
+                array(
+                    'datetime'=>    date("Y-m-d H:i:s"),
+                    'domain'=>      UMSDOMAIN,
+                    'url'=>         strtok($_SERVER['HTTP_REFERER'],'?'),
+                    'device'=>      $_SESSION['device']['id'],
+                    'account'=>     $_SESSION['logged']['id'],
+                    'asset'=>       'poll',
+                    'asset_id'=>    $_POST['asset_id'], 
+                    'like'=>        '1'
+                    )
+                );
+    }
 }
