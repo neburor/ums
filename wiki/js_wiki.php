@@ -77,7 +77,7 @@ if(isset($_GET['wiki']) && $_GET['wiki']!='history' && $_GET['wiki']!='preview' 
     htmlEncodeOutput : false,
     entities : false,
     startupOutlineBlocks : true,
-    filebrowserImageUploadUrl: "../ums/wiki/ckeditor_imgupload.php",
+    filebrowserImageUploadUrl: "'.URLSYSTEM.'wiki/ckeditor_imgupload.php",
     keystrokes:
           [
             [ CKEDITOR.ALT + 83 /*S*/, "save" ]
@@ -154,7 +154,7 @@ if(isset($_GET['wiki']) && $_GET['wiki']!='history' && $_GET['wiki']!='preview' 
     		htmlEncodeOutput : false,
     		entities : false,
     		startupOutlineBlocks : true,
-    		filebrowserImageUploadUrl: "../ums/wiki/ckeditor_imgupload.php",
+    		filebrowserImageUploadUrl: "'.URLSYSTEM.'wiki/ckeditor_imgupload.php",
         keystrokes :
           [
             [ CKEDITOR.ALT + 83 /*S*/, "save" ]

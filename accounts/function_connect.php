@@ -2,8 +2,9 @@
 //Login
 require '../mysql_db.php';
 require '../login/function_logins.php';
-require 'function_SearchAccount.php';
 require 'function_SearchNetworks.php';
+require 'function_SearchContacts.php';
+require 'function_SearchAccount.php';
 require 'function_NewAccount.php';
 require 'function_UpdateNetwork.php';
 

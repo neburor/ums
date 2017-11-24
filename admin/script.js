@@ -791,15 +791,15 @@ function Validations(input)
     validations['maxlength'] = 1024;
     validations['required']= false;
   }
-  if(input == 'url')
-  {
-    validations['maxlength'] = 1024;
-  }
-  if(input == 'description')
+  if(input == 'url'  || input == 'synonyms')
   {
     validations['maxlength'] = 256;
   }
-   if(input == 'subtitle')
+  if(input == 'description' || input == 'definitions')
+  {
+    validations['maxlength'] = 1024;
+  }
+   if(input == 'subtitle' || input == 'synonyms')
   {
     validations['required']= false;
   }

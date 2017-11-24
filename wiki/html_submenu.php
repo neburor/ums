@@ -1,5 +1,7 @@
 <?php
 //wiki submenu
+ if($functions['wiki']==true)
+  {
 echo ' <div class="clearfix"></div>
                 <ul class="nav nav-tabs nav-mobile nav-justified" id="editar">
                   <li><a href="'.strtok($_SERVER["REQUEST_URI"],'?').'#articulo"><i class="fa fa-file-text"></i><span> Leer</span></a></li>';
@@ -27,3 +29,4 @@ else
 echo '     <li><a href="?wiki=add#add"><i class="fa fa-sticky-note"></i><span> Agregar</span></a></li>
                   <li><a href="?wiki=history#history"><i class="fa fa-history"></i><span> Historial</span></a></li>                  
                 </ul>';
+              }

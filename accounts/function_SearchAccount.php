@@ -27,7 +27,11 @@ function SearchAccount ($params=array())
         {
             $account['networks']=$networks;
         }
-        
+        if($contact = SearchContacts($params['id']))
+        {
+            $account['contact']=$contact;
+        }
+
         return $account;
     }
 }

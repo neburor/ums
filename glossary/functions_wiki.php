@@ -29,7 +29,13 @@ function SearchRef($content)
         );
       $result['glossary'].= '<dl>';
       foreach ($glossaryDB as $key => $value) {
-        $result['glossary'].='<dt><a href="#cite-ref-'.$value['id'].'" class="scroll" data-btn="menu_ref"><i class="fa fa-long-arrow-up"></i></a><sup id="ref-'.$value['id'].'">'.$value['id'].'</sup> '.$value['display'].'</dt>';
+        $result['glossary'].='<dt><a href="#cite-ref-'.$value['id'].'" class="scroll" data-btn="menu_ref"><i class="fa fa-long-arrow-up"></i></a><sup id="ref-'.$value['id'].'">'.$value['id'].'</sup> ';
+        if($value['wiki']==0){
+          $result['glossary'].=$value['display'];
+        }else{
+          $result['glossary'].='<a href="'.$value['url'].'">'.$value['display'].'</a>';
+        }
+        $result['glossary'].='</dt>';
         $result['glossary'].='<dd>'.$value['description'].'</dd>';
       }
       $result['glossary'].='</dl>';

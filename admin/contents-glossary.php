@@ -9,10 +9,10 @@ $glossary=SQLselect(
     content_glossary.`datetime`,
     content_glossary.`term`,
     content_glossary.`display`,
-    content_glossary.`words`,
+    content_glossary.`syn`,
+    content_glossary.`def`,
     content_glossary.`description`,
     content_glossary.`url`,
-    content_glossary.`title`,
     accounts.`name` AS `from_name`,
     accounts_sn.`pic` AS `from_pic`
     FROM `content_glossary` 
@@ -90,26 +90,20 @@ if($glossary)
                         </div>
                         <div class="form-group">
                             <div class="input-group">
-                                <span class="input-group-addon"> <i class="fa fa-edit"></i> Palabras</span>
-                                <textarea name="words" class="form-control" maxlength="256" minlength="8" required="">'.$data['words'].'</textarea>
+                                <span class="input-group-addon"> <i class="fa fa-edit"></i> Definiciones</span>
+                                <textarea name="definitions" class="form-control" minlength="8" required="" rows="5">'.$data['def'].'</textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon"> <i class="fa fa-edit"></i> Sinónimos</span>
+                                <input type="text" name="synonyms" placeholder="Sinónimos ..." class="form-control" maxlength="64" minlength="4" value="'.$data['syn'].'">
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon"> <i class="fa fa-edit"></i> URL</span>
                                 <input type="text" name="url" placeholder="Escriba una url ..." class="form-control" maxlength="128" minlength="4" value="'.$data['url'].'">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <span class="input-group-addon"> <i class="fa fa-edit"></i> Titulo</span>
-                                <input type="text" name="title" placeholder="Escriba un titulo ..." class="form-control" maxlength="128" minlength="4" value="'.$data['title'].'">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <span class="input-group-addon"> <i class="fa fa-edit"></i> SubTitulo</span>
-                                <input type="text" name="subtitle" placeholder="Escriba un subtitulo ..." class="form-control" value="'.$data['subtitle'].'">
                             </div>
                         </div>
                         <div class="form-group">

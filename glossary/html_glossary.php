@@ -4,9 +4,13 @@ if(isset($_GET['tab']))
 {
   $tab=$_GET['tab'];
 }
+elseif(isset($_SESSION['logged']))
+{
+  $tab='tab_glossary-edit';
+}
 else
 {
-  $tab='tab_glossary-glossary';
+  $tab='tab_glossary-login';
 }
 
 echo '<div ums class="ums glossary col-xs-12 nopadding"';
@@ -15,20 +19,24 @@ echo '<div ums class="ums glossary col-xs-12 nopadding"';
     echo ' id="'.$params_glossary['id'].'"';
   }
 echo '>
-        <div class="panel panel-default">
+        <div class="panel panel-default"';
+  if(isset($_SESSION['logged']))
+  {
+    echo ' id="edit"';
+  }
+        echo '>
           <div class="panel-heading navheading">
             <i class="fa fa-book fa-2x"></i> <b>Glosario</b>
-            <ul class="nav nav-tabs nav-login">
-              <li role="presentation" ';
-              if($tab=='tab_glossary-glossary')
+            <ul class="nav nav-tabs nav-login">';
+
+if(isset($_SESSION['logged']))
+{
+  echo '      <li role="presentation" ';
+              if($tab=='tab_glossary-edit')
               {
                 echo 'class="active"';
               }
-              echo '><a href="?tab=tab_glossary-glossary#tab_glossary-glossary" data-target="#tab_glossary-glossary" data-hash="/ums/tab/tab_glossary-glossary" role="tab" data-toggle="tab" aria-controls="tab_glossary-glossary" aria-expanded="true"> <i class="fa fa-edit"></i> Agregar</a></li>
-';
-if(isset($_SESSION['logged']))
-{
-  echo '
+              echo '><a href="?tab=tab_glossary-edit#tab_glossary-edit" data-target="#tab_glossary-edit" data-hash="/ums/tab/tab_glossary-edit" role="tab" data-toggle="tab" aria-controls="tab_glossary-edit" aria-expanded="false"> <i class="fa fa-edit"></i> <span class="hidden-xxs">Editar</span></a></li>
             
               <li role="presentation" class="pull-right"><a href="?logout"> <i class="fa fa-power-off"></i> <span class="hidden-xxs">Cerrar sesion</span></a></li>
       ';
@@ -54,29 +62,8 @@ else
 echo '     </ul>
           </div>
           <div class="panel-body">
-            <div class="tab-content">
-              <div role="tabpanel" class="tab-pane';
-              if($tab=='tab_glossary-glossary')
-              {
-                echo ' fade active in';
-              }
-              echo '" id="tab_glossary-glossary">
-';
-$form=array(
-      'id'    =>'tab_glossary',
-      'type'  =>'glossary',
-      'action'=>'?tab=tab_glossary-glossary',
-      'callback'=>'/ums/tab/tab_glossary-glossary'
-        );
-include 'form_glossary.php';
-
-if($_SESSION['logged']['alert'])
-{
-  echo '<div class="alert alert-'.key($_SESSION['logged']['alert']).' alert-dismissible fade in" role="alert"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button> '.$_SESSION['logged']['alert'][key($_SESSION['logged']['alert'])].'</div>';
-}
-echo '
-              </div>
-';
+            <div class="tab-content">';
+ 
 if(!isset($_SESSION['logged']))
 {
   echo '<div role="tabpanel" class="tab-pane';
@@ -90,7 +77,7 @@ $form=array(
       'id'    =>'tab_glossary-login',
       'type'  =>'login',
       'action'=>'?tab=tab_glossary-login',
-      'callback'=> array('error'=>'/ums/tab/tab_glossary-login','success'=>'/ums/tab/tab_glossary-glossary'),
+      'callback'=> array('error'=>'/ums/tab/tab_glossary-login','success'=>'/ums/tab/tab_glossary-edit'),
       'recovery'=>'<a  href="?tab=tab_glossary-recovery#tab_glossary-recovery" data-target="#tab_glossary-recovery" data-hash="/ums/tab/tab_glossary-recovery" class="pull-right">Recuperar <i class="fa fa-lock"></i></a>'
         );
 include 'ums/login/html_login-tab.php';
@@ -106,7 +93,7 @@ $form=array(
       'id'    =>'tab_glossary-signup',
       'type'  =>'signup',
       'action'=>'?tab=tab_glossary-signup',
-      'callback'=>array('error'=>'/ums/tab/tab_glossary-signup','success'=>'/ums/tab/tab_glossary-glossary')
+      'callback'=>array('error'=>'/ums/tab/tab_glossary-signup','success'=>'/ums/tab/tab_glossary-edit')
         );
 include 'ums/login/html_signup-tab.php';
   echo '</div>';
@@ -124,6 +111,24 @@ $form=array(
       'callback'=>array('error'=>'/ums/tab/tab_glossary-recovery','success'=>'/ums/tab/tab_glossary-recovery')
         );
 include 'ums/login/html_recovery-tab.php';
+  echo '</div>';
+}
+else
+{
+    echo '<div role="tabpanel" class="tab-pane';
+              if($tab=='tab_glossary-edit')
+              {
+                echo ' fade active in';
+              }
+              echo '" id="tab_glossary-edit">';
+$div=array('intro'=>'col-sm-5','form'=>'col-sm-7');
+$form=array(
+      'id'    =>'tab_glossary-edit',
+      'type'  =>'glossary',
+      'action'=>'?tab=tab_glossary-edit',
+      'callback'=> array('error'=>'/ums/tab/tab_glossary-edit','success'=>'/ums/tab/tab_glossary-edit')
+        );
+include 'ums/glossary/form_glossary.php';
   echo '</div>';
 }
 echo '

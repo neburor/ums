@@ -156,6 +156,11 @@ body.profile {
   border-bottom: 0;
   margin-bottom: 0;
 }
+.form .thumbnails img {
+  max-height: 100px;
+  width: auto;
+  margin: 5px 10px;
+}
 .avatars label > input{ /* HIDE RADIO */
   visibility: hidden; /* Makes input not-clickable */
   position: absolute; /* Remove input from document flow */
@@ -541,6 +546,11 @@ input.upload {
 }
 .form-control-feedback {
   top: 5px;
+}
+.form-control-feedback.fa-refresh {
+  height: auto;
+  widows: auto;
+  right: 15px;
 }
 /*.sidebar {
     min-height: 100vh;

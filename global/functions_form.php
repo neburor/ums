@@ -76,10 +76,7 @@ function FeedBackValueData($field=array(),$status=array())
 {
 	if($field['status'] && $status['show']==$status['status'])
 	{
-		if($field['status']=='norequired')
-		{
-		}
-		elseif($field['status']!='nodata')
+		if($field['status']!='nodata')
 		{
 			return $field['value'];
 		}
@@ -89,10 +86,7 @@ function FeedBackValue($field=array(),$status=array())
 {
 	if($field['status'] && $status['show']==$status['status'])
 	{
-		if($field['status']=='norequired')
-		{
-		}
-		elseif($field['status']!='nodata')
+		if($field['status']!='nodata')
 		{
 			return 'value="'.$field['value'].'"';
 		}
@@ -107,11 +101,11 @@ function FeedbackClass($field=array(),$status=array())
 		}
 		elseif($field['status']=='valid')
 		{
-			return 'has-feedback has-success';
+			return ' has-feedback has-success';
 		}
 		elseif($field['status']!='valid')
 		{
-			return 'has-feedback has-warning';
+			return ' has-feedback has-warning';
 		}
 	}
 }

@@ -85,7 +85,7 @@ if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
                         AND `url` = "'.strtok($_SERVER['HTTP_REFERER'],'?').'" AND `status` = "1"
                 	')
 				    );
-                 var_dump($result);
+                
 			     if($result)
 			     {
 				    SQLinsert(
@@ -141,4 +141,70 @@ if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
                     )
                 );
     }
+    if($_POST['location']=='true' && isset($_POST['country']))
+    {
+        $estados=SQLselect(
+              array(
+                  'table' => 'estados',
+                  'query' => '
+                  SELECT * from estados
+                  WHERE `pais` = "'.$_POST['country'].'"
+                  '
+                )
+        );
+        if($_POST['country']=='México'){
+            echo '<div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-dot-circle-o"></i></span>
+              <select class="form-control location_state" name="estado" data-target="#'.$_POST['formid'].'-municipios" required="requiered">
+                <option value="">Estado ...</option>';
+            foreach ($estados as $key => $value) {
+                echo '<option value="'.$value['estado'].'">'.$value['estado'].'</option>';
+            }
+              echo '
+              </select>
+              <span class="input-group-btn hidden-xxs" style="width:0px;"></span>
+              <select class="form-control" name="municipio" id="'.$_POST['formid'].'-municipios">
+                <option value="" required="requiered">Municipio ...</option>
+              </select>
+            </div>';
+        }else{
+            if($_POST['country']=='Colombia'){
+                $estado='Departamentos';
+            }
+            if($_POST['country']=='Argentina'){
+                $estado='Provincias';
+            }
+            echo '<div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-dot-circle-o"></i></span>
+              <select class="form-control" name="estado" required="requiered">
+                <option value="">'.$estado.' ...</option>';
+            foreach ($estados as $key => $value) {
+                echo '<option value="'.$value['estado'].'">'.$value['estado'].'</option>';
+            }
+              echo '
+              </select>
+            </div>';
+        }
+        
+    }
+    if($_POST['location']=='true' && isset($_POST['state']))
+    {
+        $municipios=SQLselect(
+              array(
+                  'table' => 'municipios',
+                  'query' => '
+                  SELECT * from municipios
+                  WHERE `estado` = "'.$_POST['state'].'"
+                  '
+                )
+            );
+        echo '{';
+        foreach ($municipios as $key => $value) {
+                $x++;
+                if($x!=1){echo ',';}
+                echo '"'.$value['municipio'].'":"'.$value['municipio'].'"';
+            }
+        echo '}';
+    }
+
 }

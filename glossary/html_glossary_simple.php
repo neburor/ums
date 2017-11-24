@@ -12,7 +12,7 @@ echo '<div ums class="ums glossary col-xs-12 nopadding" id="agregar">
           <div class="panel-body">';
 
 
-include 'form_glossary.php';
+include 'form_glossary_simple.php';
 
 echo '    </div>
         </div>

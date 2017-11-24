@@ -1,12 +1,14 @@
 <?php
 #Glossary
-$sc=$sc_url=array("'",".",",","?","!","¡","¿","ñ",":","á","é","í","ó","ú");
-$pc=$pc_url=array("","","","","","","","n","","a","e","i","o","u");
-array_push($sc_url,' ');
-array_push($pc_url,'-');
+$sc=array("'",".",",","?","!","¡","¿","ñ",":","á","é","í","ó","ú");
+$pc=array("","","","","","","","n","","a","e","i","o","u");
+$sc_url=array("'",".",",","?","!","¡","¿","ñ",":","á","é","í","ó","ú"," ");
+$pc_url=array("","","","","","","","n","","a","e","i","o","u","-");
 
 if(isset($_POST) && $_POST['formtype']=='glossary')
 {
+    if(isset($url))
+        {$_POST['url']=$url;}
 	$formstatus=InsertTerm($_POST);
 	$_SESSION['feedback'][$_POST['formid']]['alert']=$formstatus['alert'];
 	foreach ($formstatus['feedback'] as $field => $feedback) 
@@ -18,22 +20,30 @@ function InsertTerm($params=array())
 {
 	if(isset($_SESSION['logged']))
 	{
+        $params = array_merge(array(
+        'datetime'  => date("Y-m-d H:i:s"),
+        'domain'    => UMSDOMAIN,
+        'account'   => $_SESSION['logged']['id'],
+        'status'    => '0',
+        'term'      => str_replace($sc, $pc, strtolower($params['term'])),
+        'url'       => 'https://www.coleccionotrosmundos.com/glosario/'.str_replace($sc_url, $pc_url, strtolower($params['term'])).'.html'
+    ), $params);
+
         $resultado=SQLinsert(
             array(
                 'table'=>'content_glossary'
                 ),
             array(
-                'datetime'=> date("Y-m-d H:i:s"),
-                'domain'=> UMSDOMAIN,
-                'account'=> $_SESSION['logged']['id'],
-                'status'=>'0',
-                'term'=>str_replace($sc, $pc, strtolower($params['term'])),
-                'display'=>$params['term'],
-                'words'=>str_replace($sc, $pc, strtolower($params['term'])).', '.$params['term'],
+                'datetime'  => $params['datetime'],
+                'domain'    => $params['domain'],
+                'account'   => $params['account'],
+                'status'    => $params['status'],
+                'term'      => str_replace($sc, $pc, strtolower($params['term'])),
+                'display'   => $params['term'],
+                'syn'       => $params['synonyms'],
+                'def'       => $params['definitions'],
                 'description'=>$params['description'],
-                'wiki'=>'0',
-                'url'=>'https://www.coleccionotrosmundos.com/glosario/'.str_replace($sc_url, $pc_url, strtolower($params['term'])).'.html',
-                'title'=>$params['term']
+                'url'       => $params['url']
                 )
             );
 

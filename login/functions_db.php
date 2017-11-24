@@ -79,7 +79,7 @@ function Signup($post=array())
                         {
                             $reff=strtok($_SERVER['HTTP_REFERER'],'?') . '#'.$post['callback'];
                         }
-                        elseif(strpos($post['callback'], 'wiki') !== false)
+                        elseif(strpos($post['callback'], 'edit') !== false)
                         {
                             $reff = $_SERVER['HTTP_REFERER'] .'&tab='. $post['formid'] . '#' . $post['callback'];
                         }
@@ -185,7 +185,7 @@ function Login($post= array())
                 {
                     $reff = strtok($_SERVER['HTTP_REFERER'],'?') . '#'.$post['callback'];
                 }
-                elseif(strpos($post['callback'], 'wiki') !== false)
+                elseif(strpos($post['callback'], 'edit') !== false)
                 {
                     $reff = $_SERVER['HTTP_REFERER'] .'&tab='. $post['formid'] . '#' . $post['callback'];
                     

@@ -1,6 +1,7 @@
 <?php
 //Search Token
 include 'function_SearchNetworks.php';
+require 'function_SearchContacts.php';
 include 'function_SearchAccount.php';
 function TokenAccount ($token)
 {

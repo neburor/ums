@@ -65,13 +65,22 @@ $VALIDATIONS['pic']= array(
 							'multiple'	=> false,
 							'required'  => true
 							);
-$VALIDATIONS['cover']= $VALIDATIONS['imgwiki'] = array(
+$VALIDATIONS['cover']= $VALIDATIONS['imgwiki']= $VALIDATIONS['image']=  array(
 							'pregmatch' => '\.(?:jpe?g|png|gif)$',
 							'filesize'	=> 2097152, // (2Mb)
 							'minlength'	=> 4,
 							'maxlength'	=> 512,
 							'accept'	=> 'image/*',
 							'multiple'	=> false,
+							'required'  => true
+							);
+$VALIDATIONS['images'] ==  array(
+							'pregmatch' => '\.(?:jpe?g|png|gif)$',
+							'filesize'	=> 2097152, // (2Mb)
+							'minlength'	=> 4,
+							'maxlength'	=> 512,
+							'accept'	=> 'image/*',
+							'multiple'	=> true,
 							'required'  => true
 							);
 $VALIDATIONS['term']	= array(

@@ -17,11 +17,10 @@ if($data[0]=='glossary')
                 'status'=>'1',
                 'term'=>$dataForm['term'],
                 'display'=>$dataForm['display'],
-                'words'=>$dataForm['words'],
+                'syn'=>$dataForm['synonyms'],
+                'def'=>$dataForm['definitions'],
                 'description'=>$dataForm['description'],
-                'title'=>$dataForm['title'],
-                'url'=>$dataForm['url'],
-                'subtitle'=>$dataForm['subtitle']
+                'url'=>$dataForm['url']
                 )
             );
     if($result){
