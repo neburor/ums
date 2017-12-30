@@ -231,9 +231,10 @@ $div=array('intro'=>'col-sm-5','form'=>'col-sm-7');
 $form=array(
       'id'    =>'tab_wiki-login',
       'type'  =>'login',
-      'action'=>'?tab_wiki-login',
+      'action'=>'?wiki=edit&tab=tab_wiki-login',
       'callback'=> array('error'=>'/ums/tab/tab_wiki-login','success'=>'/ums/tab/tab_wiki-edit'),
-      'recovery'=>'<a  href="?tab=tab_wiki-recovery#tab_wiki-recovery" data-target="#tab_wiki-recovery" data-hash="/ums/tab/tab_wiki-recovery" class="pull-right">Recuperar <i class="fa fa-lock"></i></a>'
+      'recovery'=>'<a  href="?wiki=edit&tab=tab_wiki-recovery#tab_wiki-recovery" data-target="#tab_wiki-recovery" data-hash="/ums/tab/tab_wiki-recovery" class="pull-right">Recuperar <i class="fa fa-lock"></i></a>',
+      'connect'=>'&wiki=edit'
         );
 include 'ums/login/html_login-tab.php';
   echo '        </div>';
@@ -247,8 +248,9 @@ $div=array('intro'=>'col-sm-5','form'=>'col-sm-7');
 $form=array(
       'id'    =>'tab_wiki-signup',
       'type'  =>'signup',
-      'action'=>'?tab_wiki-signup',
-      'callback'=>array('error'=>'/ums/tab/tab_wiki-signup','success'=>'/ums/tab/tab_wiki-edit')
+      'action'=>'?wiki=edit&tab=tab_wiki-signup',
+      'callback'=>array('error'=>'/ums/tab/tab_wiki-signup','success'=>'/ums/tab/tab_wiki-edit'),
+      'connect'=>'&wiki=edit'
         );
 include 'ums/login/html_signup-tab.php';
   echo '          </div>';
@@ -262,7 +264,7 @@ $div=array('intro'=>'col-sm-5','form'=>'col-sm-7');
 $form=array(
       'id'    =>'tab_wiki-recovery',
       'type'  =>'recovery',
-      'action'=>'?tab_wiki-recovery',
+      'action'=>'?wiki=edit&tab=tab_wiki-recovery',
       'callback'=>array('error'=>'/ums/tab/tab_wiki-recovery','success'=>'/ums/tab/tab_wiki-recovery')
         );
 include 'ums/login/html_recovery-tab.php';

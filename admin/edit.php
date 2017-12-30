@@ -7,7 +7,7 @@ if($data[0]=='glossary')
     $result=SQLupdate(
             array(
                 'table'=>'content_glossary',
-                'limit'=>' '
+                'limit'=>'LIMIT 1'
                 ),
             array(
                 'id'=>$data[1],
@@ -21,6 +21,56 @@ if($data[0]=='glossary')
                 'def'=>$dataForm['definitions'],
                 'description'=>$dataForm['description'],
                 'url'=>$dataForm['url']
+                )
+            );
+    if($result){
+        $response['alert']['success']='Contenido actualizado.';              
+    }else{
+        $response['alert']['warning']='No se actualizo el contenido.';
+    }
+}
+if($data[0]=='ecommerce')
+{
+    $result=SQLselect(
+              array(
+                  'table' => 'ecommerce',
+                  'limit' => 'LIMIT 1'
+                ),
+              array(
+                  'id' => $data[1]
+                )
+            );
+    foreach ($dataForm['images'] as $key => $value) {
+            $activeimg[$value]=1;
+        }
+        if($images=json_decode($result['images'], true)){
+            foreach ($images['list'] as $key => $value) {
+                $x++;
+                if($x!=1){$ListIMG.=',';}
+                if(!isset($activeimg[$value['name']]))
+                {
+                    $ListIMG.='{"name":"'.$value['name'].'","status":0}';
+                }else{
+                    $ListIMG.='{"name":"'.$value['name'].'","status":1}';
+                    $max++;
+                }
+            }
+        }
+
+    $result=SQLupdate(
+            array(
+                'table'=>'ecommerce',
+                'limit'=>'LIMIT 1'
+                ),
+            array(
+                'id'=>$data[1],
+                'status'=>'0'
+                ),
+            array(
+                'status'    =>'1',
+                'title'     => $dataForm['title'],
+                'description'=> $dataForm['ec_description'],
+                'images'    => '{"dir":"'.$images['imgdir'].'","list":['.$ListIMG.']}'
                 )
             );
     if($result){

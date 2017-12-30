@@ -74,12 +74,10 @@ $('[data-poll]').click( function() {
 $('input[type="file"].images').Images('images');
 $('input[type="file"].image').Images('image');
 
-$('select.location_country').on("change", function() {
-  $(this).umsLocation('country')
-  });
-$('select.location_state').on("change", function() {
-  $(this).umsLocation('state')
-  });
+$('select.location').on("change", function() {
+  $(this).umsLocation();
+});
+
 });
 
 function Routes(hash)
@@ -347,22 +345,102 @@ function Checkinputs(input,validations)
 $.fn.Images = function() {
 
     $(this).on('change',function(){
-      
        var Images = $(this).prop("files");
        var Thumbnails = $(this).parents('.form-group').find('.thumbnails').empty();
-       console.log(Thumbnails);
-        $(Images).each(function() {
-          console.log('image:'+this.name);
-          var reader = new FileReader();
+       totalsize=0;
+       warning=0;
+       max=9-$(this).parents('.form-group').find('input[name="count"]').val();
 
+        $(Images).each(function(i) {
+
+           totalsize+=this.size;
+           if(this.size>512000 || i>max){
+                warning++;
+              }
+          var reader = new FileReader();
           reader.onload = function(event) {
-            $($.parseHTML('<img>')).attr('src', event.target.result).appendTo(Thumbnails);
+            var img = new Image();
+            img.src = event.target.result;
+            //204800 => 200Kb
+            //console.log(Math.floor(1024000/img.src.length*100));
+            
+            img.onload = function() {
+              size=Size(this.src.length/1024);
+              label='default';
+              console.log(this.src.length);
+              if(this.src.length>512000 || i>max){
+                label='danger';
+              }
+            $($.parseHTML('<div class="thumb"><img src="'+this.src+'"><span class="label label-default">'+this.height+'px/ '+this.width+'px</span><span class="size label label-'+label+'">'+size+'</span></div>')).appendTo(Thumbnails);
+
+            // if(Math.floor(1024000/img.src.length*100)<100){
+            //   var nimg = new Image();
+            //    nimg.src  = DrawCanvas(img,Math.floor(1024000/img.src.length*100));
+            //    nimg.onload = function (){
+            //     size=Size(this.src.length/1024);
+            //     $($.parseHTML('<div class="thumb"><img src="'+this.src+'"><span class="label label-default">'+this.height+'px/ '+this.width+'px</span><span class="size label label-default">'+size+'</span></div>')).appendTo(Thumbnails);
+            //    }
+            //  }
+            }
+            
+            //$($.parseHTML('<img>')).attr('src', event.target.result).appendTo(Thumbnails);
           }
           reader.readAsDataURL(this);
+        }); 
+          
+        tsize=Size(totalsize/1024);
+        alert='success';
+        textWarning='';
+            if(warning){
+              textWarning=', <span class="label label-danger">'+warning+'</span> imagenes no se guardaran.';
+              alert='warning';
+            }
 
-        });
+          $($.parseHTML('<div class="alert alert-'+alert+'" role="alert">Tamaño total a enviar : <b>'+tsize+'</b>'+textWarning+'</div>')).appendTo(Thumbnails);
+         
       
     });
+}
+function Size(size)
+{
+   if(size>=1024){
+            size = Math.round(size/1024*100)/100+' Mb';
+          }else{
+            size = Math.round(size)+' Kb';
+          }
+    return size;
+}
+function DrawCanvas(image,size){
+var canvas = document.createElement('canvas');
+var ctx = canvas.getContext("2d");
+ctx.drawImage(image, 0, 0);
+
+var MAX_WIDTH = 640;
+var MAX_HEIGHT = 600;
+var width = image.width;
+var height = image.height;
+
+if (width > height) {
+  if (width > MAX_WIDTH) {
+    height *= MAX_WIDTH / width;
+    width = MAX_WIDTH;
+  }
+} else {
+  if (height > MAX_HEIGHT) {
+    width *= MAX_HEIGHT / height;
+    height = MAX_HEIGHT;
+  }
+}
+// var height =image.height*size/100;
+// var width =image.width*size/100;
+
+
+canvas.width = width ;
+canvas.height = height;
+var ctx = canvas.getContext("2d");
+ctx.drawImage(image, 0, 0, width, height);
+
+  return canvas.toDataURL("image/png");
 }
 // $.fn.Images = function() {
 //     //Mostrar imagen a subir

@@ -226,4 +226,27 @@ if ($route[0]=='glossary') {
          $response['alert']['warning']='No se activo el contenido.';
     }
 }
+if ($route[0]=='ecommerce') {
+   $result=SQLupdate(
+            array(
+                'table'=>'ecommerce',
+                'limit'=>' '
+                ),
+            array(
+                'id'=>$route[1],
+                'status'=>'0'
+                ),
+            array(
+                'status'=>'1'
+                )
+            );
+    if($result)
+    {
+         $response['alert']['warning']='Se activo el contenido.';
+    }
+    else
+    {
+         $response['alert']['warning']='No se activo el contenido.';
+    }
+}
 echo json_encode($response);

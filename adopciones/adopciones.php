@@ -154,13 +154,15 @@ function InsertAdopcion($params=array())
         if($params['formtype']=='adopcion'){
             $resultado=SQLinsert(
             array(
-                'table'=>'ads'
+                'table'=>'ecommerce'
                 ),
             array(
                 'datetime'  => $params['datetime'],
                 'domain'    => $params['domain'],
+                'type'      => 'ctc',
                 'account'   => $params['account'],
                 'status'    => '0',
+                'group'     => '',
                 'cat'       => $params['formtype'],
                 'location'  => $ubicacion,
                 'data'      => '{"perro":{"nombre":"'.$params['perro'].'","edad":"'.$params['edad'].'","color":"'.$params['color'].'","sexo":"'.$params['sexo'].'"},    "veterinario":{"esterelizado":"'.$params['esterelizado'].'","vacunado":"'.$params['vacunado'].'","desparasitado":"'.$params['desparasitado'].'","alergia":"'.$params['alergias'].'"},"social":{"adultos":"'.$params['adultos'].'","niños":"'.$params['ninos'].'","gatos":"'.$params['gatos'].'","perros":"'.$params['perros'].'"},"requisitos":"'.$params['requisitos'].'",    "puntos":"'.$params['puntos'].'","proceso":"'.$params['proceso'].'"}',
@@ -179,7 +181,9 @@ function InsertAdopcion($params=array())
                         {
                             if (move_uploaded_file($_FILES['images']['tmp_name'][$i],ADIMGDIR.$resultado.'_'.$i.'.'.pathinfo($_FILES['images']['name'][$i],PATHINFO_EXTENSION)))
                             {
-                                $ListIMG.='"'.ADIMGDIR.$resultado.'_'.$i.'.'.pathinfo($_FILES['images']['name'][$i],PATHINFO_EXTENSION).'"';
+                                $x++;
+                                if($x!=1){$ListIMG.=',';}
+                                $ListIMG.='"'.$resultado.'_'.$i.'.'.pathinfo($_FILES['images']['name'][$i],PATHINFO_EXTENSION).'"';
                             }else{
                                 $wImages++;
                             }

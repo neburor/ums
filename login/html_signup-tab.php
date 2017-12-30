@@ -8,19 +8,19 @@ echo '
         <p>Crea una cuenta <b>GRATIS</b> !</p>
     </div>
     <div class="form-group"> 
-    	<a class="btn btn-block btn-social btn-facebook" href="?login=facebook';
+    	<a class="btn btn-block btn-social btn-facebook" href="?login=facebook'.$form['connect'];
             if($form['callback'])
             {
               echo '&callback='.$form['callback']['success'].'&error='.$form['callback']['error'];
             }
             echo '" rel="nofollow"> <i class="fa fa-facebook"></i> <span>Registrarse con Facebook</span></a> 
-        <a class="btn btn-block btn-social btn-google" href="?login=google';
+        <a class="btn btn-block btn-social btn-google" href="?login=google'.$form['connect'];
             if($form['callback'])
             {
               echo '&callback='.$form['callback']['success'].'&error='.$form['callback']['error'];
             }
             echo '" rel="nofollow"> <i class="fa fa-facebook"></i> <span>Registrarse con Google</span></a> 
-    	<a class="btn btn-block btn-social btn-twitter" href="?login=twitter';
+    	<a class="btn btn-block btn-social btn-twitter" href="?login=twitter'.$form['connect'];
             if($form['callback'])
             {
               echo '&callback='.$form['callback']['success'].'&error='.$form['callback']['error'];

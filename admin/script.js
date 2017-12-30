@@ -799,6 +799,10 @@ function Validations(input)
   {
     validations['maxlength'] = 1024;
   }
+  if(input == 'ec_description')
+  {
+    validations['maxlength'] = 3074;
+  }
    if(input == 'subtitle' || input == 'synonyms')
   {
     validations['required']= false;

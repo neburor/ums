@@ -3,7 +3,10 @@
 $feedback=array('show'=>'warning',
                 'status'=>$_SESSION['feedback'][$form['id']]['status']);
 
-$quiz=SQLselect(
+ 
+if(isset($_SESSION['logged']))
+{
+    $quiz=SQLselect(
               array(
                   'table' => 'quiz',
                   'query' => '
@@ -12,9 +15,7 @@ $quiz=SQLselect(
                   AND `account` = "'.$_SESSION['logged']['id'].'"
                   '
                 )
-        ); 
-if(isset($_SESSION['logged']))
-{
+        );
       echo '<div class="media alert';
       if($quiz){ echo ' green';}
       echo '">

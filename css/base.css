@@ -156,10 +156,43 @@ body.profile {
   border-bottom: 0;
   margin-bottom: 0;
 }
-.form .thumbnails img {
-  max-height: 100px;
+.form label.pic:hover{
+  cursor: pointer;
+}
+.form label.pic > input {
+    visibility: hidden;
+    position: absolute;
+}
+.form .thumbnails .thumb, 
+.form label.pic{
+  position: relative;
+  float: left;
+  max-height: 200px;
   width: auto;
   margin: 5px 10px;
+}
+.form .thumbnails .thumb span, 
+.form label.pic span{
+  position: absolute;
+  left: 5px;
+  top: 5px;
+}
+.form .thumbnails .thumb span.size, 
+.form label.pic span.size{
+    bottom: 5px;
+    top: auto;
+}
+.form .thumbnails .thumb img, 
+.form label.pic input + img{
+  max-height: 200px;
+  width: auto;
+}
+.form label.pic > input + img{
+filter: opacity(.5);
+}
+.form label.pic > input:checked + img {
+    border: 2px solid #000;
+    filter: opacity(1);
 }
 .avatars label > input{ /* HIDE RADIO */
   visibility: hidden; /* Makes input not-clickable */
@@ -269,7 +302,8 @@ body.profile {
 .comments .list-group>li a.dislike {
   text-decoration: underline;
 }
-.comments .list-group>li label.toid {
+.comments .list-group>li label.toid,
+.ecommerce .list-group>li label.toid {
   background: #fff;
   border: 1px solid #777;
   border-width: 1px 0;
@@ -280,7 +314,8 @@ body.profile {
   overflow: hidden;
   margin-right: 25px;
 }
-.comments .list-group>li textarea {
+.comments .list-group>li textarea,
+.ecommerce .list-group>li textarea {
   padding-top: 25px;
 }
 .comments>.panel>.list-group>li.list-group-item:first-child {
@@ -448,11 +483,11 @@ body.profile {
   right: 15%;
 }
 .carousel-images .item {
-  height: 300px !important;
+  height: 250px !important;
 }
 .carousel-images .item img {
   position: relative;
-  height: 300px !important;
+  height: 250px !important;
   width: auto;
 }
 .carousel-images .carousel-indicators {
@@ -552,6 +587,7 @@ input.upload {
   widows: auto;
   right: 15px;
 }
+
 /*.sidebar {
     min-height: 100vh;
     background-color: #222;
@@ -706,6 +742,10 @@ input.upload {
  .profile.wrapper>.sidebar {
       overflow: hidden;
  }
+ .ecommerce select.form-control {
+  max-width: 150px;
+}
+
 }
 @media (min-width: 992px) {
 
@@ -788,5 +828,7 @@ h3 {
   right: -85%;
   left: auto;
  }
-
+ .ecommerce .navbar-form {
+  margin: 0;
+}
 }

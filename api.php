@@ -143,6 +143,9 @@ if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
     }
     if($_POST['location']=='true' && isset($_POST['country']))
     {
+        $str_search=array("á","é","í","ó","ú","ñ"," ");
+        $str_replace=array("a","e","i","o","u","n","-");
+
         $estados=SQLselect(
               array(
                   'table' => 'estados',
@@ -152,57 +155,61 @@ if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
                   '
                 )
         );
-        if($_POST['country']=='México'){
-            echo '<div class="input-group">
-              <span class="input-group-addon"><i class="fa fa-dot-circle-o"></i></span>
-              <select class="form-control location_state" name="estado" data-target="#'.$_POST['formid'].'-municipios" required="requiered">
-                <option value="">Estado ...</option>';
+        if($_POST['country']=='mexico'){
+            echo '
+              <span class="input-group-btn hidden-xxs" style="width:0px;"></span>
+              <select class="form-control location" name="state" data-target="#'.$_POST['formid'].'-county" required>
+                <option value="all">Estado ...</option>
+                <option value="all">Todos ...</option>';
             foreach ($estados as $key => $value) {
-                echo '<option value="'.$value['estado'].'">'.$value['estado'].'</option>';
+                echo '<option value="'.strtolower(str_replace($str_search,$str_replace,$value['estado'])).'">'.$value['estado'].'</option>';
             }
               echo '
               </select>
-              <span class="input-group-btn hidden-xxs" style="width:0px;"></span>
-              <select class="form-control" name="municipio" id="'.$_POST['formid'].'-municipios">
-                <option value="" required="requiered">Municipio ...</option>
+              <select class="form-control" name="county" id="'.$_POST['formid'].'-county" required>
+                <option value="all">Seleccione ...</option>
               </select>
-            </div>';
+            ';
         }else{
-            if($_POST['country']=='Colombia'){
+            if($_POST['country']=='colombia'){
                 $estado='Departamentos';
             }
-            if($_POST['country']=='Argentina'){
+            if($_POST['country']=='argentina'){
                 $estado='Provincias';
             }
-            echo '<div class="input-group">
-              <span class="input-group-addon"><i class="fa fa-dot-circle-o"></i></span>
-              <select class="form-control" name="estado" required="requiered">
-                <option value="">'.$estado.' ...</option>';
+            echo '<span class="input-group-btn hidden-xxs" style="width:0px;"></span>
+              <select class="form-control" name="state" required>
+                <option value="all">'.$estado.' ...</option>
+                <option value="all">Todos ...</option>';
             foreach ($estados as $key => $value) {
-                echo '<option value="'.$value['estado'].'">'.$value['estado'].'</option>';
+                echo '<option value="'.strtolower(str_replace($str_search,$str_replace,$value['estado'])).'">'.$value['estado'].'</option>';
             }
               echo '
               </select>
-            </div>';
+            ';
         }
         
     }
     if($_POST['location']=='true' && isset($_POST['state']))
     {
+        $str_search=array("á","é","í","ó","ú","ñ"," ");
+        $str_replace=array("a","e","i","o","u","n","-");
+
         $municipios=SQLselect(
               array(
                   'table' => 'municipios',
                   'query' => '
                   SELECT * from municipios
-                  WHERE `estado` = "'.$_POST['state'].'"
+                  WHERE `estado` = "'.str_replace("-"," ",$_POST['state']).'"
                   '
                 )
             );
         echo '{';
+            echo '"Todos ...":"all",';
         foreach ($municipios as $key => $value) {
                 $x++;
                 if($x!=1){echo ',';}
-                echo '"'.$value['municipio'].'":"'.$value['municipio'].'"';
+                echo '"'.$value['municipio'].'":"'.strtolower(str_replace($str_search,$str_replace,$value['municipio'])).'"';
             }
         echo '}';
     }

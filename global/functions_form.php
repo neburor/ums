@@ -72,6 +72,16 @@ function FeedBackComment($feedback,$toname)
 		return $htmlComment;
 	}
 }
+function FeedBackValueOption($field=array(),$status=array())
+{
+	if($field['status'] && $status['show']==$status['status'])
+	{
+		if($field['status']!='nodata')
+		{
+			return '<option value="'.$field['value'].'" selected="selected">'.$field['value'].'</option>';
+		}
+	}
+}
 function FeedBackValueData($field=array(),$status=array())
 {
 	if($field['status'] && $status['show']==$status['status'])

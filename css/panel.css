@@ -53,6 +53,13 @@
     max-width: 45px;
     height: 45px;
 }
+.ums.dashboard .thumbnails img{
+    position: relative;
+    float: left;
+    max-height: 200px;
+    width: auto;
+    margin: 5px 10px;
+}
 .ums.dashboard .Differences {
   width: 100%;
   border-collapse: collapse;

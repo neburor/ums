@@ -21,7 +21,7 @@ $messages=SQLselect(
         INNER JOIN `accounts_sn`
             ON messages.`from_id` = accounts_sn.`account` 
             AND accounts.`pic` = accounts_sn.`network`
-        INNER JOIN `accounts_notif`
+        LEFT JOIN `accounts_notif`
             ON accounts.`id` = accounts_notif.`account` 
     WHERE messages.`domain` = '".$dataForm['domain']."'
     AND messages.`status`='0'

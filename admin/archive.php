@@ -84,3 +84,19 @@ if($data[0]=='glossary')
                 )
             );
 }
+if($data[0]=='ecommerce')
+{
+    $result=SQLupdate(
+            array(
+                'table'=>'ecommerce',
+                'limit'=>' '
+                ),
+            array(
+                'id'=>$data[1],
+                'status'=>'0'
+                ),
+            array(
+                'status'=>'2'
+                )
+            );
+}

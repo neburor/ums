@@ -25,7 +25,7 @@ echo '
 			<a href="#"><span class="icon"><i class="fa fa-list-alt"></i></span> Encuestas </a>
 		</li>
 		<li class="#">
-			<a href="#"><span class="icon"><i class="fa fa-newspaper-o"></i></span> Clasificados </a>
+			<a href="#ecommerce" data-hash="/ecommerce"><span class="icon"><i class="fa fa-newspaper-o"></i></span> eCommerce </a>
 		</li>
 	</ul>
 </nav>';
