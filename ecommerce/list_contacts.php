@@ -58,8 +58,10 @@ function ListContacts($url)
         LEFT JOIN `accounts_sn`
             ON contacts.`from` = accounts_sn.`account` 
             AND accounts.`pic` = accounts_sn.`network`
-    WHERE (contacts.`status`='1' || contacts.`status`='2' || contacts.`status`='3')
-    AND contacts.`url` = '".$url."'
+    WHERE
+    -- (contacts.`status`='1' || contacts.`status`='2' || contacts.`status`='3')
+    -- AND 
+    contacts.`url` = '".$url."'
     GROUP BY contacts.`id`
     ORDER BY contacts.`id` DESC"
                 )
@@ -80,11 +82,13 @@ function LIcontacts($messages)
     $contacts = array();
     foreach($messages as $key => $item)
     {
-        if($item['from_id']!=$_SESSION['logged']['id']){
+        if($item['from']!=$_SESSION['logged']['id'] ){
+            if($item['status']!='0'){
             $contacts[$item['from']]['id']= $item['from_id'];
             $contacts[$item['from']]['name']= $item['from_name'];
             $contacts[$item['from']]['pic']= $item['from_pic'];
             $contacts[$item['from']]['messages'][$key] = $item;
+            }
         }else{
             $contacts[$item['to']]['messages'][$key] = $item;
         }
@@ -141,8 +145,8 @@ function LIcontacts($messages)
                 $form=array(
                         'id'    =>'form_reply-'.$user,
                         'type'  =>'ecommerce',
-                        'action'=>'?replymessage='.$user.'#message_'.$user.'"',
-                        'callback'=>'#message_'.$user,
+                        'action'=>'?replymessage='.$user,
+                        'callback'=>'message_'.$user,
                         'to'       => $data['id'],
                         'toname' => $data['name']
                                 );

@@ -51,6 +51,12 @@ $('[data-hash]').on('click', function (e) {
   if (typeof(ga) === 'function') {
     ga('send', 'event', 'UMS', btn, label);
   }
+  if (typeof(gtag) === 'function') {
+    gtag('event', 'UMS', {
+      'event_category': btn,
+      'event_label': label
+    });
+  }
 });
 //comentarios
 $('.btn-expand').on("click", function (e){

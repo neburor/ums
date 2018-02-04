@@ -321,6 +321,9 @@ filter: opacity(.5);
 .comments>.panel>.list-group>li.list-group-item:first-child {
   padding: 10px 15px;
 }
+.ecommerce .list-group>.list-group-item .label{
+  position: absolute;
+}
 .poll .line-ind {
   padding: 2px;
   border-radius: 5px;

@@ -3,7 +3,7 @@
 $ecommerce=SQLselect(
             array(
                 'table'=>'ecommerce',
-                'query'=>"SELECT 
+                'query'=> "SELECT 
     ecommerce.`id`,
     ecommerce.`datetime`,
     ecommerce.`type`,
@@ -23,7 +23,7 @@ $ecommerce=SQLselect(
         INNER JOIN `accounts_sn`
             ON ecommerce.`account` = accounts_sn.`account` 
             AND accounts.`pic` = accounts_sn.`network` 
-    WHERE ecommerce.`domain` = '".$dataForm['domain']."'
+    WHERE ecommerce.`domain` = '" .$dataForm['domain']. "'
     AND ecommerce.`status`='0'
     GROUP BY ecommerce.`id`
     ORDER BY ecommerce.`id`
@@ -39,6 +39,8 @@ if($ecommerce)
     	{
             
     		$date=Interval($data['datetime']);
+            $location=json_decode($data['location'], true);
+
     		echo '	<li class="list-group-item ecommerce">
                 		<div class="media">
                     		<div class="media-left">
@@ -49,8 +51,16 @@ if($ecommerce)
                                 <small class="pull-right">Hace '.$date[0].' '.$date[1].'</small></span>';
             echo '           
                         </div>
-                        <p><strong>'.$data['title'].'</strong></p>
-                        <p>'.$data['description'].'</p>';
+                        <h5>'.$data['title'].'</h5>
+                          <hr>
+                         <h6><i class="fa fa-map-marker"></i> '.$location['country'];
+                        if($location['state']){
+                            echo ' '.$location['state'];
+                        }
+                        if($location['county']){
+                            echo ' '.$location['county'];
+                        }
+             echo '   </h6>  <p>'.$data['description'].'</p>';
                     if($images=json_decode($data['images'], true)){
               echo '<div class="thumbnails clearfix">';
               foreach ($images['list'] as $key => $value) {
@@ -63,10 +73,10 @@ if($ecommerce)
                             <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                 <ul class="nav nav-tabs">
-                    <li role="presentation"><button class="btn btn-link" data-source="" data-action="active" data-content="ecommerce:'.$data['id'].'" title="Publicar"><i class="fa fa-check-circle"></i></button></li>';
+                    <li role="presentation"><button class="btn btn-link" data-source="" data-action="active" data-content="ecommerce:'.$data['id'].':'.$data['account'].'" title="Publicar"><i class="fa fa-check-circle"></i></button></li>';
             echo '  <li role="presentation"><button class="btn btn-link" data-action="archive" data-source="" data-content="ecommerce:'.$data['id'].'" title="Archivar"><i class="fa fa-archive"></i></button></li>
                     <li role="presentation"><a href="#" role="tab" data-toggle="tab" data-target="#ecommerceedit_'.$data['id'].'" aria-controls="ecommerceedit_'.$data['id'].'" aria-expanded="false" title="Editar"><i class="fa fa-edit"></i></a></li>
-                  	<li role="presentation"><button class="btn btn-link" data-action="ban" data-content="ecommerce:'.$data['id'].'" title="Bannear"><i class="fa fa-ban"></i></button></li>
+                  	<li role="presentation"><button class="btn btn-link" data-action="ban" data-content="ecommerce:'.$data['id'].':'.$data['account'].'" title="Bannear"><i class="fa fa-ban"></i></button></li>
                     </ul>
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane" id="ecommerceedit_'.$data['id'].'">
@@ -80,7 +90,7 @@ if($ecommerce)
             <label for="country" class="control-label">Ubicacion :</label>
             <div class="input-group">
               <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>';
-              if($location=json_decode($data['location'], true))
+              if($location['country'])
               {
                 echo '<select class="form-control location" name="country" disabled>
                 <option value="" selected="">'.$location['country'].'</option>

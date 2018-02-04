@@ -60,6 +60,10 @@
     width: auto;
     margin: 5px 10px;
 }
+.ums.dashboard hr {
+  margin: 0;
+  border-top: 1px dashed rgba(255,255,255,.4);
+}
 .ums.dashboard .Differences {
   width: 100%;
   border-collapse: collapse;

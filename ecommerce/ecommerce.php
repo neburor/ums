@@ -5,7 +5,7 @@ if(isset($_POST) && ($_POST['formtype']=='ecommerce'))
 {
     if(isset($url)){
         $_POST['url']=$url;}
-    
+
     $_POST['cat']=$ecommerce['cat'];
     $_POST['imgdir']=$ecommerce['imgdir'];
     if(isset($_POST['message'])){
@@ -35,7 +35,7 @@ if(isset($_POST) && $_POST['search']=='ecommerce')
 }
 function CreateAccount($params=array())
 {
-     include 'ums/accounts/function_NewAccount.php';
+        include 'ums/accounts/function_NewAccount.php';
         include 'ums/accounts/function_SearchAccount.php';
         include 'ums/accounts/function_SearchNetworks.php';
         include 'ums/accounts/function_SearchContacts.php'; 
@@ -161,7 +161,7 @@ function InsertContact($params=array()){
                 'from'      => $params['account'],
                 'to'        => $params['to'],
                 'message'   => $params['message'],
-                'status'     => '1'
+                'status'     => '0'
                 )
             );
         if($resultado)
@@ -238,12 +238,12 @@ function InsertEcommerce($params=array())
                             LIMIT 1
                             '));
 
-        $ubicacion='{"pais":"'.$params['country'].'"';
+        $ubicacion='{"country":"'.$params['country'].'"';
         if($params['state']){
-            $ubicacion.=',"estado":"'.$params['state'].'"';
+            $ubicacion.=',"state":"'.$params['state'].'"';
         }
         if($params['county']){
-            $ubicacion.=',"municipio":"'.$params['county'].'"';
+            $ubicacion.=',"county":"'.$params['county'].'"';
         }
         $ubicacion.='}';
 
@@ -267,6 +267,7 @@ function InsertEcommerce($params=array())
             array(
                 'datetime'  => $params['datetime'],
                 'domain'    => $params['domain'],
+                'url'       => $ecommerce['path'].'pub_'.$value['id'].'.html',
                 'type'      => 'ctc',
                 'account'   => $params['account'],
                 'status'    => '0',
@@ -281,7 +282,9 @@ function InsertEcommerce($params=array())
             if($resultado && !empty($_FILES)) 
             { 
                 
-                include('ums/class.upload_0.32/class.upload.php'); 
+                include('class.upload_0.32/class.upload.php');
+                $wImages=0;
+                $x=0;
                 for ($i = 0; $i < count($_FILES['images']['name']); $i++) {
                                                        
                     if($_FILES['images']['size'][$i] < 512000 && $i<10)
@@ -310,7 +313,7 @@ function InsertEcommerce($params=array())
                                 $handle->file_name_body_add   = '_thumbnail';
                                 $handle->image_resize         = true;
                                 $handle->image_ratio_crop     = true;
-                                $handle->image_watermark      = '../theme/'.THEMEDIR.'/watermark.png';
+                                $handle->image_watermark      = 'ums/theme/'.THEMEDIR.'/watermark.png';
                                 $handle->image_watermark_position = 'BR';
                                 $handle->image_y              = 250;
                                 $handle->image_x              = 300;
@@ -451,6 +454,7 @@ function UpdateEcommerce($params=array())
             $activeimg[$value]=1;
         }
         if($images=json_decode($result['images'], true)){
+            $ListIMG='';
             foreach ($images['list'] as $key => $value) {
                 $x++;
                 if($x!=1){$ListIMG.=',';}
@@ -466,7 +470,7 @@ function UpdateEcommerce($params=array())
 
             if(!empty($_FILES)) 
             {
-                include('ums/class.upload_0.32/class.upload.php');   
+                include('class.upload_0.32/class.upload.php');
                 for ($i = 0; $i < count($_FILES['images']['name']); $i++) {
                                                        
                     if($_FILES['images']['size'][$i] < 512000 && $i<(10-$max))
@@ -489,7 +493,7 @@ function UpdateEcommerce($params=array())
                                 $handle->file_name_body_add   = '_thumbnail';
                                 $handle->image_resize         = true;
                                 $handle->image_ratio_crop     = true;
-                                $handle->image_watermark      = '../theme/'.THEMEDIR.'/watermark.png';
+                                $handle->image_watermark      = 'ums/theme/'.THEMEDIR.'/watermark.png';
                                 $handle->image_watermark_position = 'BR';
                                 $handle->image_y              = 250;
                                 $handle->image_x              = 300;

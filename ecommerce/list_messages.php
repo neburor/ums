@@ -68,6 +68,7 @@ function ListECmessages($account)
                         AND accounts.`pic` = accounts_sn.`network`
                 WHERE messages.`url` = 'http://".$_SERVER['HTTP_HOST'].strtok($_SERVER["REQUEST_URI"],'?')."' 
                 AND (messages.`from` = '".$account."' OR messages.`to` = '".$account."') 
+                AND messages.`status` = '1'
                 GROUP BY messages.`id`
                 ORDER BY messages.`id` ASC"
                 )
@@ -118,7 +119,7 @@ function LIECmessages($messages)
    
         if(($count==1)or($li==1))
         {
-            $message_list.='<li class="list-group-item container-fluid" id="message_'.$data['id'].'">';
+            $message_list.='<li class="list-group-item container-fluid">';
             $li=0;
         }
         
@@ -138,7 +139,7 @@ function LIECmessages($messages)
             {
             $message_list.= '<p class="list-group-item-heading text-right"><strong>'.$data['from_name'].' <i class="fa fa-envelope"></i></strong></p>';
             }
-            $message_list.= '<p class="list-group-item-text text-right"><small class="pull-left">Hace '.$date[0].' '.$date[1].'</small> '.$data['message'].'</p>';   
+            $message_list.= '<p class="list-group-item-text text-right" id="message_'.$data['id'].'"><small class="pull-left">Hace '.$date[0].' '.$date[1].'</small> '.$data['message'].'</p>';   
        }
     }
 

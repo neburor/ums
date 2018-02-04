@@ -1,5 +1,5 @@
 <?php
-#Archive
+#Active
 $route = explode(":", $dataForm['content']);
 if($route[0]=='message')
 {
@@ -227,7 +227,7 @@ if ($route[0]=='glossary') {
     }
 }
 if ($route[0]=='ecommerce') {
-   $result=SQLupdate(
+   $update=SQLupdate(
             array(
                 'table'=>'ecommerce',
                 'limit'=>' '
@@ -240,13 +240,145 @@ if ($route[0]=='ecommerce') {
                 'status'=>'1'
                 )
             );
-    if($result)
+    if($update)
     {
+        $result=SQLselect(
+            array(
+                'table'=>'ecommerce',
+                'limit'=>'LIMIT 1',
+                'query'=>'
+                SELECT *
+                FROM `ecommerce`
+                WHERE
+                `id`="'.$route[1].'"
+                LIMIT 1
+                '
+                )
+            );
+        if($result){
+            $notifapp=SQLinsert(
+                array(
+                    'table'=>'notifications_app'
+                ),
+                array(
+                    'datetime'=> date("Y-m-d H:i:s"),
+                    'domain'=> $dataForm['domain'],
+                    'from_id'=> '0',
+                    'to_id'=> $result['account'],
+                    'asset'=> 'ecommerce',
+                    'asset_id'=> $result['id'],
+                    'status'=> '0'
+                )
+            );
+            include 'function_SendEmail.php';
+            $Send_email=Send_email(array(
+                    'asset'     => 'ecommerce',
+                    'asset_id'  => $result['id'],
+                    'template'  => 'ecommerce_active',
+                    'domain'    => $dataForm['domain'],
+                    'id'        => $result['account'],
+                    'url'       => $result['url'],
+                    'title'     => $result['title'],
+                    'notifapp'  => $notifapp
+                )
+            );
+        }
          $response['alert']['warning']='Se activo el contenido.';
     }
     else
     {
          $response['alert']['warning']='No se activo el contenido.';
+    }
+}
+if ($route[0]=='ecommerce_message') {
+   $update=SQLupdate(
+            array(
+                'table'=>'ecommerce_messages',
+                'limit'=>' '
+                ),
+            array(
+                'id'=>$route[1],
+                'status'=>'0'
+                ),
+            array(
+                'status'=>'1'
+                )
+            );
+    if($update)
+    {
+        $result=SQLselect(
+            array(
+                'table'=>'ecommerce_messages',
+                'limit'=>'LIMIT 1',
+                'query'=>'
+                SELECT
+                a.*,
+                b.`account`,
+                a1.`name` AS `from_name`,
+                sn1.`pic` AS `from_pic`,
+                a2.`name` AS `to_name`,
+                sn2.`pic` AS `to_pic`
+                FROM `ecommerce_messages` a
+                    LEFT JOIN `ecommerce` b
+                        ON a.`url` = b.`url`
+                    LEFT JOIN `accounts` a1
+                        ON a.`from` = a1.`id`
+                    LEFT JOIN `accounts_sn` sn1 
+                        ON a.`from` = sn1.`account` 
+                        AND a1.`pic` = sn1.`network`
+                    LEFT JOIN `accounts` a2
+                        ON a2.`id` = CASE 
+                        when a.`to` = 0 then b.`account` else a.`to` END
+                    LEFT JOIN `accounts_sn` sn2 
+                        ON sn2.`account` = CASE 
+                        when a.`to` = 0 then b.`account` else a.`to` END 
+                        AND a2.`pic` = sn2.`network` 
+                WHERE
+                a.`id`="'.$route[1].'"
+                LIMIT 1
+                '
+                )
+            );
+        if($result){
+            if($result['to']=='0'){
+                $to_id=$result['account'];
+            }else{
+                $to_id=$result['to'];
+            }
+            $notifapp=SQLinsert(
+                array(
+                    'table'=>'notifications_app'
+                ),
+                array(
+                    'datetime'=> date("Y-m-d H:i:s"),
+                    'domain'=> $dataForm['domain'],
+                    'from_id'=> $result['from'],
+                    'to_id'=> $to_id,
+                    'asset'=> 'ecommerce_message',
+                    'asset_id'=> $result['id'],
+                    'status'=> '0'
+                )
+            );
+            include 'function_SendEmail.php';
+            $Send_email=Send_email(array(
+                    'asset'     => 'ecommerce_message',
+                    'asset_id'  => $result['id'],
+                    'template'  => 'ecommerce_message',
+                    'domain'    => $dataForm['domain'],
+                    'id'        => $to_id,
+                    'url'       => $result['url'],
+                    'message'   => $result['message'],
+                    'from_name' => $result['from_name'],
+                    'from_pic'  => $result['from_pic'],
+                    'notifapp'  => $notifapp
+                )
+            );
+        }
+         $response['alert']['warning']='Se activo el mensaje. '.$Send_email;
+    }
+    else
+    {
+         $response['alert']['warning']='No se activo el mensaje.';
     }
 }
 echo json_encode($response);
