@@ -14,6 +14,7 @@ function SearchPolls($content)
     foreach ($polls as $key => $value) {
       $content=str_replace($value[0], htmlPoll(array('id'=>$value['value'][0][1])),$content);
   }
+  	$result['polls']=$polls;
   	$result['content']=$content;
 
   	return $result;

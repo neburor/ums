@@ -42,7 +42,7 @@ $glossary=SQLselect(
     ORDER BY day desc"
                 )
             );
-
+$domain=strtok($_POST['domain'],'.');
 for ($i=7; $i >= 0; $i--) { 
   $date=date('Y-m-d', strtotime('-'.$i.' days'));
   $data[$date]['day']=$date;
@@ -68,7 +68,7 @@ $keys='{"x":"day","value":["wiki","edits","glossary"]}';
 $names='{"wiki":"Wiki","edits":"Ediciones","glossary":"Glosario"}';
 
 $data_content='{
-              "bindto": "#resumecontents",
+              "bindto": "#resumecontents_'.$domain.'",
               "data": {
                   "json": ['.$columns.'],
                   "keys": '.$keys.',
@@ -81,7 +81,7 @@ $data_content='{
                 }
             ';
 
-echo '<div class="chartc3" id="resumecontents"'; 
+echo '<div class="chartc3" id="resumecontents_'.$domain.'"'; 
 echo "data-content='".$data_content."'";
 echo "></div>";
 

@@ -25,7 +25,8 @@ function Send_email($type,$params=array())
                     'send'=> date("Y-m-d H:i:s"),
                     'domain'=> UMSDOMAIN,
                     'account'=> $params['id'], 
-                    'asset'=> $type
+                    'asset'=> $type,
+                    'template'=> 'email_'.$type
                     )
             );
         

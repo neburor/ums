@@ -30,7 +30,7 @@ $Taccounts=SQLselect(
                   ORDER BY `network`"
                 )
             );
-
+$domain=strtok($_POST['domain'],'.');
 foreach ($Taccounts as $key => $value) {
   $TotalAccounts=$value['users']+$TotalAccounts;
   $xs++;
@@ -109,7 +109,7 @@ $names_timeline='{"register":"Registros"}';
 //               }
               
 //             ';
-$data_content_source='{"bindto": "#registry_source",
+$data_content_source='{"bindto": "#registry_source_'.$domain.'",
                 "data": {
                    "columns": ['.$columns_source.'],
                    "keys": {"value":"users"},
@@ -123,7 +123,7 @@ $data_content_source='{"bindto": "#registry_source",
                "size": { "height": 100 } 
              }';
 
-$data_content_timeline='{"bindto": "#registry_timeline",
+$data_content_timeline='{"bindto": "#registry_timeline_'.$domain.'",
                 "data": {
                    "json": ['.$columns_timeline.'],
                    "keys": '.$keys_timeline.',
@@ -136,14 +136,15 @@ $data_content_timeline='{"bindto": "#registry_timeline",
                "legend": { "hide": true },
                "size": { "height": 70 } 
              }';
+
 echo '  <div class="col-xs-12 nopadding">
           <div class="panel panel-default">
             <div class="panel-heading"> '.$data1t.' registros hasta hoy</div>
             <div class="panel-body mobile">
-              <div class="chartc3 col-sm-10 col-xs-8 nopadding" id="registry_timeline"';
+              <div class="chartc3 col-sm-10 col-xs-8 nopadding" id="registry_timeline_'.$domain.'"';
             echo "data-content='".$data_content_timeline."'";
             echo "></div>";
-echo '        <div class="chartc3 col-sm-2 col-xs-4 nopadding" id="registry_source"';
+echo '        <div class="chartc3 col-sm-2 col-xs-4 nopadding" id="registry_source_'.$domain.'"';
             echo "data-content='".$data_content_source."'";
             echo "></div>
             </div>
@@ -160,7 +161,7 @@ $keys_resume='{"x":"day","value":["email","fb","gl","tw"]}';
 $names_resume='{"email":"Correo","fb":"Facebook","gl":"Google","tw":"Twitter"}';
 
 $data_content_resume='{
-              "bindto": "#registry_resume",
+              "bindto": "#registry_resume_'.$domain.'",
               "data": {
                   "json": ['.$columns_resume.'],
                   "keys": '.$keys_resume.',
@@ -174,6 +175,52 @@ $data_content_resume='{
                 }
             ';
 
-echo '<div class="col-xs-12"><div class="chartc3" id="registry_resume"'; 
+echo '<div class="col-xs-12"><div class="chartc3" id="registry_resume_'.$domain.'"'; 
 echo "data-content='".$data_content_resume."'";
 echo "></div></div>";
+$TForms=SQLselect(
+            array(
+                'table'=>'accounts',
+                'query'=>"SELECT  
+                    `form_id`, 
+                    COUNT(*) AS total
+                  FROM `accounts`
+                  WHERE `domain` = '".$_POST['domain']."'
+                  GROUP BY `form_id`
+                  ORDER BY `total` DESC
+                  LIMIT 10"
+                )
+            );
+$TURLs=SQLselect(
+            array(
+                'table'=>'accounts',
+                'query'=>"SELECT  
+                    `url_ref`, 
+                    COUNT(*) AS total
+                  FROM `accounts`
+                  WHERE `domain` = '".$_POST['domain']."'
+                  GROUP BY `url_ref`
+                  ORDER BY `total` DESC
+                  LIMIT 10"
+                )
+            );
+echo '<div class="col-xs-12 col-md-6">
+        <div class="panel panel-default">
+          <div class="panel-heading"><i class="fa fa-align-left"></i> Formularios</div>
+          <ul class="list-group">';
+          foreach ($TForms as $key => $value) {
+            if($value['form_id']==NULL){$value['form_id']='Sin datos';}
+            echo '<li class="list-group-item"><span class="badge">'.$value['total'].'</span>'.$value['form_id'].'</li>';
+          }
+ echo '</ul></div>
+      </div>';
+echo '<div class="col-xs-12 col-md-6">
+        <div class="panel panel-default">
+          <div class="panel-heading"><i class="fa fa-link"></i> URLs</div>
+          <ul class="list-group">';
+          foreach ($TURLs as $key => $value) {
+            if($value['url_ref']==NULL){$value['url_ref']='Sin datos';}
+            echo '<li class="list-group-item"><span class="badge">'.$value['total'].'</span>'.$value['url_ref'].'</li>';
+          }
+ echo '</ul></div>
+      </div>';

@@ -13,7 +13,7 @@ $accounts=SQLselect(
     ORDER BY day desc"
                 )
             );
-
+$domain=strtok($_POST['domain'],'.');
 
 for ($i=6; $i >= 0; $i--) { 
   $date=date('Y-m-d', strtotime('-'.$i.' days'));
@@ -59,8 +59,8 @@ foreach ($data2 as $key => $value) {
   {
     $dataL='<span class="text-danger">'.$dataD.', '.round($dataP,2).'%</span>';
   }
-  
-$data_content ='{"bindto": "#dbregistros",
+
+$data_content ='{"bindto": "#dbregistros_'.$domain.'",
                 "data": {
                    "json": {"data1":['.$columns1.'],"data2":['.$columns2.']}
                  },
@@ -80,7 +80,7 @@ echo '
     <div class="panel panel-default">
       <div class="panel-heading"><i class="fa fa-users"></i> '.$data2t.' Registros ('.$dataL.')</div>
       <div class="panel-body">
-        <div class="chartc3" id="dbregistros" data-content=';
+        <div class="chartc3" id="dbregistros_'.$domain.'" data-content=';
 echo "'".$data_content."'";
 echo      '></div> 
       </div>
@@ -169,7 +169,7 @@ foreach ($data2 as $key => $value) {
     $dataL='<span class="text-danger">'.$dataD.', '.round($dataP,2).'%</span>';
   }
 
-  $data_content ='{"bindto": "#dbcontents",
+  $data_content ='{"bindto": "#dbcontents_'.$domain.'",
                   "data": {
                    "json": {"data1":['.$columns1.'],"data2":['.$columns2.']}
                  },
@@ -188,7 +188,7 @@ echo '
     <div class="panel panel-default">
       <div class="panel-heading"><i class="fa fa-file-text"></i> '.$data2t.' Contenidos ('.$dataL.')</div>
       <div class="panel-body">
-        <div class="chartc3" id="dbcontents" data-chart="dashboard" data-content=';
+        <div class="chartc3" id="dbcontents_'.$domain.'" data-chart="dashboard" data-content=';
 echo "'".$data_content."'";
 echo      '></div> 
       </div>

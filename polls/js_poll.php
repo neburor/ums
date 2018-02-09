@@ -19,6 +19,15 @@ $.fn.umsPoll = function ()
       $(this).attr(\'disabled\',\'disabled\');
     });
   }
+  if (typeof(ga) === \'function\') {
+    ga(\'send\', \'event\', \'UMS\', \'poll\', route[1]);
+  }
+  if (typeof(gtag) === \'function\') {
+    gtag(\'event\', \'UMS\', {
+      \'event_category\': \'poll\',
+      \'event_label\': route[1]
+    });
+  }
   var formData = new FormData();
   formData.append("ums", "poll");
   formData.append("asset_id", route[2]);

@@ -290,8 +290,8 @@ include 'ums/login/html_recovery-tab.php';
   }
   if($functions['polls'])
   {
-    $polls=SearchPolls($dataWikiuser['content']);
-    $dataWikiuser['content']=$polls['content'];
+    $polls=SearchPolls($html_wiki);
+    $html_wiki=$polls['content'];
   }
 }
 
