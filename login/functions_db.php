@@ -242,7 +242,7 @@ function Recovery($post= array())
                 'useremail'=> $post['useremail']
                 )
             );
-        if($resultado && Send_email('recovery',$resultado))
+        if($resultado && Send_email('recovery','auto',$resultado))
         {
             $response['alert'] = array('success'=>'Se ha enviado tu contraseña por correo, verifica tu bandeja y correos no deseados.');   
         }

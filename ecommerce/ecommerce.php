@@ -6,7 +6,9 @@ if(isset($_POST) && ($_POST['formtype']=='ecommerce'))
     if(isset($url)){
         $_POST['url']=$url;}
 
+    $_POST['id']=$ecommerce['id'];
     $_POST['cat']=$ecommerce['cat'];
+    $_POST['path']=$ecommerce['path'];
     $_POST['imgdir']=$ecommerce['imgdir'];
     if(isset($_POST['message'])){
         $formstatus=InsertContact($_POST);
@@ -157,7 +159,8 @@ function InsertContact($params=array()){
                 'domain'    => $params['domain'],
                 'device'    => $params['device'],
                 'url'       => $params['url'],
-                'form'      => $params['formid'],
+                'post'      => $params['id'],
+                'form'      => $params['form'],
                 'from'      => $params['account'],
                 'to'        => $params['to'],
                 'message'   => $params['message'],
@@ -267,7 +270,7 @@ function InsertEcommerce($params=array())
             array(
                 'datetime'  => $params['datetime'],
                 'domain'    => $params['domain'],
-                'url'       => $ecommerce['path'].'pub_'.$value['id'].'.html',
+                'path'      => $params['path'],
                 'type'      => 'ctc',
                 'account'   => $params['account'],
                 'status'    => '0',
@@ -548,7 +551,7 @@ function UpdateEcommerce($params=array())
             
             
             $response['alert']['success'] = 'Tu publicación se actualizo, pronto te responderemos.';
-            if($wImages){
+            if(!empty($_FILES) && $wImages){
                 $response['alert']['warning'] = '('.$wImages.') imagenes no se guardaron. Deben medir menos de 0.5Mb (512Kb), ser (JPG,PNG,GIF) y máximo 10.';
             }
 

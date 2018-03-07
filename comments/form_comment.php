@@ -35,7 +35,7 @@ $FormComment.=  '<textarea class="form-control" name="comment" placeholder="Escr
 else
 {
 $FormComment = '	
-	<form class="form" role="form" action="'.$form['action'].'#'.$form['callback'].'" method="POST">
+	<form class="form row" role="form" action="'.$form['action'].'#'.$form['callback'].'" method="POST">
         <input type="hidden" name="formid" value="'.$form['id'].'">
         <input type="hidden" name="formtype" value="'.$form['type'].'">
          <input type="hidden" name="route" value="'.$form['toid'].':'.$form['inid'].':'.$form['tocomm'].'">

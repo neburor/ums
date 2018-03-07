@@ -1,5 +1,7 @@
 <?php
-session_start();
+if(!session_id()) {
+    session_start();
+}
 #error_reporting(E_ERROR | E_WARNING | E_PARSE);
 
 require '../config.php';
@@ -14,7 +16,7 @@ $fb = new Facebook\Facebook([
   ]);
 
 $helper = $fb->getRedirectLoginHelper();
-
+$_SESSION['FBRLH_state']=$_GET['state'];
 if($accessToken = $helper->getAccessToken())
 {
 	if($graphUser = $fb->get('/me?fields=id,name,email,cover,picture.height(110).width(110)', $accessToken))

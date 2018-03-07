@@ -35,13 +35,11 @@ if($messages)
 {
 	echo '<ul class="list-group">';
 		
-		foreach ($messages as $column => $data) 
-    	{
-    		$formid[$data['from_id']]++;
-    		if($formid[$data['from_id']]==1)
-    		{
-    			
-    		echo '	<li class="list-group-item message">
+	foreach ($messages as $column => $data) 
+    {
+    	$formid[$data['from_id']]++;
+    	if($formid[$data['from_id']]==1){		
+        	echo '	<li class="list-group-item message">
                 		<div class="media">
                     		<div class="media-left">
                         		<img class="media-object profile-pic" alt="'.$data['from_name'].'" src="'.$data['from_pic'].'">
@@ -52,8 +50,7 @@ if($messages)
                             
                         	</span>
                         	'; 
-            if($data['older_messages']!=0)
-            {
+            if($data['older_messages']!=0){
                 $result=SQLselect(
                         array(
                             'table'=>'messages',
@@ -66,9 +63,9 @@ if($messages)
                             "
                             )
                         );
-                if($result) {
+                if($result){
                     echo '<div class="collapse history" id="messagehistory_'.$data['id'].'">';
-                    foreach ($result as $key => $value) {
+                    foreach ($result as $key => $value){
                         $date=Interval($value['datetime']);
                         echo '<p';
                         if($data['from_id']==$value['to_id']){
@@ -76,15 +73,12 @@ if($messages)
                         }
                         echo '><small class="pull-right">Hace '.$date[0].' '.$date[1].'</small> 
                       '.$value['message'].'</p>';
-                        
-                    
                     }
                     echo '</div>';
                 }
             }
-            foreach ($messages as $key => $value) {
-            	if($data['from_id']==$value['from_id'])
-            	{
+            foreach ($messages as $key => $value){
+            	if($data['from_id']==$value['from_id']){
             		$date=Interval($value['datetime']);
             		echo '<p><small class="pull-right">Hace '.$date[0].' '.$date[1].'</small> 
                       '.$value['message'].'</p>';
@@ -98,8 +92,7 @@ if($messages)
                         </div>
                 <ul class="nav nav-tabs">
                   	<li role="presentation"><a href="#" role="tab" data-toggle="tab" data-target="#messagereply_'.$data['id'].'" aria-controls="messagereply_'.$data['id'].'" aria-expanded="false" title="Responder"><i class="fa fa-reply"></i></a></li>';
-            if($data['notif']==1 || $data['notif']==2)
-            {
+            if($data['notif']==1 || $data['notif']==2){
                 echo '<li role="presentation"><a href="#" role="tab" data-toggle="tab" data-target="#messagemail_'.$data['id'].'" aria-controls="messagemail_'.$data['id'].'" aria-expanded="false" title="Enviar correo"><i class="fa fa-envelope-square"></i></a></li>';
             }
             echo ' 	<li role="presentation" class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-mail-reply-all"></i></a>
@@ -109,11 +102,10 @@ if($messages)
      				</li>
                   	<li role="presentation"><button class="btn btn-link" data-action="archive" data-content="message:'.$data['from_id'].'" title="Archivar"><i class="fa fa-archive"></i></button></li>
                     <li role="presentation"><button class="btn btn-link" data-action="ban" data-content="message:'.$data['id'].'" title="Bannear"><i class="fa fa-ban"></i></button></li>';
-        if($data['older_messages']!=0)
-        {
-            echo '<li role="presentation"><a href="#" role="button" data-toggle="collapse" data-target="#messagehistory_'.$data['id'].'" aria-expanded="false" aria-controls="messagehistory_'.$data['id'].'">'.$data['older_messages'].' <i class="fa fa-history"></i></a></li>';
-        }
-        echo ' </ul>
+            if($data['older_messages']!=0){
+                echo '<li role="presentation"><a href="#" role="button" data-toggle="collapse" data-target="#messagehistory_'.$data['id'].'" aria-expanded="false" aria-controls="messagehistory_'.$data['id'].'">'.$data['older_messages'].' <i class="fa fa-history"></i></a></li>';
+            }
+            echo ' </ul>
                 <div class="tab-content">
                 	<div role="tabpanel" class="tab-pane" id="messagereply_'.$data['id'].'">
                     	<form class="form reply" role="form" method="post" action="">
@@ -132,8 +124,7 @@ if($messages)
             			</div>
           				</form>
                   	</div>';
-            if($data['notif']==1 || $data['notif']==2)
-            {
+            if($data['notif']==1 || $data['notif']==2){
                 echo '<div role="tabpanel" class="tab-pane" id="messagemail_'.$data['id'].'">
                         <form class="form reply" role="form" method="post" action="">
                         <div class="response"></div>
@@ -152,20 +143,19 @@ if($messages)
                         </form>
                     </div>';
             }
-        echo '  </div>
+            echo '  </div>
                 		</div>
               		</li>';
-    		}
-    		
-    	}
-	echo '</ul>';	
+        } 		
+    }
+    echo '</ul>';	
 }
 else
 {
 	echo '	<div class="media">
                 <div class="media-body text-center">
-                  <i class="fa fa-commenting fa-4x"></i>
-                  <b class="media-heading">NINGUN COMENTARIO NUEVO</b>
+                  <i class="fa fa-envelope fa-4x"></i>
+                  <b class="media-heading">NINGUN MEMSAJE NUEVO</b>
                 </div> 
         	</div>';
 }

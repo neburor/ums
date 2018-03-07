@@ -36,41 +36,48 @@ if($ecommerce_messages)
 {
 	echo '<ul class="list-group">';
 		
-		foreach ($ecommerce_messages as $column => $data) 
-    	{
+		foreach ($ecommerce_messages as $column => $data){
+
+            $formid[$data['from']]++;
+            if($formid[$data['from']]==1){
             
-    		$date=Interval($data['datetime']);
-        if(!$_SESSION['urls'][$data['url']])
-            {
-                $_SESSION['urls'][$data['url']]=get_meta_tags($data['url'].'?metatags');
-            }
-    		echo '	<li class="list-group-item ecommerce_message">
+                if(!$_SESSION['urls'][$data['url']]){
+                    $_SESSION['urls'][$data['url']]=get_meta_tags($data['url'].'?metatags');
+                }
+                echo '	<li class="list-group-item ecommerce_message">
                 		<div class="media">
                     		<div class="media-left">
                         		<img class="profile-pic" alt="'.$data['from_name'].'" src="'.$data['from_pic'].'">
                     		</div>
                     	<div class="media-body">';
-            echo '      <span class="media-heading"><b>'.$data['from_name'].'</b>';
-            if($data['to_name']!=NULL){
-                echo ' a <i>'.$data['to_name'].'</i>';
-            }
-            echo ' en <a href="'.$data['url'].'" target="_blank">'.$_SESSION['urls'][$data['url']]['title'].' <i class="fa fa-external-link-square"></i></a>
-                                <small class="pull-right">Hace '.$date[0].' '.$date[1].'</small></span>';
-            echo '           
-                        </div>
-                        <p>'.$data['message'].'</p>';
+                echo '      <span class="media-heading"><b>'.$data['from_name'].'</b>';
+                if($data['to_name']!=NULL){
+                    echo ' a <i>'.$data['to_name'].'</i>';
+                }
+                echo ' en <a href="'.$data['url'].'" target="_blank">'.$_SESSION['urls'][$data['url']]['title'].' <i class="fa fa-external-link-square"></i></a>
+                                ';
+                echo '           
+                        </div>';
+                foreach ($ecommerce_messages as $key => $value){
+                    if($data['from']==$value['from']){
+                        $date=Interval($value['datetime']);
+                        echo '<p><small class="pull-right">Hace '.$date[0].' '.$date[1].'</small> 
+                      '.$value['message'].'</p>';
+                    }
+                }
 
                 echo '  <div class="progress">
                             <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                 <ul class="nav nav-tabs">
-                    <li role="presentation"><button class="btn btn-link" data-source="" data-action="active" data-content="ecommerce_message:'.$data['id'].'" title="Activar"><i class="fa fa-check-circle"></i></button></li>';
-            echo '  <li role="presentation"><button class="btn btn-link" data-action="archive" data-source="" data-content="ecommerce_message:'.$data['id'].'" title="Archivar"><i class="fa fa-archive"></i></button></li>
+                    <li role="presentation"><button class="btn btn-link" data-source="'.$data['url'].','.$_SESSION['urls'][$data['url']]['title'].'" data-action="active" data-content="ecommerce_message:'.$data['id'].':'.$data['from'].'" title="Activar"><i class="fa fa-check-circle"></i></button></li>';
+                echo '  <li role="presentation"><button class="btn btn-link" data-action="archive" data-source="" data-content="ecommerce_message:'.$data['id'].':'.$data['from'].'" title="Archivar"><i class="fa fa-archive"></i></button></li>
                   	<li role="presentation"><button class="btn btn-link" data-action="ban" data-content="ecommerce:'.$data['id'].':'.$data['account'].'" title="Bannear"><i class="fa fa-ban"></i></button></li>
                     </ul>
                     </div>
                     </li>';	
-    	}
+            }
+        }
 	echo '</ul>';	
 }
 else
@@ -78,7 +85,7 @@ else
 	echo '	<div class="media">
                 <div class="media-body text-center">
                   <i class="fa fa-comments-o fa-4x"></i>
-                  <b class="media-heading">NINGUN MENSAJE</b>
+                  <b class="media-heading">NINGUN MENSAJE NUEVO</b>
                 </div> 
         	</div>';
 }

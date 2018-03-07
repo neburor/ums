@@ -24,6 +24,8 @@ function Send_email($params=array())
                     'id'=>$params['id']
                     )
             );
+        include 'theme/'.str_replace('.', '-', $params['domain']).'/config.php';
+        include 'admin_templates.php';
 
         $emails=SQLinsert(
                 array(
@@ -35,22 +37,42 @@ function Send_email($params=array())
                     'account'=> $params['id'], 
                     'asset'=> $params['asset'],
                     'asset_id'=> $params['asset_id'],
-                    'template'=>$params['template']
+                    'campaign'=>$params['template']
                     )
             );
 
-		require 'theme/'.str_replace('.', '-', $params['domain']).'/'.$params['template'].'.php';
+		#require 'theme/'.str_replace('.', '-', $params['domain']).'/'.$params['template'].'.php';
+
+        if(!isset($params['name']))
+        {
+            $params['name']=$account['name'];
+        }
+
+        $params['email']=$notifs['notif'];
+        $params['emailid']=$emails;
+        $params['token_hash']=$account['token_hash'];
+        $Template=Template($params);
 
 		$headers = "MIME-Version: 1.0" . "\n"; 
     	$headers .="Content-type: text/html; charset=utf-8" . "\n";
-    	$headers .="From: ".$params['domain']." <contacto@".$params['domain'].">" . "\r\n";
+    	$headers .="From: ".$Template['from']." <contacto@".$params['domain'].">" . "\r\n";
     	$headers .="X-Sender: <x-sender@".$params['domain'].">\n" . "\r\n";
         
         
 
-     	if (mail($notifs['notif'],$subjet,$cuerpo,$headers))
+     	if (mail($notifs['notif'],$Template['subject'],$Template['content'],$headers))
      	{
-            
+            $update=SQLupdate(
+                array(
+                    'table'=>'emails'
+                    ),
+                array(
+                    'id'=> $emails
+                    ),
+                array(    
+                    'template' => $Template['id']
+                    )
+            );
      		$response='Correo enviado. ';
      	}
      	else

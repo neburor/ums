@@ -121,7 +121,7 @@ if(isset($_GET))
   if(isset($_GET['sendconfirm']))
   {
     include 'accounts/function_SendEmail.php';
-    if(Send_email('confirmation',$_SESSION['logged']))
+    if(Send_email('confirmation','reenvio',$_SESSION['logged']))
     {
        header("Location: " . $_SERVER['HTTP_REFERER'].'#'.$_GET['callback']);
     }

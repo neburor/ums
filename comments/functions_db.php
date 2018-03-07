@@ -249,24 +249,21 @@ function ListComments($url)
     comments.`in_id`,
     comments.`comment`,
     comments.`status`,
-    accounts.`name` AS `from_name`,
-    accounts_sn.`pic` AS `from_pic`,
-    Case accounts.`name`
-        When comments.`to_id` = accounts.`id`
-        Then (SELECT accounts.`name` FROM `accounts` WHERE accounts.`id`= comments.`to_id`)
-    END
-    AS `to_name`,
+    a.`name` AS `from_name`,
+    a_sn.`pic` AS `from_pic`,
+    b.`name` AS `to_name`,
  (select count(*) from `likes` where `asset`= 'comment' and `asset_id` = comments.`id` and `like` = '1') 
  AS `likes`,
  (select `like` from `likes` where `asset`= 'comment' and `asset_id` = comments.`id` and ".$liked." ORDER BY `id` DESC LIMIT 1) 
  AS `liked`
     FROM `comments` 
-        LEFT JOIN `accounts`
-            ON comments.`from_id` = accounts.`id`
-            OR comments.`to_id` = accounts.`id`
-        LEFT JOIN `accounts_sn`
-            ON comments.`from_id` = accounts_sn.`account` 
-            AND accounts.`pic` = accounts_sn.`network`
+        LEFT JOIN `accounts` a
+            ON comments.`from_id` = a.`id`
+        LEFT JOIN `accounts` b
+            ON comments.`to_id` = b.`id`
+        LEFT JOIN `accounts_sn` a_sn
+            ON comments.`from_id` = a_sn.`account` 
+            AND a.`pic` = a_sn.`network`
     WHERE comments.`url` = '".$url."'
     AND (comments.`status`='1' || comments.`status`='2' || comments.`status`='3')
     ".$usercomments."

@@ -76,7 +76,7 @@ if(isset($_GET['wiki']) && $_GET['wiki']=='history')
     }
     $html_wiki.= '</div></div>';
 }
-elseif(isset($_GET['wiki']) && isset($_SESSION['logged'])) {
+elseif(isset($_GET['wiki']) && isset($_SESSION['logged'])){
   if($functions['wiki']==true)
   {
     $dataWikiuser =SQLselect(
@@ -189,7 +189,7 @@ elseif(isset($_GET['wiki']) && isset($_SESSION['logged'])) {
                       </div>
                     ';
   }
-  }elseif (isset($_GET['wiki']) && !isset($_SESSION['logged'])) {
+}elseif (isset($_GET['wiki']) && !isset($_SESSION['logged'])) {
 
   if(isset($_GET['tab']))
   {
@@ -279,8 +279,8 @@ include 'ums/login/html_recovery-tab.php';
   preg_match_all('|<img class="cke_iframe" (.*)">|iU', $html_wiki, $iframes,PREG_SET_ORDER);
   
   foreach ($iframes as $key => $value) {
-  preg_match_all('|data-cke-realelement="(.*)" |iU', $value[1], $iframe,PREG_SET_ORDER);
-  $html_wiki=str_replace($value[0], urldecode($iframe[0][1]),$html_wiki);
+    preg_match_all('|data-cke-realelement="(.*)" |iU', $value[1], $iframe,PREG_SET_ORDER);
+    $html_wiki=str_replace($value[0], urldecode($iframe[0][1]),$html_wiki);
   }
   if($functions['glossary'])
   {

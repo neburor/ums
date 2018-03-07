@@ -100,3 +100,18 @@ if($data[0]=='ecommerce')
                 )
             );
 }
+if($data[0]=='page')
+{
+    $result=SQLupdate(
+            array(
+                'table'=>'pages'
+                ),
+            array(
+                'id'=>$data[1],
+                'status'=>'1'
+                ),
+            array(
+                'status'=>'0'
+                )
+            );
+}

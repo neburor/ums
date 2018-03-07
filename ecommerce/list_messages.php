@@ -1,7 +1,7 @@
 <?php
 //ListMessages
 
-$listECmessages=ListECmessages($_SESSION['logged']['id']);
+$listECmessages=ListECmessages($url);
 
 echo '<ul class="list-group" id="'.$form['id'].'"">';
 
@@ -26,6 +26,7 @@ else
 $form=array(
       'id'    =>'tab_ecommerce-contact',
       'type'  =>'ecommerce',
+      'form'  => 'message',
       'action'=>'?tab=tab_ecommerce-contact',
       'callback'=>'/ums/tab/tab_ecommerce-contact'
         );
@@ -38,7 +39,7 @@ echo '
 	</ul>';
 
 
-function ListECmessages($account)
+function ListECmessages($url)
 {
     $resultado=SQLselect(
             array(
@@ -66,9 +67,10 @@ function ListECmessages($account)
                     LEFT JOIN `accounts_sn`
                         ON messages.`from` = accounts_sn.`account` 
                         AND accounts.`pic` = accounts_sn.`network`
-                WHERE messages.`url` = 'http://".$_SERVER['HTTP_HOST'].strtok($_SERVER["REQUEST_URI"],'?')."' 
-                AND (messages.`from` = '".$account."' OR messages.`to` = '".$account."') 
-                AND messages.`status` = '1'
+                WHERE messages.`url` = '".$url."' 
+                AND (messages.`from` = '".$_SESSION['logged']['id']."' OR
+                    messages.`to` = '".$_SESSION['logged']['id']."')
+                AND (messages.`from` = '".$_SESSION['logged']['id']."' OR messages.`status` = '1') 
                 GROUP BY messages.`id`
                 ORDER BY messages.`id` ASC"
                 )
@@ -131,7 +133,12 @@ function LIECmessages($messages)
             {
             $message_list.= '<p class="list-group-item-heading"><strong><i class="fa fa-user"></i> Tú</strong> </p>';    
             }
-            $message_list.= '<p class="list-group-item-text"><small class="pull-right">Hace '.$date[0].' '.$date[1].'</small> '.$data['message'].'</p>';
+            $message_list.= '<p class="list-group-item-text"><small class="pull-right">Hace '.$date[0].' '.$date[1].'</small> ';
+           
+            if($data['status']==1){
+                $message_list.='<i class="fa fa-check"></i> ';
+            }
+            $message_list.=$data['message'].'</p>';
         }
         else
         {   

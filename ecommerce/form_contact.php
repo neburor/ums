@@ -14,6 +14,7 @@ echo '<div class="media">
             <form class="form" role="form" action="'.$form['action'].'#'.$form['callback'].'" method="POST">
               <input type="hidden" name="formid" value="'.$form['id'].'">
               <input type="hidden" name="formtype" value="'.$form['type'].'">
+              <input type="hidden" name="form" value="'.$form['form'].'">
               <div class="form-group '.FeedbackClass($_SESSION['feedback'][$form['id']]['message']).'">';
         echo '<textarea class="form-control" name="message" placeholder="Escribe tu mensaje ..." minlength="8" maxlength="512" required=""></textarea>
               '.FeedbackIcon($_SESSION['feedback'][$form['id']]['message']).'
@@ -34,6 +35,7 @@ echo '
 	<form class="form" role="form" action="'.$form['action'].'#'.$form['callback'].'" method="POST">
         <input type="hidden" name="formid" value="'.$form['id'].'">
         <input type="hidden" name="formtype" value="'.$form['type'].'">
+        <input type="hidden" name="form" value="'.$form['form'].'">
          <input type="hidden" name="route" value="'.$form['toid'].':'.$form['inid'].':'.$form['tocomm'].'">
       	<div class="form-group col-xs-12">
       		<p><i class="fa fa-info-circle"></i> Complete los siguientes campos o <b><i class="fa fa-sign-in"></i> Inicie sesion</b> / <b><i class="fa fa-user-plus"></i> Registrese</b>.</p>

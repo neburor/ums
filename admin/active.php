@@ -184,6 +184,7 @@ if ($route[0]=='wiki') {
                     'status'=> '0'
                     )
         );
+        $page = explode(",", $dataForm['source']);
         include 'function_SendEmail.php';
         $Send_email=Send_email(array(
                                 'asset'     => 'wiki',
@@ -191,8 +192,8 @@ if ($route[0]=='wiki') {
                                 'template'  => 'wiki_active',
                                 'domain'    => $dataForm['domain'],
                                 'id'        => $route[3],
-                                'url'       => $result['url'],
-                                'title'     => $result['titulo'],
+                                'url'       => $page[0],
+                                'title'     => $page[1],
                                 'notifapp'  => $notifapp
                                     )
                             );
@@ -277,7 +278,7 @@ if ($route[0]=='ecommerce') {
                     'template'  => 'ecommerce_active',
                     'domain'    => $dataForm['domain'],
                     'id'        => $result['account'],
-                    'url'       => $result['url'],
+                    'path'      => $result['path'],
                     'title'     => $result['title'],
                     'notifapp'  => $notifapp
                 )
@@ -291,13 +292,27 @@ if ($route[0]=='ecommerce') {
     }
 }
 if ($route[0]=='ecommerce_message') {
+    $messages=SQLselect(
+                array(
+                    'table'=>'ecommerce_messages',
+                    'order'=>'ASC',
+                    'limit'=>' '
+                    ),
+                array(
+                    'from'=>$route[2],
+                    'status'=>'0'
+                    )
+                );
+    foreach ($messages as $mess => $data) {
+        $text_mess.=$data['message'].', ';
+    }
    $update=SQLupdate(
             array(
                 'table'=>'ecommerce_messages',
                 'limit'=>' '
                 ),
             array(
-                'id'=>$route[1],
+                'from'=>$route[2],
                 'status'=>'0'
                 ),
             array(
@@ -320,7 +335,7 @@ if ($route[0]=='ecommerce_message') {
                 sn2.`pic` AS `to_pic`
                 FROM `ecommerce_messages` a
                     LEFT JOIN `ecommerce` b
-                        ON a.`url` = b.`url`
+                        ON a.`post` = b.`id`
                     LEFT JOIN `accounts` a1
                         ON a.`from` = a1.`id`
                     LEFT JOIN `accounts_sn` sn1 
@@ -340,11 +355,16 @@ if ($route[0]=='ecommerce_message') {
                 )
             );
         if($result){
+
+            $page = explode(",", $dataForm['source']);
+
+
             if($result['to']=='0'){
                 $to_id=$result['account'];
             }else{
                 $to_id=$result['to'];
             }
+
             $notifapp=SQLinsert(
                 array(
                     'table'=>'notifications_app'
@@ -367,7 +387,9 @@ if ($route[0]=='ecommerce_message') {
                     'domain'    => $dataForm['domain'],
                     'id'        => $to_id,
                     'url'       => $result['url'],
-                    'message'   => $result['message'],
+                    'title'     => $page[1],
+                    'messages'  => $messages,
+                    'name'      => $result['to_name'],
                     'from_name' => $result['from_name'],
                     'from_pic'  => $result['from_pic'],
                     'notifapp'  => $notifapp
@@ -379,6 +401,29 @@ if ($route[0]=='ecommerce_message') {
     else
     {
          $response['alert']['warning']='No se activo el mensaje.';
+    }
+}
+if($route[0]=='page')
+{
+    $result=SQLupdate(
+            array(
+                'table'=>'pages'
+                ),
+            array(
+                'id'=>$route[1],
+                'status'=>'0'
+                ),
+            array(
+                'status'=>'1'
+                )
+            );
+    if($result)
+    {
+         $response['alert']['warning']='Se activo la página.';
+    }
+    else
+    {
+         $response['alert']['warning']='No se activo la página.';
     }
 }
 echo json_encode($response);

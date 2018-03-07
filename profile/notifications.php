@@ -44,7 +44,7 @@ $notifications=SQLselect(
         When 'wiki'
         Then (SELECT content_wiki.`url` FROM `content_wiki` WHERE content_wiki.`id` = notifications_app.`asset_id`)
         When 'ecommerce'
-        Then (SELECT ecommerce.`url` FROM `ecommerce` WHERE ecommerce.`id` = notifications_app.`asset_id`)
+        Then (SELECT ecommerce.`path` FROM `ecommerce` WHERE ecommerce.`id` = notifications_app.`asset_id`)
         When 'ecommerce_message'
         Then (SELECT ecommerce_messages.`url` FROM `ecommerce_messages` WHERE ecommerce_messages.`id` = notifications_app.`asset_id`)
     END

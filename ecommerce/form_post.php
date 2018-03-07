@@ -28,13 +28,13 @@ $feedback=array('show'=>'warning',
             $date=Interval($value['datetime']);
 
             echo '
-                  <a href="'.$ecommerce['path'].'pub_'.$value['id'].'.html?edit" class="list-group-item">
+                  <a href="'.$value['path'].'pub_'.$value['id'].'.html?edit" class="list-group-item">
                     <div class="media">
                     <div class="media-left">
                       <span class="fa fa-edit fa-2x"></span>
                     </div>
                     <div class="media-body">
-                      <span class="media-heading"><b>'.$value['title'].'</b><small class="pull-right">Hace '.$date[0].' '.$date[1].'</small></span>
+                      <span class="media-heading"><b>Editar: </b>'.$value['title'].'<small class="pull-right">Hace '.$date[0].' '.$date[1].'</small></span>
                     </div>
                     <div class="media-right"><i class="fa fa-chevron-right"></i></div>
                     </div>

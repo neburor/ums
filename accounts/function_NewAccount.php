@@ -67,7 +67,7 @@ function NewAccount ($params=array())
                 $Account['notifs']=$notifs;
             }
 
-            if($params['role']=='0' && Send_email('confirmation',$Account))
+            if($params['role']=='0' && Send_email('confirmation','registro',$Account))
             {
                 $Account['alert']['warning']="<strong>Bienvenido !</strong> te enviamos un correo, verifica tu bandeja o tus correos no deseados y confirma.";
             }

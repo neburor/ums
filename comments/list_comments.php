@@ -257,7 +257,7 @@ function LIcomments($comments)
                         $comments_list.='</small>
                                 </p></div></div>
                         ';
-                        if(($data2['form']=='reply' && $data2['status']!='4') &&
+                        if(($data2['form']!='reply' && $data2['status']!='4') &&
                             ((isset($_GET['replycomment']) && $_GET['replycomment']==$data2['id']) ||
                                 (isset($_SESSION['feedback']['commentreply']) && 
                                 $_SESSION['feedback']['commentreply']==$data2['id'])

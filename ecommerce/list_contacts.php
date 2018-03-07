@@ -2,7 +2,7 @@
 //ListContacts
 
 
-$ListContacts=ListContacts('http://'.$_SERVER['HTTP_HOST'].strtok($_SERVER["REQUEST_URI"],'?'));
+$ListContacts=ListContacts($url);
 echo '<ul class="list-group">';
 if($ListContacts)
 {
@@ -59,9 +59,9 @@ function ListContacts($url)
             ON contacts.`from` = accounts_sn.`account` 
             AND accounts.`pic` = accounts_sn.`network`
     WHERE
-    -- (contacts.`status`='1' || contacts.`status`='2' || contacts.`status`='3')
-    -- AND 
-    contacts.`url` = '".$url."'
+    ((contacts.`status`='1' || contacts.`status`='2' || contacts.`status`='3')
+    OR contacts.`from`='".$_SESSION['logged']['id']."' )
+    AND contacts.`url` = '".$url."'
     GROUP BY contacts.`id`
     ORDER BY contacts.`id` DESC"
                 )
@@ -145,6 +145,7 @@ function LIcontacts($messages)
                 $form=array(
                         'id'    =>'form_reply-'.$user,
                         'type'  =>'ecommerce',
+                        'form'  => 'reply',
                         'action'=>'?replymessage='.$user,
                         'callback'=>'message_'.$user,
                         'to'       => $data['id'],

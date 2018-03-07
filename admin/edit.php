@@ -1,8 +1,8 @@
 <?php
 #Edit
-$data = explode(":", $dataForm['id']);
+$FormValue = explode(":", $dataForm['id']);
 
-if($data[0]=='glossary')
+if($FormValue[0]=='glossary')
 {
     $result=SQLupdate(
             array(
@@ -10,7 +10,7 @@ if($data[0]=='glossary')
                 'limit'=>'LIMIT 1'
                 ),
             array(
-                'id'=>$data[1],
+                'id'=>$FormValue[1],
                 'status'=>'0'
                 ),
             array(
@@ -29,7 +29,7 @@ if($data[0]=='glossary')
         $response['alert']['warning']='No se actualizo el contenido.';
     }
 }
-if($data[0]=='ecommerce')
+if($FormValue[0]=='ecommerce')
 {
     $result=SQLselect(
               array(
@@ -37,7 +37,7 @@ if($data[0]=='ecommerce')
                   'limit' => 'LIMIT 1'
                 ),
               array(
-                  'id' => $data[1]
+                  'id' => $FormValue[1]
                 )
             );
     foreach ($dataForm['images'] as $key => $value) {
@@ -63,14 +63,37 @@ if($data[0]=='ecommerce')
                 'limit'=>'LIMIT 1'
                 ),
             array(
-                'id'=>$data[1],
+                'id'=>$FormValue[1],
                 'status'=>'0'
                 ),
             array(
                 'status'    =>'1',
                 'title'     => $dataForm['title'],
                 'description'=> $dataForm['ec_description'],
-                'images'    => '{"dir":"'.$images['imgdir'].'","list":['.$ListIMG.']}'
+                'images'    => '{"dir":"'.$images['dir'].'","list":['.$ListIMG.']}'
+                )
+            );
+    if($result){
+        $response['alert']['success']='Contenido actualizado.';              
+    }else{
+        $response['alert']['warning']='No se actualizo el contenido.';
+    }
+}
+if($FormValue[0]=='page'){
+    $result=SQLupdate(
+            array(
+                'table'=>'pages',
+                'limit'=>'LIMIT 1'
+                ),
+            array(
+                'id'=>$FormValue[1]
+                ),
+            array(
+                'url'       => $dataForm['url'],
+                'type'      => $dataForm['type'],
+                'account'   => $dataForm['account'],
+                'group'     => $dataForm['group'],
+                'data'      => json_encode($dataForm['data'])
                 )
             );
     if($result){

@@ -39,9 +39,11 @@ if(isset($_SESSION['logged']))
         $form=array(
         'id'    =>'tab_ecommerce-contact'
         );
+
         include 'list_messages.php';
       }
       else{
+        
         include 'list_contacts.php';
       }
 
@@ -76,6 +78,7 @@ else
 $form=array(
       'id'    =>'tab_ecommerce-contact',
       'type'  =>'ecommerce',
+      'form'  => 'message',
       'action'=>'?tab=tab_ecommerce-contact',
       'callback'=>'/ums/tab/tab_ecommerce-contact'
         );

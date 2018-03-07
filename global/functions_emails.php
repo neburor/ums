@@ -39,7 +39,7 @@ if( strlen($route[1])==18 &&
                         'open'=>date("Y-m-d H:i:s")
                         )
                 );
-                if($route[3]=='confirm')
+                if($route[3]=='confirmation')
                 {
                     $update=SQLupdate(
                         array(
